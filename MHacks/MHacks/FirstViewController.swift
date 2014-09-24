@@ -3,7 +3,7 @@
 //  MHacks
 //
 //  Created by Russell Ladd on 9/24/14.
-//  Copyright (c) 2014 GRL5. All rights reserved.
+//  Copyright (c) 2014 MHacks. All rights reserved.
 //
 
 import UIKit
