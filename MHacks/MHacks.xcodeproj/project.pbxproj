@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */; };
+		460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DF19DB9E3900BD3335 /* EventViewController.swift */; };
+		460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238E119DB9E9C00BD3335 /* EventManager.swift */; };
 		4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1C19D3028C00CA8880 /* AppDelegate.swift */; };
-		4634FD1F19D3028C00CA8880 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1E19D3028C00CA8880 /* FirstViewController.swift */; };
-		4634FD2119D3028C00CA8880 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD2019D3028C00CA8880 /* SecondViewController.swift */; };
 		4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2219D3028C00CA8880 /* Main.storyboard */; };
 		4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2519D3028C00CA8880 /* Images.xcassets */; };
 		4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2719D3028C00CA8880 /* LaunchScreen.xib */; };
@@ -27,11 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		460238DF19DB9E3900BD3335 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		460238E119DB9E9C00BD3335 /* EventManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		4634FD1719D3028C00CA8880 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4634FD1B19D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD1C19D3028C00CA8880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4634FD1E19D3028C00CA8880 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		4634FD2019D3028C00CA8880 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4634FD2319D3028C00CA8880 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4634FD2519D3028C00CA8880 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4634FD2819D3028C00CA8880 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -58,6 +60,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460238E319DB9EA200BD3335 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */,
+				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		460238E419DB9EA700BD3335 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				460238E119DB9E9C00BD3335 /* EventManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		4634FD0E19D3028C00CA8880 = {
 			isa = PBXGroup;
 			children = (
@@ -80,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				4634FD1C19D3028C00CA8880 /* AppDelegate.swift */,
-				4634FD1E19D3028C00CA8880 /* FirstViewController.swift */,
-				4634FD2019D3028C00CA8880 /* SecondViewController.swift */,
+				460238E419DB9EA700BD3335 /* Model */,
+				460238E319DB9EA200BD3335 /* Controller */,
 				4634FD2219D3028C00CA8880 /* Main.storyboard */,
 				4634FD2519D3028C00CA8880 /* Images.xcassets */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
@@ -160,7 +179,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0600;
-				ORGANIZATIONNAME = GRL5;
+				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
 					4634FD1619D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -215,9 +234,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4634FD2119D3028C00CA8880 /* SecondViewController.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
-				4634FD1F19D3028C00CA8880 /* FirstViewController.swift in Sources */,
+				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
+				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
+				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +365,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -355,6 +376,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -411,6 +433,7 @@
 				4634FD3A19D3028C00CA8880 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4634FD3B19D3028C00CA8880 /* Build configuration list for PBXNativeTarget "MHacksTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +442,7 @@
 				4634FD3D19D3028C00CA8880 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
