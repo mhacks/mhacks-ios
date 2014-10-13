@@ -97,8 +97,8 @@ class CalendarLayout: UICollectionViewLayout {
                 var endRow = startRow + heightInRows
                 
                 while (endRow > Double(self.numberOfRowsBySection[endSection])) {
-                    endSection++
                     endRow -= Double(self.numberOfRowsBySection[endSection])
+                    endSection++
                 }
                 
                 let endSectionOffset = self.heightForSections(0..<endSection)
