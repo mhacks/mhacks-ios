@@ -363,6 +363,7 @@
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
+				FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
