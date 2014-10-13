@@ -28,6 +28,7 @@
 		46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */; };
 		46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */; };
 		46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */; };
+		FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
 		46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleDayHeader.swift; sourceTree = "<group>"; };
 		46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleHourSeparator.swift; sourceTree = "<group>"; };
+		FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */,
 				467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */,
 				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
+				FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -251,11 +254,10 @@
 				TargetAttributes = {
 					4634FD1619D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8ZTTS3HC8X;
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8ZTTS3HC8X;
+						DevelopmentTeam = FMKG4J2L9M;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
@@ -310,6 +312,7 @@
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
+				FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
