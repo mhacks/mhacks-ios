@@ -3,7 +3,7 @@
 //  MHacks
 //
 //  Created by Russell Ladd on 9/30/14.
-//  Copyright (c) 2014 GRL5. All rights reserved.
+//  Copyright (c) 2014 MHacks. All rights reserved.
 //
 
 import UIKit
@@ -58,7 +58,7 @@ class EventViewController: UIViewController {
         
         if let event = event {
             
-            titleLabel.text = event.title
+            titleLabel.text = event.name
             subtitleLabel.text = event.category + " | " + event.location
             descriptionLabel.text = event.description
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)

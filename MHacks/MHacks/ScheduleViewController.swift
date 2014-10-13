@@ -3,7 +3,7 @@
 //  MHacks
 //
 //  Created by Russell Ladd on 9/30/14.
-//  Copyright (c) 2014 GRL5. All rights reserved.
+//  Copyright (c) 2014 MHacks. All rights reserved.
 //
 
 import UIKit
@@ -13,32 +13,36 @@ class ScheduleViewController: UITableViewController {
     // MARK: - Model
     
     let eventManager = EventManager()
+    let eventOrganizer = EventOrganizer(events: EventManager().events)
     
-    // MARK: - Date interval formatter
+    // MARK: - Formatters
     
-    let dateIntervalFormatter: NSDateIntervalFormatter = {
+    let eventIntervalFormatter: NSDateIntervalFormatter = {
         
         let formatter = NSDateIntervalFormatter()
         
-        formatter.dateStyle = .NoStyle
+        formatter.dateTemplate = "h:mm a"
         
         return formatter
     }()
     
     // MARK: - Table view data source
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return eventOrganizer.numberOfDays()
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return eventManager.events.count
+        return eventOrganizer.numberOfEventsInDay(section)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Event Cell", forIndexPath: indexPath) as UITableViewCell
         
-        let event = eventManager.events[indexPath.row]
+        let event = eventOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section)
         
-        let interval = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
+        let interval = eventIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         
         let darkGrayAttributes = [NSForegroundColorAttributeName: UIColor.darkGrayColor()]
         let subtitle = NSMutableAttributedString(string: interval, attributes: darkGrayAttributes)
@@ -52,6 +56,10 @@ class ScheduleViewController: UITableViewController {
         return cell;
     }
     
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return eventOrganizer.titleForDay(section)
+    }
+    
     // MARK: - Segues
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -60,7 +68,9 @@ class ScheduleViewController: UITableViewController {
             
             let controller = segue.destinationViewController as EventViewController
             
-            let selectedEvent = eventManager.events[tableView.indexPathForSelectedRow()!.row]
+            let indexPath = tableView.indexPathForSelectedRow()!
+            
+            let selectedEvent = eventOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section)
             
             controller.event = selectedEvent
         }

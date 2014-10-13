@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -59,7 +59,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="meU-Ag-OGa" kind="show" identifier="showEvent" id="9qF-3H-Jxx"/>
+                                    <segue destination="meU-Ag-OGa" kind="show" identifier="showEvent" id="Zqx-SS-6Th"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -73,6 +73,66 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MaV-6w-VsM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1674" y="0.0"/>
+        </scene>
+        <!--Schedule-->
+        <scene sceneID="8iV-eL-aQd">
+            <objects>
+                <collectionViewController id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="hfB-ko-mJ3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewLayout key="collectionViewLayout" id="zBV-Xx-Zou" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="byP-hb-yIf" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
+                                            <rect key="frame" x="56" y="1" width="2" height="42"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
+                                            </constraints>
+                                        </view>
+                                        <view opaque="NO" alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Qa-Do-NW1">
+                                            <rect key="frame" x="56" y="1" width="544" height="42"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="4Qa-Do-NW1" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" constant="1" id="5dY-Es-3nx"/>
+                                    <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" constant="1" id="98b-3h-2c7"/>
+                                    <constraint firstAttribute="bottom" secondItem="4Qa-Do-NW1" secondAttribute="bottom" constant="1" id="SQC-0l-UHH"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Qa-Do-NW1" secondAttribute="trailing" id="dkJ-w8-5Fq"/>
+                                    <constraint firstItem="4Qa-Do-NW1" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" constant="56" id="eZb-Gf-9qC"/>
+                                    <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" constant="1" id="wbd-WT-Cnp"/>
+                                    <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" constant="56" id="zBc-YX-uVx"/>
+                                </constraints>
+                                <size key="customSize" width="600" height="44"/>
+                                <connections>
+                                    <outlet property="bodyView" destination="4Qa-Do-NW1" id="YEo-0j-jyf"/>
+                                    <outlet property="bodyViewTopConstraint" destination="5dY-Es-3nx" id="TaD-My-nX6"/>
+                                    <outlet property="leaderBar" destination="7UK-gS-lum" id="Zr5-GI-CO9"/>
+                                    <outlet property="leaderBarTopConstraint" destination="98b-3h-2c7" id="z9K-KS-tZW"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Ce3-au-9TP" id="rfu-7c-PBD"/>
+                            <outlet property="delegate" destination="Ce3-au-9TP" id="RJI-YZ-FIu"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Schedule" id="TJT-by-iHE"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pOZ-De-1dV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1668" y="744"/>
         </scene>
         <!--Event-->
         <scene sceneID="zcc-Ex-ky1">
@@ -174,7 +234,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="zB6-1w-otD" kind="relationship" relationship="rootViewController" id="Qm1-5W-AJs"/>
+                        <segue destination="Ce3-au-9TP" kind="relationship" relationship="rootViewController" id="rUB-Ll-wOr"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hmE-Kb-RS7" userLabel="First Responder" sceneMemberID="firstResponder"/>

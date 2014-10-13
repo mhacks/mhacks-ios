@@ -1,0 +1,24 @@
+
+/* Class = "IBUITabBarItem"; title = "Schedule"; ObjectID = "3Pp-UA-TE6"; */
+"3Pp-UA-TE6.title" = "Schedule";
+
+/* Class = "IBUILabel"; text = "Name"; ObjectID = "beP-re-tfr"; */
+"beP-re-tfr.text" = "Name";
+
+/* Class = "IBUILabel"; text = "Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper ullamcorper augue. Maecenas vulputate tortor ut tempus sagittis. Pellentesque nec mi at ex feugiat pharetra. Donec pharetra risus at mauris efficitur, at efficitur odio maximus. Etiam a."; ObjectID = "bwe-2v-EDH"; */
+"bwe-2v-EDH.text" = "Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper ullamcorper augue. Maecenas vulputate tortor ut tempus sagittis. Pellentesque nec mi at ex feugiat pharetra. Donec pharetra risus at mauris efficitur, at efficitur odio maximus. Etiam a.";
+
+/* Class = "IBUILabel"; text = "Day, Month 1 00:00 - 00:00 PM"; ObjectID = "gWd-LI-g8P"; */
+"gWd-LI-g8P.text" = "Day, Month 1 00:00 - 00:00 PM";
+
+/* Class = "IBUILabel"; text = "Category | Location"; ObjectID = "jqV-9z-L6K"; */
+"jqV-9z-L6K.text" = "Category | Location";
+
+/* Class = "IBUINavigationItem"; title = "Schedule"; ObjectID = "lDJ-0i-EqF"; */
+"lDJ-0i-EqF.title" = "Schedule";
+
+/* Class = "IBUILabel"; text = "Name"; ObjectID = "y5z-Mb-UJ4"; */
+"y5z-Mb-UJ4.text" = "Name";
+
+/* Class = "IBUINavigationItem"; title = "Event"; ObjectID = "yeK-7M-Bs5"; */
+"yeK-7M-Bs5.title" = "Event";
