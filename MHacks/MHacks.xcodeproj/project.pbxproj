@@ -28,6 +28,16 @@
 		46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */; };
 		46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */; };
 		46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */; };
+		46F132CC19EC7CC100A30B82 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */; };
+		46F132CE19EC7CC600A30B82 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CD19EC7CC600A30B82 /* CFNetwork.framework */; };
+		46F132D019EC7CD200A30B82 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CF19EC7CD200A30B82 /* CoreGraphics.framework */; };
+		46F132D219EC7CD800A30B82 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D119EC7CD800A30B82 /* CoreLocation.framework */; };
+		46F132D419EC7CDF00A30B82 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D319EC7CDF00A30B82 /* libz.dylib */; };
+		46F132D619EC7CE500A30B82 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */; };
+		46F132D819EC7CEF00A30B82 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D719EC7CEF00A30B82 /* QuartzCore.framework */; };
+		46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D919EC7CF300A30B82 /* Security.framework */; };
+		46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DB19EC7CF900A30B82 /* StoreKit.framework */; };
+		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
 		FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +78,16 @@
 		46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
 		46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleDayHeader.swift; sourceTree = "<group>"; };
 		46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleHourSeparator.swift; sourceTree = "<group>"; };
+		46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		46F132CD19EC7CC600A30B82 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		46F132CF19EC7CD200A30B82 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		46F132D119EC7CD800A30B82 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		46F132D319EC7CDF00A30B82 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		46F132D719EC7CEF00A30B82 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		46F132D919EC7CF300A30B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		46F132DB19EC7CF900A30B82 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +96,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */,
+				46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */,
+				46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */,
+				46F132D819EC7CEF00A30B82 /* QuartzCore.framework in Frameworks */,
+				46F132D619EC7CE500A30B82 /* MobileCoreServices.framework in Frameworks */,
+				46F132D419EC7CDF00A30B82 /* libz.dylib in Frameworks */,
+				46F132D219EC7CD800A30B82 /* CoreLocation.framework in Frameworks */,
+				46F132D019EC7CD200A30B82 /* CoreGraphics.framework in Frameworks */,
+				46F132CE19EC7CC600A30B82 /* CFNetwork.framework in Frameworks */,
+				46F132CC19EC7CC100A30B82 /* AudioToolbox.framework in Frameworks */,
 				463E3DC119EC76AF00BE8AB3 /* Parse.framework in Frameworks */,
 				463E3DC019EC76AF00BE8AB3 /* Bolts.framework in Frameworks */,
 				463E3DC219EC76AF00BE8AB3 /* ParseFacebookUtils.framework in Frameworks */,
@@ -120,6 +150,7 @@
 				4634FD3119D3028C00CA8880 /* MHacksTests */,
 				4634FD1819D3028C00CA8880 /* Products */,
 				463E3DBC19EC76AF00BE8AB3 /* Parse */,
+				46F132DF19EC7DEC00A30B82 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -203,6 +234,23 @@
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
 			);
 			name = Interface;
+			sourceTree = "<group>";
+		};
+		46F132DF19EC7DEC00A30B82 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */,
+				46F132DB19EC7CF900A30B82 /* StoreKit.framework */,
+				46F132D919EC7CF300A30B82 /* Security.framework */,
+				46F132D719EC7CEF00A30B82 /* QuartzCore.framework */,
+				46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */,
+				46F132D319EC7CDF00A30B82 /* libz.dylib */,
+				46F132D119EC7CD800A30B82 /* CoreLocation.framework */,
+				46F132CF19EC7CD200A30B82 /* CoreGraphics.framework */,
+				46F132CD19EC7CC600A30B82 /* CFNetwork.framework */,
+				46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,8 +493,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Parse",
@@ -464,8 +512,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Parse",
