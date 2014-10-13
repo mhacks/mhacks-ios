@@ -38,6 +38,7 @@
 		46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D919EC7CF300A30B82 /* Security.framework */; };
 		46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DB19EC7CF900A30B82 /* StoreKit.framework */; };
 		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
+		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
 		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 /* End PBXBuildFile section */
@@ -89,6 +90,7 @@
 		46F132D919EC7CF300A30B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		46F132DB19EC7CF900A30B82 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				4634FD1B19D3028C00CA8880 /* Info.plist */,
-				463E3DB819EC715E00BE8AB3 /* Keys.plist */,
+				46F132E019EC935700A30B82 /* Keys.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -337,7 +339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				463E3DB919EC715E00BE8AB3 /* Keys.plist in Resources */,
+				46F132E119EC935700A30B82 /* Keys.plist in Resources */,
 				4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */,
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
@@ -363,7 +365,6 @@
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
-				FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,

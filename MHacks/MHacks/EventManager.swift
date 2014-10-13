@@ -35,12 +35,12 @@ class EventManager {
         
         let description = "Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper ullamcorper augue. Maecenas vulputate tortor ut tempus sagittis. Pellentesque nec mi at ex feugiat pharetra. Donec pharetra risus at mauris efficitur, at efficitur odio maximus. Etiam a."
         
-        events = map(0..<24) { index in
+        events = map(0..<6) { index in
             
             let startDate = date
-            date = calendar.dateByAddingUnit(.CalendarUnitHour, value: 1, toDate: date, options: nil)
+            date = calendar.dateByAddingUnit(.CalendarUnitHour, value: 2, toDate: date, options: nil)
             
-            return Event(name: "Registration", category: "Special Events", location: "EECS", startDate: startDate , duration: 3600.0, description: description)
+            return Event(name: "Registration", category: "Special Events", location: "EECS", startDate: startDate , duration: 7200.0, description: description)
         }
     }
 }
