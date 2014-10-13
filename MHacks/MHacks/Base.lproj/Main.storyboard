@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A386b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -17,6 +17,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="NVe-Cj-Z6q" kind="relationship" relationship="viewControllers" id="dn5-Hp-yyR"/>
+                        <segue destination="sZ1-uG-KLM" kind="relationship" relationship="viewControllers" id="Aah-Qr-yhB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -72,7 +73,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MaV-6w-VsM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1674" y="0.0"/>
+            <point key="canvasLocation" x="1668" y="-710"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="8iV-eL-aQd">
@@ -132,7 +133,43 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pOZ-De-1dV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668" y="744"/>
+            <point key="canvasLocation" x="1668" y="0.0"/>
+        </scene>
+        <!--Updates-->
+        <scene sceneID="W8b-yP-slf">
+            <objects>
+                <viewController id="nnu-Rd-utr" customClass="UpdatesViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i2P-KY-g4b"/>
+                        <viewControllerLayoutGuide type="bottom" id="nq8-aR-pAl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="V4s-ol-dPA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Updates" id="w5w-7x-tuU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UvL-dg-x0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1668" y="724"/>
+        </scene>
+        <!--Updates-->
+        <scene sceneID="mjs-da-oBa">
+            <objects>
+                <navigationController id="sZ1-uG-KLM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Updates" image="first" id="uoA-VM-Ce8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PS6-Ly-vCW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="nnu-Rd-utr" kind="relationship" relationship="rootViewController" id="JhE-LH-z2D"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qid-Io-lzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="854" y="724"/>
         </scene>
         <!--Event-->
         <scene sceneID="zcc-Ex-ky1">
@@ -222,7 +259,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D55-rI-bIO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2468" y="0.0"/>
+            <point key="canvasLocation" x="2462" y="-710"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="l2R-kr-zD4">
