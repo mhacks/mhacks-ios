@@ -9,7 +9,6 @@
 import UIKit
 
 class UpdatesViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,5 +30,4 @@ class UpdatesViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
