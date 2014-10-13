@@ -9,18 +9,8 @@
 import UIKit
 
 class CountdownView: UIView {
-    
-    override func awakeFromNib() {
-        self.backgroundColor = UIColor.redColor();
-    }
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect)
-    {
-        // Drawing code
-    }
-    */
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
 
 }
