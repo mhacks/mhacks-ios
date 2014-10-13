@@ -38,7 +38,8 @@
 		46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D919EC7CF300A30B82 /* Security.framework */; };
 		46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DB19EC7CF900A30B82 /* StoreKit.framework */; };
 		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
-		FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */; };
+		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
+		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +89,8 @@
 		46F132D919EC7CF300A30B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		46F132DB19EC7CF900A30B82 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
+		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
+		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +130,7 @@
 				460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */,
 				467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */,
 				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
-				FB4798E119EC743300FA5E44 /* UpdatesViewController.swift */,
+				FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -221,6 +223,7 @@
 				46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */,
 				46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */,
 				463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */,
+				FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -360,15 +363,16 @@
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
-				FB4798E219EC743300FA5E44 /* UpdatesViewController.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
+				FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
+				FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
