@@ -38,6 +38,8 @@
 		46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DB19EC7CF900A30B82 /* StoreKit.framework */; };
 		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
 		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
+		46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */; };
+		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
 		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
 		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 /* End PBXBuildFile section */
@@ -89,6 +91,8 @@
 		46F132DB19EC7CF900A30B82 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
+		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
 		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +135,7 @@
 				467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */,
 				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
 				FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */,
+				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 				4634FD2219D3028C00CA8880 /* Main.storyboard */,
 				46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */,
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
+				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
 			);
 			name = Interface;
@@ -338,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46F132E119EC935700A30B82 /* Keys.plist in Resources */,
+				46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */,
 				4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */,
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
@@ -364,6 +371,7 @@
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
+				46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,

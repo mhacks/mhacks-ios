@@ -120,10 +120,10 @@ class CalendarLayout: UICollectionViewLayout {
         
         return reduce(sectionRange(), [UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
             
-            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.toRaw(), atIndexPath: NSIndexPath(forItem: 0, inSection: section))!
+            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!
             
             let separatorLayoutAttributes: [UICollectionViewLayoutAttributes] = map(1..<self.numberOfRowsBySection[section]) { row in
-                return self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Separator.toRaw(), atIndexPath: NSIndexPath(forItem: row, inSection: section))
+                return self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Separator.rawValue, atIndexPath: NSIndexPath(forItem: row, inSection: section))
             }
             
             let cellLayoutAttributes: [UICollectionViewLayoutAttributes] = map(self.itemRangeForSection(section)) { item in
@@ -144,7 +144,7 @@ class CalendarLayout: UICollectionViewLayout {
         
         let sectionOffset = heightForSections(0..<indexPath.section)
         
-        switch SupplementaryViewKind.fromRaw(elementKind)! {
+        switch SupplementaryViewKind(rawValue: elementKind)! {
             
         case .Header:
             let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<indexPath.section)), heightForSections(0..<indexPath.section + 1) - headerHeight)

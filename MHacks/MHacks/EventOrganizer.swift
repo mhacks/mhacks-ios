@@ -42,7 +42,7 @@ class EventOrganizer {
         
         let hoursForDate: (NSDate) -> [NSDate] = { date in
             
-            var hours = [calendar.dateBySettingHour(calendar.component(.CalendarUnitHour, fromDate: date), minute: 0, second: 0, ofDate: date, options: nil)]
+            var hours = [calendar.dateBySettingHour(calendar.component(.CalendarUnitHour, fromDate: date), minute: 0, second: 0, ofDate: date, options: nil)!]
             
             let nextDayDate = calendar.nextDateAfterDate(date, matchingComponents: dayComponents, options: .MatchNextTime)!
             let stopDate = nextDayDate.earlierDate(lastDate)
@@ -61,7 +61,7 @@ class EventOrganizer {
         
         // Get first day and hours
         
-        var days = [calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: nil)]
+        var days = [calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: nil)!]
         var hours = [hoursForDate(firstDate)]
         
         // Get rest of days and hours

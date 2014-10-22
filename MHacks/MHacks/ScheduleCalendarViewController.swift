@@ -12,15 +12,15 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     // MARK: Event
     
-    let eventOrganizer = EventOrganizer(events: EventManager().events)
+    var eventOrganizer = EventOrganizer(events: EventManager().events)
     
     // MARK: View
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView!.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.toRaw(), withReuseIdentifier: "DayHeader")
-        collectionView!.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.toRaw(), withReuseIdentifier: "HourSeparator")
+        collectionView.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
+        collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
     }
     
     // MARK: Collection view data source
@@ -44,7 +44,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        switch CalendarLayout.SupplementaryViewKind.fromRaw(kind)! {
+        switch CalendarLayout.SupplementaryViewKind(rawValue: kind)! {
             
         case .Header:
             let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as ScheduleDayHeader
