@@ -9,18 +9,26 @@
 import UIKit
 
 class CountdownView: UIView {
+
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
-        self.backgroundColor = UIColor.redColor();
+        let countdownItemsQuery = PFQuery(className: "CountdownItem")
+        countdownItemsQuery.findObjectsInBackgroundWithBlock { objects, error in
+            if let error = error {
+                println(error)
+                return
+            }
+            
+            var nextCountdownItem: NSDate?
+            
+            if let objects = objects {
+                for object in objects {
+                    println(object["title"])
+                }
+            }
+        }
     }
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect)
-    {
-        // Drawing code
-    }
-    */
 
 }

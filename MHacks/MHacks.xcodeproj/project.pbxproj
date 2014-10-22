@@ -16,6 +16,7 @@
 		4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2719D3028C00CA8880 /* LaunchScreen.xib */; };
 		4634FD3519D3028C00CA8880 /* MHacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD3419D3028C00CA8880 /* MHacksTests.swift */; };
 		463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */; };
+		463E3DB919EC715E00BE8AB3 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 463E3DB819EC715E00BE8AB3 /* Keys.plist */; };
 		463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463E3DBA19EC745000BE8AB3 /* Keys.swift */; };
 		463E3DC019EC76AF00BE8AB3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */; };
 		463E3DC119EC76AF00BE8AB3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBE19EC76AF00BE8AB3 /* Parse.framework */; };
@@ -68,6 +69,7 @@
 		4634FD3319D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD3419D3028C00CA8880 /* MHacksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHacksTests.swift; sourceTree = "<group>"; };
 		463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEventCell.swift; sourceTree = "<group>"; };
+		463E3DB819EC715E00BE8AB3 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		463E3DBA19EC745000BE8AB3 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		463E3DBE19EC76AF00BE8AB3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
