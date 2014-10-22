@@ -12,8 +12,7 @@ class ScheduleViewController: UITableViewController {
     
     // MARK: - Model
     
-    let eventManager = EventManager()
-    let eventOrganizer = EventOrganizer(events: EventManager().events)
+    let eventOrganizer = EventOrganizer(events: [])
     
     // MARK: - Formatters
     

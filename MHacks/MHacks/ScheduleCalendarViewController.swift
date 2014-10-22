@@ -12,7 +12,11 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     // MARK: Event
     
-    var eventOrganizer = EventOrganizer(events: EventManager().events)
+    var eventOrganizer: EventOrganizer? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     // MARK: View
     
@@ -23,14 +27,29 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        Event.fetchEvents { result in
+            
+            switch result {
+            case .Success(let events):
+                self.eventOrganizer = EventOrganizer(events: events)
+            case .Error(let error):
+                ()
+                // FIXME: Handle error
+            }
+        }
+    }
+    
     // MARK: Collection view data source
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return eventOrganizer.numberOfDays()
+        return eventOrganizer?.numberOfDays() ?? 0
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return eventOrganizer.numberOfEventsInDay(section)
+        return eventOrganizer!.numberOfEventsInDay(section)
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -48,12 +67,12 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
             
         case .Header:
             let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as ScheduleDayHeader
-            dayHeader.label.text = eventOrganizer.titleForDay(indexPath.section)
+            dayHeader.label.text = eventOrganizer!.titleForDay(indexPath.section)
             return dayHeader
             
         case .Separator:
             let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as ScheduleHourSeparator
-            hourSeparator.label.text = eventOrganizer.titleForHour(indexPath.item, inDay: indexPath.section)
+            hourSeparator.label.text = eventOrganizer!.titleForHour(indexPath.item, inDay: indexPath.section)
             return hourSeparator
         }
     }
@@ -61,14 +80,14 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     // MARK: Calendar layout delegate
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-        return eventOrganizer.numberOfHoursInDay(section)
+        return eventOrganizer!.numberOfHoursInDay(section)
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer.startHourForEventAtIndex(indexPath.item, inDay: indexPath.section)
+        return eventOrganizer!.startHourForEventAtIndex(indexPath.item, inDay: indexPath.section)
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, heightInRowsForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer.durationInHoursForEventAtIndex(indexPath.item, inDay: indexPath.section)
+        return eventOrganizer!.durationInHoursForEventAtIndex(indexPath.item, inDay: indexPath.section)
     }
 }

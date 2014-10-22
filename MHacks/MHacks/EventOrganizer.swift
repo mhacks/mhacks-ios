@@ -133,13 +133,13 @@ class EventOrganizer {
             let formatter = NSDateFormatter()
             formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: nil)
             return formatter
-            }()
+        }()
         
         static let Hour: NSDateFormatter = {
             let formatter = NSDateFormatter()
             formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: nil)
             return formatter
-            }()
+        }()
     }
     
     func titleForDay(day: Int) -> String {
