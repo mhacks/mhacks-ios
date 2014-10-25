@@ -1,5 +1,5 @@
 //
-//  EventManager.swift
+//  Event.swift
 //  MHacks
 //
 //  Created by Russell Ladd on 9/30/14.

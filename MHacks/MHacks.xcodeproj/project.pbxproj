@@ -9,14 +9,13 @@
 /* Begin PBXBuildFile section */
 		460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */; };
 		460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DF19DB9E3900BD3335 /* EventViewController.swift */; };
-		460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238E119DB9E9C00BD3335 /* EventManager.swift */; };
+		460238E219DB9E9C00BD3335 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238E119DB9E9C00BD3335 /* Event.swift */; };
 		4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1C19D3028C00CA8880 /* AppDelegate.swift */; };
 		4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2219D3028C00CA8880 /* Main.storyboard */; };
 		4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2519D3028C00CA8880 /* Images.xcassets */; };
 		4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2719D3028C00CA8880 /* LaunchScreen.xib */; };
 		4634FD3519D3028C00CA8880 /* MHacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD3419D3028C00CA8880 /* MHacksTests.swift */; };
 		463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */; };
-		463E3DB919EC715E00BE8AB3 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 463E3DB819EC715E00BE8AB3 /* Keys.plist */; };
 		463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463E3DBA19EC745000BE8AB3 /* Keys.swift */; };
 		463E3DC019EC76AF00BE8AB3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */; };
 		463E3DC119EC76AF00BE8AB3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBE19EC76AF00BE8AB3 /* Parse.framework */; };
@@ -58,7 +57,7 @@
 /* Begin PBXFileReference section */
 		460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		460238DF19DB9E3900BD3335 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
-		460238E119DB9E9C00BD3335 /* EventManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
+		460238E119DB9E9C00BD3335 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		4634FD1719D3028C00CA8880 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4634FD1B19D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD1C19D3028C00CA8880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +68,6 @@
 		4634FD3319D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD3419D3028C00CA8880 /* MHacksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHacksTests.swift; sourceTree = "<group>"; };
 		463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEventCell.swift; sourceTree = "<group>"; };
-		463E3DB819EC715E00BE8AB3 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		463E3DBA19EC745000BE8AB3 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		463E3DBE19EC76AF00BE8AB3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -146,7 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				463E3DBA19EC745000BE8AB3 /* Keys.swift */,
-				460238E119DB9E9C00BD3335 /* EventManager.swift */,
+				460238E119DB9E9C00BD3335 /* Event.swift */,
 				467B570419DF624D006AEB23 /* EventOrganizer.swift */,
 			);
 			name = Model;
@@ -372,7 +370,7 @@
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
-				460238E219DB9E9C00BD3335 /* EventManager.swift in Sources */,
+				460238E219DB9E9C00BD3335 /* Event.swift in Sources */,
 				46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
