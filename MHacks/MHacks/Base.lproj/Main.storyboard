@@ -90,15 +90,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76d-Zt-PCm">
-                                            <rect key="frame" x="56" y="1" width="544" height="42"/>
-                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                            <color key="backgroundColor" red="0.70070827007293701" green="0.83693927526473999" blue="0.99931150674819946" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
-                                            <rect key="frame" x="56" y="1" width="2" height="42"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
@@ -108,15 +108,15 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" constant="1" id="98b-3h-2c7"/>
-                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" constant="1" id="GpC-uj-lT1"/>
-                                    <constraint firstAttribute="trailing" secondItem="76d-Zt-PCm" secondAttribute="trailing" id="hs7-q4-hzh"/>
-                                    <constraint firstAttribute="bottom" secondItem="76d-Zt-PCm" secondAttribute="bottom" constant="1" id="jdU-1m-gvH"/>
-                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" constant="56" id="qzB-vB-oqT"/>
-                                    <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" constant="1" id="wbd-WT-Cnp"/>
-                                    <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" constant="56" id="zBc-YX-uVx"/>
+                                    <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" id="98b-3h-2c7"/>
+                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" id="GpC-uj-lT1"/>
+                                    <constraint firstAttribute="trailing" secondItem="76d-Zt-PCm" secondAttribute="trailing" id="Z6y-k4-8xK"/>
+                                    <constraint firstAttribute="bottom" secondItem="76d-Zt-PCm" secondAttribute="bottom" id="jdU-1m-gvH"/>
+                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" id="qzB-vB-oqT"/>
+                                    <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" id="wbd-WT-Cnp"/>
+                                    <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" id="zBc-YX-uVx"/>
                                 </constraints>
-                                <size key="customSize" width="600" height="44"/>
+                                <size key="customSize" width="300" height="44"/>
                                 <connections>
                                     <outlet property="bodyView" destination="76d-Zt-PCm" id="Szr-Na-hFK"/>
                                     <outlet property="bodyViewTopConstraint" destination="GpC-uj-lT1" id="Hto-rB-C89"/>

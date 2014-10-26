@@ -13,15 +13,13 @@ class ScheduleHourSeparator: UICollectionReusableView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet private weak var separatorHeightConstraint: NSLayoutConstraint!
     
-    class func separatorHeightInWindow(window: UIWindow) -> CGFloat {
-        return 1.0 / window.screen.scale
+    class func separatorHeightInTraitCollection(collection: UITraitCollection) -> CGFloat {
+        return 1.0 / collection.displayScale
     }
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         
-        if let window = window {
-            separatorHeightConstraint.constant = ScheduleHourSeparator.separatorHeightInWindow(window)
-        }
+        separatorHeightConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
     }
 }

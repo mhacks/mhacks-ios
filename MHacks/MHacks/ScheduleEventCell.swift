@@ -40,12 +40,10 @@ class ScheduleEventCell: UICollectionViewCell {
     
     // MARK: Dynamic layout
     
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         
-        if let window = window {
-            bodyViewTopConstraint.constant = 1.0 + ScheduleHourSeparator.separatorHeightInWindow(window)
-            leaderBarTopConstraint.constant = 1.0 + ScheduleHourSeparator.separatorHeightInWindow(window)
-        }
+        bodyViewTopConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
+        leaderBarTopConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
     }
 }

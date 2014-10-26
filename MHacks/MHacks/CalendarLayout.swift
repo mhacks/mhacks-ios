@@ -33,10 +33,29 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Layout metrics
     
-    var rowHeight = CGFloat(44.0)
+    var rowHeight: CGFloat = 44.0 {
+        didSet {
+            invalidateLayout()
+        }
+    }
     
-    var headerHeight = CGFloat(33.0)
-    var separatorHeight = CGFloat(22.0)
+    var cellInsets: UIEdgeInsets = UIEdgeInsetsZero {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var headerHeight: CGFloat = 33.0 {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var separatorHeight: CGFloat = 22.0 {
+        didSet {
+            invalidateLayout()
+        }
+    }
     
     // MARK: Layout calculations
     
@@ -91,7 +110,9 @@ class CalendarLayout: UICollectionViewLayout {
                 let startOffset = sectionOffset + CGFloat(startRow) * self.rowHeight
                 let endOffset = sectionOffset + CGFloat(endRow) * self.rowHeight
                 
-                layoutAttributes.frame = CGRectMake(0.0, startOffset, self.contentSize.width, endOffset - startOffset)
+                let rect = CGRectMake(0.0, startOffset, self.contentSize.width, endOffset - startOffset)
+                
+                layoutAttributes.frame = UIEdgeInsetsInsetRect(rect, self.cellInsets)
                 
                 return layoutAttributes
             }
