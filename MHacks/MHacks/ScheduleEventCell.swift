@@ -19,11 +19,23 @@ class ScheduleEventCell: UICollectionViewCell {
     
     // MARK: Properties
     
-    var color: UIColor? {
+    var color: UIColor = UIColor.clearColor() {
         didSet {
-            bodyView.backgroundColor = color
+            bodyView.backgroundColor = bodyColorForColor(color)
             leaderBar.backgroundColor = color
         }
+    }
+    
+    func bodyColorForColor(color: UIColor) -> UIColor {
+        
+        var hue: CGFloat = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+        
+        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        
+        return UIColor(hue: hue, saturation: saturation * 0.25, brightness: brightness, alpha: alpha)
     }
     
     // MARK: Dynamic layout

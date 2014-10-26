@@ -314,7 +314,7 @@
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = FMKG4J2L9M;
+						DevelopmentTeam = 8ZTTS3HC8X;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
