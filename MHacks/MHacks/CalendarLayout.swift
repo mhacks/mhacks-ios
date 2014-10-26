@@ -68,10 +68,6 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Layout
     
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
-        return true
-    }
-    
     override func prepareLayout() {
         
         numberOfRowsBySection = map(sectionRange()) { section in
@@ -147,5 +143,24 @@ class CalendarLayout: UICollectionViewLayout {
         }
         
         return layoutAttributes
+    }
+    
+    // MARK: Invalidation
+    
+    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+        return true
+    }
+    
+    override func invalidationContextForBoundsChange(newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        
+        let context = super.invalidationContextForBoundsChange(newBounds)
+        
+        let headerIndexPaths: [NSIndexPath] = sectionRange().map { section in
+            return NSIndexPath(forItem: 0, inSection: section)
+        }
+        
+        context.invalidateSupplementaryElementsOfKind(SupplementaryViewKind.Header.rawValue, atIndexPaths: headerIndexPaths)
+        
+        return context
     }
 }
