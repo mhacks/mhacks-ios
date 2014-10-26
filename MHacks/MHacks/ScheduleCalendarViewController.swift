@@ -84,10 +84,10 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer!.startHourForEventAtIndex(indexPath.item, inDay: indexPath.section)
+        return eventOrganizer!.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).start
     }
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, heightInRowsForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer!.durationInHoursForEventAtIndex(indexPath.item, inDay: indexPath.section)
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
+        return eventOrganizer!.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
     }
 }

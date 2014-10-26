@@ -8,6 +8,132 @@
 
 import Foundation
 
+protocol TimeInterval {
+    
+    var timeInterval: HalfOpenInterval<NSTimeInterval> { get }
+}
+
+func conflicts(timeInterval1: TimeInterval, timeInterval2: TimeInterval) -> Bool {
+    return !timeInterval1.timeInterval.clamp(timeInterval2.timeInterval).isEmpty
+}
+
+extension Event: TimeInterval {
+    
+    var timeInterval: HalfOpenInterval<NSTimeInterval> {
+        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    }
+}
+
+struct Day: TimeInterval {
+    
+    // Creates a day containing firstDate
+    // Clamps hours to firstDate and lastDate
+    init(firstDate: NSDate, lastDate: NSDate) {
+        
+        let calendar = NSCalendar.currentCalendar()
+        
+        startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: nil)!
+        endDate = calendar.nextDateAfterDate(firstDate, matchingUnit: .CalendarUnitHour, value: 0, options: .MatchNextTime)!
+        
+        var hours = [Hour(startDate: calendar.dateBySettingHour(calendar.component(.CalendarUnitHour, fromDate: firstDate), minute: 0, second: 0, ofDate: firstDate, options: nil)!)]
+        
+        let stopDate = endDate.earlierDate(lastDate)
+        
+        calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Hour.Components, options: .MatchNextTime) { date, exactMatch, stop in
+            
+            if date.timeIntervalSinceReferenceDate < stopDate.timeIntervalSinceReferenceDate {
+                hours += [Hour(startDate: date)]
+            } else {
+                stop.initialize(true)
+            }
+        }
+        
+        self.hours = hours
+    }
+    
+    // The first moment of the day
+    let startDate: NSDate
+    
+    // The last moment of the day
+    let endDate: NSDate
+    
+    static let Components: NSDateComponents = {
+        let components = NSDateComponents()
+        components.hour = 0;
+        return components
+    }()
+    
+    var timeInterval: HalfOpenInterval<NSTimeInterval> {
+        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    }
+    
+    let hours: [Hour]
+    
+    func partialHourForDate(date: NSDate) -> Double {
+        
+        return reduce(hours, 0.0) { partial, hour in
+            return partial + hour.partialForDate(date)
+        }
+    }
+    
+    func partialHoursFromDate(fromDate: NSDate, toDate: NSDate) -> HalfOpenInterval<Double> {
+        return partialHourForDate(fromDate)..<partialHourForDate(toDate)
+    }
+    
+    static let Formatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: nil)
+        return formatter
+    }()
+    
+    var title: String {
+        return Day.Formatter.stringFromDate(startDate)
+    }
+}
+
+struct Hour: TimeInterval {
+    
+    let startDate: NSDate
+    
+    var endDate: NSDate {
+        return NSCalendar.currentCalendar().nextDateAfterDate(startDate, matchingUnit: .CalendarUnitMinute, value: 0, options: .MatchNextTime)!
+    }
+    
+    var duration: NSTimeInterval {
+        return endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
+    }
+    
+    func partialForDate(date: NSDate) -> Double {
+        
+        let dateMoment = (date.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate) / duration
+        let dateInterval = dateMoment..<dateMoment
+        
+        let hourInterval = 0.0..<1.0
+        
+        return hourInterval.clamp(dateInterval).start
+    }
+    
+    static let Components: NSDateComponents = {
+        let components = NSDateComponents()
+        components.minute = 0;
+        return components
+    }()
+    
+    var timeInterval: HalfOpenInterval<NSTimeInterval> {
+        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    }
+    
+    static let Formatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: nil)
+        return formatter
+    }()
+    
+    var title: String {
+        return Hour.Formatter.stringFromDate(startDate)
+    }
+}
+
 class EventOrganizer {
     
     // MARK: Initialization
@@ -30,60 +156,26 @@ class EventOrganizer {
         
         let calendar = NSCalendar.currentCalendar()
         
-        // Components
+        // Get first day
         
-        let dayComponents = NSDateComponents()
-        dayComponents.hour = 0
+        var days = [Day(firstDate: firstDate, lastDate: lastDate)]
         
-        let hourComponents = NSDateComponents()
-        hourComponents.minute = 0
-        
-        // Hour function
-        
-        let hoursForDate: (NSDate) -> [NSDate] = { date in
-            
-            var hours = [calendar.dateBySettingHour(calendar.component(.CalendarUnitHour, fromDate: date), minute: 0, second: 0, ofDate: date, options: nil)!]
-            
-            let nextDayDate = calendar.nextDateAfterDate(date, matchingComponents: dayComponents, options: .MatchNextTime)!
-            let stopDate = nextDayDate.earlierDate(lastDate)
-            
-            calendar.enumerateDatesStartingAfterDate(date, matchingComponents: hourComponents, options: .MatchNextTime) { date, exactMatch, stop in
-                
-                if date.timeIntervalSinceReferenceDate < stopDate.timeIntervalSinceReferenceDate {
-                    hours += [date]
-                } else {
-                    stop.initialize(true)
-                }
-            }
-            
-            return hours
-        }
-        
-        // Get first day and hours
-        
-        var days = [calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: nil)!]
-        var hours = [hoursForDate(firstDate)]
-        
-        // Get rest of days and hours
-        
-        calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: dayComponents, options: .MatchNextTime) { date, exactMatch, stop in
+        calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Day.Components, options: .MatchNextTime) { date, exactMatch, stop in
             
             if date.timeIntervalSinceReferenceDate < lastDate.timeIntervalSinceReferenceDate {
-                days += [date]
-                hours += [hoursForDate(date)]
+                days += [Day(firstDate: date, lastDate: lastDate)]
             } else {
                 stop.initialize(true)
             }
         }
         
         self.days = days
-        self.hours = hours
         
         // Events
         
-        self.eventsByDay = days.map { dayDate in
+        self.eventsByDay = days.map { day in
             return events.filter { event in
-                return calendar.isDate(dayDate, inSameDayAsDate: event.startDate)
+                return conflicts(day, event)
             }
         }
     }
@@ -100,54 +192,30 @@ class EventOrganizer {
         return eventsByDay[day][index]
     }
     
-    private func durationInHoursForTimeInterval(timeInterval: NSTimeInterval) -> Double {
-        return timeInterval / 3600.0
-    }
-    
-    func startHourForEventAtIndex(index: Int, inDay day: Int) -> Double {
-        return durationInHoursForTimeInterval(eventsByDay[day][index].startDate.timeIntervalSinceDate(hours[day].first!))
-    }
-    
-    func durationInHoursForEventAtIndex(index: Int, inDay day: Int) -> Double {
-        return durationInHoursForTimeInterval(eventsByDay[day][index].duration)
+    func partialHoursForEventAtIndex(index: Int, inDay day: Int) -> HalfOpenInterval<Double> {
+        let event = eventsByDay[day][index]
+        return days[day].partialHoursFromDate(event.startDate, toDate: event.endDate)
     }
     
     // MARK: Days and Hours
     
-    private let days: [NSDate]
-    private let hours: [[NSDate]]
+    private let days: [Day]
     
     func numberOfDays() -> Int {
         return days.count
     }
     
     func numberOfHoursInDay(day: Int) -> Int {
-        return hours[day].count
+        return days[day].hours.count
     }
     
     // MARK: Presentation
     
-    private struct Formatter {
-        
-        static let Weekday: NSDateFormatter = {
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: nil)
-            return formatter
-        }()
-        
-        static let Hour: NSDateFormatter = {
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: nil)
-            return formatter
-        }()
-    }
-    
     func titleForDay(day: Int) -> String {
-        return Formatter.Weekday.stringFromDate(days[day])
+        return days[day].title
     }
     
     func titleForHour(hour: Int, inDay day: Int) -> String {
-        return Formatter.Hour.stringFromDate(hours[day][hour])
+        return days[day].hours[hour].title
     }
-
 }

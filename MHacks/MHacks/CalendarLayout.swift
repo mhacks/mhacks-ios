@@ -13,7 +13,7 @@ import UIKit
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, heightInRowsForItemAtIndexPath indexPath: NSIndexPath) -> Double
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
 }
 
 class CalendarLayout: UICollectionViewLayout {
@@ -88,24 +88,14 @@ class CalendarLayout: UICollectionViewLayout {
                 let layoutAttributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
                 
                 let startRow = self.delegate!.collectionView(self.collectionView!, layout: self, startRowForItemAtIndexPath: indexPath)
-                let sectionOffset = self.heightForSections(0..<section)
-                let y = sectionOffset + self.headerHeight + CGFloat(startRow) * self.rowHeight
+                let endRow = self.delegate!.collectionView(self.collectionView!, layout: self, endRowForItemAtIndexPath: indexPath)
                 
-                let heightInRows = self.delegate!.collectionView(self.collectionView!, layout: self, heightInRowsForItemAtIndexPath: indexPath)
+                let sectionOffset = self.heightForSections(0..<section) + self.headerHeight
                 
-                var endSection = section
-                var endRow = startRow + heightInRows
+                let startOffset = sectionOffset + CGFloat(startRow) * self.rowHeight
+                let endOffset = sectionOffset + CGFloat(endRow) * self.rowHeight
                 
-                while (endRow > Double(self.numberOfRowsBySection[endSection])) {
-                    endRow -= Double(self.numberOfRowsBySection[endSection])
-                    endSection++
-                }
-                
-                let endSectionOffset = self.heightForSections(0..<endSection)
-                let endY = endSectionOffset + self.headerHeight + CGFloat(endRow) * self.rowHeight
-                let height = endY - y
-                
-                layoutAttributes.frame = CGRectMake(0.0, y, self.contentSize.width, height)
+                layoutAttributes.frame = CGRectMake(0.0, startOffset, self.contentSize.width, endOffset - startOffset)
                 
                 return layoutAttributes
             }
