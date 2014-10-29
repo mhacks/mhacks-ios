@@ -122,6 +122,7 @@
                                     <outlet property="bodyViewTopConstraint" destination="GpC-uj-lT1" id="Hto-rB-C89"/>
                                     <outlet property="leaderBar" destination="7UK-gS-lum" id="Zr5-GI-CO9"/>
                                     <outlet property="leaderBarTopConstraint" destination="98b-3h-2c7" id="z9K-KS-tZW"/>
+                                    <segue destination="meU-Ag-OGa" kind="show" identifier="Show Event" id="vDw-8J-ue9"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -329,4 +330,7 @@
     <resources>
         <image name="first" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="vDw-8J-ue9"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -93,4 +93,17 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
         return eventOrganizer!.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
     }
+    
+    // MARK: Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "Show Event" {
+            
+            let indexPath = collectionView.indexPathsForSelectedItems()!.first! as NSIndexPath
+            
+            let viewController = segue.destinationViewController as EventViewController
+            viewController.event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)
+        }
+    }
 }
