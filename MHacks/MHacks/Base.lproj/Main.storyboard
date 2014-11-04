@@ -79,7 +79,7 @@
         <!--Schedule-->
         <scene sceneID="8iV-eL-aQd">
             <objects>
-                <collectionViewController id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController clearsSelectionOnViewWillAppear="NO" id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="hfB-ko-mJ3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,13 +93,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76d-Zt-PCm">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76d-Zt-PCm">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
                                             <color key="backgroundColor" red="0.70070827007293701" green="0.83693927526473999" blue="0.99931150674819946" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
                                             <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
-                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.041692961007356644" green="0.38031816482543945" blue="0.99836134910583496" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
                                             </constraints>
