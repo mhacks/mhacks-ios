@@ -79,7 +79,7 @@
         <!--Schedule-->
         <scene sceneID="8iV-eL-aQd">
             <objects>
-                <collectionViewController clearsSelectionOnViewWillAppear="NO" id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="hfB-ko-mJ3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,33 +95,46 @@
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76d-Zt-PCm">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
+                                                    <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
+                                                    <color key="backgroundColor" red="0.041692961007356644" green="0.38031816482543945" blue="0.99836134910583496" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24h-o6-qbo">
+                                                    <rect key="frame" x="4" y="2" width="294" height="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" red="0.70070827007293701" green="0.83693927526473999" blue="0.99931150674819946" alpha="1" colorSpace="calibratedRGB"/>
-                                        </view>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
-                                            <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
-                                            <color key="backgroundColor" red="0.041692961007356644" green="0.38031816482543945" blue="0.99836134910583496" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
+                                                <constraint firstItem="24h-o6-qbo" firstAttribute="top" secondItem="76d-Zt-PCm" secondAttribute="top" constant="2" id="CK6-nL-5NL"/>
+                                                <constraint firstAttribute="trailing" secondItem="24h-o6-qbo" secondAttribute="trailing" constant="2" id="MhB-Id-MRe"/>
+                                                <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="76d-Zt-PCm" secondAttribute="leading" id="PxQ-xp-1hl"/>
+                                                <constraint firstItem="24h-o6-qbo" firstAttribute="leading" secondItem="7UK-gS-lum" secondAttribute="trailing" constant="2" id="hMh-Zc-i8r"/>
+                                                <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" id="hYe-4J-rHW"/>
+                                                <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="76d-Zt-PCm" secondAttribute="top" id="mU8-a2-0X2"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" id="98b-3h-2c7"/>
                                     <constraint firstItem="76d-Zt-PCm" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" id="GpC-uj-lT1"/>
                                     <constraint firstAttribute="trailing" secondItem="76d-Zt-PCm" secondAttribute="trailing" id="Z6y-k4-8xK"/>
                                     <constraint firstAttribute="bottom" secondItem="76d-Zt-PCm" secondAttribute="bottom" id="jdU-1m-gvH"/>
                                     <constraint firstItem="76d-Zt-PCm" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" id="qzB-vB-oqT"/>
-                                    <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" id="wbd-WT-Cnp"/>
-                                    <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" id="zBc-YX-uVx"/>
                                 </constraints>
                                 <size key="customSize" width="300" height="44"/>
                                 <connections>
                                     <outlet property="bodyView" destination="76d-Zt-PCm" id="Szr-Na-hFK"/>
                                     <outlet property="bodyViewTopConstraint" destination="GpC-uj-lT1" id="Hto-rB-C89"/>
                                     <outlet property="leaderBar" destination="7UK-gS-lum" id="Zr5-GI-CO9"/>
-                                    <outlet property="leaderBarTopConstraint" destination="98b-3h-2c7" id="z9K-KS-tZW"/>
+                                    <outlet property="textLabel" destination="24h-o6-qbo" id="Vec-7J-kLa"/>
                                     <segue destination="meU-Ag-OGa" kind="show" identifier="Show Event" id="vDw-8J-ue9"/>
                                 </connections>
                             </collectionViewCell>

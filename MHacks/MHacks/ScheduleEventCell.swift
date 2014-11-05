@@ -15,18 +15,27 @@ class ScheduleEventCell: UICollectionViewCell {
     @IBOutlet private weak var bodyView: UIView!
     @IBOutlet private weak var leaderBar: UIView!
     @IBOutlet private weak var bodyViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var leaderBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textLabel: UILabel!
+    
+    // MARK: Life cycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        layoutMargins = UIEdgeInsetsMake(2.0, 2.0, 2.0, 2.0)
+    }
     
     // MARK: Properties
     
     var color: UIColor = UIColor.clearColor() {
         didSet {
             updateBodyViewBackgroundColor()
-            leaderBar.backgroundColor = displayColorForColor(color, desaturated: false)
+            leaderBar.backgroundColor = bodyColorForColor(color, desaturated: false)
+            textLabel.textColor = textColorForColor(color)
         }
     }
     
-    func displayColorForColor(color: UIColor, desaturated: Bool) -> UIColor {
+    func bodyColorForColor(color: UIColor, desaturated: Bool) -> UIColor {
         
         var hue: CGFloat = 0.0
         var saturation: CGFloat = 0.0
@@ -41,11 +50,23 @@ class ScheduleEventCell: UICollectionViewCell {
         return UIColor(hue: hue, saturation: saturation * desaturationFactor, brightness: brightness, alpha: alpha * alphaFactor)
     }
     
+    func textColorForColor(color: UIColor) -> UIColor {
+        
+        var hue: CGFloat = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+        
+        color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+        
+        return UIColor(hue: hue, saturation: saturation * 0.8, brightness: brightness * 0.8, alpha: alpha)
+    }
+    
     func updateBodyViewBackgroundColor() {
         
         let bodyViewHighlighted = highlighted | selected
         
-        bodyView.backgroundColor = displayColorForColor(color, desaturated: !bodyViewHighlighted)
+        bodyView.backgroundColor = bodyColorForColor(color, desaturated: !bodyViewHighlighted)
     }
     
     // MARK: Highlight
@@ -68,6 +89,5 @@ class ScheduleEventCell: UICollectionViewCell {
         super.traitCollectionDidChange(previousTraitCollection)
         
         bodyViewTopConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
-        leaderBarTopConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
     }
 }
