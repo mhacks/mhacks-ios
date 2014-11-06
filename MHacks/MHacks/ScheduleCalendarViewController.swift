@@ -59,7 +59,10 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as ScheduleEventCell
         
-        cell.color = collectionView.tintColor
+        let event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)
+        
+        cell.color = event.category.color.color
+        cell.textLabel.text = event.name
         
         return cell
     }

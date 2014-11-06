@@ -20,6 +20,7 @@
 		463E3DC019EC76AF00BE8AB3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */; };
 		463E3DC119EC76AF00BE8AB3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBE19EC76AF00BE8AB3 /* Parse.framework */; };
 		463E3DC219EC76AF00BE8AB3 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBF19EC76AF00BE8AB3 /* ParseFacebookUtils.framework */; };
+		464992A71A0AFBE50099F70C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A61A0AFBE50099F70C /* Category.swift */; };
 		467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570419DF624D006AEB23 /* EventOrganizer.swift */; };
 		467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */; };
 		467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */; };
@@ -74,6 +75,7 @@
 		463E3DBE19EC76AF00BE8AB3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		463E3DBF19EC76AF00BE8AB3 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		463E3DC319EC775A00BE8AB3 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
+		464992A61A0AFBE50099F70C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		467B570419DF624D006AEB23 /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
 		467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 		467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCalendarViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				463E3DBA19EC745000BE8AB3 /* Keys.swift */,
 				460238E119DB9E9C00BD3335 /* Event.swift */,
+				464992A61A0AFBE50099F70C /* Category.swift */,
 				467B570419DF624D006AEB23 /* EventOrganizer.swift */,
 			);
 			name = Model;
@@ -382,6 +385,7 @@
 				FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
+				464992A71A0AFBE50099F70C /* Category.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
 				FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */,
