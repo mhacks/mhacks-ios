@@ -61,7 +61,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         
         let event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)
         
-        cell.color = collectionView.tintColor
+        cell.color = event.category.color.color
         cell.textLabel.text = event.name
         
         return cell

@@ -11,7 +11,7 @@ import Foundation
 struct Event {
     
     let name: String
-    let category: String
+    let category: Category
     let location: String
     let startDate: NSDate
     let duration: NSTimeInterval
@@ -19,6 +19,32 @@ struct Event {
     
     var endDate: NSDate {
         return startDate.dateByAddingTimeInterval(duration)
+    }
+    
+    init?(object: PFObject) {
+        
+        let name = object["title"] as? String
+        let categoryObject = object["category"] as? PFObject
+        let startDate = object["startTime"] as? NSDate
+        let duration = (object["duration"] as? NSNumber)?.doubleValue
+        let description = object["details"] as? String
+        
+        if (name == nil || startDate == nil || duration == nil || description == nil || categoryObject == nil) {
+            return nil
+        }
+        
+        let category = Category(object: categoryObject!)
+        
+        if (category == nil) {
+            return nil
+        }
+        
+        self.name = name!
+        self.category = category!
+        self.location = ""
+        self.startDate = startDate!
+        self.duration = duration!
+        self.description = description!
     }
     
     enum Result {
@@ -30,21 +56,13 @@ struct Event {
         
         let query = PFQuery(className: "Event")
         
+        query.includeKey("category")
+        
         query.findObjectsInBackgroundWithBlock { objects, error in
             
-            if let objects = objects {
+            if let objects = objects as? [PFObject] {
                 
-                let events: [Event] = objects.map { object in
-                    
-                    let name = object["title"] as String
-                    let startDate = object["startTime"] as NSDate
-                    let duration = (object["duration"] as NSNumber).doubleValue
-                    let description = object["details"] as String
-                    
-                    // FIXME: Gracefully fail if object data is malformed
-                    
-                    return Event(name: name, category: "", location: "", startDate: startDate, duration: duration, description: description)
-                }
+                let events: [Event] = objects.map { Event(object: $0 ) }.filter { $0 != nil }.map { $0! }
                 
                 completionHandler(.Success(events))
                 
@@ -54,4 +72,40 @@ struct Event {
             }
         }
     }
+}
+
+struct Category {
+    
+    enum Color: Int {
+        case Red = 0
+        case Green = 1
+        case Blue = 2
+        
+        var color: UIColor {
+            switch self {
+            case .Red:
+                return UIColor.redColor()
+            case .Green:
+                return UIColor.greenColor()
+            case .Blue:
+                return UIColor.blueColor()
+            }
+        }
+    }
+    
+    init?(object: PFObject) {
+        
+        let title = object.objectForKey("title") as? String
+        let colorNumber = object.objectForKey("color") as? NSNumber
+        
+        if (title == nil || colorNumber == nil) {
+            return nil
+        }
+        
+        self.title = title!
+        self.color = Color(rawValue: colorNumber!.integerValue) ?? .Red
+    }
+    
+    let title: String
+    let color: Color
 }
