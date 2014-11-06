@@ -44,6 +44,7 @@
 		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
 		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
 		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
+		FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA37E9A1A060EFA0065A156 /* CountdownView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
 		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		FBA37E9A1A060EFA0065A156 /* CountdownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +249,7 @@
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
 				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
+				FBA37E9A1A060EFA0065A156 /* CountdownView.xib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -320,7 +323,7 @@
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8ZTTS3HC8X;
+						DevelopmentTeam = FMKG4J2L9M;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
@@ -355,6 +358,7 @@
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
 				467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */,
+				FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */,
 				4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,6 +524,7 @@
 					"$(PROJECT_DIR)/Parse",
 				);
 				INFOPLIST_FILE = MHacks/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
@@ -539,6 +544,7 @@
 					"$(PROJECT_DIR)/Parse",
 				);
 				INFOPLIST_FILE = MHacks/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
