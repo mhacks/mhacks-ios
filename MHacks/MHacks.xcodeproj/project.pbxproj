@@ -44,6 +44,7 @@
 		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
 		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 		FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA37E9A1A060EFA0065A156 /* CountdownView.xib */; };
+		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		FBA37E9A1A060EFA0065A156 /* CountdownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownView.xib; sourceTree = "<group>"; };
+		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
 				FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */,
 				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
+				FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				464992A71A0AFBE50099F70C /* Category.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
+				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
 				FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */,
 			);
