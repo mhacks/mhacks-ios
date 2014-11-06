@@ -73,39 +73,3 @@ struct Event {
         }
     }
 }
-
-struct Category {
-    
-    enum Color: Int {
-        case Red = 0
-        case Green = 1
-        case Blue = 2
-        
-        var color: UIColor {
-            switch self {
-            case .Red:
-                return UIColor.redColor()
-            case .Green:
-                return UIColor.greenColor()
-            case .Blue:
-                return UIColor.blueColor()
-            }
-        }
-    }
-    
-    init?(object: PFObject) {
-        
-        let title = object.objectForKey("title") as? String
-        let colorNumber = object.objectForKey("color") as? NSNumber
-        
-        if (title == nil || colorNumber == nil) {
-            return nil
-        }
-        
-        self.title = title!
-        self.color = Color(rawValue: colorNumber!.integerValue) ?? .Red
-    }
-    
-    let title: String
-    let color: Color
-}
