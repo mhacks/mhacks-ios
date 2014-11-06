@@ -12,10 +12,21 @@ struct Event {
     
     let name: String
     let category: Category
-    let location: String
+    let locations: [Location]
     let startDate: NSDate
     let duration: NSTimeInterval
     let description: String
+    
+    var locationsDescription: String {
+        switch locations.count {
+        case 1:
+            return locations[0].name
+        case 2:
+            return "\(locations[0].name) & \(locations[1].name)"
+        default:
+            return locations.reduce("") { $0 + ", " + $1.name }
+        }
+    }
     
     var endDate: NSDate {
         return startDate.dateByAddingTimeInterval(duration)
@@ -25,11 +36,12 @@ struct Event {
         
         let name = object["title"] as? String
         let categoryObject = object["category"] as? PFObject
+        let locationObjects = object["locations"] as? [PFObject]
         let startDate = object["startTime"] as? NSDate
         let duration = (object["duration"] as? NSNumber)?.doubleValue
         let description = object["details"] as? String
         
-        if (name == nil || startDate == nil || duration == nil || description == nil || categoryObject == nil) {
+        if (name == nil || categoryObject == nil || locationObjects == nil || startDate == nil || duration == nil || description == nil) {
             return nil
         }
         
@@ -41,7 +53,7 @@ struct Event {
         
         self.name = name!
         self.category = category!
-        self.location = ""
+        self.locations = locationObjects!.map { Location(object: $0)! }//.filter { $0 != nil }.map { $0! }
         self.startDate = startDate!
         self.duration = duration!
         self.description = description!
@@ -57,6 +69,7 @@ struct Event {
         let query = PFQuery(className: "Event")
         
         query.includeKey("category")
+        query.includeKey("locations")
         
         query.findObjectsInBackgroundWithBlock { objects, error in
             

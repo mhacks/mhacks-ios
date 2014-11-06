@@ -27,6 +27,9 @@ struct Category {
         }
     }
     
+    let title: String
+    let color: Color
+    
     init?(object: PFObject) {
         
         let title = object.objectForKey("title") as? String
@@ -39,7 +42,4 @@ struct Category {
         self.title = title!
         self.color = Color(rawValue: colorNumber!.integerValue) ?? .Red
     }
-    
-    let title: String
-    let color: Color
 }

@@ -47,7 +47,7 @@ class ScheduleViewController: UITableViewController {
         let subtitle = NSMutableAttributedString(string: interval, attributes: darkGrayAttributes)
         
         let grayAttributes = [NSForegroundColorAttributeName: UIColor.grayColor()]
-        subtitle.appendAttributedString(NSAttributedString(string: " – " + event.location, attributes: grayAttributes))
+        subtitle.appendAttributedString(NSAttributedString(string: " – " + event.locationsDescription, attributes: grayAttributes))
         
         cell.textLabel.text = event.name
         cell.detailTextLabel!.attributedText = subtitle

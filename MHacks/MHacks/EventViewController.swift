@@ -59,7 +59,7 @@ class EventViewController: UIViewController {
         if let event = event {
             
             titleLabel.text = event.name
-            subtitleLabel.text = event.category.title + " | " + event.location
+            subtitleLabel.text = event.category.title + " | " + event.locationsDescription
             descriptionLabel.text = event.description
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         }
