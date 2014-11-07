@@ -236,8 +236,8 @@
                                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day, Month 1 00:00 - 00:00 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWd-LI-g8P">
-                                                <rect key="frame" x="8" y="184" width="240" height="21"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day, Month 1 00:00 - 00:00 PM" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWd-LI-g8P">
+                                                <rect key="frame" x="8" y="184" width="584" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -256,6 +256,7 @@
                                             <constraint firstItem="y5z-Mb-UJ4" firstAttribute="leading" secondItem="JZm-4v-7pn" secondAttribute="leadingMargin" id="5wG-Uz-tN3"/>
                                             <constraint firstItem="gWd-LI-g8P" firstAttribute="top" secondItem="bwe-2v-EDH" secondAttribute="bottom" constant="16" id="6Rg-WF-hns"/>
                                             <constraint firstItem="bwe-2v-EDH" firstAttribute="leading" secondItem="JZm-4v-7pn" secondAttribute="leadingMargin" id="Ezz-os-gYy"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="gWd-LI-g8P" secondAttribute="trailing" id="J89-Zh-RfQ"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="gWd-LI-g8P" secondAttribute="bottom" id="OSq-GN-hJw"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="bwe-2v-EDH" secondAttribute="trailing" id="X2j-Ov-LxS"/>
                                             <constraint firstItem="y5z-Mb-UJ4" firstAttribute="top" secondItem="JZm-4v-7pn" secondAttribute="topMargin" id="ZrB-zG-zSs"/>

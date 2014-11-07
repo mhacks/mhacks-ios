@@ -10,5 +10,6 @@ import UIKit
 
 class ScheduleDayHeader: UICollectionReusableView {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var detailTextLabel: UILabel!
 }

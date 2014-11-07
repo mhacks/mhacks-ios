@@ -28,7 +28,7 @@ class ScheduleViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return eventOrganizer.numberOfDays()
+        return eventOrganizer.days.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,7 +56,7 @@ class ScheduleViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return eventOrganizer.titleForDay(section)
+        return eventOrganizer.days[section].weekdayTitle
     }
     
     // MARK: - Segues

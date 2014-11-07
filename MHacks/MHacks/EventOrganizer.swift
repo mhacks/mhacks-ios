@@ -80,14 +80,18 @@ struct Day: TimeInterval {
         return partialHourForDate(fromDate)..<partialHourForDate(toDate)
     }
     
-    static let Formatter: NSDateFormatter = {
+    static let weekdayFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: nil)
         return formatter
     }()
     
-    var title: String {
-        return Day.Formatter.stringFromDate(startDate)
+    var weekdayTitle: String {
+        return Day.weekdayFormatter.stringFromDate(startDate)
+    }
+    
+    var dateTitle: String {
+        return NSDateFormatter.localizedStringFromDate(startDate, dateStyle: .ShortStyle, timeStyle: .NoStyle)
     }
 }
 
@@ -199,23 +203,5 @@ class EventOrganizer {
     
     // MARK: Days and Hours
     
-    private let days: [Day]
-    
-    func numberOfDays() -> Int {
-        return days.count
-    }
-    
-    func numberOfHoursInDay(day: Int) -> Int {
-        return days[day].hours.count
-    }
-    
-    // MARK: Presentation
-    
-    func titleForDay(day: Int) -> String {
-        return days[day].title
-    }
-    
-    func titleForHour(hour: Int, inDay day: Int) -> String {
-        return days[day].hours[hour].title
-    }
+    let days: [Day]
 }
