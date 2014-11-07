@@ -14,7 +14,7 @@ class ScheduleHourSeparator: UICollectionReusableView {
     @IBOutlet private weak var separatorHeightConstraint: NSLayoutConstraint!
     
     class func separatorHeightInTraitCollection(collection: UITraitCollection) -> CGFloat {
-        return 1.0 / collection.displayScale
+        return 1.0 / (collection.displayScale == 0.0 ? 1.0 : collection.displayScale)
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
