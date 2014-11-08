@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -19,8 +20,14 @@
                     <blurEffect style="extraLight"/>
                 </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-WQ-I7s">
-                    <rect key="frame" x="56" y="14" width="30" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="56" y="15" width="30" height="20"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1/15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUw-ye-l13">
+                    <rect key="frame" x="268" y="16" width="44" height="18"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -28,13 +35,16 @@
             <constraints>
                 <constraint firstItem="00E-cU-uS0" firstAttribute="top" secondItem="OMP-Rs-JBe" secondAttribute="top" id="1mz-HA-NJN"/>
                 <constraint firstAttribute="trailing" secondItem="00E-cU-uS0" secondAttribute="trailing" id="2je-q6-BY5"/>
+                <constraint firstItem="gUw-ye-l13" firstAttribute="baseline" secondItem="Igg-WQ-I7s" secondAttribute="baseline" id="42u-9E-s1z"/>
+                <constraint firstAttribute="trailingMargin" secondItem="gUw-ye-l13" secondAttribute="trailing" id="WXZ-nZ-emp"/>
                 <constraint firstItem="00E-cU-uS0" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" id="YQY-hY-l04"/>
                 <constraint firstAttribute="bottom" secondItem="00E-cU-uS0" secondAttribute="bottom" id="k4s-Ia-e0D"/>
                 <constraint firstAttribute="centerY" secondItem="Igg-WQ-I7s" secondAttribute="centerY" id="wgf-7s-qiz"/>
                 <constraint firstItem="Igg-WQ-I7s" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" constant="56" id="xl8-ur-v8l"/>
             </constraints>
             <connections>
-                <outlet property="label" destination="Igg-WQ-I7s" id="D4i-OK-oOT"/>
+                <outlet property="detailTextLabel" destination="gUw-ye-l13" id="PhA-3O-iSY"/>
+                <outlet property="textLabel" destination="Igg-WQ-I7s" id="O5R-WK-mVB"/>
             </connections>
             <point key="canvasLocation" x="334" y="365"/>
         </collectionReusableView>

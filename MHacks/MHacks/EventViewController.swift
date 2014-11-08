@@ -42,10 +42,7 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.layoutMargins = UIEdgeInsetsMake(16.0, 16.0, 16.0, 16.0)
-        
-        scrollView.preservesSuperviewLayoutMargins = true
-        contentView.preservesSuperviewLayoutMargins = true
+        contentView.layoutMargins = UIEdgeInsetsMake(16.0, 16.0, 16.0, 16.0)
         
         updateLabels()
     }
@@ -59,7 +56,7 @@ class EventViewController: UIViewController {
         if let event = event {
             
             titleLabel.text = event.name
-            subtitleLabel.text = event.category.title + " | " + event.location
+            subtitleLabel.text = event.category.title + " | " + event.locationsDescription
             descriptionLabel.text = event.description
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         }

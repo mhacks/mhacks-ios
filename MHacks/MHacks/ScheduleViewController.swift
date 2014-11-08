@@ -28,7 +28,7 @@ class ScheduleViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return eventOrganizer.numberOfDays()
+        return eventOrganizer.days.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,7 +47,7 @@ class ScheduleViewController: UITableViewController {
         let subtitle = NSMutableAttributedString(string: interval, attributes: darkGrayAttributes)
         
         let grayAttributes = [NSForegroundColorAttributeName: UIColor.grayColor()]
-        subtitle.appendAttributedString(NSAttributedString(string: " – " + event.location, attributes: grayAttributes))
+        subtitle.appendAttributedString(NSAttributedString(string: " – " + event.locationsDescription, attributes: grayAttributes))
         
         cell.textLabel.text = event.name
         cell.detailTextLabel!.attributedText = subtitle
@@ -56,7 +56,7 @@ class ScheduleViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return eventOrganizer.titleForDay(section)
+        return eventOrganizer.days[section].weekdayTitle
     }
     
     // MARK: - Segues

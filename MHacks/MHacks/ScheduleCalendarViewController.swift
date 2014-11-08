@@ -48,7 +48,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     // MARK: Collection view data source
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return eventOrganizer?.numberOfDays() ?? 0
+        return eventOrganizer?.days.count ?? 0
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -73,12 +73,13 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
             
         case .Header:
             let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as ScheduleDayHeader
-            dayHeader.label.text = eventOrganizer!.titleForDay(indexPath.section)
+            dayHeader.textLabel.text = eventOrganizer!.days[indexPath.section].weekdayTitle
+            dayHeader.detailTextLabel.text = eventOrganizer!.days[indexPath.section].dateTitle
             return dayHeader
             
         case .Separator:
             let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as ScheduleHourSeparator
-            hourSeparator.label.text = eventOrganizer!.titleForHour(indexPath.item, inDay: indexPath.section)
+            hourSeparator.label.text = eventOrganizer!.days[indexPath.section].hours[indexPath.item].title
             return hourSeparator
         }
     }
@@ -86,7 +87,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     // MARK: Calendar layout delegate
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-        return eventOrganizer!.numberOfHoursInDay(section)
+        return eventOrganizer!.days[section].hours.count
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
