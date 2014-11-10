@@ -12,6 +12,5 @@ class SponsorCell: UICollectionViewCell {
     
     // MARK: Outlets
     
-//    @IBOutlet private weak var logoView: UIImageView!
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var logoView: UIImageView!
 }

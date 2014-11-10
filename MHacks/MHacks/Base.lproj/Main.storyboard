@@ -224,24 +224,21 @@
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVY-vg-H8t">
-                                            <rect key="frame" x="8" y="8" width="84" height="84"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bqm-Ee-0K5">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstItem="EVY-vg-H8t" firstAttribute="top" secondItem="a1n-xf-Lvn" secondAttribute="topMargin" id="Vgm-YK-YRf"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="EVY-vg-H8t" secondAttribute="trailing" id="cVi-bV-g6D"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="EVY-vg-H8t" secondAttribute="bottom" id="kak-eH-8qd"/>
-                                    <constraint firstItem="EVY-vg-H8t" firstAttribute="leading" secondItem="a1n-xf-Lvn" secondAttribute="leadingMargin" id="nTF-F8-rzZ"/>
+                                    <constraint firstItem="bqm-Ee-0K5" firstAttribute="top" secondItem="a1n-xf-Lvn" secondAttribute="top" id="LnN-Vl-hQ0"/>
+                                    <constraint firstAttribute="bottom" secondItem="bqm-Ee-0K5" secondAttribute="bottom" id="P3e-ud-oul"/>
+                                    <constraint firstAttribute="trailing" secondItem="bqm-Ee-0K5" secondAttribute="trailing" id="gxg-dh-H2w"/>
+                                    <constraint firstItem="bqm-Ee-0K5" firstAttribute="leading" secondItem="a1n-xf-Lvn" secondAttribute="leading" id="lIA-to-hZa"/>
                                 </constraints>
                                 <size key="customSize" width="100" height="100"/>
                                 <connections>
-                                    <outlet property="label" destination="EVY-vg-H8t" id="ukF-N2-e1n"/>
+                                    <outlet property="logoView" destination="bqm-Ee-0K5" id="u5o-kY-VLa"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
