@@ -24,6 +24,7 @@
 		463E3DC219EC76AF00BE8AB3 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBF19EC76AF00BE8AB3 /* ParseFacebookUtils.framework */; };
 		464992A71A0AFBE50099F70C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A61A0AFBE50099F70C /* Category.swift */; };
 		464992A91A0AFC0E0099F70C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A81A0AFC0E0099F70C /* Location.swift */; };
+		464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D46531A14450E005256B8 /* CircularProgressIndicator.swift */; };
 		467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570419DF624D006AEB23 /* EventOrganizer.swift */; };
 		467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */; };
 		467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */; };
@@ -44,7 +45,6 @@
 		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */; };
 		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
-		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
 		FB76FB3E1A0DD5450036C76D /* SponsorsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
@@ -83,6 +83,7 @@
 		463E3DC319EC775A00BE8AB3 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
 		464992A61A0AFBE50099F70C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		464992A81A0AFC0E0099F70C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		464D46531A14450E005256B8 /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; };
 		467B570419DF624D006AEB23 /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
 		467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 		467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCalendarViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
-		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
 		FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsLayout.swift; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
@@ -244,9 +244,9 @@
 				46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */,
 				46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */,
 				463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */,
-				FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
 				FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */,
+				464D46531A14450E005256B8 /* CircularProgressIndicator.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -389,13 +389,13 @@
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				464992A91A0AFC0E0099F70C /* Location.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
+				464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* Event.swift in Sources */,
 				46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
-				FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -162,23 +163,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
-                                <rect key="frame" x="16" y="229" width="568" height="142"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="64u-z4-cyu">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3T9-Hp-TYF" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="-40" width="568" height="568"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="3T9-Hp-TYF" secondAttribute="height" multiplier="1:1" id="L4o-uG-n0T"/>
+                                            <constraint firstAttribute="width" secondItem="3T9-Hp-TYF" secondAttribute="height" multiplier="1:1" id="tpH-T3-HF4"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.25000000000000006" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
+                                        <rect key="frame" x="52" y="173" width="496" height="142"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="vxg-PG-wuB" secondAttribute="trailing" constant="52" id="6ED-qi-5MA"/>
+                                    <constraint firstAttribute="centerY" secondItem="3T9-Hp-TYF" secondAttribute="centerY" id="bii-is-6Xs"/>
+                                    <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leading" constant="52" id="d84-FL-OsL"/>
+                                    <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="dWa-Lp-RmN"/>
+                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leading" constant="16" id="e0k-5X-5U7"/>
+                                    <constraint firstAttribute="trailing" secondItem="3T9-Hp-TYF" secondAttribute="trailing" constant="16" id="upJ-1K-eUi"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="IaP-fm-EIV"/>
-                            <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leadingMargin" id="dbi-lT-f1A"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vxg-PG-wuB" secondAttribute="trailing" id="gYS-31-HNS"/>
+                            <constraint firstItem="64u-z4-cyu" firstAttribute="top" secondItem="i2P-KY-g4b" secondAttribute="bottom" id="ETH-bO-XjK"/>
+                            <constraint firstItem="nq8-aR-pAl" firstAttribute="top" secondItem="64u-z4-cyu" secondAttribute="bottom" id="Tz0-OP-9dh"/>
+                            <constraint firstItem="64u-z4-cyu" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leading" id="VeR-G7-xH4"/>
+                            <constraint firstAttribute="trailing" secondItem="64u-z4-cyu" secondAttribute="trailing" id="kVc-WZ-pbS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Countdown" id="w5w-7x-tuU"/>
                     <connections>
                         <outlet property="countdownLabel" destination="vxg-PG-wuB" id="Qsn-9C-VEr"/>
+                        <outlet property="progressIndicator" destination="3T9-Hp-TYF" id="jF3-sV-sz1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UvL-dg-x0W" userLabel="First Responder" sceneMemberID="firstResponder"/>

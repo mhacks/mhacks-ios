@@ -27,21 +27,38 @@ struct Countdown {
         return endDate.timeIntervalSinceDate(progressDate)
     }
     
-    private static var Formatter: NSNumberFormatter = {
+    private static var formatter: NSNumberFormatter = {
         let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 2
         return formatter
     }()
     
-    var localizedTimeRemaining: String {
+    var timeRemainingDescription: String {
         
         let total = Int(round(timeRemaining))
         
-        let hours = Countdown.Formatter.stringFromNumber(total / 3600)!
-        let minutes = Countdown.Formatter.stringFromNumber((total % 3600) / 60)!
-        let seconds = Countdown.Formatter.stringFromNumber(total % 60)!
+        let hours = Countdown.formatter.stringFromNumber(total / 3600)!
+        let minutes = Countdown.formatter.stringFromNumber((total % 3600) / 60)!
+        let seconds = Countdown.formatter.stringFromNumber(total % 60)!
         
         return "\(hours):\(minutes):\(seconds)"
+    }
+    
+    static let font: UIFont = {
+        
+        // I have no idea what these numbers mean or why they work
+        // I only copied what I saw here:
+        // http://stackoverflow.com/questions/21594346/is-it-possible-to-use-ios-7s-modified-helvetica-in-apps
+        
+        let featureSettings = [[UIFontFeatureTypeIdentifierKey: 17, UIFontFeatureSelectorIdentifierKey: 1]]
+        
+        let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
+        
+        return UIFont(descriptor: descriptor, size: 0.0)
+    }()
+    
+    var progress: Double {
+        return 1.0 - timeRemaining / duration
     }
     
     private init?(config: PFConfig) {
@@ -69,7 +86,7 @@ struct Countdown {
             
             if (error != nil) {
                 
-                completionHandler(nil)
+                completionHandler(self.currentCountdown())
                 
             } else {
                 
