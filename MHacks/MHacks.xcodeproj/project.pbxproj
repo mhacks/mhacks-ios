@@ -48,7 +48,6 @@
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
 		FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */; };
 		FB86D1D81A1444AF001032B8 /* SponsorTierSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */; };
-		FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA37E9A1A060EFA0065A156 /* CountdownView.xib */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,7 +108,6 @@
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
 		FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierSeparator.swift; sourceTree = "<group>"; };
 		FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierSeparator.xib; sourceTree = "<group>"; };
-		FBA37E9A1A060EFA0065A156 /* CountdownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownView.xib; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -249,7 +247,7 @@
 				46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */,
 				463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
-				FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */,
+				FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */,
 				464D46531A14450E005256B8 /* CircularProgressIndicator.swift */,
 			);
 			name = View;
@@ -263,7 +261,6 @@
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
 				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
-				FBA37E9A1A060EFA0065A156 /* CountdownView.xib */,
 				FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */,
 			);
 			name = Interface;
@@ -411,7 +408,6 @@
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
 				FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */,
-				FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */,
 				461C8D8D1A14192700402ABA /* Countdown.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
