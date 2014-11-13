@@ -10,6 +10,8 @@
 		460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */; };
 		460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DF19DB9E3900BD3335 /* EventViewController.swift */; };
 		460238E219DB9E9C00BD3335 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238E119DB9E9C00BD3335 /* Event.swift */; };
+		461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */; };
+		461C8D8D1A14192700402ABA /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8C1A14192700402ABA /* Countdown.swift */; };
 		4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1C19D3028C00CA8880 /* AppDelegate.swift */; };
 		4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2219D3028C00CA8880 /* Main.storyboard */; };
 		4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2519D3028C00CA8880 /* Images.xcassets */; };
@@ -42,11 +44,9 @@
 		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */; };
 		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
-		FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */; };
 		FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */; };
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
 		FB76FB3E1A0DD5450036C76D /* SponsorsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */; };
-		FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBA37E9A1A060EFA0065A156 /* CountdownView.xib */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +64,8 @@
 		460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		460238DF19DB9E3900BD3335 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		460238E119DB9E9C00BD3335 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
+		461C8D8C1A14192700402ABA /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; };
 		4634FD1719D3028C00CA8880 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4634FD1B19D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD1C19D3028C00CA8880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,11 +103,9 @@
 		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
-		FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatesViewController.swift; sourceTree = "<group>"; };
 		FB4798E719EC8D6F00FA5E44 /* CountdownView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
 		FB76FB3D1A0DD5450036C76D /* SponsorsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsLayout.swift; sourceTree = "<group>"; };
-		FBA37E9A1A060EFA0065A156 /* CountdownView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountdownView.xib; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,7 +146,7 @@
 				460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */,
 				467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */,
 				460238DF19DB9E3900BD3335 /* EventViewController.swift */,
-				FB4798E519EC8D5200FA5E44 /* UpdatesViewController.swift */,
+				461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */,
 				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
 				FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */,
 			);
@@ -161,6 +161,7 @@
 				464992A61A0AFBE50099F70C /* Category.swift */,
 				464992A81A0AFC0E0099F70C /* Location.swift */,
 				467B570419DF624D006AEB23 /* EventOrganizer.swift */,
+				461C8D8C1A14192700402ABA /* Countdown.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -258,7 +259,6 @@
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
 				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
-				FBA37E9A1A060EFA0065A156 /* CountdownView.xib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = FMKG4J2L9M;
+						DevelopmentTeam = 8ZTTS3HC8X;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
@@ -367,7 +367,6 @@
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
 				467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */,
-				FBA37E9B1A060EFA0065A156 /* CountdownView.xib in Resources */,
 				4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,6 +392,7 @@
 				460238E219DB9E9C00BD3335 /* Event.swift in Sources */,
 				46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
+				461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
 				FB4798E819EC8D6F00FA5E44 /* CountdownView.swift in Sources */,
@@ -404,7 +404,7 @@
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
 				FB76FB3E1A0DD5450036C76D /* SponsorsLayout.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
-				FB4798E619EC8D5200FA5E44 /* UpdatesViewController.swift in Sources */,
+				461C8D8D1A14192700402ABA /* Countdown.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

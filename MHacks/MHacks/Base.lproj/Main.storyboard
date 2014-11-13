@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -24,7 +23,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="28" y="0.0"/>
+            <point key="canvasLocation" x="-6" y="724"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="fcU-tf-lBV">
@@ -151,10 +150,10 @@
             </objects>
             <point key="canvasLocation" x="1668" y="0.0"/>
         </scene>
-        <!--Updates-->
+        <!--Countdown-->
         <scene sceneID="W8b-yP-slf">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nnu-Rd-utr" customClass="UpdatesViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nnu-Rd-utr" customClass="CountdownViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i2P-KY-g4b"/>
                         <viewControllerLayoutGuide type="bottom" id="nq8-aR-pAl"/>
@@ -163,28 +162,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zfk-0d-u1Q">
-                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yaj-8Y-DFu" customClass="CountdownView" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="600" height="236"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
+                                <rect key="frame" x="16" y="229" width="568" height="142"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="zfk-0d-u1Q" secondAttribute="trailing" id="04E-3l-K7g"/>
-                            <constraint firstItem="Yaj-8Y-DFu" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leading" id="Bmy-TJ-h9r"/>
-                            <constraint firstItem="zfk-0d-u1Q" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leading" id="GOs-JQ-2bo"/>
-                            <constraint firstItem="zfk-0d-u1Q" firstAttribute="top" secondItem="V4s-ol-dPA" secondAttribute="centerY" id="P5J-FH-AtR"/>
-                            <constraint firstAttribute="bottom" secondItem="zfk-0d-u1Q" secondAttribute="bottom" id="P5h-Om-bY7"/>
-                            <constraint firstItem="Yaj-8Y-DFu" firstAttribute="top" secondItem="i2P-KY-g4b" secondAttribute="bottom" id="bfp-Pj-uwH"/>
-                            <constraint firstAttribute="trailing" secondItem="Yaj-8Y-DFu" secondAttribute="trailing" id="mIb-TK-rpw"/>
-                            <constraint firstItem="zfk-0d-u1Q" firstAttribute="top" secondItem="Yaj-8Y-DFu" secondAttribute="bottom" id="qlN-HI-g4S"/>
+                            <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="IaP-fm-EIV"/>
+                            <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leadingMargin" id="dbi-lT-f1A"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vxg-PG-wuB" secondAttribute="trailing" id="gYS-31-HNS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Updates" id="w5w-7x-tuU"/>
+                    <navigationItem key="navigationItem" title="Countdown" id="w5w-7x-tuU"/>
+                    <connections>
+                        <outlet property="countdownLabel" destination="vxg-PG-wuB" id="Qsn-9C-VEr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UvL-dg-x0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -205,7 +200,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vrk-QD-Pkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="854" y="1428"/>
+            <point key="canvasLocation" x="854" y="1474"/>
         </scene>
         <!--Sponsors-->
         <scene sceneID="njj-SH-l6Z">
@@ -251,13 +246,13 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xRD-uf-n47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668" y="1428"/>
+            <point key="canvasLocation" x="1668" y="1474"/>
         </scene>
-        <!--Updates-->
+        <!--Countdown-->
         <scene sceneID="mjs-da-oBa">
             <objects>
                 <navigationController id="sZ1-uG-KLM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Updates" image="first" id="uoA-VM-Ce8"/>
+                    <tabBarItem key="tabBarItem" title="Countdown" image="first" id="uoA-VM-Ce8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PS6-Ly-vCW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
