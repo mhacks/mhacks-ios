@@ -52,29 +52,32 @@ class SponsorsViewController: UICollectionViewController {
         
         let sponsorsQuery = PFQuery(className: "Sponsor")
         
-        // I hope there's a cleaner way to do this
         sponsorsQuery.findObjectsInBackgroundWithBlock() { objects, error in
             if let objects = objects as? [PFObject] {
                 self.sponsors = objects
                 
                 for sponsor in self.sponsors {
-                    println(sponsor)
-                    let logoImageFile = sponsor["logo"] as? PFFile
-                    if let logoImageFile = logoImageFile {
-                        logoImageFile.getDataInBackgroundWithBlock { data, error in
-                            if let data = data {
-                                let logoImage = UIImage(data: data)
-                                self.sponsorLogos[sponsor["name"] as String!] = logoImage
-                            }
-                            
-                            self.collectionView.reloadData()
-                        }
-                    }
+                    self.fetchLogoForSponsor(sponsor)
                 }
                 
                 self.collectionView.reloadData()
             } else {
                 println("Couldn't fetch the sponsors!")
+            }
+        }
+    }
+    
+    func fetchLogoForSponsor(sponsor: PFObject) {
+        let logoImageFile = sponsor["logo"] as? PFFile
+        
+        if let logoImageFile = logoImageFile {
+            logoImageFile.getDataInBackgroundWithBlock { data, error in
+                if let data = data {
+                    let logoImage = UIImage(data: data)
+                    self.sponsorLogos[sponsor["name"] as String!] = logoImage
+                }
+                
+                self.collectionView.reloadData()
             }
         }
     }
