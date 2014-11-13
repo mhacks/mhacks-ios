@@ -145,7 +145,6 @@ class SponsorsViewController: UICollectionViewController {
         let sponsor = sponsorsInTier[indexPath.row]
         
         cell.logoView.image = self.sponsorLogos[sponsor["name"] as String!]
-        cell.backgroundColor = UIColor.grayColor()
         
         return cell
     }
