@@ -167,27 +167,32 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3T9-Hp-TYF" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="-40" width="568" height="568"/>
+                                        <rect key="frame" x="73" y="17" width="454" height="454"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.25000000000000006" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
+                                                <rect key="frame" x="36" y="156" width="382" height="142"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <constraints>
+                                            <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="3T9-Hp-TYF" secondAttribute="leading" constant="36" id="HhN-rN-uP0"/>
                                             <constraint firstAttribute="width" secondItem="3T9-Hp-TYF" secondAttribute="height" multiplier="1:1" id="L4o-uG-n0T"/>
-                                            <constraint firstAttribute="width" secondItem="3T9-Hp-TYF" secondAttribute="height" multiplier="1:1" id="tpH-T3-HF4"/>
+                                            <constraint firstAttribute="trailing" secondItem="vxg-PG-wuB" secondAttribute="trailing" constant="36" id="Vws-wG-gCz"/>
+                                            <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="tO2-w6-gOJ"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.25000000000000006" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
-                                        <rect key="frame" x="52" y="173" width="496" height="142"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="vxg-PG-wuB" secondAttribute="trailing" constant="52" id="6ED-qi-5MA"/>
+                                    <constraint firstAttribute="centerX" secondItem="3T9-Hp-TYF" secondAttribute="centerX" id="EN3-vM-nVe"/>
+                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="64u-z4-cyu" secondAttribute="top" constant="16" id="UkZ-V6-eZr"/>
                                     <constraint firstAttribute="centerY" secondItem="3T9-Hp-TYF" secondAttribute="centerY" id="bii-is-6Xs"/>
-                                    <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leading" constant="52" id="d84-FL-OsL"/>
-                                    <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="dWa-Lp-RmN"/>
-                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leading" constant="16" id="e0k-5X-5U7"/>
-                                    <constraint firstAttribute="trailing" secondItem="3T9-Hp-TYF" secondAttribute="trailing" constant="16" id="upJ-1K-eUi"/>
+                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="64u-z4-cyu" secondAttribute="leading" constant="16" id="e0k-5X-5U7"/>
+                                    <constraint firstAttribute="centerY" secondItem="3T9-Hp-TYF" secondAttribute="centerY" id="h5r-5p-iAO"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3T9-Hp-TYF" secondAttribute="trailing" constant="16" id="upJ-1K-eUi"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3T9-Hp-TYF" secondAttribute="bottom" constant="16" id="zZo-2e-j6U"/>
                                 </constraints>
                             </view>
                         </subviews>
