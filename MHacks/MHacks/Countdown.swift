@@ -46,11 +46,10 @@ struct Countdown {
     
     static let font: UIFont = {
         
-        // I have no idea what these numbers mean or why they work
-        // I only copied what I saw here:
-        // http://stackoverflow.com/questions/21594346/is-it-possible-to-use-ios-7s-modified-helvetica-in-apps
+        // This value is defined by Helvetica Neue to replace the standard color with a time separator
+        let timeSeparatorValue = 1
         
-        let featureSettings = [[UIFontFeatureTypeIdentifierKey: 17, UIFontFeatureSelectorIdentifierKey: 1]]
+        let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
         
         let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
         
