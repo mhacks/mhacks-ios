@@ -42,7 +42,8 @@ class CountdownViewController: UIViewController {
     
     @IBOutlet weak var progressIndicator: CircularProgressIndicator!
     @IBOutlet weak var countdownLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var startLabel: UILabel!
+    @IBOutlet weak var endLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +74,11 @@ class CountdownViewController: UIViewController {
     }
     
     func updateCountdownViews() {
-        progressIndicator.progress = countdown?.progress ?? 1.0
+        
+        progressIndicator.progress = countdown?.progress ?? 0.0
         countdownLabel.text = countdown?.timeRemainingDescription ?? "36:00:00"
+        
+        startLabel.text = countdown?.startDateDescription
+        endLabel.text = countdown?.endDateDescription
     }
 }

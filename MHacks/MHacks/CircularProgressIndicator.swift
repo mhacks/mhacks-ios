@@ -9,12 +9,23 @@
 import UIKit
 import QuartzCore
 
-class CircularProgressIndicator: UIView {
+@IBDesignable class CircularProgressIndicator: UIView {
     
     // MARK: Initialization
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        commonInit()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        commonInit()
+    }
+    
+    private func commonInit() {
         
         trackView.frame = bounds
         progressView.frame = bounds
@@ -40,20 +51,27 @@ class CircularProgressIndicator: UIView {
     
     // MARK: Properties
     
-    var progress: Double = 1.0 {
+    @IBInspectable var progress: Double = 1.0 {
         didSet {
             progress = min(max(0.0, progress), 1.0)
             progressView.progress = progress
         }
     }
     
-    var trackColor: UIColor? = UIColor.whiteColor() {
+    @IBInspectable var lineWidth: CGFloat = 20.0 {
+        didSet {
+            trackView.lineWidth = lineWidth
+            progressView.lineWidth = lineWidth
+        }
+    }
+    
+    @IBInspectable var trackColor: UIColor? = UIColor.whiteColor() {
         didSet {
             trackView.color = trackColor
         }
     }
     
-    var progressColor: UIColor? {
+    @IBInspectable var progressColor: UIColor? {
         didSet {
             updateProgressViewColor()
         }
