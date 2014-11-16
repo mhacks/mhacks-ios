@@ -14,7 +14,7 @@ class CountdownViewController: UIViewController {
     
     var countdown: Countdown? {
         didSet {
-            updateCountdownLabel()
+            updateCountdownViews()
         }
     }
     
@@ -30,7 +30,7 @@ class CountdownViewController: UIViewController {
     }
     
     func timerFire(timer: NSTimer) {
-        updateCountdownLabel()
+        updateCountdownViews()
     }
     
     func stopTimer() {
@@ -40,15 +40,17 @@ class CountdownViewController: UIViewController {
     
     // MARK: View
     
+    @IBOutlet weak var progressIndicator: CircularProgressIndicator!
     @IBOutlet weak var countdownLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var startLabel: UILabel!
+    @IBOutlet weak var endLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        countdown = Countdown.currentCountdown()
+        countdownLabel.font = Countdown.font
         
-        updateCountdownLabel()
+        countdown = Countdown.currentCountdown()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,7 +73,12 @@ class CountdownViewController: UIViewController {
         stopTimer()
     }
     
-    func updateCountdownLabel() {
-        countdownLabel.text = countdown?.localizedTimeRemaining ?? "36:00:00"
+    func updateCountdownViews() {
+        
+        progressIndicator.progress = countdown?.progress ?? 0.0
+        countdownLabel.text = countdown?.timeRemainingDescription ?? "36:00:00"
+        
+        startLabel.text = countdown?.startDateDescription
+        endLabel.text = countdown?.endDateDescription
     }
 }

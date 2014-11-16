@@ -12,10 +12,56 @@ struct Countdown {
     
     let startDate: NSDate
     let duration: NSTimeInterval
-    let message: String
     
     var endDate: NSDate {
         return startDate.dateByAddingTimeInterval(duration)
+    }
+    
+    var roundedCurrentDate: NSDate {
+        return startDate.dateByAddingTimeInterval(duration - roundedTimeRemaining)
+    }
+    
+    private static var dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.formattingContext = .MiddleOfSentence
+        formatter.dateStyle = .FullStyle
+        formatter.timeStyle = .ShortStyle
+        formatter.doesRelativeDateFormatting = true
+        return formatter
+    }()
+    
+    var startDateDescription: String {
+        
+        let message: String = {
+            
+            switch self.roundedCurrentDate.compare(self.startDate) {
+            case .OrderedAscending, .OrderedSame:
+                return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
+            case .OrderedDescending:
+                return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
+            }
+        }()
+        
+        let dateText = Countdown.dateFormatter.stringFromDate(startDate)
+        
+        return NSString(format: message, dateText)
+    }
+    
+    var endDateDescription: String {
+        
+        let message: String = {
+            
+            switch self.roundedCurrentDate.compare(self.endDate) {
+            case .OrderedAscending:
+                return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
+            case .OrderedSame, .OrderedDescending:
+                return NSLocalizedString("Hacks were submitted\n%@.", comment: "Countdown hacking did end")
+            }
+        }()
+        
+        let dateText = Countdown.dateFormatter.stringFromDate(endDate)
+        
+        return NSString(format: message, dateText)
     }
     
     // The current date clipped to the start and end of the event
@@ -27,36 +73,54 @@ struct Countdown {
         return endDate.timeIntervalSinceDate(progressDate)
     }
     
-    private static var Formatter: NSNumberFormatter = {
+    var roundedTimeRemaining: NSTimeInterval {
+        return round(timeRemaining)
+    }
+    
+    private static var timeRemainingFormatter: NSNumberFormatter = {
         let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 2
         return formatter
     }()
     
-    var localizedTimeRemaining: String {
+    var timeRemainingDescription: String {
         
-        let total = Int(round(timeRemaining))
+        let total = Int(roundedTimeRemaining)
         
-        let hours = Countdown.Formatter.stringFromNumber(total / 3600)!
-        let minutes = Countdown.Formatter.stringFromNumber((total % 3600) / 60)!
-        let seconds = Countdown.Formatter.stringFromNumber(total % 60)!
+        let hours = Countdown.timeRemainingFormatter.stringFromNumber(total / 3600)!
+        let minutes = Countdown.timeRemainingFormatter.stringFromNumber((total % 3600) / 60)!
+        let seconds = Countdown.timeRemainingFormatter.stringFromNumber(total % 60)!
         
         return "\(hours):\(minutes):\(seconds)"
+    }
+    
+    static let font: UIFont = {
+        
+        // This value is defined by Helvetica Neue to replace the standard colon with a time separator
+        let timeSeparatorValue = 1
+        
+        let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
+        
+        let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
+        
+        return UIFont(descriptor: descriptor, size: 0.0)
+    }()
+    
+    var progress: Double {
+        return 1.0 - timeRemaining / duration
     }
     
     private init?(config: PFConfig) {
         
         let startDate = config["countdownStartDate"] as? NSDate
         let duration = (config["countdownDuration"] as? NSNumber)?.doubleValue
-        let message = config["countdownMessage"] as? String
         
-        if (startDate == nil || duration == nil || message == nil) {
+        if (startDate == nil || duration == nil) {
             return nil
         }
         
         self.startDate = startDate!
         self.duration = duration!
-        self.message = message!
     }
     
     static func currentCountdown() -> Countdown? {
@@ -69,7 +133,7 @@ struct Countdown {
             
             if (error != nil) {
                 
-                completionHandler(nil)
+                completionHandler(self.currentCountdown())
                 
             } else {
                 

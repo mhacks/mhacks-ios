@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -150,7 +151,7 @@
             </objects>
             <point key="canvasLocation" x="1668" y="0.0"/>
         </scene>
-        <!--Countdown-->
+        <!--Time Remaining-->
         <scene sceneID="W8b-yP-slf">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="nnu-Rd-utr" customClass="CountdownViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -162,23 +163,111 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
-                                <rect key="frame" x="16" y="229" width="568" height="142"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="64u-z4-cyu">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3T9-Hp-TYF" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="106" y="49" width="389" height="389"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-PG-wuB">
+                                                <rect key="frame" x="36" y="124" width="317" height="142"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="3T9-Hp-TYF" secondAttribute="leading" constant="36" id="HhN-rN-uP0"/>
+                                            <constraint firstAttribute="width" secondItem="3T9-Hp-TYF" secondAttribute="height" multiplier="1:1" id="L4o-uG-n0T"/>
+                                            <constraint firstAttribute="trailing" secondItem="vxg-PG-wuB" secondAttribute="trailing" constant="36" id="Vws-wG-gCz"/>
+                                            <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="tO2-w6-gOJ"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hacking starts at…" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIL-Sa-WO4">
+                                        <rect key="frame" x="8" y="16" width="584" height="17"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hacks must be submitted by…" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zN-Oc-789">
+                                        <rect key="frame" x="8" y="454" width="584" height="17"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-Be-uXn" userLabel="Spacer">
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="3SO-z4-aSW"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="7hC-2W-WwI"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYb-g8-7pR" userLabel="Spacer">
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="02g-BF-dro"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tar-UI-HOd" userLabel="Spacer">
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="IWY-3S-KZy"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-ld-cIb" userLabel="Spacer">
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="kz5-3b-BXf"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="DYb-g8-7pR" secondAttribute="centerX" id="3SF-VU-2gw"/>
+                                    <constraint firstAttribute="centerX" secondItem="Gcl-ld-cIb" secondAttribute="centerX" id="5H5-kW-Ok6"/>
+                                    <constraint firstItem="7zN-Oc-789" firstAttribute="top" secondItem="DYb-g8-7pR" secondAttribute="bottom" id="6HP-Xs-02S"/>
+                                    <constraint firstItem="8iz-Be-uXn" firstAttribute="top" secondItem="64u-z4-cyu" secondAttribute="top" id="9wX-2H-8Jk"/>
+                                    <constraint firstAttribute="centerX" secondItem="8iz-Be-uXn" secondAttribute="centerX" id="AJL-sv-J85"/>
+                                    <constraint firstAttribute="bottom" secondItem="Gcl-ld-cIb" secondAttribute="bottom" id="AUl-B2-q36"/>
+                                    <constraint firstAttribute="centerX" secondItem="3T9-Hp-TYF" secondAttribute="centerX" id="EN3-vM-nVe"/>
+                                    <constraint firstItem="DYb-g8-7pR" firstAttribute="height" secondItem="tar-UI-HOd" secondAttribute="height" id="HiP-Yg-FpI"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="zIL-Sa-WO4" secondAttribute="trailing" id="LCA-C9-3Ef"/>
+                                    <constraint firstItem="zIL-Sa-WO4" firstAttribute="top" secondItem="8iz-Be-uXn" secondAttribute="bottom" id="MWf-q4-mRu"/>
+                                    <constraint firstItem="tar-UI-HOd" firstAttribute="top" secondItem="zIL-Sa-WO4" secondAttribute="bottom" id="Qvf-hN-3zR"/>
+                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="top" secondItem="tar-UI-HOd" secondAttribute="bottom" id="UeO-B5-v42"/>
+                                    <constraint firstItem="DYb-g8-7pR" firstAttribute="top" secondItem="3T9-Hp-TYF" secondAttribute="bottom" id="Vdb-jd-zj2"/>
+                                    <constraint firstAttribute="centerX" secondItem="tar-UI-HOd" secondAttribute="centerX" id="aoa-K1-8DA"/>
+                                    <constraint firstAttribute="centerY" secondItem="3T9-Hp-TYF" secondAttribute="centerY" id="bii-is-6Xs"/>
+                                    <constraint firstItem="3T9-Hp-TYF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="64u-z4-cyu" secondAttribute="leading" constant="16" id="e0k-5X-5U7"/>
+                                    <constraint firstAttribute="centerY" secondItem="3T9-Hp-TYF" secondAttribute="centerY" id="h5r-5p-iAO"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="7zN-Oc-789" secondAttribute="trailing" id="irT-Ir-FIo"/>
+                                    <constraint firstItem="7zN-Oc-789" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leadingMargin" id="nVG-vf-Ikw"/>
+                                    <constraint firstItem="Gcl-ld-cIb" firstAttribute="height" secondItem="DYb-g8-7pR" secondAttribute="height" id="uU4-Em-EA8"/>
+                                    <constraint firstItem="tar-UI-HOd" firstAttribute="height" secondItem="8iz-Be-uXn" secondAttribute="height" id="uei-YU-FLp"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3T9-Hp-TYF" secondAttribute="trailing" constant="16" id="upJ-1K-eUi"/>
+                                    <constraint firstItem="Gcl-ld-cIb" firstAttribute="top" secondItem="7zN-Oc-789" secondAttribute="bottom" id="vjl-BF-lME"/>
+                                    <constraint firstItem="zIL-Sa-WO4" firstAttribute="leading" secondItem="64u-z4-cyu" secondAttribute="leadingMargin" id="yNU-9I-z4i"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="vxg-PG-wuB" secondAttribute="centerY" id="IaP-fm-EIV"/>
-                            <constraint firstItem="vxg-PG-wuB" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leadingMargin" id="dbi-lT-f1A"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vxg-PG-wuB" secondAttribute="trailing" id="gYS-31-HNS"/>
+                            <constraint firstItem="64u-z4-cyu" firstAttribute="top" secondItem="i2P-KY-g4b" secondAttribute="bottom" id="ETH-bO-XjK"/>
+                            <constraint firstItem="nq8-aR-pAl" firstAttribute="top" secondItem="64u-z4-cyu" secondAttribute="bottom" id="Tz0-OP-9dh"/>
+                            <constraint firstItem="64u-z4-cyu" firstAttribute="leading" secondItem="V4s-ol-dPA" secondAttribute="leading" id="VeR-G7-xH4"/>
+                            <constraint firstAttribute="trailing" secondItem="64u-z4-cyu" secondAttribute="trailing" id="kVc-WZ-pbS"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Countdown" id="w5w-7x-tuU"/>
+                    <navigationItem key="navigationItem" title="Time Remaining" id="w5w-7x-tuU"/>
                     <connections>
                         <outlet property="countdownLabel" destination="vxg-PG-wuB" id="Qsn-9C-VEr"/>
+                        <outlet property="endLabel" destination="7zN-Oc-789" id="zLE-n8-7VS"/>
+                        <outlet property="progressIndicator" destination="3T9-Hp-TYF" id="jF3-sV-sz1"/>
+                        <outlet property="startLabel" destination="zIL-Sa-WO4" id="Jcv-UE-oGm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UvL-dg-x0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
