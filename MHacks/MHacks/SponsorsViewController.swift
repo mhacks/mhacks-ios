@@ -145,7 +145,7 @@ class SponsorsViewController: UICollectionViewController {
         let sponsor = sponsorsInTier[indexPath.row]
         
         cell.logoView.image = self.sponsorLogos[sponsor["name"] as String!]
-        
+    
         return cell
     }
 
