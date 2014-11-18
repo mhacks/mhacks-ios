@@ -10,5 +10,11 @@ import UIKit
 
 class AnnouncementsViewController: UITableViewController {
     
+    // MARK: View life cycle
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.estimatedRowHeight = 98.0
+    }
 }
