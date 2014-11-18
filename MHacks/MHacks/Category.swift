@@ -29,6 +29,9 @@ struct Category {
     
     let title: String
     let color: Color
+}
+
+extension Category: Fetchable {
     
     init?(object: PFObject) {
         

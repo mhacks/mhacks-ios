@@ -17,6 +17,10 @@ struct Event {
     let duration: NSTimeInterval
     let description: String
     
+    var endDate: NSDate {
+        return startDate.dateByAddingTimeInterval(duration)
+    }
+    
     var locationsDescription: String {
         switch locations.count {
         case 1:
@@ -27,10 +31,9 @@ struct Event {
             return locations.reduce("") { $0 + ", " + $1.name }
         }
     }
-    
-    var endDate: NSDate {
-        return startDate.dateByAddingTimeInterval(duration)
-    }
+}
+
+extension Event: Fetchable {
     
     init?(object: PFObject) {
         
@@ -57,32 +60,5 @@ struct Event {
         self.startDate = startDate!
         self.duration = duration!
         self.description = description!
-    }
-    
-    enum Result {
-        case Success([Event])
-        case Error(NSError?)
-    }
-    
-    static func fetchEvents(completionHandler: Result -> Void) {
-        
-        let query = PFQuery(className: "Event")
-        
-        query.includeKey("category")
-        query.includeKey("locations")
-        
-        query.findObjectsInBackgroundWithBlock { objects, error in
-            
-            if let objects = objects as? [PFObject] {
-                
-                let events: [Event] = objects.map { Event(object: $0 ) }.filter { $0 != nil }.map { $0! }
-                
-                completionHandler(.Success(events))
-                
-            } else {
-                
-                completionHandler(.Error(error))
-            }
-        }
     }
 }

@@ -13,6 +13,9 @@ struct Announcement {
     let title: String
     let date: NSDate
     let message: String
+}
+
+extension Announcement: Fetchable {
     
     init?(object: PFObject) {
         
@@ -27,26 +30,5 @@ struct Announcement {
         self.title = title!
         self.date = date!
         self.message = message!
-    }
-    
-    static func fetchAnnouncements(completionHandler: ([Announcement]?) -> Void) {
-        
-        let query = PFQuery(className: "Announcement")
-        
-        query.orderByDescending("time")
-        
-        query.findObjectsInBackgroundWithBlock { objects, error in
-            
-            if let objects = objects as? [PFObject] {
-                
-                let announcements: [Announcement] = objects.map { Announcement(object: $0 ) }.filter { $0 != nil }.map { $0! }
-                
-                completionHandler(announcements)
-                
-            } else {
-                
-                completionHandler(nil)
-            }
-        }
     }
 }
