@@ -12,7 +12,11 @@ class AnnouncementsViewController: UITableViewController {
     
     // MARK: Model
     
-    private var announcements: [Announcement]?
+    private var announcements: [Announcement]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     private func fetchAnnouncements() {
         
@@ -38,6 +42,7 @@ class AnnouncementsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 98.0
     }
     
@@ -45,5 +50,23 @@ class AnnouncementsViewController: UITableViewController {
         super.viewDidAppear(animated)
         
         fetchAnnouncements()
+    }
+    
+    // MARK: Table view
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return announcements?.count ?? 0
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("Announcement Cell", forIndexPath: indexPath) as AnnouncementCell
+        
+        let announcement = announcements![indexPath.row]
+        
+        cell.titleLabel.text = announcement.title
+        cell.messageLabel.text = announcement.message
+        
+        return cell
     }
 }
