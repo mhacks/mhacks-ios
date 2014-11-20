@@ -22,7 +22,7 @@ class AnnouncementsViewController: UITableViewController {
         
         let query = PFQuery(className: "Announcement")
         
-        query.orderByDescending("time")
+        query.orderByDescending("date")
         
         query.fetch { (possibleAnnouncements: [Announcement]?) in
             
@@ -65,6 +65,7 @@ class AnnouncementsViewController: UITableViewController {
         let announcement = announcements![indexPath.row]
         
         cell.titleLabel.text = announcement.title
+        cell.dateLabel.text = announcement.localizedDate
         cell.messageLabel.text = announcement.message
         
         return cell
