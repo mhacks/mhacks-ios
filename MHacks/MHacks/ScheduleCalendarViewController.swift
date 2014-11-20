@@ -12,6 +12,26 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     // MARK: Event
     
+    func fetchEvents() {
+        
+        let query = PFQuery(className: "Event")
+        
+        query.includeKey("category")
+        query.includeKey("locations")
+        
+        query.fetch { (possibleEvents: [Event]?) in
+            
+            if let events = possibleEvents {
+                
+                self.eventOrganizer = EventOrganizer(events: events)
+                
+            } else {
+                
+                // FIXME: Handle error
+            }
+        }
+    }
+    
     var eventOrganizer: EventOrganizer? {
         didSet {
             collectionView.reloadData()
@@ -33,16 +53,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        Event.fetchEvents { result in
-            
-            switch result {
-            case .Success(let events):
-                self.eventOrganizer = EventOrganizer(events: events)
-            case .Error(let error):
-                ()
-                // FIXME: Handle error
-            }
-        }
+        fetchEvents()
     }
     
     // MARK: Collection view data source

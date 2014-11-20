@@ -11,6 +11,9 @@ import Foundation
 struct Location {
     
     let name: String
+}
+
+extension Location: Fetchable {
     
     init?(object: PFObject) {
         
