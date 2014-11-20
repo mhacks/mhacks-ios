@@ -20,7 +20,7 @@ extension Announcement: Fetchable {
     init?(object: PFObject) {
         
         let title = object["title"] as? String
-        let date = object["time"] as? NSDate
+        let date = object["date"] as? NSDate
         let message = object["message"] as? String
         
         if (title == nil || date == nil || message == nil) {
