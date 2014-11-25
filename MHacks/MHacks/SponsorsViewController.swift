@@ -30,7 +30,7 @@ class SponsorsViewController: UICollectionViewController {
         // Set up the size of the cells
         
         // The static analyzer was having fun, thought self.collectionView referred to a method
-        let thing = self.collectionView
+        let thing = self.collectionView!
         let thingy = thing.frame
         let thingyy = Double(thingy.width)
         
@@ -42,13 +42,13 @@ class SponsorsViewController: UICollectionViewController {
         flowLayout.minimumLineSpacing = CGFloat(cellSpacing)
         flowLayout.minimumInteritemSpacing = CGFloat(cellSpacing)
         
-        self.collectionView.collectionViewLayout = flowLayout
+        self.collectionView!.collectionViewLayout = flowLayout
         let cgCellSpacing = CGFloat(cellSpacing)
-        self.collectionView.contentInset = UIEdgeInsets(top: cgCellSpacing, left: cgCellSpacing, bottom: cgCellSpacing, right: cgCellSpacing)
+        self.collectionView!.contentInset = UIEdgeInsets(top: cgCellSpacing, left: cgCellSpacing, bottom: cgCellSpacing, right: cgCellSpacing)
         
         // Register the separator view
         
-        self.collectionView.registerNib(UINib(nibName: "SponsorTierSeparator", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SponsorTierSeparator")
+        self.collectionView!.registerNib(UINib(nibName: "SponsorTierSeparator", bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SponsorTierSeparator")
        
         self.getSponsorsFromParse()
     }
@@ -77,7 +77,7 @@ class SponsorsViewController: UICollectionViewController {
                     self.sponsorsByTier[sponsorTierName] = sponsorsInTier // TODO: Get the array by reference?
                 }
                 
-                self.collectionView.reloadData()
+                self.collectionView!.reloadData()
                 
                 // Doing this here to force ordering on reloading the collectionView (images were getting loaded too quickly)
                 for sponsor in objects {
@@ -100,7 +100,7 @@ class SponsorsViewController: UICollectionViewController {
                     self.sponsorLogos[sponsor["name"] as String!] = logoImage
                 }
                 
-                self.collectionView.reloadData()
+                self.collectionView!.reloadData()
             }
         }
     }
@@ -111,7 +111,7 @@ class SponsorsViewController: UICollectionViewController {
         println(kind)
         
         if kind == UICollectionElementKindSectionHeader {
-            var headerView = self.collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "SponsorTierSeparator", forIndexPath: indexPath) as SponsorTierSeparator
+            var headerView = self.collectionView!.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "SponsorTierSeparator", forIndexPath: indexPath) as SponsorTierSeparator
             let sponsorTier = self.sponsorTiers[indexPath.section]
             let sponsorTierName = sponsorTier["name"] as String
             
@@ -119,7 +119,7 @@ class SponsorsViewController: UICollectionViewController {
             
             return headerView
         } else {
-            return self.collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "FooterView", forIndexPath: indexPath) as UICollectionReusableView
+            return self.collectionView!.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "FooterView", forIndexPath: indexPath) as UICollectionReusableView
         }
     }
     

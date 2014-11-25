@@ -34,7 +34,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     var eventOrganizer: EventOrganizer? {
         didSet {
-            collectionView.reloadData()
+            collectionView!.reloadData()
         }
     }
     
@@ -43,10 +43,10 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
-        collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
+        collectionView!.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
+        collectionView!.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
         
-        let layout = collectionView.collectionViewLayout as CalendarLayout
+        let layout = collectionView!.collectionViewLayout as CalendarLayout
         layout.cellInsets = UIEdgeInsets(top: 1.0, left: 57.0, bottom: 1.0, right: 1.0)
     }
     
@@ -115,7 +115,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         
         if segue.identifier == "Show Event" {
             
-            let indexPath = collectionView.indexPathsForSelectedItems()!.first! as NSIndexPath
+            let indexPath = collectionView!.indexPathsForSelectedItems().first as NSIndexPath
             
             let viewController = segue.destinationViewController as EventViewController
             viewController.event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)

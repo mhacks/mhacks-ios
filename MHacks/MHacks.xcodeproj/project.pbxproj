@@ -49,6 +49,7 @@
 		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */; };
 		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
+		46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F977B01A1D7E1E0014BB61 /* GridLayout.swift */; };
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
 		FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */; };
 		FB86D1D81A1444AF001032B8 /* SponsorTierSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */; };
@@ -113,6 +114,7 @@
 		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
+		46F977B01A1D7E1E0014BB61 /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
 		FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierSeparator.swift; sourceTree = "<group>"; };
 		FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierSeparator.xib; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */,
 				464D46531A14450E005256B8 /* CircularProgressIndicator.swift */,
 				469D3DF81A1BDE7900CA6F9C /* AnnouncementCell.swift */,
+				46F977B01A1D7E1E0014BB61 /* GridLayout.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
 				FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */,
 			);
@@ -418,6 +421,7 @@
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,
+				46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */,
 				464992A71A0AFBE50099F70C /* Category.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
