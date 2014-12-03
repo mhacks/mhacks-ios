@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3BE0B2791A1D7A7E009CFB73 /* AwardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B2781A1D7A7E009CFB73 /* AwardTableViewController.swift */; };
 		3BE0B27B1A1D7BDC009CFB73 /* Award.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE0B27A1A1D7BDC009CFB73 /* Award.swift */; };
 		460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */; };
 		460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DF19DB9E3900BD3335 /* EventViewController.swift */; };
@@ -70,7 +69,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3BE0B2781A1D7A7E009CFB73 /* AwardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwardTableViewController.swift; sourceTree = "<group>"; };
 		3BE0B27A1A1D7BDC009CFB73 /* Award.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Award.swift; sourceTree = "<group>"; };
 		460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		460238DF19DB9E3900BD3335 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 				469D3DF41A1BC54A00CA6F9C /* AnnouncementsViewController.swift */,
 				FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */,
 				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
-				3BE0B2781A1D7A7E009CFB73 /* AwardTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -430,7 +427,6 @@
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				46A1C46C1A240C0D009BEDD1 /* Sponsor.swift in Sources */,
-				3BE0B2791A1D7A7E009CFB73 /* AwardTableViewController.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,
 				46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */,

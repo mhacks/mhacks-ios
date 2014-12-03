@@ -21,7 +21,6 @@
                         <segue destination="sZ1-uG-KLM" kind="relationship" relationship="viewControllers" id="Aah-Qr-yhB"/>
                         <segue destination="sR8-bf-8g5" kind="relationship" relationship="viewControllers" id="bKc-cf-7e4"/>
                         <segue destination="TTZ-Ab-3ig" kind="relationship" relationship="viewControllers" id="w2U-N6-t5F"/>
-                        <segue destination="jSb-y2-emK" kind="relationship" relationship="viewControllers" id="d1q-Pz-ZDr"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -419,59 +418,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xRD-uf-n47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1668" y="2186"/>
-        </scene>
-        <!--Awards Table-->
-        <scene sceneID="Oq4-xh-c8f">
-            <objects>
-                <collectionViewController id="rv9-nw-90L" userLabel="Awards Table" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="By6-Q2-snt">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XSi-ic-dZ6">
-                            <size key="itemSize" width="50" height="50"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="weV-4k-Ye3">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="rv9-nw-90L" id="BGx-0L-W3W"/>
-                            <outlet property="delegate" destination="rv9-nw-90L" id="6vr-gu-aX8"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" title="Awards" id="TUA-h5-ogB" userLabel="Awards"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BSn-2t-I5g" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1668" y="2880"/>
-        </scene>
-        <!--Awards-->
-        <scene sceneID="6JU-c6-oQp">
-            <objects>
-                <navigationController id="jSb-y2-emK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Awards" image="first" id="quV-pq-faU"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ytF-cx-w0K">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="rv9-nw-90L" kind="relationship" relationship="rootViewController" id="5Ms-lq-ptz"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GJT-oR-Xfv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="854" y="2880"/>
         </scene>
         <!--Countdown-->
         <scene sceneID="mjs-da-oBa">
