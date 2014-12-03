@@ -381,7 +381,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="aZM-Sb-nZt"/>
+                        <collectionViewLayout key="collectionViewLayout" id="aZM-Sb-nZt" customClass="GridLayout" customModule="MHacks" customModuleProvider="target"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SponsorCell" id="a1n-xf-Lvn" customClass="SponsorCell" customModule="MHacks" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -552,6 +552,6 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Zqx-SS-6Th"/>
+        <segue reference="vDw-8J-ue9"/>
     </inferredMetricsTieBreakers>
 </document>
