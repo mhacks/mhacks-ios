@@ -34,7 +34,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     var eventOrganizer: EventOrganizer? {
         didSet {
-            collectionView!.reloadData()
+            collectionView?.reloadData()
         }
     }
     

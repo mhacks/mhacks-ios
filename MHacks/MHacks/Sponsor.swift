@@ -33,7 +33,7 @@ struct Sponsor {
         logo = nil
     }
     
-    struct Tier {
+    struct Tier: Equatable, Comparable {
         
         let name: String
         let level: Int
@@ -85,4 +85,12 @@ extension Sponsor.Tier: Fetchable {
         self.name = name!
         self.level = level!
     }
+}
+
+func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {
+    return lhs.name == rhs.name && lhs.level == rhs.level
+}
+
+func <(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {
+    return lhs.level < rhs.level
 }
