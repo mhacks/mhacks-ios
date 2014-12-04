@@ -190,8 +190,26 @@ class GridLayout: UICollectionViewLayout {
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
         
+        // The Swift compiler doesn't like this implementation from some reason and hangs on it
+        
+        /*
         return reduce(sectionRange(), [UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
             return layoutAttributes + self.cellLayoutAttributes[section] + self.supplementaryViewLayoutAttributes[.Header]![section] + self.decorationViewLayoutAttributes[.ColumnSeparator]![section] + self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+        }
+        */
+        
+        // This implementation compiles just fine
+        
+        return reduce(sectionRange(), [UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
+            
+            var attributes = layoutAttributes
+            
+            attributes += self.cellLayoutAttributes[section]
+            attributes += self.supplementaryViewLayoutAttributes[.Header]![section]
+            attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+            attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+            
+            return attributes
         }
     }
     
