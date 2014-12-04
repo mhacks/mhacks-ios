@@ -10,11 +10,11 @@ import UIKit
 
 class ScheduleViewController: UITableViewController {
     
-    // MARK: - Model
+    // MARK: Model
     
     let eventOrganizer = EventOrganizer(events: [])
     
-    // MARK: - Formatters
+    // MARK: Formatters
     
     let eventIntervalFormatter: NSDateIntervalFormatter = {
         
@@ -25,7 +25,7 @@ class ScheduleViewController: UITableViewController {
         return formatter
     }()
     
-    // MARK: - Table view data source
+    // MARK: Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return eventOrganizer.days.count
@@ -59,7 +59,7 @@ class ScheduleViewController: UITableViewController {
         return eventOrganizer.days[section].weekdayTitle
     }
     
-    // MARK: - Segues
+    // MARK: Segues
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
