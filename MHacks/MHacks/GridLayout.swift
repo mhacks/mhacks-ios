@@ -26,6 +26,15 @@ class GridLayout: UICollectionViewLayout {
         case RowSeparator = "RowSeparator"
     }
     
+    // MARK: Initialization
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        registerNib(UINib(nibName: "GridLayoutColumnSeparator", bundle: nil), forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue)
+        registerNib(UINib(nibName: "GridLayoutRowSeparator", bundle: nil), forDecorationViewOfKind: DecorationViewKind.RowSeparator.rawValue)
+    }
+    
     // MARK: Delegate
     
     private var delegate: GridLayoutDelegate? {
@@ -147,7 +156,7 @@ class GridLayout: UICollectionViewLayout {
             let numberOfColumns = self.numberOfColumnsBySection[section]
             let itemSideLength = self.itemSideLengthsBySection[section]
             let sectionOffset = self.heightForSections(0..<section)
-            let height = self.heightForSection(section)
+            let height = self.heightForSection(section) - self.headerHeight
             
             let range = 0..<(numberOfColumns - 1)
             
@@ -171,7 +180,8 @@ class GridLayout: UICollectionViewLayout {
             let itemSideLength = self.itemSideLengthsBySection[section]
             let sectionOffset = self.heightForSections(0..<section)
             
-            let range = 0..<(numberOfRows - 1)
+            let isLastSection = section == self.sectionRange().endIndex - 1
+            let range = 0..<(numberOfRows - (isLastSection ? 0 : 1))
             
             return range.map { item in
                 
@@ -194,7 +204,7 @@ class GridLayout: UICollectionViewLayout {
         
         /*
         return reduce(sectionRange(), [UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
-            return layoutAttributes + self.cellLayoutAttributes[section] + self.supplementaryViewLayoutAttributes[.Header]![section] + self.decorationViewLayoutAttributes[.ColumnSeparator]![section] + self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+            return layoutAttributes + self.cellLayoutAttributes[section] + self.supplementaryViewLayoutAttributes[.Header]![section] + self.decorationViewLayoutAttributes[.ColumnSeparator]![section] + self.decorationViewLayoutAttributes[.RowSeparator]![section]
         }
         */
         
@@ -207,7 +217,7 @@ class GridLayout: UICollectionViewLayout {
             attributes += self.cellLayoutAttributes[section]
             attributes += self.supplementaryViewLayoutAttributes[.Header]![section]
             attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
-            attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+            attributes += self.decorationViewLayoutAttributes[.RowSeparator]![section]
             
             return attributes
         }

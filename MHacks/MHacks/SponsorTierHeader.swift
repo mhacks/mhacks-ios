@@ -10,5 +10,5 @@ import UIKit
 
 class SponsorTierHeader: UICollectionReusableView {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var textLabel: UILabel!
 }

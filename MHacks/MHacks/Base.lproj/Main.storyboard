@@ -204,23 +204,23 @@
                                         <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-Be-uXn" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-Be-uXn" userLabel="Spacer">
                                         <constraints>
                                             <constraint firstAttribute="width" id="3SO-z4-aSW"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="7hC-2W-WwI"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYb-g8-7pR" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DYb-g8-7pR" userLabel="Spacer">
                                         <constraints>
                                             <constraint firstAttribute="width" id="02g-BF-dro"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tar-UI-HOd" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tar-UI-HOd" userLabel="Spacer">
                                         <constraints>
                                             <constraint firstAttribute="width" id="IWY-3S-KZy"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-ld-cIb" userLabel="Spacer">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-ld-cIb" userLabel="Spacer">
                                         <constraints>
                                             <constraint firstAttribute="width" id="kz5-3b-BXf"/>
                                         </constraints>
@@ -377,7 +377,7 @@
         <scene sceneID="njj-SH-l6Z">
             <objects>
                 <collectionViewController id="Ktl-Sa-wqz" customClass="SponsorsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Gak-6F-SBq">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="Gak-6F-SBq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

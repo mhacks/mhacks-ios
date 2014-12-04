@@ -27,6 +27,8 @@
 		464992A71A0AFBE50099F70C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A61A0AFBE50099F70C /* Category.swift */; };
 		464992A91A0AFC0E0099F70C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A81A0AFC0E0099F70C /* Location.swift */; };
 		464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D46531A14450E005256B8 /* CircularProgressIndicator.swift */; };
+		466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */; };
+		466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */; };
 		467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570419DF624D006AEB23 /* EventOrganizer.swift */; };
 		467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */; };
 		467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */; };
@@ -95,6 +97,8 @@
 		464992A61A0AFBE50099F70C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		464992A81A0AFC0E0099F70C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		464D46531A14450E005256B8 /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; };
+		466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridLayoutColumnSeparator.xib; sourceTree = "<group>"; };
+		466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridLayoutRowSeparator.xib; sourceTree = "<group>"; };
 		467B570419DF624D006AEB23 /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
 		467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 		467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCalendarViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +303,8 @@
 				4634FD2219D3028C00CA8880 /* Main.storyboard */,
 				46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */,
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
+				466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */,
+				466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */,
 				FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */,
 				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
@@ -404,9 +410,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */,
 				46F132E119EC935700A30B82 /* Keys.plist in Resources */,
 				46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */,
 				4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */,
+				466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */,
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
 				467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */,

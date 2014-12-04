@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SponsorsViewController: UICollectionViewController {
+class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
     // MARK: Model
     
@@ -44,6 +44,9 @@ class SponsorsViewController: UICollectionViewController {
         super.viewDidLoad()
         
         collectionView!.registerNib(UINib(nibName: "SponsorTierHeader", bundle: nil), forSupplementaryViewOfKind: GridLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "TierHeader")
+        
+        let layout = collectionView!.collectionViewLayout as GridLayout
+        layout.minimumItemSideLength = 100.0
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -55,11 +58,10 @@ class SponsorsViewController: UICollectionViewController {
     // MARK: Collection view delegate
     
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        println(kind)
         
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "TierHeader", forIndexPath: indexPath) as SponsorTierHeader
         
-        headerView.label.text = sponsorOrganizer!.tiers[indexPath.section].name
+        headerView.textLabel.text = sponsorOrganizer!.tiers[indexPath.section].name
         
         return headerView
     }

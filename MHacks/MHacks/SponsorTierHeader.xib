@@ -4,42 +4,39 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SponsorTierSeparator" customModule="MHacks" customModuleProvider="target">
-            <connections>
-                <outlet property="label" destination="I0x-SN-Uoz" id="zK7-8v-kie"/>
-            </connections>
-        </placeholder>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SponsorTierSeparator" customModule="MHacks" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SponsorTierHeader">
-            <rect key="frame" x="0.0" y="0.0" width="400" height="40"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TierHeader" id="WYf-XW-pVW" customClass="SponsorTierHeader" customModule="MHacks" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Qw-lT-6qU">
-                    <rect key="frame" x="0.0" y="0.0" width="400" height="40"/>
-                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Eti-CE-lvR">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="40"/>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G7c-Ct-LD9">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Qfh-x1-rmM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <blurEffect style="light"/>
+                    <blurEffect style="extraLight"/>
                 </visualEffectView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tier" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0x-SN-Uoz">
-                    <rect key="frame" x="15" y="9" width="29" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZu-hf-878">
+                    <rect key="frame" x="15" y="15" width="30" height="20"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="6Qw-lT-6qU" secondAttribute="bottom" id="5ji-0V-7nx"/>
-                <constraint firstItem="6Qw-lT-6qU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6A7-tL-xeV"/>
-                <constraint firstAttribute="trailing" secondItem="6Qw-lT-6qU" secondAttribute="trailing" id="7RN-PQ-Un1"/>
-                <constraint firstItem="6Qw-lT-6qU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T2t-I6-bNc"/>
-                <constraint firstItem="I0x-SN-Uoz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="kdA-fk-mpf"/>
-                <constraint firstAttribute="centerY" secondItem="I0x-SN-Uoz" secondAttribute="centerY" id="qBF-b9-u6Z"/>
+                <constraint firstItem="G7c-Ct-LD9" firstAttribute="top" secondItem="WYf-XW-pVW" secondAttribute="top" id="COG-XS-x2f"/>
+                <constraint firstItem="G7c-Ct-LD9" firstAttribute="leading" secondItem="WYf-XW-pVW" secondAttribute="leading" id="CVp-cn-u45"/>
+                <constraint firstAttribute="centerY" secondItem="gZu-hf-878" secondAttribute="centerY" id="Cre-J5-zSo"/>
+                <constraint firstAttribute="trailing" secondItem="G7c-Ct-LD9" secondAttribute="trailing" id="IbX-Df-txs"/>
+                <constraint firstItem="gZu-hf-878" firstAttribute="leading" secondItem="WYf-XW-pVW" secondAttribute="leading" constant="15" id="Lxt-5h-DeB"/>
+                <constraint firstAttribute="bottom" secondItem="G7c-Ct-LD9" secondAttribute="bottom" id="sj3-3u-zJ2"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-        </view>
+            <connections>
+                <outlet property="textLabel" destination="gZu-hf-878" id="JgH-f5-Zhf"/>
+            </connections>
+            <point key="canvasLocation" x="334" y="365"/>
+        </collectionReusableView>
     </objects>
 </document>
