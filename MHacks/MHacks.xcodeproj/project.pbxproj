@@ -56,6 +56,8 @@
 		FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */; };
 		FB86D1D81A1444AF001032B8 /* SponsorTierSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
+		FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD943361A2FC21C004A2806 /* MapViewController.swift */; };
+		FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +125,8 @@
 		FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierSeparator.swift; sourceTree = "<group>"; };
 		FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierSeparator.xib; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
+		FBD943361A2FC21C004A2806 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +170,7 @@
 				469D3DF41A1BC54A00CA6F9C /* AnnouncementsViewController.swift */,
 				FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */,
 				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
+				FBD943361A2FC21C004A2806 /* MapViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 				46F977B01A1D7E1E0014BB61 /* GridLayout.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
 				FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */,
+				FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -353,10 +359,11 @@
 				TargetAttributes = {
 					4634FD1619D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = FMKG4J2L9M;
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8ZTTS3HC8X;
+						DevelopmentTeam = FMKG4J2L9M;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
@@ -413,6 +420,7 @@
 				46DB29381A1BE5FD009836DC /* Fetchable.swift in Sources */,
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
+				FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */,
 				464992A91A0AFC0E0099F70C /* Location.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
 				3BE0B27B1A1D7BDC009CFB73 /* Award.swift in Sources */,
@@ -437,6 +445,7 @@
 				FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */,
 				461C8D8D1A14192700402ABA /* Countdown.swift in Sources */,
 				469D3DF91A1BDE7900CA6F9C /* AnnouncementCell.swift in Sources */,
+				FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
