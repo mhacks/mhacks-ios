@@ -8,8 +8,7 @@
 
 import UIKit
 
-class SponsorTierSeparator: UICollectionReusableView {
+class SponsorTierHeader: UICollectionReusableView {
     
-    @IBOutlet weak var label: UILabel!
-    
+    @IBOutlet weak var textLabel: UILabel!
 }

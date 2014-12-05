@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-@IBDesignable class CircularProgressIndicator: UIView {
+/* @IBDesignable */ class CircularProgressIndicator: UIView {
     
     // MARK: Initialization
     
@@ -51,27 +51,27 @@ import QuartzCore
     
     // MARK: Properties
     
-    @IBInspectable var progress: Double = 1.0 {
+    /* @IBInspectable */ var progress: Double = 1.0 {
         didSet {
             progress = min(max(0.0, progress), 1.0)
             progressView.progress = progress
         }
     }
     
-    @IBInspectable var lineWidth: CGFloat = 20.0 {
+    /* @IBInspectable */ var lineWidth: CGFloat = 20.0 {
         didSet {
             trackView.lineWidth = lineWidth
             progressView.lineWidth = lineWidth
         }
     }
     
-    @IBInspectable var trackColor: UIColor? = UIColor.whiteColor() {
+    /* @IBInspectable */ var trackColor: UIColor? = UIColor.whiteColor() {
         didSet {
             trackView.color = trackColor
         }
     }
     
-    @IBInspectable var progressColor: UIColor? {
+    /* @IBInspectable */ var progressColor: UIColor? {
         didSet {
             updateProgressViewColor()
         }

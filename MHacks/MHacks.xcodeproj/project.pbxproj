@@ -23,9 +23,12 @@
 		463E3DC019EC76AF00BE8AB3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBD19EC76AF00BE8AB3 /* Bolts.framework */; };
 		463E3DC119EC76AF00BE8AB3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBE19EC76AF00BE8AB3 /* Parse.framework */; };
 		463E3DC219EC76AF00BE8AB3 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463E3DBF19EC76AF00BE8AB3 /* ParseFacebookUtils.framework */; };
+		4640D7DB1A2FC606002E7B63 /* SponsorOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4640D7DA1A2FC606002E7B63 /* SponsorOrganizer.swift */; };
 		464992A71A0AFBE50099F70C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A61A0AFBE50099F70C /* Category.swift */; };
 		464992A91A0AFC0E0099F70C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464992A81A0AFC0E0099F70C /* Location.swift */; };
 		464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D46531A14450E005256B8 /* CircularProgressIndicator.swift */; };
+		466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */; };
+		466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */; };
 		467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570419DF624D006AEB23 /* EventOrganizer.swift */; };
 		467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */; };
 		467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */; };
@@ -53,8 +56,8 @@
 		46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */; };
 		46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F977B01A1D7E1E0014BB61 /* GridLayout.swift */; };
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
-		FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */; };
-		FB86D1D81A1444AF001032B8 /* SponsorTierSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */; };
+		FB86D1D61A1443F1001032B8 /* SponsorTierHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */; };
+		FB86D1D81A1444AF001032B8 /* SponsorTierHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
 		FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD943361A2FC21C004A2806 /* MapViewController.swift */; };
 		FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */; };
@@ -92,9 +95,12 @@
 		463E3DBE19EC76AF00BE8AB3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		463E3DBF19EC76AF00BE8AB3 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		463E3DC319EC775A00BE8AB3 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
+		4640D7DA1A2FC606002E7B63 /* SponsorOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorOrganizer.swift; sourceTree = "<group>"; };
 		464992A61A0AFBE50099F70C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		464992A81A0AFC0E0099F70C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		464D46531A14450E005256B8 /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; };
+		466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridLayoutColumnSeparator.xib; sourceTree = "<group>"; };
+		466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GridLayoutRowSeparator.xib; sourceTree = "<group>"; };
 		467B570419DF624D006AEB23 /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
 		467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 		467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCalendarViewController.swift; sourceTree = "<group>"; };
@@ -122,8 +128,8 @@
 		46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlaceholderViewController.xib; sourceTree = "<group>"; };
 		46F977B01A1D7E1E0014BB61 /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
-		FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierSeparator.swift; sourceTree = "<group>"; };
-		FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierSeparator.xib; sourceTree = "<group>"; };
+		FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierHeader.swift; sourceTree = "<group>"; };
+		FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierHeader.xib; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
 		FBD943361A2FC21C004A2806 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -180,14 +186,8 @@
 			children = (
 				463E3DBA19EC745000BE8AB3 /* Keys.swift */,
 				46DB29371A1BE5FD009836DC /* Fetchable.swift */,
-				460238E119DB9E9C00BD3335 /* Event.swift */,
-				464992A61A0AFBE50099F70C /* Category.swift */,
-				464992A81A0AFC0E0099F70C /* Location.swift */,
-				467B570419DF624D006AEB23 /* EventOrganizer.swift */,
-				461C8D8C1A14192700402ABA /* Countdown.swift */,
-				469D3DF61A1BC66400CA6F9C /* Announcement.swift */,
-				46A1C46B1A240C0D009BEDD1 /* Sponsor.swift */,
-				3BE0B27A1A1D7BDC009CFB73 /* Award.swift */,
+				4640D7D81A2FC5D6002E7B63 /* Objects */,
+				4640D7D91A2FC5E5002E7B63 /* Organizers */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -263,6 +263,29 @@
 			path = Parse;
 			sourceTree = "<group>";
 		};
+		4640D7D81A2FC5D6002E7B63 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				460238E119DB9E9C00BD3335 /* Event.swift */,
+				464992A61A0AFBE50099F70C /* Category.swift */,
+				464992A81A0AFC0E0099F70C /* Location.swift */,
+				461C8D8C1A14192700402ABA /* Countdown.swift */,
+				469D3DF61A1BC66400CA6F9C /* Announcement.swift */,
+				46A1C46B1A240C0D009BEDD1 /* Sponsor.swift */,
+				3BE0B27A1A1D7BDC009CFB73 /* Award.swift */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		4640D7D91A2FC5E5002E7B63 /* Organizers */ = {
+			isa = PBXGroup;
+			children = (
+				467B570419DF624D006AEB23 /* EventOrganizer.swift */,
+				4640D7DA1A2FC606002E7B63 /* SponsorOrganizer.swift */,
+			);
+			name = Organizers;
+			sourceTree = "<group>";
+		};
 		467B570A19DFAEF7006AEB23 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +299,7 @@
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
 				FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */,
 				FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */,
+				FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -286,9 +310,11 @@
 				4634FD2219D3028C00CA8880 /* Main.storyboard */,
 				46A402CC19E38B430039C536 /* ScheduleDayHeader.xib */,
 				467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */,
+				466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */,
+				466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */,
+				FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */,
 				46F132E419EC98BB00A30B82 /* PlaceholderViewController.xib */,
 				4634FD2719D3028C00CA8880 /* LaunchScreen.xib */,
-				FB86D1D71A1444AF001032B8 /* SponsorTierSeparator.xib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -392,14 +418,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */,
 				46F132E119EC935700A30B82 /* Keys.plist in Resources */,
 				46F132E519EC98BB00A30B82 /* PlaceholderViewController.xib in Resources */,
 				4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */,
+				466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */,
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
 				467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */,
 				4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */,
-				FB86D1D81A1444AF001032B8 /* SponsorTierSeparator.xib in Resources */,
+				FB86D1D81A1444AF001032B8 /* SponsorTierHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,6 +456,7 @@
 				464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */,
 				460238E219DB9E9C00BD3335 /* Event.swift in Sources */,
 				46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */,
+				4640D7DB1A2FC606002E7B63 /* SponsorOrganizer.swift in Sources */,
 				469D3DF51A1BC54A00CA6F9C /* AnnouncementsViewController.swift in Sources */,
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */,
@@ -442,7 +471,7 @@
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,
-				FB86D1D61A1443F1001032B8 /* SponsorTierSeparator.swift in Sources */,
+				FB86D1D61A1443F1001032B8 /* SponsorTierHeader.swift in Sources */,
 				461C8D8D1A14192700402ABA /* Countdown.swift in Sources */,
 				469D3DF91A1BDE7900CA6F9C /* AnnouncementCell.swift in Sources */,
 				FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */,

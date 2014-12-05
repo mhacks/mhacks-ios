@@ -10,7 +10,7 @@ import UIKit
 
 class EventViewController: UIViewController {
     
-    // MARK: - Model
+    // MARK: Model
     
     var event: Event? {
         didSet {
@@ -18,7 +18,7 @@ class EventViewController: UIViewController {
         }
     }
     
-    // MARK: - Date interval formatter
+    // MARK: Date interval formatter
     
     let dateIntervalFormatter: NSDateIntervalFormatter = {
         
@@ -29,7 +29,7 @@ class EventViewController: UIViewController {
         return formatter
     }()
     
-    // MARK: - View
+    // MARK: View
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
