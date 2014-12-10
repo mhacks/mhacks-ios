@@ -43,13 +43,13 @@ class GridLayout: UICollectionViewLayout {
     
     // MARK: Properties
     
-    var minimumItemSideLength: CGFloat = 50.0 {
+    @IBInspectable var minimumItemSideLength: CGFloat = 50.0 {
         didSet {
             invalidateLayout()
         }
     }
     
-    var headerHeight: CGFloat = 22.0 {
+    @IBInspectable var headerHeight: CGFloat = 22.0 {
         didSet {
             invalidateLayout()
         }
@@ -86,7 +86,6 @@ class GridLayout: UICollectionViewLayout {
     private var contentSize = CGSizeZero
     
     private var cellLayoutAttributes: [[UICollectionViewLayoutAttributes]] = []
-    private var supplementaryViewLayoutAttributes: [SupplementaryViewKind: [[UICollectionViewLayoutAttributes]]] = [:]
     private var decorationViewLayoutAttributes: [DecorationViewKind: [[UICollectionViewLayoutAttributes]]] = [:]
     
     // MARK: Layout
@@ -136,19 +135,6 @@ class GridLayout: UICollectionViewLayout {
                 
                 return layoutAttributes
             }
-        }
-        
-        supplementaryViewLayoutAttributes[.Header] = sectionRange().map { section in
-            
-            let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SupplementaryViewKind.Header.rawValue, withIndexPath: NSIndexPath(forItem: 0, inSection: section))
-            
-            let sectionOffset = self.heightForSections(0..<section)
-            
-            let rect = CGRect(x: 0.0, y: sectionOffset, width: contentWidth, height: self.headerHeight)
-            
-            layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
-            
-            return [layoutAttributes]
         }
         
         decorationViewLayoutAttributes[.ColumnSeparator] = sectionRange().map { section in
@@ -215,9 +201,12 @@ class GridLayout: UICollectionViewLayout {
             var attributes = layoutAttributes
             
             attributes += self.cellLayoutAttributes[section]
-            attributes += self.supplementaryViewLayoutAttributes[.Header]![section]
             attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
             attributes += self.decorationViewLayoutAttributes[.RowSeparator]![section]
+            
+            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!
+            
+            attributes += [headerLayoutAttributes]
             
             return attributes
         }
@@ -228,11 +217,48 @@ class GridLayout: UICollectionViewLayout {
     }
     
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        return supplementaryViewLayoutAttributes[SupplementaryViewKind(rawValue: elementKind)!]![indexPath.section][indexPath.item]
+        
+        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
+        
+        let sectionOffset = heightForSections(0..<indexPath.section)
+        
+        switch SupplementaryViewKind(rawValue: elementKind)! {
+            
+        case .Header:
+            
+            let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<indexPath.section)), heightForSections(0..<indexPath.section + 1) - headerHeight)
+            
+            let rect = CGRect(x: 0.0, y: headerOffset, width: contentSize.width, height: headerHeight)
+            
+            layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
+            
+            layoutAttributes.zIndex = 1
+        }
+        
+        return layoutAttributes
     }
     
     override func layoutAttributesForDecorationViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
         return decorationViewLayoutAttributes[DecorationViewKind(rawValue: elementKind)!]![indexPath.section][indexPath.row]
+    }
+    
+    // MARK: Invalidation
+    
+    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+        return true
+    }
+    
+    override func invalidationContextForBoundsChange(newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        
+        let context = super.invalidationContextForBoundsChange(newBounds)
+        
+        let headerIndexPaths: [NSIndexPath] = sectionRange().map { section in
+            return NSIndexPath(forItem: 0, inSection: section)
+        }
+        
+        context.invalidateSupplementaryElementsOfKind(SupplementaryViewKind.Header.rawValue, atIndexPaths: headerIndexPaths)
+        
+        return context
     }
 }
 

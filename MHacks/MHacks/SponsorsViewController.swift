@@ -44,9 +44,6 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
         super.viewDidLoad()
         
         collectionView!.registerNib(UINib(nibName: "SponsorTierHeader", bundle: nil), forSupplementaryViewOfKind: GridLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "TierHeader")
-        
-        let layout = collectionView!.collectionViewLayout as GridLayout
-        layout.minimumItemSideLength = 100.0
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -82,9 +79,18 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
         
         let sponsor = sponsorOrganizer!.sponsors[indexPath.section][indexPath.item]
         
-        //sponsor.fetchLogo()
-        
-        cell.logoView.image = sponsor.logo
+        sponsor.logo.getDataInBackgroundWithBlock { data, error in
+            
+            if data != nil {
+                
+                if cell === collectionView.cellForItemAtIndexPath(indexPath) {
+                    
+                    if let image = UIImage(data: data) {
+                        cell.logoView.image = image
+                    }
+                }
+            }
+        }
     
         return cell
     }

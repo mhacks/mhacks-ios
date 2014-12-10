@@ -19,7 +19,7 @@
                     <blurEffect style="extraLight"/>
                 </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZu-hf-878">
-                    <rect key="frame" x="15" y="15" width="30" height="20"/>
+                    <rect key="frame" x="10" y="15" width="30" height="20"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -30,7 +30,7 @@
                 <constraint firstItem="G7c-Ct-LD9" firstAttribute="leading" secondItem="WYf-XW-pVW" secondAttribute="leading" id="CVp-cn-u45"/>
                 <constraint firstAttribute="centerY" secondItem="gZu-hf-878" secondAttribute="centerY" id="Cre-J5-zSo"/>
                 <constraint firstAttribute="trailing" secondItem="G7c-Ct-LD9" secondAttribute="trailing" id="IbX-Df-txs"/>
-                <constraint firstItem="gZu-hf-878" firstAttribute="leading" secondItem="WYf-XW-pVW" secondAttribute="leading" constant="15" id="Lxt-5h-DeB"/>
+                <constraint firstItem="gZu-hf-878" firstAttribute="leading" secondItem="WYf-XW-pVW" secondAttribute="leading" constant="10" id="Lxt-5h-DeB"/>
                 <constraint firstAttribute="bottom" secondItem="G7c-Ct-LD9" secondAttribute="bottom" id="sj3-3u-zJ2"/>
             </constraints>
             <connections>
