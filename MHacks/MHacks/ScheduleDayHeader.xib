@@ -20,7 +20,7 @@
                     <blurEffect style="extraLight"/>
                 </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-WQ-I7s">
-                    <rect key="frame" x="52" y="15" width="30" height="20"/>
+                    <rect key="frame" x="53" y="15" width="30" height="20"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -40,7 +40,7 @@
                 <constraint firstItem="00E-cU-uS0" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" id="YQY-hY-l04"/>
                 <constraint firstAttribute="bottom" secondItem="00E-cU-uS0" secondAttribute="bottom" id="k4s-Ia-e0D"/>
                 <constraint firstAttribute="centerY" secondItem="Igg-WQ-I7s" secondAttribute="centerY" id="wgf-7s-qiz"/>
-                <constraint firstItem="Igg-WQ-I7s" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" constant="52" id="xl8-ur-v8l"/>
+                <constraint firstItem="Igg-WQ-I7s" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" constant="53" id="xl8-ur-v8l"/>
             </constraints>
             <connections>
                 <outlet property="detailTextLabel" destination="gUw-ye-l13" id="PhA-3O-iSY"/>

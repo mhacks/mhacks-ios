@@ -55,6 +55,8 @@ class GridLayout: UICollectionViewLayout {
         }
     }
     
+    @IBInspectable var showsSeparators = false
+    
     // MARK: Layout calculations
     
     private func heightForSection(section: Int) -> CGFloat {
@@ -97,7 +99,8 @@ class GridLayout: UICollectionViewLayout {
         }
         
         let contentWidth = collectionView!.bounds.width
-        separatorWidth = GridLayoutSeparator.widthInTraitCollection(collectionView!.traitCollection)
+        
+        separatorWidth = showsSeparators ? Geometry.hairlineWidthInTraitCollection(collectionView!.traitCollection) : 0.0
         
         numberOfColumnsBySection = minimumItemSideLengthsBySection.map { length in
             return Int((contentWidth - length) / (length + self.separatorWidth)) + 1
@@ -137,50 +140,58 @@ class GridLayout: UICollectionViewLayout {
             }
         }
         
-        decorationViewLayoutAttributes[.ColumnSeparator] = sectionRange().map { section in
+        if showsSeparators {
             
-            let numberOfColumns = self.numberOfColumnsBySection[section]
-            let itemSideLength = self.itemSideLengthsBySection[section]
-            let sectionOffset = self.heightForSections(0..<section)
-            let height = self.heightForSection(section) - self.headerHeight
-            
-            let range = 0..<(numberOfColumns - 1)
-            
-            return range.map { item in
+            decorationViewLayoutAttributes[.ColumnSeparator] = sectionRange().map { section in
                 
-                let indexPath = NSIndexPath(forItem: item, inSection: section)
+                let numberOfColumns = self.numberOfColumnsBySection[section]
+                let itemSideLength = self.itemSideLengthsBySection[section]
+                let sectionOffset = self.heightForSections(0..<section)
+                let height = self.heightForSection(section) - self.headerHeight
                 
-                let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue, withIndexPath: indexPath)
+                let range = 0..<(numberOfColumns - 1)
                 
-                let rect = CGRect(x: itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), y: sectionOffset + self.headerHeight, width: self.separatorWidth, height: height)
-                
-                layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
-                
-                return layoutAttributes
+                return range.map { item in
+                    
+                    let indexPath = NSIndexPath(forItem: item, inSection: section)
+                    
+                    let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue, withIndexPath: indexPath)
+                    
+                    let rect = CGRect(x: itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), y: sectionOffset + self.headerHeight, width: self.separatorWidth, height: height)
+                    
+                    layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
+                    
+                    return layoutAttributes
+                }
             }
-        }
-        
-        decorationViewLayoutAttributes[.RowSeparator] = sectionRange().map { section in
             
-            let numberOfRows = self.numberOfRowsBySection[section]
-            let itemSideLength = self.itemSideLengthsBySection[section]
-            let sectionOffset = self.heightForSections(0..<section)
-            
-            let isLastSection = section == self.sectionRange().endIndex - 1
-            let range = 0..<(numberOfRows - (isLastSection ? 0 : 1))
-            
-            return range.map { item in
+            decorationViewLayoutAttributes[.RowSeparator] = sectionRange().map { section in
                 
-                let indexPath = NSIndexPath(forItem: item, inSection: section)
+                let numberOfRows = self.numberOfRowsBySection[section]
+                let itemSideLength = self.itemSideLengthsBySection[section]
+                let sectionOffset = self.heightForSections(0..<section)
                 
-                let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.RowSeparator.rawValue, withIndexPath: indexPath)
+                let isLastSection = section == self.sectionRange().endIndex - 1
+                let range = 0..<(numberOfRows - (isLastSection ? 0 : 1))
                 
-                let rect = CGRect(x: 0.0, y: sectionOffset + self.headerHeight + itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), width: contentWidth, height: self.separatorWidth)
-                
-                layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
-                
-                return layoutAttributes
+                return range.map { item in
+                    
+                    let indexPath = NSIndexPath(forItem: item, inSection: section)
+                    
+                    let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.RowSeparator.rawValue, withIndexPath: indexPath)
+                    
+                    let rect = CGRect(x: 0.0, y: sectionOffset + self.headerHeight + itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), width: contentWidth, height: self.separatorWidth)
+                    
+                    layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
+                    
+                    return layoutAttributes
+                }
             }
+            
+        } else {
+            
+            decorationViewLayoutAttributes[.ColumnSeparator] = []
+            decorationViewLayoutAttributes[.RowSeparator] = []
         }
     }
     
@@ -201,8 +212,11 @@ class GridLayout: UICollectionViewLayout {
             var attributes = layoutAttributes
             
             attributes += self.cellLayoutAttributes[section]
-            attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
-            attributes += self.decorationViewLayoutAttributes[.RowSeparator]![section]
+            
+            if self.showsSeparators {
+                attributes += self.decorationViewLayoutAttributes[.ColumnSeparator]![section]
+                attributes += self.decorationViewLayoutAttributes[.RowSeparator]![section]
+            }
             
             let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!
             
@@ -259,13 +273,6 @@ class GridLayout: UICollectionViewLayout {
         context.invalidateSupplementaryElementsOfKind(SupplementaryViewKind.Header.rawValue, atIndexPaths: headerIndexPaths)
         
         return context
-    }
-}
-
-class GridLayoutSeparator: UICollectionReusableView {
-    
-    class func widthInTraitCollection(collection: UITraitCollection) -> CGFloat {
-        return 1.0 / (collection.displayScale == 0.0 ? 1.0 : collection.displayScale)
     }
 }
 

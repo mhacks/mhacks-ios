@@ -19,11 +19,19 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tierLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var tableViewSeparatorHeightConstrait: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         contentView.layoutMargins = Geometry.Insets
+    }
+    
+    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        tableViewSeparatorHeightConstrait.constant = Geometry.hairlineWidthInTraitCollection(traitCollection)
     }
     
     // MARK: Table view
