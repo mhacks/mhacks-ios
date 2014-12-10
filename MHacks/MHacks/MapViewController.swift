@@ -8,24 +8,25 @@
 
 import UIKit
 
-class MapViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIScrollViewDelegate {
     
     let MapCellReuseIdentifier = "MapCell"
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
     
-    var imageTitles: [String] = []
+    var imageNames: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        imageTitles = ["North Campus", "Beyster Building", "EECS Building", "GG Brown Lab"]
+        imageNames = ["map-all", "map-beyster", "map-eecs", "map-ggbrown"]
+        self.pageControl?.numberOfPages = imageNames.count
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .Horizontal
         flowLayout.minimumInteritemSpacing = 0.0
         flowLayout.minimumLineSpacing = 0.0
-        flowLayout.itemSize = CGSizeMake(self.collectionView!.frame.width, self.collectionView!.frame.height)
         self.collectionView?.pagingEnabled = true
         self.collectionView?.collectionViewLayout = flowLayout
     }
@@ -35,14 +36,23 @@ class MapViewController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageTitles.count
+        return imageNames.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = self.collectionView?.dequeueReusableCellWithReuseIdentifier(MapCellReuseIdentifier, forIndexPath: indexPath) as MapCollectionViewCell!
         
-        cell.mapTitle.text = imageTitles[indexPath.row]
+        cell.mapImage.image = UIImage(named: imageNames[indexPath.row])
         
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSizeMake(self.collectionView!.frame.width, self.collectionView!.frame.height)
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let currentIndex = self.collectionView.contentOffset.x / self.collectionView.frame.width
+        self.pageControl.currentPage = Int(currentIndex)
     }
 }

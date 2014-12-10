@@ -9,7 +9,7 @@
 import UIKit
 
 class MapCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var mapTitle: UILabel!
+    @IBOutlet weak var mapImage: UIImageView!
     
     class func ResuseIdentifier() -> String {
         return "MapCell"

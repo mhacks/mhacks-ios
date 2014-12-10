@@ -432,8 +432,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JnW-0b-e7W">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="5LD-nI-eDc">
+                                <rect key="frame" x="273" y="514" width="55" height="37"/>
+                                <color key="pageIndicatorTintColor" white="0.0" alpha="0.14999999999999999" colorSpace="deviceWhite"/>
+                                <color key="currentPageIndicatorTintColor" white="0.0" alpha="0.35000000000000003" colorSpace="deviceWhite"/>
+                            </pageControl>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JnW-0b-e7W">
+                                <rect key="frame" x="0.0" y="64" width="600" height="450"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pOB-2L-ExQ">
                                     <size key="itemSize" width="204" height="208"/>
@@ -449,23 +454,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="204" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfc-wj-Zfn">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F57-Ey-ePV">
                                                     <rect key="frame" x="0.0" y="0.0" width="204" height="208"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="bfc-wj-Zfn" secondAttribute="bottom" id="OBt-bl-AUN"/>
-                                            <constraint firstItem="bfc-wj-Zfn" firstAttribute="leading" secondItem="lmM-x6-MXu" secondAttribute="leading" id="Opz-u1-kcx"/>
-                                            <constraint firstAttribute="trailing" secondItem="bfc-wj-Zfn" secondAttribute="trailing" id="bha-uw-383"/>
-                                            <constraint firstItem="bfc-wj-Zfn" firstAttribute="top" secondItem="lmM-x6-MXu" secondAttribute="top" id="gor-Sr-fR9"/>
+                                            <constraint firstAttribute="trailing" secondItem="F57-Ey-ePV" secondAttribute="trailing" id="XDf-xa-MiJ"/>
+                                            <constraint firstItem="F57-Ey-ePV" firstAttribute="top" secondItem="lmM-x6-MXu" secondAttribute="top" id="tRt-Xy-lC1"/>
+                                            <constraint firstAttribute="bottom" secondItem="F57-Ey-ePV" secondAttribute="bottom" id="vqZ-00-8s9"/>
+                                            <constraint firstItem="F57-Ey-ePV" firstAttribute="leading" secondItem="lmM-x6-MXu" secondAttribute="leading" id="zlY-qG-bhX"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="mapTitle" destination="bfc-wj-Zfn" id="h8L-Pm-L2A"/>
+                                            <outlet property="mapImage" destination="F57-Ey-ePV" id="sNN-0a-qfI"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -476,15 +478,24 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5LD-nI-eDc" firstAttribute="top" secondItem="JnW-0b-e7W" secondAttribute="bottom" id="7FE-af-Zi7"/>
+                            <constraint firstItem="JnW-0b-e7W" firstAttribute="centerX" secondItem="5LD-nI-eDc" secondAttribute="centerX" id="U6k-eK-TjI"/>
+                            <constraint firstAttribute="trailing" secondItem="JnW-0b-e7W" secondAttribute="trailing" id="WdW-6j-1aq"/>
+                            <constraint firstItem="JnW-0b-e7W" firstAttribute="top" secondItem="fh6-82-rjo" secondAttribute="bottom" id="Zhc-ea-vsM"/>
+                            <constraint firstItem="Okh-Ae-vZT" firstAttribute="top" secondItem="5LD-nI-eDc" secondAttribute="bottom" id="hvr-4W-SLm"/>
+                            <constraint firstItem="JnW-0b-e7W" firstAttribute="leading" secondItem="qRq-o2-2cv" secondAttribute="leading" id="sqQ-7B-zBg"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ofl-TI-qUf"/>
                     <connections>
                         <outlet property="collectionView" destination="JnW-0b-e7W" id="ADn-1I-cFj"/>
+                        <outlet property="pageControl" destination="5LD-nI-eDc" id="WPr-Ab-kyp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFq-fA-USb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668" y="2888"/>
+            <point key="canvasLocation" x="1668" y="2969"/>
         </scene>
         <!--Map-->
         <scene sceneID="bYl-Uo-o0q">
