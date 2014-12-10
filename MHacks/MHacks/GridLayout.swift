@@ -13,6 +13,12 @@ import UIKit
     optional func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, minimumItemSideLengthForSection section: Int) -> CGFloat
 }
 
+class GridLayoutAttributes: UICollectionViewLayoutAttributes {
+    
+    // Set to true if an element is pinned to the top of the view
+    var pinned = false
+}
+
 class GridLayout: UICollectionViewLayout {
     
     // MARK: Constants
@@ -24,6 +30,12 @@ class GridLayout: UICollectionViewLayout {
     private enum DecorationViewKind: String {
         case ColumnSeparator = "ColumnSeparator"
         case RowSeparator = "RowSeparator"
+    }
+    
+    // MARK: Class overrides
+    
+    override class func layoutAttributesClass() -> AnyClass {
+        return GridLayoutAttributes.self
     }
     
     // MARK: Initialization
@@ -127,7 +139,7 @@ class GridLayout: UICollectionViewLayout {
                 
                 let indexPath = NSIndexPath(forItem: item, inSection: section)
                 
-                let layoutAttributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+                let layoutAttributes = GridLayoutAttributes(forCellWithIndexPath: indexPath)
                 
                 let column = item % numberOfColumns
                 let row = item / numberOfColumns
@@ -155,7 +167,7 @@ class GridLayout: UICollectionViewLayout {
                     
                     let indexPath = NSIndexPath(forItem: item, inSection: section)
                     
-                    let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue, withIndexPath: indexPath)
+                    let layoutAttributes = GridLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue, withIndexPath: indexPath)
                     
                     let rect = CGRect(x: itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), y: sectionOffset + self.headerHeight, width: self.separatorWidth, height: height)
                     
@@ -178,7 +190,7 @@ class GridLayout: UICollectionViewLayout {
                     
                     let indexPath = NSIndexPath(forItem: item, inSection: section)
                     
-                    let layoutAttributes = UICollectionViewLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.RowSeparator.rawValue, withIndexPath: indexPath)
+                    let layoutAttributes = GridLayoutAttributes(forDecorationViewOfKind: DecorationViewKind.RowSeparator.rawValue, withIndexPath: indexPath)
                     
                     let rect = CGRect(x: 0.0, y: sectionOffset + self.headerHeight + itemSideLength + CGFloat(item) * (self.separatorWidth + itemSideLength), width: contentWidth, height: self.separatorWidth)
                     
@@ -232,7 +244,7 @@ class GridLayout: UICollectionViewLayout {
     
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
         
-        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
+        let layoutAttributes = GridLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
         
         let sectionOffset = heightForSections(0..<indexPath.section)
         
@@ -240,13 +252,19 @@ class GridLayout: UICollectionViewLayout {
             
         case .Header:
             
-            let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<indexPath.section)), heightForSections(0..<indexPath.section + 1) - headerHeight)
+            let top = collectionView!.contentInset.top + collectionView!.bounds.minY
+            let sectionOffset = heightForSections(0..<indexPath.section)
+            let nextSectionOffset = sectionOffset + heightForSection(indexPath.section)
+            
+            let headerOffset = min(max(top, sectionOffset), nextSectionOffset - headerHeight)
             
             let rect = CGRect(x: 0.0, y: headerOffset, width: contentSize.width, height: headerHeight)
             
             layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
             
             layoutAttributes.zIndex = 1
+            
+            layoutAttributes.pinned = rect.minY > sectionOffset
         }
         
         return layoutAttributes
