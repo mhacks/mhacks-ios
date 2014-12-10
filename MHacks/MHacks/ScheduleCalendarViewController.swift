@@ -47,7 +47,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         collectionView!.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
         
         let layout = collectionView!.collectionViewLayout as CalendarLayout
-        layout.cellInsets = UIEdgeInsets(top: 1.0, left: 57.0, bottom: 1.0, right: 1.0)
+        layout.cellInsets = UIEdgeInsets(top: 1.0, left: 53.0, bottom: 1.0, right: 1.0)
     }
     
     override func viewDidAppear(animated: Bool) {

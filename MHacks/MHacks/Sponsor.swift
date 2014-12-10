@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Sponsor {
+struct Sponsor: Equatable {
     
     let name: String
     let description: String
@@ -69,6 +69,10 @@ extension Sponsor.Tier: Fetchable {
         self.name = name!
         self.level = level!
     }
+}
+
+func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
+    return lhs.name == rhs.name
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {

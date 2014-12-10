@@ -12,7 +12,15 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
     // MARK: Model
     
-    private var sponsorOrganizer: SponsorOrganizer? {
+    private var sponsors: [Sponsor] = [] {
+        didSet {
+            if oldValue != sponsors {
+                sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
+            }
+        }
+    }
+    
+    private var sponsorOrganizer: SponsorOrganizer = SponsorOrganizer(sponsors: []) {
         didSet {
             collectionView?.reloadData()
         }
@@ -29,7 +37,7 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
             
             if let sponsors = possibleSponsors {
                 
-                self.sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
+                self.sponsors = sponsors
                 
             } else {
                 
@@ -58,7 +66,7 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
         
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "TierHeader", forIndexPath: indexPath) as SponsorTierHeader
         
-        headerView.textLabel.text = sponsorOrganizer!.tiers[indexPath.section].name
+        headerView.textLabel.text = sponsorOrganizer.tiers[indexPath.section].name
         
         return headerView
     }
@@ -66,18 +74,18 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     // MARK: Collection view data source
     
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return sponsorOrganizer?.tiers.count ?? 0
+        return sponsorOrganizer.tiers.count
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sponsorOrganizer!.sponsors[section].count
+        return sponsorOrganizer.sponsors[section].count
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SponsorCell", forIndexPath: indexPath) as SponsorCell
         
-        let sponsor = sponsorOrganizer!.sponsors[indexPath.section][indexPath.item]
+        let sponsor = sponsorOrganizer.sponsors[indexPath.section][indexPath.item]
         
         sponsor.logo.getDataInBackgroundWithBlock { data, error in
             
