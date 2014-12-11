@@ -12,7 +12,7 @@ struct Sponsor: Equatable {
     
     let name: String
     let description: String
-    let website: String
+    let website: NSURL
     let tier: Tier
     let location: Location
     let logo: PFFile
@@ -30,19 +30,20 @@ extension Sponsor: Fetchable {
         
         let name = object["name"] as? String
         let description = object["description"] as? String
-        let website = object["website"] as? String
+        let websiteString = object["website"] as? String
         let tierObject = object["tier"] as? PFObject
         let locationObject = object["location"] as? PFObject
         let logo = object["logo"] as? PFFile
         
-        if name == nil || description == nil || website == nil || tierObject == nil || locationObject == nil || logo == nil {
+        if name == nil || description == nil || websiteString == nil || tierObject == nil || locationObject == nil || logo == nil {
             return nil
         }
         
+        let website = NSURL(string: websiteString!)
         let tier = Tier(object: tierObject!)
         let location = Location(object: locationObject!)
         
-        if (tier == nil || location == nil) {
+        if (website == nil || tier == nil || location == nil) {
             return nil
         }
         

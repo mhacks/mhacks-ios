@@ -10,6 +10,14 @@ import Foundation
 
 class SponsorViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: Model
+    
+    var sponsor: Sponsor? {
+        didSet {
+            updateLabels()
+        }
+    }
+    
     // MARK: View
     
     @IBOutlet weak var contentView: UIView!
@@ -26,6 +34,35 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         contentView.layoutMargins = Geometry.Insets
+        
+        updateLabels()
+    }
+    
+    func updateLabels() {
+        
+        if !isViewLoaded() {
+            return
+        }
+        
+        if let sponsor = sponsor {
+            
+            sponsor.logo.getDataInBackgroundWithBlock { data, error in
+                
+                if data != nil {
+                    
+                    if self.sponsor == sponsor {
+                        
+                        if let image = UIImage(data: data) {
+                            self.logoView.image = image
+                        }
+                    }
+                }
+            }
+            
+            nameLabel.text = sponsor.name
+            tierLabel.text = sponsor.tier.name
+            descriptionLabel.text = sponsor.description
+        }
     }
     
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
@@ -42,5 +79,12 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         return tableView.dequeueReusableCellWithIdentifier("Website Cell", forIndexPath: indexPath) as UITableViewCell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        UIApplication.sharedApplication().openURL(sponsor!.website)
     }
 }
