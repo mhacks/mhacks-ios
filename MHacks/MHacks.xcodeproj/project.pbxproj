@@ -302,7 +302,6 @@
 				469D3DF81A1BDE7900CA6F9C /* AnnouncementCell.swift */,
 				46F977B01A1D7E1E0014BB61 /* GridLayout.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
-				FB86D1D51A1443F1001032B8 /* SponsorTierSeparator.swift */,
 				FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */,
 				FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */,
 				4623EFB31A38F96D00BA1992 /* TintedLabel.swift */,
@@ -390,8 +389,11 @@
 				TargetAttributes = {
 					4634FD1619D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = FMKG4J2L9M;
+						DevelopmentTeam = 478C74MJ7T;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
@@ -399,7 +401,7 @@
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = FMKG4J2L9M;
+						DevelopmentTeam = 478C74MJ7T;
 						TestTargetID = 4634FD1619D3028C00CA8880;
 					};
 				};
