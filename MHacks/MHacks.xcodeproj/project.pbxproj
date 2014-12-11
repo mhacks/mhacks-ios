@@ -11,6 +11,8 @@
 		460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */; };
 		460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238DF19DB9E3900BD3335 /* EventViewController.swift */; };
 		460238E219DB9E9C00BD3335 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460238E119DB9E9C00BD3335 /* Event.swift */; };
+		461B27271A38081500438E1C /* SponsorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461B27261A38081500438E1C /* SponsorViewController.swift */; };
+		461B27291A38BBEB00438E1C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461B27281A38BBEB00438E1C /* Geometry.swift */; };
 		461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */; };
 		461C8D8D1A14192700402ABA /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8C1A14192700402ABA /* Countdown.swift */; };
 		4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1C19D3028C00CA8880 /* AppDelegate.swift */; };
@@ -78,6 +80,8 @@
 		460238DD19DB9E0600BD3335 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		460238DF19DB9E3900BD3335 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		460238E119DB9E9C00BD3335 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		461B27261A38081500438E1C /* SponsorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorViewController.swift; sourceTree = "<group>"; };
+		461B27281A38BBEB00438E1C /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		461C8D8C1A14192700402ABA /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; };
 		4634FD1719D3028C00CA8880 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +179,7 @@
 				461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */,
 				469D3DF41A1BC54A00CA6F9C /* AnnouncementsViewController.swift */,
 				FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */,
+				461B27261A38081500438E1C /* SponsorViewController.swift */,
 				46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */,
 				FBD943361A2FC21C004A2806 /* MapViewController.swift */,
 			);
@@ -289,6 +294,7 @@
 		467B570A19DFAEF7006AEB23 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				461B27281A38BBEB00438E1C /* Geometry.swift */,
 				467BB40019E574A9009402BE /* CalendarLayout.swift */,
 				46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */,
 				46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */,
@@ -451,6 +457,7 @@
 				FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */,
 				464992A91A0AFC0E0099F70C /* Location.swift in Sources */,
 				460238DE19DB9E0600BD3335 /* ScheduleViewController.swift in Sources */,
+				461B27271A38081500438E1C /* SponsorViewController.swift in Sources */,
 				3BE0B27B1A1D7BDC009CFB73 /* Award.swift in Sources */,
 				469D3DF71A1BC66400CA6F9C /* Announcement.swift in Sources */,
 				464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */,
@@ -464,6 +471,7 @@
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				46A1C46C1A240C0D009BEDD1 /* Sponsor.swift in Sources */,
+				461B27291A38BBEB00438E1C /* Geometry.swift in Sources */,
 				467BB40119E574A9009402BE /* CalendarLayout.swift in Sources */,
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,
 				46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */,
@@ -601,6 +609,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Parse",
@@ -609,6 +618,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -621,6 +631,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Parse",
@@ -629,6 +640,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -13,4 +13,12 @@ class SponsorCell: UICollectionViewCell {
     // MARK: Outlets
     
     @IBOutlet weak var logoView: UIImageView!
+    
+    // MARK: Reuse
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        logoView.image = nil
+    }
 }

@@ -8,30 +8,14 @@
 
 import Foundation
 
-struct Sponsor {
+struct Sponsor: Equatable {
     
     let name: String
     let description: String
     let website: String
     let tier: Tier
     let location: Location
-    
-    private let logoFile: PFFile
-    
-    private(set) var logo: UIImage?
-    
-    mutating func fetchLogo() {
-        logoFile.getDataInBackgroundWithBlock { data, error in
-            
-            if data != nil {
-                self.logo = UIImage(data: data) ?? UIImage()
-            }
-        }
-    }
-    
-    mutating func evictLogo() {
-        logo = nil
-    }
+    let logo: PFFile
     
     struct Tier: Equatable, Comparable {
         
@@ -49,9 +33,9 @@ extension Sponsor: Fetchable {
         let website = object["website"] as? String
         let tierObject = object["tier"] as? PFObject
         let locationObject = object["location"] as? PFObject
-        let logoFile = object["logo"] as? PFFile
+        let logo = object["logo"] as? PFFile
         
-        if name == nil || description == nil || website == nil || tierObject == nil || locationObject == nil || logoFile == nil {
+        if name == nil || description == nil || website == nil || tierObject == nil || locationObject == nil || logo == nil {
             return nil
         }
         
@@ -67,7 +51,7 @@ extension Sponsor: Fetchable {
         self.website = website!
         self.tier = tier!
         self.location = location!
-        self.logoFile = logoFile!
+        self.logo = logo!
     }
 }
 
@@ -85,6 +69,10 @@ extension Sponsor.Tier: Fetchable {
         self.name = name!
         self.level = level!
     }
+}
+
+func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
+    return lhs.name == rhs.name
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {

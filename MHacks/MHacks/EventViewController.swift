@@ -31,7 +31,6 @@ class EventViewController: UIViewController {
     
     // MARK: View
     
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -42,7 +41,7 @@ class EventViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView.layoutMargins = UIEdgeInsetsMake(16.0, 16.0, 16.0, 16.0)
+        contentView.layoutMargins = Geometry.Insets
         
         updateLabels()
     }

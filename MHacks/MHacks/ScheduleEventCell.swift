@@ -88,6 +88,6 @@ class ScheduleEventCell: UICollectionViewCell {
     override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        bodyViewTopConstraint.constant = ScheduleHourSeparator.separatorHeightInTraitCollection(traitCollection)
+        bodyViewTopConstraint.constant = Geometry.hairlineWidthInTraitCollection(traitCollection)
     }
 }

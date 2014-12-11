@@ -10,5 +10,8 @@ import UIKit
 
 class SponsorTierHeader: UICollectionReusableView {
     
+    // MARK: Outlets
+    
+    @IBOutlet weak var blurView: UIVisualEffectView!
     @IBOutlet weak var textLabel: UILabel!
 }
