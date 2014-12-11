@@ -15,6 +15,7 @@
 		461B27291A38BBEB00438E1C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461B27281A38BBEB00438E1C /* Geometry.swift */; };
 		461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */; };
 		461C8D8D1A14192700402ABA /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8D8C1A14192700402ABA /* Countdown.swift */; };
+		4623EFB41A38F96D00BA1992 /* TintedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4623EFB31A38F96D00BA1992 /* TintedLabel.swift */; };
 		4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4634FD1C19D3028C00CA8880 /* AppDelegate.swift */; };
 		4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2219D3028C00CA8880 /* Main.storyboard */; };
 		4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4634FD2519D3028C00CA8880 /* Images.xcassets */; };
@@ -51,7 +52,6 @@
 		46F132D619EC7CE500A30B82 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */; };
 		46F132D819EC7CEF00A30B82 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D719EC7CEF00A30B82 /* QuartzCore.framework */; };
 		46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D919EC7CF300A30B82 /* Security.framework */; };
-		46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DB19EC7CF900A30B82 /* StoreKit.framework */; };
 		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
 		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		46F132E319EC951C00A30B82 /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */; };
@@ -82,6 +82,7 @@
 		461B27281A38BBEB00438E1C /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
 		461C8D8A1A1418EB00402ABA /* CountdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		461C8D8C1A14192700402ABA /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; };
+		4623EFB31A38F96D00BA1992 /* TintedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TintedLabel.swift; sourceTree = "<group>"; };
 		4634FD1719D3028C00CA8880 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4634FD1B19D3028C00CA8880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4634FD1C19D3028C00CA8880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,7 +124,6 @@
 		46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		46F132D719EC7CEF00A30B82 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		46F132D919EC7CF300A30B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		46F132DB19EC7CF900A30B82 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46F132E219EC951C00A30B82 /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
@@ -141,7 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */,
-				46F132DC19EC7CF900A30B82 /* StoreKit.framework in Frameworks */,
 				46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */,
 				46F132D819EC7CEF00A30B82 /* QuartzCore.framework in Frameworks */,
 				46F132D619EC7CE500A30B82 /* MobileCoreServices.framework in Frameworks */,
@@ -299,6 +298,7 @@
 				46F977B01A1D7E1E0014BB61 /* GridLayout.swift */,
 				FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */,
 				FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */,
+				4623EFB31A38F96D00BA1992 /* TintedLabel.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -322,7 +322,6 @@
 			isa = PBXGroup;
 			children = (
 				46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */,
-				46F132DB19EC7CF900A30B82 /* StoreKit.framework */,
 				46F132D919EC7CF300A30B82 /* Security.framework */,
 				46F132D719EC7CEF00A30B82 /* QuartzCore.framework */,
 				46F132D519EC7CE500A30B82 /* MobileCoreServices.framework */,
@@ -385,6 +384,11 @@
 					4634FD1619D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = 478C74MJ7T;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					4634FD2D19D3028C00CA8880 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -468,6 +472,7 @@
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,
 				46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */,
 				464992A71A0AFBE50099F70C /* Category.swift in Sources */,
+				4623EFB41A38F96D00BA1992 /* TintedLabel.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,
 				463E3DB719EC54B400BE8AB3 /* ScheduleEventCell.swift in Sources */,

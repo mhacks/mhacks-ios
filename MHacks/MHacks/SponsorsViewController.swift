@@ -102,4 +102,17 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
         return cell
     }
+    
+    // MARK: Segues
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "Show Sponsor" {
+            
+            let indexPath = collectionView!.indexPathsForSelectedItems().first as NSIndexPath
+            
+            let viewController = segue.destinationViewController as SponsorViewController
+            viewController.sponsor = sponsorOrganizer.sponsors[indexPath.section][indexPath.item]
+        }
+    }
 }
