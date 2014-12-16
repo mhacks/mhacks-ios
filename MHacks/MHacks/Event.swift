@@ -66,5 +66,12 @@ extension Event: Fetchable {
 }
 
 func ==(lhs: Event, rhs: Event) -> Bool {
-    return lhs.ID == rhs.ID
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.name == rhs.name &&
+        lhs.category == rhs.category &&
+        lhs.locations == rhs.locations &&
+        lhs.startDate == rhs.startDate &&
+        lhs.duration == rhs.duration &&
+        lhs.description == rhs.description)
 }

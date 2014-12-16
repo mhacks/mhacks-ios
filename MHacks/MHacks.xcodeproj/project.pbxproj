@@ -45,6 +45,8 @@
 		46B11D741A3FDDB500445167 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B11D6F1A3FDDB500445167 /* ParseCrashReporting.framework */; };
 		46B11D751A3FDDB500445167 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B11D701A3FDDB500445167 /* ParseFacebookUtils.framework */; };
 		46B11D761A3FDDB500445167 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B11D711A3FDDB500445167 /* ParseUI.framework */; };
+		46B11D781A3FE0D800445167 /* Coalescer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B11D771A3FE0D800445167 /* Coalescer.swift */; };
+		46B11D7A1A3FE11C00445167 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B11D791A3FE11C00445167 /* Observer.swift */; };
 		46C48CDC1A3FDA0100C39924 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C48CDB1A3FDA0100C39924 /* libsqlite3.dylib */; };
 		46DB29381A1BE5FD009836DC /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB29371A1BE5FD009836DC /* Fetchable.swift */; };
 		46F132CC19EC7CC100A30B82 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */; };
@@ -122,6 +124,8 @@
 		46B11D6F1A3FDDB500445167 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		46B11D701A3FDDB500445167 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		46B11D711A3FDDB500445167 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		46B11D771A3FE0D800445167 /* Coalescer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coalescer.swift; sourceTree = "<group>"; };
+		46B11D791A3FE11C00445167 /* Observer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		46C48CDB1A3FDA0100C39924 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		46DB29371A1BE5FD009836DC /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
 		46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -199,6 +203,8 @@
 			children = (
 				463E3DBA19EC745000BE8AB3 /* Keys.swift */,
 				46DB29371A1BE5FD009836DC /* Fetchable.swift */,
+				46B11D791A3FE11C00445167 /* Observer.swift */,
+				46B11D771A3FE0D800445167 /* Coalescer.swift */,
 				4640D7D81A2FC5D6002E7B63 /* Objects */,
 				4640D7D91A2FC5E5002E7B63 /* Organizers */,
 			);
@@ -486,6 +492,7 @@
 				463E3DBB19EC745000BE8AB3 /* Keys.swift in Sources */,
 				461C8D8B1A1418EB00402ABA /* CountdownViewController.swift in Sources */,
 				46A402E919E4E2B30039C536 /* ScheduleHourSeparator.swift in Sources */,
+				46B11D781A3FE0D800445167 /* Coalescer.swift in Sources */,
 				46A402E719E4E2A60039C536 /* ScheduleDayHeader.swift in Sources */,
 				467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */,
 				46A1C46C1A240C0D009BEDD1 /* Sponsor.swift in Sources */,
@@ -494,6 +501,7 @@
 				FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */,
 				46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */,
 				464992A71A0AFBE50099F70C /* Category.swift in Sources */,
+				46B11D7A1A3FE11C00445167 /* Observer.swift in Sources */,
 				4623EFB41A38F96D00BA1992 /* TintedLabel.swift in Sources */,
 				460238E019DB9E3900BD3335 /* EventViewController.swift in Sources */,
 				FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */,

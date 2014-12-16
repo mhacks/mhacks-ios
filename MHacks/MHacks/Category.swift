@@ -27,6 +27,7 @@ struct Category {
         }
     }
     
+    let ID: String
     let title: String
     let color: Color
 }
@@ -42,7 +43,15 @@ extension Category: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.title = title!
         self.color = Color(rawValue: colorNumber!.integerValue) ?? .Red
     }
+}
+
+func ==(lhs: Category, rhs: Category) -> Bool {
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.title == rhs.title &&
+        lhs.color == rhs.color)
 }

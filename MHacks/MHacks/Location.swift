@@ -10,6 +10,7 @@ import Foundation
 
 struct Location {
     
+    let ID: String
     let name: String
 }
 
@@ -23,6 +24,13 @@ extension Location: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.name = name!
     }
+}
+
+func ==(lhs: Location, rhs: Location) -> Bool {
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.name == rhs.name)
 }

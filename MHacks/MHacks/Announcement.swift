@@ -54,5 +54,9 @@ extension Announcement: Fetchable {
 }
 
 func ==(lhs: Announcement, rhs: Announcement) -> Bool {
-    return lhs.ID == rhs.ID
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.title == rhs.title &&
+        lhs.date == rhs.date &&
+        lhs.message == rhs.message)
 }

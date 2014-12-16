@@ -77,11 +77,21 @@ extension Sponsor.Tier: Fetchable {
 }
 
 func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
-    return lhs.ID == rhs.ID
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.name == rhs.name &&
+        lhs.description == rhs.description &&
+        lhs.website == rhs.website &&
+        lhs.tier == rhs.tier &&
+        lhs.location == rhs.location &&
+        lhs.logo == rhs.logo) // FIXME: Test logo comparison
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {
-    return lhs.ID == rhs.ID
+    
+    return (lhs.ID == rhs.ID &&
+        lhs.name == rhs.name &&
+        lhs.level == rhs.level)
 }
 
 func <(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {

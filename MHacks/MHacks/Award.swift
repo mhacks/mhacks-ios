@@ -21,6 +21,7 @@ struct Award {
     
 }
 
+/*
 extension Award: Fetchable {
     
     init?(object: PFObject) {
@@ -46,3 +47,4 @@ extension Award: Fetchable {
     }
     
 }
+*/

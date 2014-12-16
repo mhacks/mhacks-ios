@@ -10,39 +10,33 @@ import UIKit
 
 class ScheduleCalendarViewController: UICollectionViewController, CalendarLayoutDelegate {
     
+    // MARK: Initialization
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        let observer = Observer<[Event]> { [unowned self] events in
+            self.eventOrganizer = EventOrganizer(events: events)
+        }
+        
+        self.fetchResultsManager.observerCollection.addObserver(observer)
+    }
+    
     // MARK: Event
     
-    var events: [Event] = [] {
-        didSet {
-            if events != oldValue {
-                eventOrganizer = EventOrganizer(events: events)
-            }
-        }
-    }
-    
-    var eventOrganizer: EventOrganizer? {
-        didSet {
-            collectionView?.reloadData()
-        }
-    }
-    
-    func fetchEvents() {
+    let fetchResultsManager: FetchResultsManager<Event> = {
         
         let query = PFQuery(className: "Event")
         
         query.includeKey("category")
         query.includeKey("locations")
         
-        query.fetch { (possibleEvents: [Event]?) in
-            
-            if let events = possibleEvents {
-                
-                self.events = events
-                
-            } else {
-                
-                // FIXME: Handle error
-            }
+        return FetchResultsManager<Event>(query: query)
+    }()
+    
+    var eventOrganizer: EventOrganizer? {
+        didSet {
+            collectionView?.reloadData()
         }
     }
     
@@ -61,7 +55,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchEvents()
+        fetchResultsManager.fetch()
     }
     
     // MARK: Collection view data source
