@@ -12,9 +12,11 @@ class AnnouncementsViewController: UITableViewController {
     
     // MARK: Model
     
-    private var announcements: [Announcement]? {
+    private var announcements: [Announcement] = [] {
         didSet {
-            tableView.reloadData()
+            if announcements != oldValue {
+                tableView.reloadData()
+            }
         }
     }
     
@@ -55,14 +57,14 @@ class AnnouncementsViewController: UITableViewController {
     // MARK: Table view
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return announcements?.count ?? 0
+        return announcements.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Announcement Cell", forIndexPath: indexPath) as AnnouncementCell
         
-        let announcement = announcements![indexPath.row]
+        let announcement = announcements[indexPath.row]
         
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate

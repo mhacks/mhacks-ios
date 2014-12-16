@@ -12,6 +12,20 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     // MARK: Event
     
+    var events: [Event] = [] {
+        didSet {
+            if events != oldValue {
+                eventOrganizer = EventOrganizer(events: events)
+            }
+        }
+    }
+    
+    var eventOrganizer: EventOrganizer? {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
+    
     func fetchEvents() {
         
         let query = PFQuery(className: "Event")
@@ -23,18 +37,12 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
             
             if let events = possibleEvents {
                 
-                self.eventOrganizer = EventOrganizer(events: events)
+                self.events = events
                 
             } else {
                 
                 // FIXME: Handle error
             }
-        }
-    }
-    
-    var eventOrganizer: EventOrganizer? {
-        didSet {
-            collectionView?.reloadData()
         }
     }
     

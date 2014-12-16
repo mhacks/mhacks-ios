@@ -14,7 +14,7 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
     private var sponsors: [Sponsor] = [] {
         didSet {
-            if oldValue != sponsors {
+            if sponsors != oldValue {
                 sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
             }
         }

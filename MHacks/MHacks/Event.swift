@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Event {
+struct Event: Equatable {
     
+    let ID: String
     let name: String
     let category: Category
     let locations: [Location]
@@ -54,6 +55,7 @@ extension Event: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.name = name!
         self.category = category!
         self.locations = locationObjects!.map { Location(object: $0)! }//.filter { $0 != nil }.map { $0! }
@@ -61,4 +63,8 @@ extension Event: Fetchable {
         self.duration = duration!
         self.description = description!
     }
+}
+
+func ==(lhs: Event, rhs: Event) -> Bool {
+    return lhs.ID == rhs.ID
 }

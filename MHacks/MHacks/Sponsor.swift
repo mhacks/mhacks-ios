@@ -10,6 +10,7 @@ import Foundation
 
 struct Sponsor: Equatable {
     
+    let ID: String
     let name: String
     let description: String
     let website: NSURL
@@ -19,6 +20,7 @@ struct Sponsor: Equatable {
     
     struct Tier: Equatable, Comparable {
         
+        let ID: String
         let name: String
         let level: Int
     }
@@ -47,6 +49,7 @@ extension Sponsor: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.name = name!
         self.description = description!
         self.website = website!
@@ -67,17 +70,18 @@ extension Sponsor.Tier: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.name = name!
         self.level = level!
     }
 }
 
 func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
-    return lhs.name == rhs.name
+    return lhs.ID == rhs.ID
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {
-    return lhs.name == rhs.name && lhs.level == rhs.level
+    return lhs.ID == rhs.ID
 }
 
 func <(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {

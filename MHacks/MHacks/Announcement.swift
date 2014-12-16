@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Announcement {
+struct Announcement: Equatable {
     
+    let ID: String
     let title: String
     let date: NSDate
     let message: String
@@ -45,8 +46,13 @@ extension Announcement: Fetchable {
             return nil
         }
         
+        self.ID = object.objectId
         self.title = title!
         self.date = date!
         self.message = message!
     }
+}
+
+func ==(lhs: Announcement, rhs: Announcement) -> Bool {
+    return lhs.ID == rhs.ID
 }
