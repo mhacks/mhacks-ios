@@ -144,7 +144,11 @@ class EventOrganizer {
     
     init(events: [Event]) {
         
-        assert(!events.isEmpty, "You cannot pass an empty array of events")
+        // Return if no events
+        
+        if (events.isEmpty) {
+            return
+        }
         
         // First and last date
         
@@ -186,7 +190,7 @@ class EventOrganizer {
     
     // MARK: Events
     
-    private let eventsByDay: [[Event]]
+    private let eventsByDay: [[Event]] = []
     
     func numberOfEventsInDay(day: Int) -> Int {
         return eventsByDay[day].count
@@ -203,5 +207,5 @@ class EventOrganizer {
     
     // MARK: Days and Hours
     
-    let days: [Day]
+    let days: [Day] = []
 }
