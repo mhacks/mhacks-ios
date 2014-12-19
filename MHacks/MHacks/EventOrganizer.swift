@@ -186,6 +186,18 @@ class EventOrganizer {
                 return conflicts(day, event)
             }
         }
+        
+        // Partial hours
+        
+        var partialHours: [[HalfOpenInterval<Double>]] = []
+        
+        for day in 0..<days.count {
+            partialHours += [self.eventsByDay[day].map { event in
+                return days[day].partialHoursFromDate(event.startDate, toDate: event.endDate)
+            }]
+        }
+        
+        self.partialHours = partialHours
     }
     
     // MARK: Events
@@ -200,9 +212,12 @@ class EventOrganizer {
         return eventsByDay[day][index]
     }
     
+    // MARK: Partial hours
+    
+    private let partialHours: [[HalfOpenInterval<Double>]] = []
+    
     func partialHoursForEventAtIndex(index: Int, inDay day: Int) -> HalfOpenInterval<Double> {
-        let event = eventsByDay[day][index]
-        return days[day].partialHoursFromDate(event.startDate, toDate: event.endDate)
+        return partialHours[day][index]
     }
     
     // MARK: Days and Hours
