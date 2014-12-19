@@ -10,15 +10,15 @@ import Foundation
 
 struct Countdown {
     
-    let startDate: NSDate
-    let duration: NSTimeInterval
+    let startDate: NSDate?
+    let duration: NSTimeInterval = 129600
     
-    var endDate: NSDate {
-        return startDate.dateByAddingTimeInterval(duration)
+    var endDate: NSDate? {
+        return startDate?.dateByAddingTimeInterval(duration)
     }
     
-    var roundedCurrentDate: NSDate {
-        return startDate.dateByAddingTimeInterval(duration - roundedTimeRemaining)
+    var roundedCurrentDate: NSDate? {
+        return startDate?.dateByAddingTimeInterval(duration - roundedTimeRemaining)
     }
     
     private static var dateFormatter: NSDateFormatter = {
@@ -34,7 +34,7 @@ struct Countdown {
         
         let message: String = {
             
-            switch self.roundedCurrentDate.compare(self.startDate) {
+            switch self.roundedCurrentDate?.compare(self.startDate!) ?? .OrderedAscending {
             case .OrderedAscending, .OrderedSame:
                 return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
             case .OrderedDescending:
@@ -42,7 +42,7 @@ struct Countdown {
             }
         }()
         
-        let dateText = Countdown.dateFormatter.stringFromDate(startDate)
+        let dateText = startDate != nil ? Countdown.dateFormatter.stringFromDate(startDate!) : "…"
         
         return NSString(format: message, dateText)
     }
@@ -51,7 +51,7 @@ struct Countdown {
         
         let message: String = {
             
-            switch self.roundedCurrentDate.compare(self.endDate) {
+            switch self.roundedCurrentDate?.compare(self.endDate!) ?? .OrderedAscending {
             case .OrderedAscending:
                 return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
             case .OrderedSame, .OrderedDescending:
@@ -59,18 +59,18 @@ struct Countdown {
             }
         }()
         
-        let dateText = Countdown.dateFormatter.stringFromDate(endDate)
+        let dateText = endDate != nil ? Countdown.dateFormatter.stringFromDate(endDate!) : "…"
         
         return NSString(format: message, dateText)
     }
     
     // The current date clipped to the start and end of the event
     var progressDate: NSDate {
-        return NSDate().laterDate(startDate).earlierDate(endDate);
+        return NSDate().laterDate(startDate!).earlierDate(endDate!);
     }
     
     var timeRemaining: NSTimeInterval {
-        return endDate.timeIntervalSinceDate(progressDate)
+        return endDate?.timeIntervalSinceDate(progressDate) ?? duration
     }
     
     var roundedTimeRemaining: NSTimeInterval {
@@ -110,6 +110,10 @@ struct Countdown {
         return 1.0 - timeRemaining / duration
     }
     
+    init() {
+        
+    }
+    
     private init?(config: PFConfig) {
         
         let startDate = config["countdownStartDate"] as? NSDate
@@ -133,7 +137,7 @@ struct Countdown {
             
             if (error != nil) {
                 
-                completionHandler(self.currentCountdown())
+                completionHandler(nil)
                 
             } else {
                 

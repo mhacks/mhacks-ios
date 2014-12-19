@@ -12,7 +12,7 @@ class CountdownViewController: UIViewController {
     
     // MARK: Model
     
-    var countdown: Countdown? {
+    var countdown: Countdown = Countdown() {
         didSet {
             updateCountdownViews()
         }
@@ -50,7 +50,9 @@ class CountdownViewController: UIViewController {
         
         countdownLabel.font = Countdown.font
         
-        countdown = Countdown.currentCountdown()
+        if let countdown = Countdown.currentCountdown() {
+            self.countdown = countdown
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -63,7 +65,9 @@ class CountdownViewController: UIViewController {
         super.viewDidAppear(animated)
         
         Countdown.fetchCountdown { countdown in
-            self.countdown = countdown
+            if let countdown = countdown {
+                self.countdown = countdown
+            }
         }
     }
     
@@ -75,10 +79,10 @@ class CountdownViewController: UIViewController {
     
     func updateCountdownViews() {
         
-        progressIndicator.progress = countdown?.progress ?? 0.0
-        countdownLabel.text = countdown?.timeRemainingDescription ?? "36:00:00"
+        progressIndicator.progress = countdown.progress
+        countdownLabel.text = countdown.timeRemainingDescription
         
-        startLabel.text = countdown?.startDateDescription
-        endLabel.text = countdown?.endDateDescription
+        startLabel.text = countdown.startDateDescription
+        endLabel.text = countdown.endDateDescription
     }
 }
