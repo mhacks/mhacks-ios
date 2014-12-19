@@ -45,8 +45,6 @@ class Fetcher<T: Fetchable> {
             
             query.findObjectsInBackgroundWithBlock { objects, error in
                 
-                taskCompletionBlock()
-                
                 if let objects = objects as? [PFObject] {
                     
                     let results = objects.map { T(object: $0 ) }.filter { $0 != nil }.map { $0! }
@@ -57,6 +55,8 @@ class Fetcher<T: Fetchable> {
                     
                     self?.fetchCompletionBlock(nil)
                 }
+                
+                taskCompletionBlock()
             }
         }
     }

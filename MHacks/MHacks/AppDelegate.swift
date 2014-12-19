@@ -15,6 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    // MARK: View controllers
+    
+    var tabBarController: UITabBarController!
+    
+    var scheduleNavigationController: UINavigationController!
+    var scheduleViewController: ScheduleCalendarViewController!
+    
     // MARK: Launch
     
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
@@ -26,7 +33,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         
+        // View controllers
+        
+        tabBarController = window!.rootViewController as UITabBarController
+        
+        scheduleNavigationController = tabBarController.viewControllers![0] as UINavigationController
+        scheduleViewController = scheduleNavigationController.viewControllers[0] as ScheduleCalendarViewController
+        
+        // Remote notifications
+        
         application.registerForRemoteNotifications()
+        
+        // User notifications
         
         let settings = UIUserNotificationSettings(forTypes: .Sound | .Alert, categories: nil)
         application.registerUserNotificationSettings(settings)
@@ -54,7 +72,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println("Remote notification!\n\(userInfo)")
         
-        // Maybe tell a view controller to fetch and then call this
+        if let eventID = userInfo["eventID"] as? String {
+            
+            tabBarController.selectedIndex = 0
+            scheduleNavigationController.popToRootViewControllerAnimated(false)
+            scheduleViewController.showDetailsForEventWithID(eventID)
+        }
+        
         completionHandler(.NewData)
     }
     

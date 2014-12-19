@@ -113,6 +113,21 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     // MARK: Segues
     
+    func showDetailsForEventWithID(ID: String) {
+        
+        fetchResultsManager.fetch {
+            
+            let IDs = self.fetchResultsManager.results.map { $0.ID }
+            
+            if let index = find(IDs, ID) {
+                
+                self.collectionView!.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
+                
+                self.performSegueWithIdentifier("Show Event", sender: nil)
+            }
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "Show Event" {
