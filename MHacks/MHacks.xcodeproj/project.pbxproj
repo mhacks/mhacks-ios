@@ -66,6 +66,7 @@
 		FB86D1D61A1443F1001032B8 /* SponsorTierHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */; };
 		FB86D1D81A1444AF001032B8 /* SponsorTierHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */; };
 		FBD768191A0B00D0006345F8 /* SponsorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */; };
+		FBD839931A47680B008CA449 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD839921A47680B008CA449 /* Map.swift */; };
 		FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD943361A2FC21C004A2806 /* MapViewController.swift */; };
 		FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -145,6 +146,7 @@
 		FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierHeader.swift; sourceTree = "<group>"; };
 		FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierHeader.xib; sourceTree = "<group>"; };
 		FBD768181A0B00D0006345F8 /* SponsorsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorsViewController.swift; sourceTree = "<group>"; };
+		FBD839921A47680B008CA449 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		FBD943361A2FC21C004A2806 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FBD9433A1A2FC8A3004A2806 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -294,6 +296,7 @@
 				469D3DF61A1BC66400CA6F9C /* Announcement.swift */,
 				46A1C46B1A240C0D009BEDD1 /* Sponsor.swift */,
 				3BE0B27A1A1D7BDC009CFB73 /* Award.swift */,
+				FBD839921A47680B008CA449 /* Map.swift */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				FB86D1D61A1443F1001032B8 /* SponsorTierHeader.swift in Sources */,
 				461C8D8D1A14192700402ABA /* Countdown.swift in Sources */,
 				469D3DF91A1BDE7900CA6F9C /* AnnouncementCell.swift in Sources */,
+				FBD839931A47680B008CA449 /* Map.swift in Sources */,
 				FBD943371A2FC21C004A2806 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
