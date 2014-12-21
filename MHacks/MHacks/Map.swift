@@ -11,7 +11,7 @@ import UIKit
 struct Map: Equatable {
    
     let ID: String
-    let title: String
+    let title: String // FIXME: Actually use the title somewhere? May not be needed if the images include titles
     let image: PFFile
 }
 
