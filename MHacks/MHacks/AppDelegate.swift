@@ -71,15 +71,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         
         println("Remote notification!\n\(userInfo)")
+        println("State: \(application.applicationState.rawValue)")
         
-        if let eventID = userInfo["eventID"] as? String {
+        if let message = userInfo["aps"]?["alert"] as? String {
             
-            tabBarController.selectedIndex = 0
-            scheduleNavigationController.popToRootViewControllerAnimated(false)
-            scheduleViewController.showDetailsForEventWithID(eventID)
+            switch application.applicationState {
+                
+            case .Active:
+                
+                var actions: [UIAlertAction] = []
+                
+                if let eventID = userInfo["eventID"] as? String {
+                    
+                    let actionTitle = NSLocalizedString("View", comment: "Alert action")
+                    
+                    let action = UIAlertAction(title: actionTitle, style: .Default, handler: { action in
+                        self.showDetailsForEventWithID(eventID)
+                    })
+                    
+                    actions += [action]
+                }
+                
+                showAlertControllerWithMessage(message, actions: actions)
+                
+            default:
+                
+                if let eventID = userInfo["eventID"] as? String {
+                    showDetailsForEventWithID(eventID)
+                }
+            }
         }
         
         completionHandler(.NewData)
+    }
+    
+    func showAlertControllerWithMessage(message: String, actions: [UIAlertAction]) {
+        
+        let title = NSLocalizedString("Alert", comment: "Alert title")
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        
+        let dismissActionTitle = NSLocalizedString("Dismiss", comment: "Notification alert dismiss action title")
+        
+        alertController.addAction(UIAlertAction(title: dismissActionTitle, style: .Cancel, handler: { action in
+            // Do nothing
+        }))
+        
+        tabBarController.showViewController(alertController, sender: nil)
+        
+        //tabBarController.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func showDetailsForEventWithID(ID: String) {
+        
+        tabBarController.selectedIndex = 0
+        scheduleNavigationController.popToRootViewControllerAnimated(false)
+        scheduleViewController.showDetailsForEventWithID(ID)
     }
     
     // MARK: User notifications
