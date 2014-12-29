@@ -10,39 +10,35 @@ import UIKit
 
 class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
+    // MARK: Initialization
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        let observer = Observer<[Sponsor]> { [unowned self] sponsors in
+            self.sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
+        }
+        
+        self.fetchResultsManager.observerCollection.addObserver(observer)
+    }
+    
     // MARK: Model
     
-    private var sponsors: [Sponsor] = [] {
-        didSet {
-            if sponsors != oldValue {
-                sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
-            }
-        }
-    }
-    
-    private var sponsorOrganizer: SponsorOrganizer = SponsorOrganizer(sponsors: []) {
-        didSet {
-            collectionView?.reloadData()
-        }
-    }
-    
-    func fetchSponsors() {
+    let fetchResultsManager: FetchResultsManager<Sponsor> = {
         
         let query = PFQuery(className: "Sponsor")
         
         query.includeKey("tier")
         query.includeKey("location")
         
-        query.fetch { (possibleSponsors: [Sponsor]?) in
-            
-            if let sponsors = possibleSponsors {
-                
-                self.sponsors = sponsors
-                
-            } else {
-                
-                // FIXME: Handle error
-            }
+        return FetchResultsManager<Sponsor>(query: query)
+    }()
+    
+    // MARK: Model
+    
+    private var sponsorOrganizer: SponsorOrganizer = SponsorOrganizer(sponsors: []) {
+        didSet {
+            collectionView?.reloadData()
         }
     }
     
@@ -57,7 +53,7 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchSponsors()
+        fetchResultsManager.fetch()
     }
     
     // MARK: Collection view delegate
