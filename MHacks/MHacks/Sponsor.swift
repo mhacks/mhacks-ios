@@ -78,13 +78,15 @@ extension Sponsor.Tier: Fetchable {
 
 func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
     
+    // Logos are not compared there is no way to compare PFFiles
+    // Two instances of PFFile wrapping the same data are not equal
+    
     return (lhs.ID == rhs.ID &&
         lhs.name == rhs.name &&
         lhs.description == rhs.description &&
         lhs.website == rhs.website &&
         lhs.tier == rhs.tier &&
-        lhs.location == rhs.location &&
-        lhs.logo == rhs.logo) // FIXME: Test logo comparison
+        lhs.location == rhs.location)
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {
