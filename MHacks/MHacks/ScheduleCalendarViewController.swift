@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScheduleCalendarViewController: UICollectionViewController, CalendarLayoutDelegate {
+class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, UICollectionViewDataSource {
     
     // MARK: Initialization
     
@@ -34,45 +34,71 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         return FetchResultsManager<Event>(query: query)
     }()
     
-    var eventOrganizer: EventOrganizer? {
+    var eventOrganizer: EventOrganizer = EventOrganizer(events: []) {
         didSet {
-            collectionView?.reloadData()
+            collectionView.reloadData()
         }
     }
     
     // MARK: View
     
+    @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var activityIndicatorView: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView!.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
-        collectionView!.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
+        collectionView.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
+        collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
         
-        let layout = collectionView!.collectionViewLayout as CalendarLayout
+        let layout = collectionView.collectionViewLayout as CalendarLayout
         layout.cellInsets = UIEdgeInsets(top: 1.0, left: 53.0, bottom: 1.0, right: 1.0)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let indexPath = collectionView.indexPathsForSelectedItems().first as? NSIndexPath
+            
+        transitionCoordinator()?.animateAlongsideTransition({ context in
+            
+            self.collectionView.deselectItemAtIndexPath(indexPath, animated: animated)
+            
+            }, completion: { context in
+                
+                if context.isCancelled() {
+                    self.collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                }
+        })
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchResultsManager.fetch()
+        if eventOrganizer.days.count == 0 {
+            activityIndicatorView.startAnimating()
+        }
+        
+        fetchResultsManager.fetch {
+            self.activityIndicatorView.stopAnimating()
+        }
     }
     
     // MARK: Collection view data source
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return eventOrganizer?.days.count ?? 0
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return eventOrganizer.days.count
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return eventOrganizer!.numberOfEventsInDay(section)
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return eventOrganizer.numberOfEventsInDay(section)
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as ScheduleEventCell
         
-        let event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)
+        let event = eventOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
         
         cell.color = event.category.color.color
         cell.textLabel.text = event.name
@@ -80,19 +106,19 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         switch CalendarLayout.SupplementaryViewKind(rawValue: kind)! {
             
         case .Header:
             let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as ScheduleDayHeader
-            dayHeader.textLabel.text = eventOrganizer!.days[indexPath.section].weekdayTitle
-            dayHeader.detailTextLabel.text = eventOrganizer!.days[indexPath.section].dateTitle
+            dayHeader.textLabel.text = eventOrganizer.days[indexPath.section].weekdayTitle
+            dayHeader.detailTextLabel.text = eventOrganizer.days[indexPath.section].dateTitle
             return dayHeader
             
         case .Separator:
             let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as ScheduleHourSeparator
-            hourSeparator.label.text = eventOrganizer!.days[indexPath.section].hours[indexPath.item].title
+            hourSeparator.label.text = eventOrganizer.days[indexPath.section].hours[indexPath.item].title
             return hourSeparator
         }
     }
@@ -100,15 +126,15 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     // MARK: Calendar layout delegate
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-        return eventOrganizer!.days[section].hours.count
+        return eventOrganizer.days[section].hours.count
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer!.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).start
+        return eventOrganizer.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).start
     }
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return eventOrganizer!.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
+        return eventOrganizer.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
     }
     
     // MARK: Segues
@@ -119,7 +145,7 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         
         if let index = find(IDs, ID) {
             
-            collectionView!.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
+            collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
             
             performSegueWithIdentifier("Show Event", sender: nil)
         }
@@ -129,10 +155,10 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
         
         if segue.identifier == "Show Event" {
             
-            let indexPath = collectionView!.indexPathsForSelectedItems().first as NSIndexPath
+            let indexPath = collectionView.indexPathsForSelectedItems().first as NSIndexPath
             
             let viewController = segue.destinationViewController as EventViewController
-            viewController.event = eventOrganizer!.eventAtIndex(indexPath.item, inDay: indexPath.section)
+            viewController.event = eventOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
         }
     }
 }

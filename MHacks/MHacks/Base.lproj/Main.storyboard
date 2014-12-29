@@ -79,80 +79,6 @@
             </objects>
             <point key="canvasLocation" x="1674" y="-770"/>
         </scene>
-        <!--Schedule-->
-        <scene sceneID="8iV-eL-aQd">
-            <objects>
-                <collectionViewController id="Ce3-au-9TP" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="hfB-ko-mJ3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="zBV-Xx-Zou" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="byP-hb-yIf" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76d-Zt-PCm">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-gS-lum">
-                                                    <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
-                                                    <color key="backgroundColor" red="0.041692961007356644" green="0.38031816482543945" blue="0.99836134910583496" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="2" id="UvP-X6-UME"/>
-                                                    </constraints>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24h-o6-qbo">
-                                                    <rect key="frame" x="4" y="2" width="294" height="17"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.70070827007293701" green="0.83693927526473999" blue="0.99931150674819946" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstItem="24h-o6-qbo" firstAttribute="top" secondItem="76d-Zt-PCm" secondAttribute="top" constant="2" id="CK6-nL-5NL"/>
-                                                <constraint firstAttribute="trailing" secondItem="24h-o6-qbo" secondAttribute="trailing" constant="2" id="MhB-Id-MRe"/>
-                                                <constraint firstItem="7UK-gS-lum" firstAttribute="leading" secondItem="76d-Zt-PCm" secondAttribute="leading" id="PxQ-xp-1hl"/>
-                                                <constraint firstItem="24h-o6-qbo" firstAttribute="leading" secondItem="7UK-gS-lum" secondAttribute="trailing" constant="2" id="hMh-Zc-i8r"/>
-                                                <constraint firstAttribute="bottom" secondItem="7UK-gS-lum" secondAttribute="bottom" id="hYe-4J-rHW"/>
-                                                <constraint firstItem="7UK-gS-lum" firstAttribute="top" secondItem="76d-Zt-PCm" secondAttribute="top" id="mU8-a2-0X2"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="top" secondItem="byP-hb-yIf" secondAttribute="top" id="GpC-uj-lT1"/>
-                                    <constraint firstAttribute="trailing" secondItem="76d-Zt-PCm" secondAttribute="trailing" id="Z6y-k4-8xK"/>
-                                    <constraint firstAttribute="bottom" secondItem="76d-Zt-PCm" secondAttribute="bottom" id="jdU-1m-gvH"/>
-                                    <constraint firstItem="76d-Zt-PCm" firstAttribute="leading" secondItem="byP-hb-yIf" secondAttribute="leading" id="qzB-vB-oqT"/>
-                                </constraints>
-                                <size key="customSize" width="300" height="44"/>
-                                <connections>
-                                    <outlet property="bodyView" destination="76d-Zt-PCm" id="Szr-Na-hFK"/>
-                                    <outlet property="bodyViewTopConstraint" destination="GpC-uj-lT1" id="Hto-rB-C89"/>
-                                    <outlet property="leaderBar" destination="7UK-gS-lum" id="Zr5-GI-CO9"/>
-                                    <outlet property="textLabel" destination="24h-o6-qbo" id="Vec-7J-kLa"/>
-                                    <segue destination="meU-Ag-OGa" kind="show" identifier="Show Event" id="vDw-8J-ue9"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="Ce3-au-9TP" id="rfu-7c-PBD"/>
-                            <outlet property="delegate" destination="Ce3-au-9TP" id="RJI-YZ-FIu"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" title="Schedule" id="TJT-by-iHE"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pOZ-De-1dV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1668" y="0.0"/>
-        </scene>
         <!--Time Remaining-->
         <scene sceneID="W8b-yP-slf">
             <objects>
@@ -279,6 +205,105 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UvL-dg-x0W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1668" y="724"/>
+        </scene>
+        <!--Schedule-->
+        <scene sceneID="4Uc-Bt-Sz1">
+            <objects>
+                <viewController id="hDp-BO-sbW" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Smt-oE-eHV"/>
+                        <viewControllerLayoutGuide type="bottom" id="fqn-fM-955"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1LJ-cH-4CG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kIN-B5-RjT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="SfE-ep-pG4" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="m7w-mj-j1N" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Plh-Ns-6Ti">
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="058-FF-NV2">
+                                                            <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
+                                                            <color key="backgroundColor" red="0.041692961010000001" green="0.38031816480000002" blue="0.99836134909999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="2" id="R9f-QH-v9w"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16o-hN-CbE">
+                                                            <rect key="frame" x="4" y="2" width="294" height="17"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.70070827010000003" green="0.83693927530000001" blue="0.99931150670000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="16o-hN-CbE" firstAttribute="leading" secondItem="058-FF-NV2" secondAttribute="trailing" constant="2" id="QCI-Rn-JIW"/>
+                                                        <constraint firstAttribute="bottom" secondItem="058-FF-NV2" secondAttribute="bottom" id="ZtU-r2-lAW"/>
+                                                        <constraint firstItem="16o-hN-CbE" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" constant="2" id="a4H-0N-4MR"/>
+                                                        <constraint firstAttribute="trailing" secondItem="16o-hN-CbE" secondAttribute="trailing" constant="2" id="hLd-N8-GNf"/>
+                                                        <constraint firstItem="058-FF-NV2" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" id="xOD-cN-UgD"/>
+                                                        <constraint firstItem="058-FF-NV2" firstAttribute="leading" secondItem="Plh-Ns-6Ti" secondAttribute="leading" id="zNP-zT-Pti"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Plh-Ns-6Ti" secondAttribute="trailing" id="4eI-E0-uV8"/>
+                                            <constraint firstItem="Plh-Ns-6Ti" firstAttribute="top" secondItem="m7w-mj-j1N" secondAttribute="top" id="N7B-5B-2lX"/>
+                                            <constraint firstItem="Plh-Ns-6Ti" firstAttribute="leading" secondItem="m7w-mj-j1N" secondAttribute="leading" id="TxD-cv-1dd"/>
+                                            <constraint firstAttribute="bottom" secondItem="Plh-Ns-6Ti" secondAttribute="bottom" id="tXX-Pf-dL7"/>
+                                        </constraints>
+                                        <size key="customSize" width="300" height="44"/>
+                                        <connections>
+                                            <outlet property="bodyView" destination="Plh-Ns-6Ti" id="NKh-qX-J6o"/>
+                                            <outlet property="bodyViewTopConstraint" destination="N7B-5B-2lX" id="oe5-fD-LlK"/>
+                                            <outlet property="leaderBar" destination="058-FF-NV2" id="RQw-w2-9Hk"/>
+                                            <outlet property="textLabel" destination="16o-hN-CbE" id="y8Z-ga-zgM"/>
+                                            <segue destination="meU-Ag-OGa" kind="show" identifier="Show Event" id="nbe-Po-Dfs"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="hDp-BO-sbW" id="J2D-ZA-oqD"/>
+                                    <outlet property="delegate" destination="hDp-BO-sbW" id="1Bp-n1-Gdv"/>
+                                </connections>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Fd-16-p13" userLabel="Gray Activity Indicator">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kIN-B5-RjT" firstAttribute="leading" secondItem="1LJ-cH-4CG" secondAttribute="leading" id="8Er-jW-e5Q"/>
+                            <constraint firstItem="kIN-B5-RjT" firstAttribute="top" secondItem="1LJ-cH-4CG" secondAttribute="top" id="NTS-CK-KNR"/>
+                            <constraint firstAttribute="bottom" secondItem="kIN-B5-RjT" secondAttribute="bottom" id="NmG-ze-86V"/>
+                            <constraint firstAttribute="centerY" secondItem="2Fd-16-p13" secondAttribute="centerY" id="TOP-So-Lbd"/>
+                            <constraint firstAttribute="trailing" secondItem="kIN-B5-RjT" secondAttribute="trailing" id="awz-sx-cLK"/>
+                            <constraint firstAttribute="centerX" secondItem="2Fd-16-p13" secondAttribute="centerX" id="yfM-73-dyu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Schedule" id="8GH-vx-lZx"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="2Fd-16-p13" id="gLr-dD-WOk"/>
+                        <outlet property="collectionView" destination="kIN-B5-RjT" id="oxP-QS-Gqb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H2n-LH-sj7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1674" y="0.0"/>
         </scene>
         <!--Sponsors-->
         <scene sceneID="hrm-q1-ApP">
@@ -792,7 +817,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Ce3-au-9TP" kind="relationship" relationship="rootViewController" id="rUB-Ll-wOr"/>
+                        <segue destination="hDp-BO-sbW" kind="relationship" relationship="rootViewController" id="be7-8j-ZwJ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hmE-Kb-RS7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -804,6 +829,6 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vDw-8J-ue9"/>
+        <segue reference="nbe-Po-Dfs"/>
     </inferredMetricsTieBreakers>
 </document>
