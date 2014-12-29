@@ -10,32 +10,33 @@ import UIKit
 
 class AnnouncementsViewController: UITableViewController {
     
-    // MARK: Model
+    // MARK: Initialization
     
-    private var announcements: [Announcement] = [] {
-        didSet {
-            if announcements != oldValue {
-                tableView.reloadData()
-            }
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        let observer = Observer<[Announcement]> { [unowned self] announcements in
+            self.announcements = announcements
         }
+        
+        self.fetchResultsManager.observerCollection.addObserver(observer)
     }
     
-    private func fetchAnnouncements() {
+    // MARK: Model
+    
+    let fetchResultsManager: FetchResultsManager<Announcement> = {
         
         let query = PFQuery(className: "Announcement")
         
         query.orderByDescending("date")
         
-        query.fetch { (possibleAnnouncements: [Announcement]?) in
-            
-            if let announcements = possibleAnnouncements {
-                
-                self.announcements = announcements
-                
-            } else {
-                
-                // FIXME: Handle error
-            }
+        return FetchResultsManager<Announcement>(query: query)
+    }()
+    
+    
+    private var announcements: [Announcement] = [] {
+        didSet {
+            tableView.reloadData()
         }
     }
     
@@ -51,7 +52,7 @@ class AnnouncementsViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchAnnouncements()
+        fetchResultsManager.fetch()
     }
     
     // MARK: Table view

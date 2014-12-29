@@ -115,16 +115,13 @@ class ScheduleCalendarViewController: UICollectionViewController, CalendarLayout
     
     func showDetailsForEventWithID(ID: String) {
         
-        fetchResultsManager.fetch {
+        let IDs = fetchResultsManager.results.map { $0.ID }
+        
+        if let index = find(IDs, ID) {
             
-            let IDs = self.fetchResultsManager.results.map { $0.ID }
+            collectionView!.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
             
-            if let index = find(IDs, ID) {
-                
-                self.collectionView!.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
-                
-                self.performSegueWithIdentifier("Show Event", sender: nil)
-            }
+            performSegueWithIdentifier("Show Event", sender: nil)
         }
     }
     
