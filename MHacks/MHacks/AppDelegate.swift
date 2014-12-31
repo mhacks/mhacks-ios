@@ -143,15 +143,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Do nothing
         }))
         
-        // FIXME: Test if this works
         tabBarController.showViewController(alertController, sender: nil)
-        
-        //tabBarController.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func showEventWithID(ID: String) {
         
-        scheduleViewController.fetchResultsManager.fetch {
+        scheduleViewController.fetchResultsManager.fetch { error in
             
             self.tabBarController.selectedIndex = Tab.Schedule.rawValue
             self.scheduleNavigationController.popToRootViewControllerAnimated(false)
@@ -161,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showAnnouncementWithID(ID: String) {
         
-        announcementsViewController.fetchResultsManager.fetch {
+        announcementsViewController.fetchResultsManager.fetch { error in
             
             self.tabBarController.selectedIndex = Tab.Announcements.rawValue
         }

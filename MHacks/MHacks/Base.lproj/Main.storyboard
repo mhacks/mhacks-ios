@@ -284,21 +284,32 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2Fd-16-p13" userLabel="Gray Activity Indicator">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j8V-nW-pEb">
+                                <rect key="frame" x="196" y="271" width="209" height="58"/>
+                                <string key="text">Could not Connect
+to Internet</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="24"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="kIN-B5-RjT" firstAttribute="leading" secondItem="1LJ-cH-4CG" secondAttribute="leading" id="8Er-jW-e5Q"/>
                             <constraint firstItem="kIN-B5-RjT" firstAttribute="top" secondItem="1LJ-cH-4CG" secondAttribute="top" id="NTS-CK-KNR"/>
                             <constraint firstAttribute="bottom" secondItem="kIN-B5-RjT" secondAttribute="bottom" id="NmG-ze-86V"/>
+                            <constraint firstAttribute="centerX" secondItem="j8V-nW-pEb" secondAttribute="centerX" id="RqZ-0k-Bpi"/>
                             <constraint firstAttribute="centerY" secondItem="2Fd-16-p13" secondAttribute="centerY" id="TOP-So-Lbd"/>
                             <constraint firstAttribute="trailing" secondItem="kIN-B5-RjT" secondAttribute="trailing" id="awz-sx-cLK"/>
+                            <constraint firstAttribute="centerY" secondItem="j8V-nW-pEb" secondAttribute="centerY" id="plq-Ln-WZ1"/>
                             <constraint firstAttribute="centerX" secondItem="2Fd-16-p13" secondAttribute="centerX" id="yfM-73-dyu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Schedule" id="8GH-vx-lZx"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="2Fd-16-p13" id="gLr-dD-WOk"/>
                         <outlet property="collectionView" destination="kIN-B5-RjT" id="oxP-QS-Gqb"/>
+                        <outlet property="errorLabel" destination="j8V-nW-pEb" id="ISF-5U-jLu"/>
+                        <outlet property="loadingIndicatorView" destination="2Fd-16-p13" id="EEh-5S-b8f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H2n-LH-sj7" userLabel="First Responder" sceneMemberID="firstResponder"/>

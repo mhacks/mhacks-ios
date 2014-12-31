@@ -223,4 +223,10 @@ class EventOrganizer {
     // MARK: Days and Hours
     
     let days: [Day] = []
+    
+    // MARK: Empty
+    
+    var isEmpty: Bool {
+        return days.count == 0
+    }
 }

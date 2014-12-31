@@ -40,10 +40,32 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         }
     }
     
+    private func fetch() {
+        
+        if !fetchResultsManager.fetching {
+            
+            errorLabel.hidden = true
+            
+            if eventOrganizer.isEmpty {
+                loadingIndicatorView.startAnimating()
+            }
+            
+            fetchResultsManager.fetch { error in
+                
+                self.loadingIndicatorView.stopAnimating()
+                
+                if error != nil {
+                    self.errorLabel.hidden = false
+                }
+            }
+        }
+    }
+    
     // MARK: View
     
     @IBOutlet private var collectionView: UICollectionView!
-    @IBOutlet private var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,13 +97,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if eventOrganizer.days.count == 0 {
-            activityIndicatorView.startAnimating()
-        }
-        
-        fetchResultsManager.fetch {
-            self.activityIndicatorView.stopAnimating()
-        }
+        fetch()
     }
     
     // MARK: Collection view data source

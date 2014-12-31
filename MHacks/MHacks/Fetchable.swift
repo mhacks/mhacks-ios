@@ -56,18 +56,21 @@ class Fetcher<T: Fetchable> {
                     self?.fetchCompletionBlock(nil)
                 }
                 
-                taskCompletionBlock()
+                taskCompletionBlock(error)
             }
         }
     }
     
     // MARK: Fetch
     
-    private let coalescer = Coalescer()
+    private let coalescer = Coalescer<NSError?>()
     
-    func fetch(completionBlock: (() -> Void)? = nil) {
-        
+    func fetch(completionBlock: (NSError? -> Void)? = nil) {
         coalescer.run(completionBlock)
+    }
+    
+    var fetching: Bool {
+        return coalescer.running
     }
     
     typealias FetchCompletionBlock = ([T]?) -> Void
@@ -95,8 +98,12 @@ class FetchResultsManager<T: Fetchable> {
     
     private let fetcher: Fetcher<T>
     
-    func fetch(completionBlock: (() -> Void)? = nil) {
+    func fetch(completionBlock: (NSError? -> Void)? = nil) {
         fetcher.fetch(completionBlock)
+    }
+    
+    var fetching: Bool {
+        return fetcher.fetching
     }
     
     private(set) var results: [T] = [] {

@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Coalescer {
+class Coalescer<Result> {
     
     // MARK: Task
     
-    typealias Task = (() -> Void) -> Void
+    typealias Task = (Result -> Void) -> Void
     
     var task: Task!
     
@@ -32,18 +32,18 @@ class Coalescer {
             
             running = true
             
-            task { results in
+            task { result in
                 
                 self.running = false
                 
-                self.complete()
+                self.completeWithResult(result)
             }
         }
     }
     
     // MARK: Completion
     
-    typealias CompletionBlock = () -> Void
+    typealias CompletionBlock = Result -> Void
     
     private var completionBlocks: [CompletionBlock] = []
     
@@ -51,10 +51,10 @@ class Coalescer {
         completionBlocks.append(block)
     }
     
-    private func complete() {
+    private func completeWithResult(result: Result) {
         
         for block in completionBlocks {
-            block()
+            block(result)
         }
         
         completionBlocks.removeAll(keepCapacity: true)
