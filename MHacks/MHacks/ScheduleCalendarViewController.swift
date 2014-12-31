@@ -31,6 +31,10 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         query.includeKey("category")
         query.includeKey("locations")
         
+        query.orderByAscending("startTime")
+        query.addAscendingOrder("duration")
+        query.addAscendingOrder("title")
+        
         return FetchResultsManager<Event>(query: query)
     }()
     
@@ -74,7 +78,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
         
         let layout = collectionView.collectionViewLayout as CalendarLayout
-        layout.cellInsets = UIEdgeInsets(top: 1.0, left: 53.0, bottom: 1.0, right: 1.0)
+        layout.rowInsets = UIEdgeInsets(top: 0.0, left: 52.0, bottom: 0.0, right: 0.0)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -151,6 +155,14 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
         return eventOrganizer.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: NSIndexPath) -> Int {
+        return eventOrganizer.numberOfColumnsForEventAtIndex(indexPath.item, inDay: indexPath.section)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: NSIndexPath) -> Int {
+        return eventOrganizer.columnForEventAtIndex(indexPath.item, inDay: indexPath.section)
     }
     
     // MARK: Segues

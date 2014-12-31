@@ -293,23 +293,3 @@ class GridLayout: UICollectionViewLayout {
         return context
     }
 }
-
-extension CGFloat {
-    
-    func integratedFloatInTraitCollection(collection: UITraitCollection) -> CGFloat {
-        return round(self * collection.displayScale) / collection.displayScale
-    }
-}
-
-extension CGRect {
-    
-    func integratedRectInTraitCollection(collection: UITraitCollection) -> CGRect {
-        
-        let minX = self.minX.integratedFloatInTraitCollection(collection)
-        let maxX = self.maxX.integratedFloatInTraitCollection(collection)
-        let minY = self.minY.integratedFloatInTraitCollection(collection)
-        let maxY = self.maxY.integratedFloatInTraitCollection(collection)
-        
-        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
-    }
-}

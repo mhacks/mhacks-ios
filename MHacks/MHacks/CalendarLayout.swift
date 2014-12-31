@@ -14,6 +14,9 @@ import UIKit
     
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
+    
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: NSIndexPath) -> Int
+    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: NSIndexPath) -> Int
 }
 
 class CalendarLayout: UICollectionViewLayout {
@@ -39,7 +42,13 @@ class CalendarLayout: UICollectionViewLayout {
         }
     }
     
-    var cellInsets: UIEdgeInsets = UIEdgeInsetsZero {
+    var rowInsets: UIEdgeInsets = UIEdgeInsetsZero {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var cellInsets: UIEdgeInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: 1.0) {
         didSet {
             invalidateLayout()
         }
@@ -110,9 +119,20 @@ class CalendarLayout: UICollectionViewLayout {
                 let startOffset = sectionOffset + CGFloat(startRow) * self.rowHeight
                 let endOffset = sectionOffset + CGFloat(endRow) * self.rowHeight
                 
-                let rect = CGRectMake(0.0, startOffset, self.contentSize.width, endOffset - startOffset)
+                let rect = CGRect(x: 0.0, y: startOffset, width: self.contentSize.width, height: endOffset - startOffset)
                 
-                layoutAttributes.frame = UIEdgeInsetsInsetRect(rect, self.cellInsets)
+                let rowRect = UIEdgeInsetsInsetRect(rect, self.rowInsets)
+                
+                let numberOfColumns = self.delegate!.collectionView(self.collectionView!, layout: self, numberOfColumnsForItemAtIndexPath: indexPath)
+                let column = self.delegate!.collectionView(self.collectionView!, layout: self, columnForItemAtIndexPath: indexPath)
+                
+                let columnWidth = rowRect.width / CGFloat(numberOfColumns)
+                
+                let columnRect = CGRect(x: rowRect.minX + CGFloat(column) * columnWidth, y: rowRect.minY, width: columnWidth, height: rowRect.height)
+                
+                let cellRect = UIEdgeInsetsInsetRect(columnRect, self.cellInsets)
+                
+                layoutAttributes.frame = cellRect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
                 
                 return layoutAttributes
             }

@@ -135,25 +135,29 @@
                                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-Be-uXn" userLabel="Spacer">
+                                    <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8iz-Be-uXn" userLabel="Spacer">
+                                        <rect key="frame" x="300" y="0.0" width="1" height="16"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" id="3SO-z4-aSW"/>
+                                            <constraint firstAttribute="width" constant="1" id="3SO-z4-aSW"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="7hC-2W-WwI"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DYb-g8-7pR" userLabel="Spacer">
+                                        <rect key="frame" x="300" y="419" width="1" height="16"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" id="02g-BF-dro"/>
+                                            <constraint firstAttribute="width" constant="1" id="02g-BF-dro"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tar-UI-HOd" userLabel="Spacer">
+                                        <rect key="frame" x="300" y="52" width="1" height="16"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" id="IWY-3S-KZy"/>
+                                            <constraint firstAttribute="width" constant="1" id="IWY-3S-KZy"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gcl-ld-cIb" userLabel="Spacer">
+                                        <rect key="frame" x="300" y="471" width="1" height="16"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" id="kz5-3b-BXf"/>
+                                            <constraint firstAttribute="width" constant="1" id="kz5-3b-BXf"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -253,6 +257,7 @@
                                                         <constraint firstAttribute="bottom" secondItem="058-FF-NV2" secondAttribute="bottom" id="ZtU-r2-lAW"/>
                                                         <constraint firstItem="16o-hN-CbE" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" constant="2" id="a4H-0N-4MR"/>
                                                         <constraint firstAttribute="trailing" secondItem="16o-hN-CbE" secondAttribute="trailing" constant="2" id="hLd-N8-GNf"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="16o-hN-CbE" secondAttribute="bottom" constant="2" id="r3d-Qv-DNv"/>
                                                         <constraint firstItem="058-FF-NV2" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" id="xOD-cN-UgD"/>
                                                         <constraint firstItem="058-FF-NV2" firstAttribute="leading" secondItem="Plh-Ns-6Ti" secondAttribute="leading" id="zNP-zT-Pti"/>
                                                     </constraints>

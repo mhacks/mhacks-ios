@@ -142,6 +142,7 @@ class EventOrganizer {
     
     // MARK: Initialization
     
+    // Events are assumed to be sorted by start date
     init(events: [Event]) {
         
         // Return if no events
@@ -152,9 +153,7 @@ class EventOrganizer {
         
         // First and last date
         
-        let firstDate = events.reduce(NSDate.distantFuture() as NSDate) { firstDate, event in
-            return firstDate.earlierDate(event.startDate)
-        }
+        let firstDate = events.first!.startDate
         
         let lastDate = events.reduce(NSDate.distantPast() as NSDate) { lastDate, event in
             return lastDate.laterDate(event.endDate)
@@ -189,16 +188,60 @@ class EventOrganizer {
         
         // Partial hours
         
-        var partialHours: [[HalfOpenInterval<Double>]] = []
+        var partialHoursByDay: [[HalfOpenInterval<Double>]] = []
         
         for day in 0..<days.count {
-            partialHours += [self.eventsByDay[day].map { event in
+            partialHoursByDay += [self.eventsByDay[day].map { event in
                 return days[day].partialHoursFromDate(event.startDate, toDate: event.endDate)
             }]
         }
         
-        self.partialHours = partialHours
+        self.partialHoursByDay = partialHoursByDay
+        
+        // Conflicts
+        
+        var numberOfColumnsByDay: [[Int]] = []
+        var columnsByDay: [[Int]] = []
+        
+        for day in 0..<partialHoursByDay.count {
+            
+            let partialHoursCount = partialHoursByDay[day].count
+            
+            var column = 0
+            
+            var numberOfColumns = Array(count: partialHoursCount, repeatedValue: 1)
+            var columns = Array(count: partialHoursCount, repeatedValue: 0)
+            
+            for index in 0..<partialHoursCount {
+                
+                let partialHourStart = partialHoursByDay[day][index].start
+                let nextPartialHourStart: Double? = (index+1 < partialHoursCount) ? partialHoursByDay[day][index+1].start : nil
+                
+                columns[index] = column
+                
+                if partialHourStart == nextPartialHourStart {
+                    
+                    column++
+                    
+                } else {
+                    
+                    numberOfColumns[(index-column)...index] = Slice(count: column+1, repeatedValue: column+1)
+                    
+                    column = 0
+                }
+            }
+            
+            numberOfColumnsByDay += [numberOfColumns]
+            columnsByDay += [columns]
+        }
+        
+        self.numberOfColumnsByDay = numberOfColumnsByDay
+        self.columnsByDay = columnsByDay
     }
+    
+    // MARK: Days and Hours
+    
+    let days: [Day] = []
     
     // MARK: Events
     
@@ -214,15 +257,24 @@ class EventOrganizer {
     
     // MARK: Partial hours
     
-    private let partialHours: [[HalfOpenInterval<Double>]] = []
+    private let partialHoursByDay: [[HalfOpenInterval<Double>]] = []
     
     func partialHoursForEventAtIndex(index: Int, inDay day: Int) -> HalfOpenInterval<Double> {
-        return partialHours[day][index]
+        return partialHoursByDay[day][index]
     }
     
-    // MARK: Days and Hours
+    // MARK: Columns
     
-    let days: [Day] = []
+    private let numberOfColumnsByDay: [[Int]] = []
+    private let columnsByDay: [[Int]] = []
+    
+    func numberOfColumnsForEventAtIndex(index: Int, inDay day: Int) -> Int {
+        return numberOfColumnsByDay[day][index]
+    }
+    
+    func columnForEventAtIndex(index: Int, inDay day: Int) -> Int {
+        return columnsByDay[day][index]
+    }
     
     // MARK: Empty
     
