@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
+class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollectionViewDataSource {
     
     // MARK: Initialization
     
@@ -34,31 +34,73 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
         return FetchResultsManager<Sponsor>(query: query)
     }()
     
-    // MARK: Model
-    
     private var sponsorOrganizer: SponsorOrganizer = SponsorOrganizer(sponsors: []) {
         didSet {
             collectionView?.reloadData()
         }
     }
     
-    // MARK: View life cycle
-
+    // MARK: View
+    
+    private func fetch() {
+        
+        if !fetchResultsManager.fetching {
+            
+            errorLabel.hidden = true
+            
+            if fetchResultsManager.results.isEmpty {
+                loadingIndicatorView.startAnimating()
+            }
+            
+            fetchResultsManager.fetch { error in
+                
+                self.loadingIndicatorView.stopAnimating()
+                
+                if error != nil {
+                    self.errorLabel.hidden = false
+                }
+            }
+        }
+    }
+    
+    // MARK: View
+    
+    @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private var errorLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView!.registerNib(UINib(nibName: "SponsorTierHeader", bundle: nil), forSupplementaryViewOfKind: GridLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "TierHeader")
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let indexPath = collectionView.indexPathsForSelectedItems().first as? NSIndexPath
+        
+        transitionCoordinator()?.animateAlongsideTransition({ context in
+            
+            self.collectionView.deselectItemAtIndexPath(indexPath, animated: animated)
+            
+            }, completion: { context in
+                
+                if context.isCancelled() {
+                    self.collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                }
+        })
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchResultsManager.fetch()
+        fetch()
     }
     
     // MARK: Collection view delegate
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "TierHeader", forIndexPath: indexPath) as SponsorTierHeader
         
@@ -69,15 +111,15 @@ class SponsorsViewController: UICollectionViewController, GridLayoutDelegate {
     
     // MARK: Collection view data source
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return sponsorOrganizer.tiers.count
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sponsorOrganizer.sponsors[section].count
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SponsorCell", forIndexPath: indexPath) as SponsorCell
         

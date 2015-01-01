@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnnouncementsViewController: UITableViewController {
+class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Initialization
     
@@ -40,7 +40,35 @@ class AnnouncementsViewController: UITableViewController {
         }
     }
     
-    // MARK: View life cycle
+    private func fetch() {
+        
+        if !fetchResultsManager.fetching {
+            
+            errorLabel.hidden = true
+            
+            if fetchResultsManager.results.isEmpty {
+                tableView.hidden = true
+                loadingIndicatorView.startAnimating()
+            }
+            
+            fetchResultsManager.fetch { error in
+                
+                self.loadingIndicatorView.stopAnimating()
+                
+                if error != nil {
+                    self.errorLabel.hidden = false
+                } else {
+                    self.tableView.hidden = false
+                }
+            }
+        }
+    }
+    
+    // MARK: View
+    
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,16 +80,16 @@ class AnnouncementsViewController: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchResultsManager.fetch()
+        fetch()
     }
     
     // MARK: Table view
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return announcements.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Announcement Cell", forIndexPath: indexPath) as AnnouncementCell
         

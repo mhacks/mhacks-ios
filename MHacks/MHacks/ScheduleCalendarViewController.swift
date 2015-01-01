@@ -50,7 +50,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
             
             errorLabel.hidden = true
             
-            if eventOrganizer.isEmpty {
+            if fetchResultsManager.results.isEmpty {
                 loadingIndicatorView.startAnimating()
             }
             

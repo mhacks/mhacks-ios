@@ -275,10 +275,4 @@ class EventOrganizer {
     func columnForEventAtIndex(index: Int, inDay day: Int) -> Int {
         return columnsByDay[day][index]
     }
-    
-    // MARK: Empty
-    
-    var isEmpty: Bool {
-        return days.count == 0
-    }
 }
