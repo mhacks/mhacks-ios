@@ -31,7 +31,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         query.includeKey("tier")
         query.includeKey("location")
         
-        return FetchResultsManager<Sponsor>(query: query)
+        return FetchResultsManager<Sponsor>(query: query, name: "Sponsors")
     }()
     
     private var sponsorOrganizer: SponsorOrganizer = SponsorOrganizer(sponsors: []) {
@@ -42,7 +42,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     
     // MARK: View
     
-    private func fetch() {
+    private func fetch(source: FetchSource) {
         
         if !fetchResultsManager.fetching {
             
@@ -52,11 +52,11 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
                 loadingIndicatorView.startAnimating()
             }
             
-            fetchResultsManager.fetch { error in
+            fetchResultsManager.fetch(source) { error in
                 
                 self.loadingIndicatorView.stopAnimating()
                 
-                if error != nil {
+                if self.fetchResultsManager.results.isEmpty && error != nil {
                     self.errorLabel.hidden = false
                 }
             }
@@ -73,6 +73,8 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         super.viewDidLoad()
         
         collectionView!.registerNib(UINib(nibName: "SponsorTierHeader", bundle: nil), forSupplementaryViewOfKind: GridLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "TierHeader")
+        
+        fetch(.Local)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -95,7 +97,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch()
+        fetch(.Remote)
     }
     
     // MARK: Collection view delegate

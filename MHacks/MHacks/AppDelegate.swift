@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Parse
         
+        Parse.enableLocalDatastore()
         Parse.setApplicationId(Keys.sharedKeys.parseApplicationID, clientKey: Keys.sharedKeys.parseClientKey)
         
         // Tint color
@@ -163,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showEventWithID(ID: String) {
         
-        scheduleViewController.fetchResultsManager.fetch { error in
+        scheduleViewController.fetchResultsManager.fetch(.Remote) { error in
             
             self.tabBarController.selectedIndex = Tab.Schedule.rawValue
             self.scheduleNavigationController.popToRootViewControllerAnimated(false)
@@ -173,7 +174,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showAnnouncementWithID(ID: String) {
         
-        announcementsViewController.fetchResultsManager.fetch { error in
+        announcementsViewController.fetchResultsManager.fetch(.Remote) { error in
             
             self.tabBarController.selectedIndex = Tab.Announcements.rawValue
         }

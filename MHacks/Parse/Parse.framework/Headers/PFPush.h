@@ -171,7 +171,7 @@
                                  withMessage:(NSString *)message
                                        block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* send a push message to a channel.
 
  @param channel The channel to send to. The channel name must start with
@@ -248,7 +248,7 @@
  */
 - (void)sendPushInBackgroundWithBlock:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* send this push message and calls the given callback.
 
  @param target The object to call selector on.
@@ -304,7 +304,7 @@
                                  withData:(NSDictionary *)data
                                     block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* send a push message with arbitrary data to a channel.
 
  @discussion See the guide for information about the dictionary structure.
@@ -419,7 +419,7 @@
  */
 + (void)getSubscribedChannelsInBackgroundWithBlock:(PFSetResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* get all the channels that this device is subscribed to.
 
  @param target The object to call selector on.
@@ -462,7 +462,7 @@
 + (void)subscribeToChannelInBackground:(NSString *)channel
                                  block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* subscribes the device to a channel of push notifications and calls the given callback.
 
  @param channel The channel to subscribe to. The channel name must start with
@@ -506,7 +506,7 @@
 + (void)unsubscribeFromChannelInBackground:(NSString *)channel
                                      block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* unsubscribes the device from a channel of push notifications and calls the given callback.
 
  @param channel The channel to unsubscribe from.

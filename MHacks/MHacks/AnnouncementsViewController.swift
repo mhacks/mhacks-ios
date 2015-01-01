@@ -30,7 +30,7 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
         
         query.orderByDescending("date")
         
-        return FetchResultsManager<Announcement>(query: query)
+        return FetchResultsManager<Announcement>(query: query, name: "Announcements")
     }()
     
     
@@ -40,7 +40,7 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
     
-    private func fetch() {
+    private func fetch(source: FetchSource) {
         
         if !fetchResultsManager.fetching {
             
@@ -51,11 +51,11 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
                 loadingIndicatorView.startAnimating()
             }
             
-            fetchResultsManager.fetch { error in
+            fetchResultsManager.fetch(source) { error in
                 
                 self.loadingIndicatorView.stopAnimating()
                 
-                if error != nil {
+                if self.fetchResultsManager.results.isEmpty && error != nil {
                     self.errorLabel.hidden = false
                 } else {
                     self.tableView.hidden = false
@@ -75,12 +75,14 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 98.0
+        
+        fetch(.Local)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch()
+        fetch(.Remote)
     }
     
     // MARK: Table view

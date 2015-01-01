@@ -53,7 +53,7 @@
  */
 + (void)logInWithBlock:(PFUserResultBlock)block;
 
-/*!
+/*
  @abstract Creates an anonymous user.
 
  @param target Target object for the selector.

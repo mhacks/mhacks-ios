@@ -146,7 +146,7 @@
 - (void)saveInBackgroundWithBlock:(PFBooleanResultBlock)block
                     progressBlock:(PFProgressBlock)progressBlock;
 
-/*!
+/*
  @abstract Saves the file *asynchronously* and calls the given callback.
 
  @param target The object to call selector on.
@@ -264,7 +264,7 @@
 - (void)getDataStreamInBackgroundWithBlock:(PFDataStreamResultBlock)resultBlock
                              progressBlock:(PFProgressBlock)progressBlock;
 
-/*!
+/*
  @abstract *Asynchronously* gets the data from cache if available or fetches its contents from the network.
 
  @param target The object to call selector on.

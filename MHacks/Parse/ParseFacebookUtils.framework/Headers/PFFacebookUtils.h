@@ -103,8 +103,13 @@
 + (BFTask *)logInWithPermissionsInBackground:(NSArray *)permissions;
 
 /*!
- @abstract Logs in a user using Facebook. This method delegates to the Facebook SDK to authenticate
- the user, and then automatically logs in (or creates, in the case where it is a new user) a <PFUser>.
+ @abstract Logs in a user using Facebook.
+
+ @discussion This method delegates to the Facebook SDK to authenticate the user,
+ and then automatically logs in (or creates, in the case where it is a new user) a <PFUser>.
+ `user` is going to be non-nil if the authentication was succesful.
+ `error` is set if there was an error.
+ `user` and `error` are both nil - if the user cancelled authentication by switching back to the application.
 
  @param permissions The permissions required for Facebook log in. This passed to the authorize method on
  the Facebook instance.
@@ -113,11 +118,14 @@
  */
 + (void)logInWithPermissions:(NSArray *)permissions block:(PFUserResultBlock)block;
 
-/*!
+/*
  @abstract Logs in a user using Facebook *asynchronously*.
 
  @discussion This method delegates to the Facebook SDK to authenticate the user,
  and then automatically logs in (or creates, in the case where it is a new user) a <PFUser>.
+ `user` is going to be non-nil if the authentication was succesful.
+ `error` is set if there was an error.
+ `user` and `error` are both nil - if the user cancelled authentication by switching back to the application.
 
  @param permissions The permissions required for Facebook log in. This passed to the authorize method on
  the Facebook instance.
@@ -160,7 +168,7 @@
              expirationDate:(NSDate *)expirationDate
                       block:(PFUserResultBlock)block;
 
-/*!
+/*
  @abstract Logs in a user using Facebook *asynchronously*.
 
  @discussion Allows you to handle user login to Facebook, then provide authentication
@@ -225,7 +233,7 @@
  */
 + (void)linkUser:(PFUser *)user permissions:(NSArray *)permissions block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Links Facebook to an existing <PFUser> *asynchronously*.
 
  @discussion This method delegates to the Facebook SDK to authenticate
@@ -277,7 +285,7 @@
   expirationDate:(NSDate *)expirationDate
            block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Links Facebook to an existing <PFUser> *asynchronously*.
 
  @discussion Allows you to handle user login to Facebook,
@@ -338,7 +346,7 @@
  */
 + (void)unlinkUserInBackground:(PFUser *)user block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Unlinks the <PFUser> from a Facebook account *asynchronously*.
 
  @param user User to unlink from Facebook
@@ -387,7 +395,7 @@
                audience:(FBSessionDefaultAudience)audience
                   block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Requests new Facebook publish permissions for the given user *asynchronously*.
 
  @discussion The user will be saved as part of this operation.
@@ -412,7 +420,7 @@
 ///--------------------------------------
 
 /*!
- @abstractHandles URLs being opened by your AppDelegate. Invoke and return this from application:handleOpenURL:
+ @abstract Handles URLs being opened by your AppDelegate. Invoke and return this from application:handleOpenURL:
  or application:openURL:sourceApplication:annotation in your AppDelegate.
 
  @param url URL being opened by your application.

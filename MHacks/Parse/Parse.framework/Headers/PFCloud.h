@@ -65,7 +65,7 @@
                   withParameters:(NSDictionary *)parameters
                            block:(PFIdResultBlock)block;
 
-/*!
+/*
  @abstract Calls the given cloud function *asynchronously* with the parameters provided
  and then executes the given selector when it is done.
 

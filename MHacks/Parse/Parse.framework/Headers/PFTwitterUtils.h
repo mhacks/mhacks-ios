@@ -75,7 +75,7 @@
  */
 + (void)logInWithBlock:(PFUserResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* Logs in a user using Twitter.
 
  @discussion This method delegates to Twitter to authenticate the user,
@@ -124,7 +124,7 @@
            authTokenSecret:(NSString *)authTokenSecret
                      block:(PFUserResultBlock)block;
 
-/*!
+/*
  @abstract Logs in a user using Twitter.
 
  @discussion Allows you to handle user login to Twitter, then provide authentication data
@@ -185,7 +185,7 @@
  */
 + (void)linkUser:(PFUser *)user block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract *Asynchronously* links Twitter to an existing <PFUser>.
 
  @discussion This method delegates to Twitter to authenticate the user,
@@ -240,7 +240,7 @@
  authTokenSecret:(NSString *)authTokenSecret
            block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Links Twitter to an existing <PFUser>.
 
  @discussion This method allows you to handle user login to Twitter,
@@ -305,7 +305,7 @@
 + (void)unlinkUserInBackground:(PFUser *)user
                          block:(PFBooleanResultBlock)block;
 
-/*!
+/*
  @abstract Makes an *asynchronous* request to unlink a user from a Twitter account.
 
  @param user User to unlink from Twitter

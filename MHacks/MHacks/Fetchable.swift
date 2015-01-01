@@ -35,38 +35,99 @@ extension PFQuery {
     }
 }
 
+enum FetchSource {
+    case Local
+    case Remote
+}
+
 class Fetcher<T: Fetchable> {
     
     // MARK: Initialization
     
-    init(query: PFQuery) {
+    init(query: PFQuery, name: String) {
         
-        coalescer.task = { [weak self] taskCompletionBlock in
+        let localQuery = query.copy() as PFQuery
+        //localQuery.fromLocalDatastore()
+        
+        let remoteQuery = query
+        
+        coalescer.task = { [weak self] source, taskCompletionBlock in
             
-            query.findObjectsInBackgroundWithBlock { objects, error in
+            let query: PFQuery = {
+                switch source {
+                case .Local:
+                    return localQuery
+                case .Remote:
+                    return remoteQuery
+                }
+            }()
+            
+            query.findObjectsInBackgroundWithBlock { objects, findError in
                 
-                if let objects = objects as? [PFObject] {
+                if findError != nil {
                     
-                    let results = objects.map { T(object: $0 ) }.filter { $0 != nil }.map { $0! }
-                    
-                    self?.fetchCompletionBlock(results)
+                    self?.fetchCompletionBlock(nil)
+                    taskCompletionBlock(findError)
                     
                 } else {
                     
-                    self?.fetchCompletionBlock(nil)
+                    let processObjects: () -> Void = {
+                        
+                        if let objects = objects as? [PFObject] {
+                            
+                            let results = objects.map { T(object: $0 ) }.filter { $0 != nil }.map { $0! }
+                            self?.fetchCompletionBlock(results)
+                            
+                        } else {
+                            
+                            self?.fetchCompletionBlock(nil)
+                        }
+                        
+                        taskCompletionBlock(nil)
+                    }
+                    
+                    switch source {
+                        
+                        case .Local:
+                        processObjects()
+                        
+                        case .Remote:
+                        
+                        PFObject.unpinAllObjectsInBackgroundWithName(name) { success, unpinError in
+                            
+                            if unpinError != nil {
+                                
+                                self?.fetchCompletionBlock(nil)
+                                taskCompletionBlock(unpinError)
+                                
+                            } else {
+                                
+                                PFObject.pinAllInBackground(objects, withName: name) { success, pinError in
+                                    
+                                    if pinError != nil {
+                                        
+                                        self?.fetchCompletionBlock(nil)
+                                        taskCompletionBlock(pinError)
+                                        
+                                    } else {
+                                        
+                                        processObjects()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                
-                taskCompletionBlock(error)
             }
         }
     }
     
     // MARK: Fetch
     
-    private let coalescer = Coalescer<NSError?>()
+    private let coalescer = Coalescer<FetchSource, NSError?>()
     
-    func fetch(completionBlock: (NSError? -> Void)? = nil) {
-        coalescer.run(completionBlock)
+    func fetch(source: FetchSource, completionBlock: (NSError? -> Void)? = nil) {
+        coalescer.run(source, completionBlock)
     }
     
     var fetching: Bool {
@@ -82,9 +143,9 @@ class FetchResultsManager<T: Fetchable> {
     
     // MARK: Initialization
     
-    init(query: PFQuery) {
+    init(query: PFQuery, name: String) {
         
-        fetcher = Fetcher(query: query)
+        fetcher = Fetcher(query: query, name: name)
         
         fetcher.fetchCompletionBlock = { results in
             
@@ -98,8 +159,8 @@ class FetchResultsManager<T: Fetchable> {
     
     private let fetcher: Fetcher<T>
     
-    func fetch(completionBlock: (NSError? -> Void)? = nil) {
-        fetcher.fetch(completionBlock)
+    func fetch(source: FetchSource, completionBlock: (NSError? -> Void)? = nil) {
+        fetcher.fetch(source, completionBlock: completionBlock)
     }
     
     var fetching: Bool {

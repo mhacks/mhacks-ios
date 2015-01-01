@@ -119,7 +119,7 @@
 
  @param predicate The predicate to create conditions from.
 
- @return An instance of <PFQuery>.
+ @returns An instance of <PFQuery>.
 
  @see [PFQuery queryWithClassName:predicate:]
  */

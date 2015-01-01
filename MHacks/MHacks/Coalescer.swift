@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Coalescer<Result> {
+class Coalescer<Parameter, Result> {
     
     // MARK: Task
     
-    typealias Task = (Result -> Void) -> Void
+    typealias Task = (Parameter, (Result -> Void)) -> Void
     
     var task: Task!
     
@@ -22,7 +22,7 @@ class Coalescer<Result> {
     
     var running = false
     
-    func run(completionBlock: CompletionBlock? = nil) {
+    func run(parameter: Parameter, completionBlock: CompletionBlock? = nil) {
         
         if let completionBlock = completionBlock {
             addCompletionBlock(completionBlock)
@@ -32,7 +32,7 @@ class Coalescer<Result> {
             
             running = true
             
-            task { result in
+            task(parameter) { result in
                 
                 self.running = false
                 

@@ -35,7 +35,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         query.addAscendingOrder("duration")
         query.addAscendingOrder("title")
         
-        return FetchResultsManager<Event>(query: query)
+        return FetchResultsManager<Event>(query: query, name: "Schedule")
     }()
     
     var eventOrganizer: EventOrganizer = EventOrganizer(events: []) {
@@ -44,7 +44,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         }
     }
     
-    private func fetch() {
+    private func fetch(source: FetchSource) {
         
         if !fetchResultsManager.fetching {
             
@@ -54,11 +54,11 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
                 loadingIndicatorView.startAnimating()
             }
             
-            fetchResultsManager.fetch { error in
+            fetchResultsManager.fetch(source) { error in
                 
                 self.loadingIndicatorView.stopAnimating()
                 
-                if error != nil {
+                if self.fetchResultsManager.results.isEmpty && error != nil {
                     self.errorLabel.hidden = false
                 }
             }
@@ -79,6 +79,8 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         
         let layout = collectionView.collectionViewLayout as CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 52.0, bottom: 0.0, right: 0.0)
+        
+        fetch(.Local)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -101,7 +103,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch()
+        fetch(.Remote)
     }
     
     // MARK: Collection view data source
