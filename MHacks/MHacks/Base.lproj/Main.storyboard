@@ -355,7 +355,7 @@ to Internet</string>
             </objects>
             <point key="canvasLocation" x="854" y="1474"/>
         </scene>
-        <!--Sponsors View Controller-->
+        <!--Sponsors-->
         <scene sceneID="7Sv-iX-Do4">
             <objects>
                 <viewController id="GkV-gj-lwa" customClass="SponsorsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -441,7 +441,7 @@ to Internet</string>
                             <constraint firstItem="Kvc-jo-XQe" firstAttribute="top" secondItem="cP9-pJ-JJ2" secondAttribute="top" id="iWA-nz-RGg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="nL9-tQ-N1B"/>
+                    <navigationItem key="navigationItem" title="Sponsors" id="nL9-tQ-N1B"/>
                     <connections>
                         <outlet property="collectionView" destination="Kvc-jo-XQe" id="InW-nj-v3a"/>
                         <outlet property="errorLabel" destination="WmB-VF-hQN" id="eGr-nS-Ugo"/>
@@ -914,11 +914,11 @@ to Internet</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Countdown" width="50" height="50"/>
-        <image name="Maps" width="50" height="50"/>
-        <image name="News" width="50" height="50"/>
-        <image name="Schedule" width="50" height="50"/>
-        <image name="Sponsors" width="50" height="50"/>
+        <image name="Countdown" width="25" height="25"/>
+        <image name="Maps" width="25" height="25"/>
+        <image name="News" width="25" height="25"/>
+        <image name="Schedule" width="25" height="25"/>
+        <image name="Sponsors" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="nbe-Po-Dfs"/>
