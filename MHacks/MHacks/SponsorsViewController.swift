@@ -19,7 +19,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
             self.sponsorOrganizer = SponsorOrganizer(sponsors: sponsors)
         }
         
-        self.fetchResultsManager.observerCollection.addObserver(observer)
+        fetchResultsManager.observerCollection.addObserver(observer)
     }
     
     // MARK: Model

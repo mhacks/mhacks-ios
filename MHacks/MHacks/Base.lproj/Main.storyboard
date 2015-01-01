@@ -325,7 +325,7 @@ to Internet</string>
         <scene sceneID="hrm-q1-ApP">
             <objects>
                 <navigationController id="TTZ-Ab-3ig" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Sponsors" image="first" id="RCf-M3-4U6"/>
+                    <tabBarItem key="tabBarItem" title="Sponsors" image="Sponsors" id="RCf-M3-4U6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qLz-Kd-ME1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -342,7 +342,7 @@ to Internet</string>
         <scene sceneID="uOD-BQ-vc5">
             <objects>
                 <navigationController id="sR8-bf-8g5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="News" image="first" id="9r9-Bs-fLz"/>
+                    <tabBarItem key="tabBarItem" title="News" image="News" id="9r9-Bs-fLz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KCn-eg-lL8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -533,7 +533,7 @@ to Internet</string>
         <scene sceneID="bYl-Uo-o0q">
             <objects>
                 <navigationController id="ASc-xV-bp5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="first" id="4p4-yQ-XQc"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Maps" id="4p4-yQ-XQc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GAt-GL-Vo8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -800,7 +800,7 @@ to Internet</string>
         <scene sceneID="mjs-da-oBa">
             <objects>
                 <navigationController id="sZ1-uG-KLM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Countdown" image="first" id="uoA-VM-Ce8"/>
+                    <tabBarItem key="tabBarItem" title="Countdown" image="Countdown" id="uoA-VM-Ce8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PS6-Ly-vCW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -899,7 +899,7 @@ to Internet</string>
         <scene sceneID="l2R-kr-zD4">
             <objects>
                 <navigationController id="NVe-Cj-Z6q" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Schedule" image="first" id="3Pp-UA-TE6"/>
+                    <tabBarItem key="tabBarItem" title="Schedule" image="Schedule" id="3Pp-UA-TE6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="o0f-kr-ekY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -914,7 +914,11 @@ to Internet</string>
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
+        <image name="Countdown" width="50" height="50"/>
+        <image name="Maps" width="50" height="50"/>
+        <image name="News" width="50" height="50"/>
+        <image name="Schedule" width="50" height="50"/>
+        <image name="Sponsors" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="nbe-Po-Dfs"/>

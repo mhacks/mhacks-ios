@@ -19,7 +19,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
             self.eventOrganizer = EventOrganizer(events: events)
         }
         
-        self.fetchResultsManager.observerCollection.addObserver(observer)
+        fetchResultsManager.observerCollection.addObserver(observer)
     }
     
     // MARK: Event

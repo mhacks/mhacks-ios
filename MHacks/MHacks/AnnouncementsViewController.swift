@@ -19,7 +19,7 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
             self.announcements = announcements
         }
         
-        self.fetchResultsManager.observerCollection.addObserver(observer)
+        fetchResultsManager.observerCollection.addObserver(observer)
     }
     
     // MARK: Model

@@ -37,24 +37,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         
+        // Parse
+        
         Parse.setApplicationId(Keys.sharedKeys.parseApplicationID, clientKey: Keys.sharedKeys.parseClientKey)
         
-        window!.tintColor = Color.purple
+        // Tint color
         
-        return true
-    }
-    
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        window!.tintColor = Color.purple
         
         // View controllers
         
         tabBarController = window!.rootViewController as UITabBarController
         
         scheduleNavigationController = tabBarController.viewControllers![Tab.Schedule.rawValue] as UINavigationController
+        scheduleNavigationController.tabBarItem.selectedImage = UIImage(named: "Schedule Selected")
         scheduleViewController = scheduleNavigationController.viewControllers.first as ScheduleCalendarViewController
         
+        let countdownNavigationController = tabBarController.viewControllers![Tab.Countdown.rawValue] as UINavigationController
+        countdownNavigationController.tabBarItem.selectedImage = UIImage(named: "Countdown Selected")
+        
         announcementsNavigationController = tabBarController.viewControllers![Tab.Announcements.rawValue] as UINavigationController
+        announcementsNavigationController.tabBarItem.selectedImage = UIImage(named: "News Selected")
         announcementsViewController = announcementsNavigationController.viewControllers.first as AnnouncementsViewController
+        
+        let sponsorsNavigationController = tabBarController.viewControllers![Tab.Sponsors.rawValue] as UINavigationController
+        sponsorsNavigationController.tabBarItem.selectedImage = UIImage(named: "Sponsors Selected")
+        
+        let mapsNavigationController = tabBarController.viewControllers![Tab.Maps.rawValue] as UINavigationController
+        mapsNavigationController.tabBarItem.selectedImage = UIImage(named: "Maps Selected")
+        
+        return true
+    }
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         
         // Remote notifications
         
