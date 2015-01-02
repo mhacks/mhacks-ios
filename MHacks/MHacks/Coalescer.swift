@@ -53,10 +53,11 @@ class Coalescer<Parameter, Result> {
     
     private func completeWithResult(result: Result) {
         
+        let completionBlocks = self.completionBlocks
+        self.completionBlocks.removeAll(keepCapacity: true)
+        
         for block in completionBlocks {
             block(result)
         }
-        
-        completionBlocks.removeAll(keepCapacity: true)
     }
 }

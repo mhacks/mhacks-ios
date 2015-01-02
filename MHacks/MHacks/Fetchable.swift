@@ -47,7 +47,7 @@ class Fetcher<T: Fetchable> {
     init(query: PFQuery, name: String) {
         
         let localQuery = query.copy() as PFQuery
-        //localQuery.fromLocalDatastore()
+        localQuery.fromLocalDatastore()
         
         let remoteQuery = query
         
@@ -88,10 +88,10 @@ class Fetcher<T: Fetchable> {
                     
                     switch source {
                         
-                        case .Local:
+                    case .Local:
                         processObjects()
                         
-                        case .Remote:
+                    case .Remote:
                         
                         PFObject.unpinAllObjectsInBackgroundWithName(name) { success, unpinError in
                             
@@ -150,6 +150,7 @@ class FetchResultsManager<T: Fetchable> {
         fetcher.fetchCompletionBlock = { results in
             
             if let results = results {
+                self.fetched = true
                 self.results = results
             }
         }
@@ -166,6 +167,8 @@ class FetchResultsManager<T: Fetchable> {
     var fetching: Bool {
         return fetcher.fetching
     }
+    
+    private(set) var fetched = false
     
     private(set) var results: [T] = [] {
         didSet {

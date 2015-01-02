@@ -44,6 +44,15 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         }
     }
     
+    private func fetch() {
+        
+        if !fetchResultsManager.fetched {
+            fetch(.Local)
+        } else {
+            fetch(.Remote)
+        }
+    }
+    
     private func fetch(source: FetchSource) {
         
         if !fetchResultsManager.fetching {
@@ -60,6 +69,10 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
                 
                 if self.fetchResultsManager.results.isEmpty && error != nil {
                     self.errorLabel.hidden = false
+                }
+                
+                if source == .Local {
+                    self.fetch(.Remote)
                 }
             }
         }
@@ -79,8 +92,6 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         
         let layout = collectionView.collectionViewLayout as CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 52.0, bottom: 0.0, right: 0.0)
-        
-        fetch(.Local)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -103,7 +114,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch(.Remote)
+        fetch()
     }
     
     // MARK: Collection view data source

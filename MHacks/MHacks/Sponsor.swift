@@ -78,7 +78,7 @@ extension Sponsor.Tier: Fetchable {
 
 func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
     
-    // Logos are not compared there is no way to compare PFFiles
+    // Logos are not compared because there is no way to compare PFFiles
     // Two instances of PFFile wrapping the same data are not equal
     
     return (lhs.ID == rhs.ID &&

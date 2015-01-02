@@ -11,6 +11,17 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    // MARK: Initialization
+    
+    override init() {
+        super.init()
+        
+        // Parse
+        
+        Parse.enableLocalDatastore()
+        Parse.setApplicationId(Keys.sharedKeys.parseApplicationID, clientKey: Keys.sharedKeys.parseClientKey)
+    }
+    
     // MARK: Window
     
     var window: UIWindow?
@@ -36,11 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Launch
     
     func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
-        
-        // Parse
-        
-        Parse.enableLocalDatastore()
-        Parse.setApplicationId(Keys.sharedKeys.parseApplicationID, clientKey: Keys.sharedKeys.parseClientKey)
         
         // Tint color
         

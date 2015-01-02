@@ -31,6 +31,8 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         query.includeKey("tier")
         query.includeKey("location")
         
+        query.orderByAscending("objectId")
+        
         return FetchResultsManager<Sponsor>(query: query, name: "Sponsors")
     }()
     
@@ -40,7 +42,14 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         }
     }
     
-    // MARK: View
+    private func fetch() {
+        
+        if !fetchResultsManager.fetched {
+            fetch(.Local)
+        } else {
+            fetch(.Remote)
+        }
+    }
     
     private func fetch(source: FetchSource) {
         
@@ -59,6 +68,10 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
                 if self.fetchResultsManager.results.isEmpty && error != nil {
                     self.errorLabel.hidden = false
                 }
+                
+                if source == .Local {
+                    self.fetch(.Remote)
+                }
             }
         }
     }
@@ -73,8 +86,6 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         super.viewDidLoad()
         
         collectionView!.registerNib(UINib(nibName: "SponsorTierHeader", bundle: nil), forSupplementaryViewOfKind: GridLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "TierHeader")
-        
-        fetch(.Local)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -97,7 +108,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch(.Remote)
+        fetch()
     }
     
     // MARK: Collection view delegate

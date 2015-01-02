@@ -60,7 +60,20 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
                 } else {
                     self.tableView.hidden = false
                 }
+                
+                if source == .Local {
+                    self.fetch(.Remote)
+                }
             }
+        }
+    }
+    
+    private func fetch() {
+        
+        if !fetchResultsManager.fetched {
+            fetch(.Local)
+        } else {
+            fetch(.Remote)
         }
     }
     
@@ -75,14 +88,12 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 98.0
-        
-        fetch(.Local)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetch(.Remote)
+        fetch()
     }
     
     // MARK: Table view
