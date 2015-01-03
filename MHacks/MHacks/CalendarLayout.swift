@@ -177,6 +177,7 @@ class CalendarLayout: UICollectionViewLayout {
         case .Header:
             let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<indexPath.section)), heightForSections(0..<indexPath.section + 1) - headerHeight)
             layoutAttributes.frame = CGRectMake(0.0, headerOffset, contentSize.width, headerHeight)
+            layoutAttributes.zIndex = Int.max
             
         case .Separator:
             layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(indexPath.item) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
