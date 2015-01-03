@@ -45,9 +45,10 @@ class ScheduleEventCell: UICollectionViewCell {
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         
         let desaturationFactor: CGFloat = desaturated ? 0.25 : 1.0
+        let brightnessFactor: CGFloat = desaturated ? 1.5 : 1.0
         let alphaFactor: CGFloat = desaturated ? 0.75 : 0.95
         
-        return UIColor(hue: hue, saturation: saturation * desaturationFactor, brightness: brightness, alpha: alpha * alphaFactor)
+        return UIColor(hue: hue, saturation: saturation * desaturationFactor, brightness: brightness * brightnessFactor, alpha: alpha * alphaFactor)
     }
     
     func textColorForColor(color: UIColor) -> UIColor {
@@ -59,7 +60,7 @@ class ScheduleEventCell: UICollectionViewCell {
         
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
         
-        return UIColor(hue: hue, saturation: saturation * 0.8, brightness: brightness * 0.8, alpha: alpha)
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness * 0.8, alpha: alpha)
     }
     
     func updateBodyViewBackgroundColor() {
