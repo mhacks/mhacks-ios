@@ -679,7 +679,7 @@ to Internet</string>
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YOB-v0-lKo">
-                                        <rect key="frame" x="123" y="39" width="469" height="37"/>
+                                        <rect key="frame" x="123" y="31" width="469" height="54"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sponsor Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dpH-st-MkX">
                                                 <rect key="frame" x="0.0" y="0.0" width="111" height="20"/>
@@ -693,17 +693,32 @@ to Internet</string>
                                                 <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196075439453125" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAo-a2-fJF">
+                                                <rect key="frame" x="0.0" y="37" width="56" height="17"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196075439999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GAo-a2-fJF" secondAttribute="trailing" id="3gp-pu-rOA"/>
                                             <constraint firstItem="dpH-st-MkX" firstAttribute="leading" secondItem="YOB-v0-lKo" secondAttribute="leading" id="8Sz-HW-qKV"/>
+                                            <constraint firstAttribute="bottom" secondItem="GAo-a2-fJF" secondAttribute="bottom" id="9NW-4h-Auv"/>
                                             <constraint firstItem="5lZ-6U-nCs" firstAttribute="leading" secondItem="YOB-v0-lKo" secondAttribute="leading" id="9hx-VI-zre"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5lZ-6U-nCs" secondAttribute="trailing" id="HL8-Gi-VK9"/>
                                             <constraint firstItem="5lZ-6U-nCs" firstAttribute="top" secondItem="dpH-st-MkX" secondAttribute="bottom" id="Usi-zh-UXD"/>
+                                            <constraint firstItem="GAo-a2-fJF" firstAttribute="leading" secondItem="YOB-v0-lKo" secondAttribute="leading" id="euE-0E-om7"/>
                                             <constraint firstAttribute="bottom" secondItem="5lZ-6U-nCs" secondAttribute="bottom" id="f1S-Ha-Fmf"/>
+                                            <constraint firstItem="GAo-a2-fJF" firstAttribute="top" secondItem="5lZ-6U-nCs" secondAttribute="bottom" id="lje-Fd-x6w"/>
                                             <constraint firstItem="dpH-st-MkX" firstAttribute="top" secondItem="YOB-v0-lKo" secondAttribute="top" id="vHI-22-A9p"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dpH-st-MkX" secondAttribute="trailing" id="xRv-TW-tGq"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="f1S-Ha-Fmf"/>
+                                            </mask>
+                                        </variation>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAs-Qu-6Fa">
                                         <rect key="frame" x="8" y="123" width="584" height="74"/>
@@ -795,6 +810,7 @@ to Internet</string>
                     <connections>
                         <outlet property="contentView" destination="h5B-t5-T3P" id="Fhd-66-SjH"/>
                         <outlet property="descriptionLabel" destination="gAs-Qu-6Fa" id="xZ4-zW-N5i"/>
+                        <outlet property="locationLabel" destination="GAo-a2-fJF" id="7Qq-mT-8Bt"/>
                         <outlet property="logoView" destination="x7y-7j-ENV" id="I6j-xb-9d3"/>
                         <outlet property="nameLabel" destination="dpH-st-MkX" id="dK5-hs-9Oo"/>
                         <outlet property="tableView" destination="6dC-ye-vCJ" id="TBA-aP-SEN"/>
