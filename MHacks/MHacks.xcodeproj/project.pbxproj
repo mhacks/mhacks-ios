@@ -50,6 +50,7 @@
 		46C48CDC1A3FDA0100C39924 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C48CDB1A3FDA0100C39924 /* libsqlite3.dylib */; };
 		46D303A11A54C78000463233 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D303A01A54C78000463233 /* LoadingView.swift */; };
 		46DB29381A1BE5FD009836DC /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DB29371A1BE5FD009836DC /* Fetchable.swift */; };
+		46E29D1A1A58621000F73A0A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E29D191A58621000F73A0A /* CircleView.swift */; };
 		46F132CC19EC7CC100A30B82 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */; };
 		46F132CE19EC7CC600A30B82 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CD19EC7CC600A30B82 /* CFNetwork.framework */; };
 		46F132D019EC7CD200A30B82 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132CF19EC7CD200A30B82 /* CoreGraphics.framework */; };
@@ -130,6 +131,7 @@
 		46C48CDB1A3FDA0100C39924 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		46D303A01A54C78000463233 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		46DB29371A1BE5FD009836DC /* Fetchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
+		46E29D191A58621000F73A0A /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		46F132CB19EC7CC100A30B82 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		46F132CD19EC7CC600A30B82 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		46F132CF19EC7CD200A30B82 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -318,6 +320,7 @@
 				46A402E619E4E2A60039C536 /* ScheduleDayHeader.swift */,
 				46A402E819E4E2B30039C536 /* ScheduleHourSeparator.swift */,
 				463E3DB619EC54B400BE8AB3 /* ScheduleEventCell.swift */,
+				46E29D191A58621000F73A0A /* CircleView.swift */,
 				464D46531A14450E005256B8 /* CircularProgressIndicator.swift */,
 				469D3DF81A1BDE7900CA6F9C /* AnnouncementCell.swift */,
 				46F977B01A1D7E1E0014BB61 /* GridLayout.swift */,
@@ -479,6 +482,7 @@
 			files = (
 				46DB29381A1BE5FD009836DC /* Fetchable.swift in Sources */,
 				467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */,
+				46E29D1A1A58621000F73A0A /* CircleView.swift in Sources */,
 				4634FD1D19D3028C00CA8880 /* AppDelegate.swift in Sources */,
 				FBD9433B1A2FC8A3004A2806 /* MapCollectionViewCell.swift in Sources */,
 				464992A91A0AFC0E0099F70C /* Location.swift in Sources */,

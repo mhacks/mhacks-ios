@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-/* @IBDesignable */ class CircularProgressIndicator: UIView {
+class CircularProgressIndicator: UIView {
     
     // MARK: Initialization
     
@@ -42,8 +42,8 @@ import QuartzCore
     
     // MARK: Subviews
     
-    private let trackView = CircleView()
-    private let progressView = CircleView()
+    private let trackView = ArchView()
+    private let progressView = ArchView()
     
     func updateProgressViewColor() {
         progressView.color = progressColor ?? tintColor
@@ -51,27 +51,27 @@ import QuartzCore
     
     // MARK: Properties
     
-    /* @IBInspectable */ var progress: Double = 1.0 {
+    var progress: Double = 1.0 {
         didSet {
             progress = min(max(0.0, progress), 1.0)
             progressView.progress = progress
         }
     }
     
-    /* @IBInspectable */ var lineWidth: CGFloat = 20.0 {
+    var lineWidth: CGFloat = 20.0 {
         didSet {
             trackView.lineWidth = lineWidth
             progressView.lineWidth = lineWidth
         }
     }
     
-    /* @IBInspectable */ var trackColor: UIColor? = UIColor.whiteColor() {
+    var trackColor: UIColor? = UIColor.whiteColor() {
         didSet {
             trackView.color = trackColor
         }
     }
     
-    /* @IBInspectable */ var progressColor: UIColor? {
+    var progressColor: UIColor? {
         didSet {
             updateProgressViewColor()
         }
@@ -86,7 +86,7 @@ import QuartzCore
     }
 }
 
-class CircleView: UIView {
+class ArchView: UIView {
     
     // MARK: Initializers
     

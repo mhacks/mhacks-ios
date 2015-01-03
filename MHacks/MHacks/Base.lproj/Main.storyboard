@@ -855,13 +855,13 @@ to Internet</string>
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="210"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y5z-Mb-UJ4">
-                                        <rect key="frame" x="8" y="8" width="584" height="20"/>
+                                        <rect key="frame" x="8" y="8" width="44" height="20"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category | Location" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqV-9z-L6K">
-                                        <rect key="frame" x="8" y="28" width="584" height="20"/>
+                                        <rect key="frame" x="8" y="28" width="142" height="20"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -879,6 +879,13 @@ to Internet</string>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMF-86-E0m" customClass="CircleView" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="572" y="8" width="20" height="20"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="DMF-86-E0m" secondAttribute="height" multiplier="1:1" id="UH7-hN-R5W"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -887,15 +894,24 @@ to Internet</string>
                                     <constraint firstItem="gWd-LI-g8P" firstAttribute="top" secondItem="bwe-2v-EDH" secondAttribute="bottom" constant="15" id="6Rg-WF-hns"/>
                                     <constraint firstItem="bwe-2v-EDH" firstAttribute="leading" secondItem="JZm-4v-7pn" secondAttribute="leadingMargin" id="Ezz-os-gYy"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="gWd-LI-g8P" secondAttribute="trailing" id="J89-Zh-RfQ"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="y5z-Mb-UJ4" secondAttribute="trailing" id="KvQ-g7-4AB"/>
+                                    <constraint firstItem="DMF-86-E0m" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="jqV-9z-L6K" secondAttribute="trailing" id="N6f-cI-erH"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="gWd-LI-g8P" secondAttribute="bottom" id="OSq-GN-hJw"/>
+                                    <constraint firstItem="y5z-Mb-UJ4" firstAttribute="bottom" secondItem="DMF-86-E0m" secondAttribute="bottom" id="Rdc-Db-ZrN"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="jqV-9z-L6K" secondAttribute="trailing" id="UjM-xm-YDI"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="bwe-2v-EDH" secondAttribute="trailing" id="X2j-Ov-LxS"/>
                                     <constraint firstItem="y5z-Mb-UJ4" firstAttribute="top" secondItem="JZm-4v-7pn" secondAttribute="topMargin" id="ZrB-zG-zSs"/>
+                                    <constraint firstItem="y5z-Mb-UJ4" firstAttribute="top" secondItem="DMF-86-E0m" secondAttribute="top" id="g8n-Pm-0oH"/>
+                                    <constraint firstItem="DMF-86-E0m" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="y5z-Mb-UJ4" secondAttribute="trailing" id="hZx-yr-yOq"/>
                                     <constraint firstItem="bwe-2v-EDH" firstAttribute="top" secondItem="jqV-9z-L6K" secondAttribute="bottom" constant="15" id="hm3-jP-nda"/>
                                     <constraint firstItem="jqV-9z-L6K" firstAttribute="leading" secondItem="JZm-4v-7pn" secondAttribute="leadingMargin" id="qSu-1b-t6W"/>
+                                    <constraint firstItem="DMF-86-E0m" firstAttribute="trailing" secondItem="JZm-4v-7pn" secondAttribute="trailingMargin" id="yP3-Tf-WNr"/>
                                     <constraint firstItem="gWd-LI-g8P" firstAttribute="leading" secondItem="JZm-4v-7pn" secondAttribute="leadingMargin" id="zOj-V5-4bc"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="UjM-xm-YDI"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -910,6 +926,7 @@ to Internet</string>
                     <navigationItem key="navigationItem" title="Event" id="yeK-7M-Bs5"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="colorView" destination="DMF-86-E0m" id="k8S-P6-VsW"/>
                         <outlet property="contentView" destination="JZm-4v-7pn" id="ZZX-4u-k76"/>
                         <outlet property="dateLabel" destination="gWd-LI-g8P" id="RtR-UN-UNT"/>
                         <outlet property="descriptionLabel" destination="bwe-2v-EDH" id="eVZ-K9-xJF"/>
