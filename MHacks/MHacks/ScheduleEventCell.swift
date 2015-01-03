@@ -16,6 +16,7 @@ class ScheduleEventCell: UICollectionViewCell {
     @IBOutlet private weak var leaderBar: UIView!
     @IBOutlet private weak var bodyViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet weak var detailTextLabel: UILabel!
     
     // MARK: Life cycle
     
@@ -31,7 +32,11 @@ class ScheduleEventCell: UICollectionViewCell {
         didSet {
             updateBodyViewBackgroundColor()
             leaderBar.backgroundColor = bodyColorForColor(color, desaturated: false)
-            textLabel.textColor = textColorForColor(color)
+            
+            let textColor = textColorForColor(color)
+            
+            textLabel.textColor = textColor
+            detailTextLabel.textColor = textColor
         }
     }
     
@@ -90,5 +95,18 @@ class ScheduleEventCell: UICollectionViewCell {
         super.traitCollectionDidChange(previousTraitCollection)
         
         bodyViewTopConstraint.constant = Geometry.hairlineWidthInTraitCollection(traitCollection)
+    }
+}
+
+// Quick and dirty class to not draw any text if there's not enough room
+// Used by detailTextLabel so it disappears completely if textLabel gets too long (as opposed to clipping)
+// A more elegant solution would be desirable
+class DisappearingLabel: UILabel {
+    
+    override func drawRect(rect: CGRect) {
+        
+        if bounds.height >= intrinsicContentSize().height {
+            super.drawRect(rect)
+        }
     }
 }

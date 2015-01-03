@@ -250,14 +250,23 @@
                                                             <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvV-OD-duJ" customClass="DisappearingLabel" customModule="MHacks" customModuleProvider="target">
+                                                            <rect key="frame" x="4" y="19" width="294" height="15"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.70070827010000003" green="0.83693927530000001" blue="0.99931150670000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DvV-OD-duJ" secondAttribute="bottom" constant="2" id="22R-do-8ho"/>
+                                                        <constraint firstItem="DvV-OD-duJ" firstAttribute="leading" secondItem="058-FF-NV2" secondAttribute="trailing" constant="2" id="FHG-vH-Lne"/>
+                                                        <constraint firstItem="DvV-OD-duJ" firstAttribute="top" secondItem="16o-hN-CbE" secondAttribute="bottom" id="MLQ-DK-ZNc"/>
                                                         <constraint firstItem="16o-hN-CbE" firstAttribute="leading" secondItem="058-FF-NV2" secondAttribute="trailing" constant="2" id="QCI-Rn-JIW"/>
+                                                        <constraint firstAttribute="trailing" secondItem="DvV-OD-duJ" secondAttribute="trailing" constant="2" id="TKf-g9-CEJ"/>
                                                         <constraint firstAttribute="bottom" secondItem="058-FF-NV2" secondAttribute="bottom" id="ZtU-r2-lAW"/>
                                                         <constraint firstItem="16o-hN-CbE" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" constant="2" id="a4H-0N-4MR"/>
                                                         <constraint firstAttribute="trailing" secondItem="16o-hN-CbE" secondAttribute="trailing" constant="2" id="hLd-N8-GNf"/>
-                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="16o-hN-CbE" secondAttribute="bottom" constant="2" id="r3d-Qv-DNv"/>
                                                         <constraint firstItem="058-FF-NV2" firstAttribute="top" secondItem="Plh-Ns-6Ti" secondAttribute="top" id="xOD-cN-UgD"/>
                                                         <constraint firstItem="058-FF-NV2" firstAttribute="leading" secondItem="Plh-Ns-6Ti" secondAttribute="leading" id="zNP-zT-Pti"/>
                                                     </constraints>
@@ -275,6 +284,7 @@
                                         <connections>
                                             <outlet property="bodyView" destination="Plh-Ns-6Ti" id="NKh-qX-J6o"/>
                                             <outlet property="bodyViewTopConstraint" destination="N7B-5B-2lX" id="oe5-fD-LlK"/>
+                                            <outlet property="detailTextLabel" destination="DvV-OD-duJ" id="Ebw-Nn-IVh"/>
                                             <outlet property="leaderBar" destination="058-FF-NV2" id="RQw-w2-9Hk"/>
                                             <outlet property="textLabel" destination="16o-hN-CbE" id="y8Z-ga-zgM"/>
                                             <segue destination="meU-Ag-OGa" kind="show" identifier="Show Event" id="nbe-Po-Dfs"/>
