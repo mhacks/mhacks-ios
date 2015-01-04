@@ -11,18 +11,28 @@ import Foundation
 struct Category {
     
     enum Color: Int {
-        case Red = 0
-        case Green = 1
-        case Blue = 2
+        case Red    = 0
+        case Orange = 1
+        case Yellow = 2
+        case Green  = 3
+        case Blue   = 4
+        case Purple = 5
         
         var color: UIColor {
             switch self {
             case .Red:
-                return UIColor.redColor()
+                return MHacks.Color.red
+            case .Orange:
+                return MHacks.Color.orange
+            case .Yellow:
+                return MHacks.Color.yellow
             case .Green:
-                return UIColor.greenColor()
+                return MHacks.Color.green
             case .Blue:
+                // FIXME: No blue color in color palette
                 return UIColor.blueColor()
+            case .Purple:
+                return MHacks.Color.purple
             }
         }
     }

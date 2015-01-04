@@ -144,7 +144,7 @@ class GridLayout: UICollectionViewLayout {
                 let column = item % numberOfColumns
                 let row = item / numberOfColumns
                 
-                let rect = CGRect(x: CGFloat(column) * (itemSideLength * self.separatorWidth), y: sectionOffset + self.headerHeight + CGFloat(row) * (itemSideLength + self.separatorWidth), width: itemSideLength, height: itemSideLength)
+                let rect = CGRect(x: CGFloat(column) * (itemSideLength + self.separatorWidth), y: sectionOffset + self.headerHeight + CGFloat(row) * (itemSideLength + self.separatorWidth), width: itemSideLength, height: itemSideLength)
                 
                 layoutAttributes.frame = rect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
                 
@@ -205,6 +205,10 @@ class GridLayout: UICollectionViewLayout {
             decorationViewLayoutAttributes[.ColumnSeparator] = []
             decorationViewLayoutAttributes[.RowSeparator] = []
         }
+    }
+    
+    override func collectionViewContentSize() -> CGSize {
+        return contentSize
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {

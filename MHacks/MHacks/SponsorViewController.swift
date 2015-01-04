@@ -25,6 +25,7 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var logoView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var tierLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
@@ -61,6 +62,7 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
             
             nameLabel.text = sponsor.name
             tierLabel.text = sponsor.tier.name
+            locationLabel.text = sponsor.location.name
             descriptionLabel.text = sponsor.description
         }
     }

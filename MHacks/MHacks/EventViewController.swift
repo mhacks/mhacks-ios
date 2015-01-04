@@ -14,7 +14,7 @@ class EventViewController: UIViewController {
     
     var event: Event? {
         didSet {
-            updateLabels()
+            updateViews()
         }
     }
     
@@ -35,6 +35,7 @@ class EventViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var colorView: CircleView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
@@ -43,10 +44,10 @@ class EventViewController: UIViewController {
         
         contentView.layoutMargins = Geometry.Insets
         
-        updateLabels()
+        updateViews()
     }
     
-    func updateLabels() {
+    func updateViews() {
         
         if !isViewLoaded() {
             return
@@ -56,6 +57,7 @@ class EventViewController: UIViewController {
             
             titleLabel.text = event.name
             subtitleLabel.text = event.category.title + " | " + event.locationsDescription
+            colorView.color = event.category.color.color
             descriptionLabel.text = event.description
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         }
