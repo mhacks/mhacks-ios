@@ -10,6 +10,7 @@ import UIKit
 
 class MapCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var mapImage: UIImageView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     class func ResuseIdentifier() -> String {
         return "MapCell"
