@@ -42,7 +42,11 @@ extension Announcement: Fetchable {
         let date = object["date"] as? NSDate
         let message = object["message"] as? String
         
-        if (title == nil || date == nil || message == nil) {
+        if title == nil || date == nil || message == nil {
+            return nil
+        }
+        
+        if NSDate().compare(date!) == NSComparisonResult.OrderedAscending {
             return nil
         }
         

@@ -255,6 +255,20 @@ class EventOrganizer {
         return eventsByDay[day][index]
     }
     
+    func findDayAndIndexForEventWithID(ID: String) -> (day: Int, index: Int)? {
+        
+        for day in 0..<eventsByDay.count {
+            
+            let IDs = eventsByDay[day].map { $0.ID }
+            
+            if let index = find(IDs, ID) {
+                return (day, index)
+            }
+        }
+        
+        return nil
+    }
+    
     // MARK: Partial hours
     
     private let partialHoursByDay: [[HalfOpenInterval<Double>]] = []

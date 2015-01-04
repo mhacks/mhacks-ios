@@ -39,7 +39,10 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
             currentIndex = 0
             
             collectionView?.reloadData()
+            collectionView?.contentOffset = CGPointZero
+            
             pageControl?.numberOfPages = maps.count
+            pageControl?.currentPage = 0
         }
     }
     

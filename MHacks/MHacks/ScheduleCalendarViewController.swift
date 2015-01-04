@@ -40,7 +40,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     var eventOrganizer: EventOrganizer = EventOrganizer(events: []) {
         didSet {
-            collectionView.reloadData()
+            collectionView?.reloadData()
         }
     }
     
@@ -183,11 +183,9 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     func showDetailsForEventWithID(ID: String) {
         
-        let IDs = fetchResultsManager.results.map { $0.ID }
-        
-        if let index = find(IDs, ID) {
+        if let (day, index) = eventOrganizer.findDayAndIndexForEventWithID(ID) {
             
-            collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: false, scrollPosition: .CenteredVertically)
+            collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: day), animated: false, scrollPosition: .CenteredVertically)
             
             performSegueWithIdentifier("Show Event", sender: nil)
         }

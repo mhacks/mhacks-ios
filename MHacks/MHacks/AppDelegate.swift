@@ -41,8 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var scheduleNavigationController: UINavigationController!
     var scheduleViewController: ScheduleCalendarViewController!
     
+    var countdownNavigationController: UINavigationController!
+    var countdownViewController: CountdownViewController!
+    
     var announcementsNavigationController: UINavigationController!
     var announcementsViewController: AnnouncementsViewController!
+    
+    var sponsorsNavigationController: UINavigationController!
+    var sponsorsViewController: SponsorsViewController!
+    
+    var mapNavigationController: UINavigationController!
+    var mapViewController: MapViewController!
     
     // MARK: Launch
     
@@ -60,18 +69,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         scheduleNavigationController.tabBarItem.selectedImage = UIImage(named: "Schedule Selected")
         scheduleViewController = scheduleNavigationController.viewControllers.first as ScheduleCalendarViewController
         
-        let countdownNavigationController = tabBarController.viewControllers![Tab.Countdown.rawValue] as UINavigationController
+        countdownNavigationController = tabBarController.viewControllers![Tab.Countdown.rawValue] as UINavigationController
         countdownNavigationController.tabBarItem.selectedImage = UIImage(named: "Countdown Selected")
+        countdownViewController = countdownNavigationController.viewControllers.first as CountdownViewController
         
         announcementsNavigationController = tabBarController.viewControllers![Tab.Announcements.rawValue] as UINavigationController
         announcementsNavigationController.tabBarItem.selectedImage = UIImage(named: "News Selected")
         announcementsViewController = announcementsNavigationController.viewControllers.first as AnnouncementsViewController
         
-        let sponsorsNavigationController = tabBarController.viewControllers![Tab.Sponsors.rawValue] as UINavigationController
+        sponsorsNavigationController = tabBarController.viewControllers![Tab.Sponsors.rawValue] as UINavigationController
         sponsorsNavigationController.tabBarItem.selectedImage = UIImage(named: "Sponsors Selected")
+        sponsorsViewController = sponsorsNavigationController.viewControllers.first as SponsorsViewController
         
-        let mapsNavigationController = tabBarController.viewControllers![Tab.Maps.rawValue] as UINavigationController
-        mapsNavigationController.tabBarItem.selectedImage = UIImage(named: "Maps Selected")
+        mapNavigationController = tabBarController.viewControllers![Tab.Maps.rawValue] as UINavigationController
+        mapNavigationController.tabBarItem.selectedImage = UIImage(named: "Maps Selected")
+        mapViewController = mapNavigationController.viewControllers.first as MapViewController
         
         return true
     }
@@ -88,13 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(settings)
         
         return true
-    }
-    
-    // MARK: Life cycle
-    
-    func applicationDidBecomeActive(application: UIApplication) {
-        
-        application.cancelAllLocalNotifications()
     }
     
     // MARK: Remote notifications
@@ -130,6 +135,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     })
                     
                     actions += [action]
+                }
+                
+                if let announcementID = userInfo[NotificationKey.AnnouncementID.rawValue] as? String {
+                    
+                    announcementsViewController.fetchResultsManager.fetch(.Remote)
                 }
                 
                 showAlertControllerWithMessage(message, actions: actions)

@@ -28,8 +28,6 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
         
         let query = PFQuery(className: "Announcement")
         
-        query.whereKey("date", lessThanOrEqualTo: NSDate())
-        
         query.orderByDescending("date")
         
         return FetchResultsManager<Announcement>(query: query, name: "Announcements")
@@ -38,7 +36,7 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
     
     private var announcements: [Announcement] = [] {
         didSet {
-            tableView.reloadData()
+            tableView?.reloadData()
         }
     }
     
