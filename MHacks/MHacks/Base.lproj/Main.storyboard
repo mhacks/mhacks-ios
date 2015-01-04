@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C81h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -474,16 +474,22 @@ to Internet</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="5LD-nI-eDc">
-                                <rect key="frame" x="273" y="514" width="55" height="37"/>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5LD-nI-eDc">
+                                <rect key="frame" x="0.0" y="514" width="600" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="5ch-tZ-sFn"/>
+                                </constraints>
                                 <color key="pageIndicatorTintColor" white="0.0" alpha="0.14999999999999999" colorSpace="deviceWhite"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="0.35000000000000003" colorSpace="deviceWhite"/>
+                                <connections>
+                                    <action selector="pageControlValueChanged" destination="gcr-xQ-CoB" eventType="valueChanged" id="aGy-Lz-2YU"/>
+                                </connections>
                             </pageControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JnW-0b-e7W">
                                 <rect key="frame" x="0.0" y="64" width="600" height="450"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pOB-2L-ExQ">
-                                    <size key="itemSize" width="204" height="208"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="pOB-2L-ExQ">
+                                    <size key="itemSize" width="200" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -493,14 +499,14 @@ to Internet</string>
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="204" height="208"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F57-Ey-ePV">
-                                                    <rect key="frame" x="0.0" y="0.0" width="204" height="208"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                                 </imageView>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sqF-Mf-sgP">
-                                                    <rect key="frame" x="92" y="94" width="20" height="20"/>
+                                                    <rect key="frame" x="90" y="90" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -515,7 +521,7 @@ to Internet</string>
                                         </constraints>
                                         <connections>
                                             <outlet property="activityIndicator" destination="sqF-Mf-sgP" id="8ws-n0-wQn"/>
-                                            <outlet property="mapImage" destination="F57-Ey-ePV" id="sNN-0a-qfI"/>
+                                            <outlet property="imageView" destination="F57-Ey-ePV" id="Fuy-Co-ThN"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -540,13 +546,14 @@ to Internet</string>
                         <constraints>
                             <constraint firstItem="5LD-nI-eDc" firstAttribute="top" secondItem="JnW-0b-e7W" secondAttribute="bottom" id="7FE-af-Zi7"/>
                             <constraint firstItem="TbF-7h-Ets" firstAttribute="centerX" secondItem="qRq-o2-2cv" secondAttribute="centerX" id="BHf-Tf-HW2"/>
+                            <constraint firstItem="5LD-nI-eDc" firstAttribute="leading" secondItem="qRq-o2-2cv" secondAttribute="leading" id="CCp-Fs-hAw"/>
                             <constraint firstItem="Kfj-cy-uGh" firstAttribute="centerX" secondItem="qRq-o2-2cv" secondAttribute="centerX" id="CJM-pO-cew"/>
-                            <constraint firstItem="JnW-0b-e7W" firstAttribute="centerX" secondItem="5LD-nI-eDc" secondAttribute="centerX" id="U6k-eK-TjI"/>
                             <constraint firstAttribute="trailing" secondItem="JnW-0b-e7W" secondAttribute="trailing" id="WdW-6j-1aq"/>
                             <constraint firstItem="JnW-0b-e7W" firstAttribute="top" secondItem="fh6-82-rjo" secondAttribute="bottom" id="Zhc-ea-vsM"/>
                             <constraint firstItem="TbF-7h-Ets" firstAttribute="centerY" secondItem="qRq-o2-2cv" secondAttribute="centerY" id="ZoJ-1L-Ibn"/>
                             <constraint firstItem="Okh-Ae-vZT" firstAttribute="top" secondItem="5LD-nI-eDc" secondAttribute="bottom" id="hvr-4W-SLm"/>
                             <constraint firstItem="Kfj-cy-uGh" firstAttribute="centerY" secondItem="qRq-o2-2cv" secondAttribute="centerY" id="mIv-Bl-ZE6"/>
+                            <constraint firstAttribute="trailing" secondItem="5LD-nI-eDc" secondAttribute="trailing" id="pco-sh-MCT"/>
                             <constraint firstItem="JnW-0b-e7W" firstAttribute="leading" secondItem="qRq-o2-2cv" secondAttribute="leading" id="sqQ-7B-zBg"/>
                         </constraints>
                     </view>

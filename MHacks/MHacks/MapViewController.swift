@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIScrollViewDelegate {
+class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     // MARK: Initialization
     
@@ -35,8 +35,11 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     
     private var maps: [Map] = [] {
         didSet {
-            self.pageControl?.numberOfPages = maps.count
-            self.collectionView.reloadData()
+            
+            currentIndex = 0
+            
+            collectionView?.reloadData()
+            pageControl?.numberOfPages = maps.count
         }
     }
     
@@ -74,31 +77,24 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
         }
     }
     
-    // MARK: Outlets
-    
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
-    @IBOutlet private var errorLabel: UILabel!
-    
-    // MARK: Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setUpCollectionViewLayout()
+    var currentIndex: Int? {
+        didSet {
+            updateNavigationItemTitle()
+        }
     }
     
-    func setUpCollectionViewLayout() {
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .Horizontal
-        flowLayout.minimumInteritemSpacing = 0.0
-        flowLayout.minimumLineSpacing = 0.0
-        
-        self.collectionView?.pagingEnabled = true
-        self.collectionView?.collectionViewLayout = flowLayout
+    // MARK: View
+    
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet private weak var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private weak var errorLabel: UILabel!
+    
+    private func updateNavigationItemTitle() {
+        navigationItem.title = (currentIndex == nil) ? nil : maps[currentIndex!].title
     }
+    
+    // MARK: View life cycle
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -108,37 +104,37 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     
     // MARK: Collection view data source
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return maps.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = self.collectionView?.dequeueReusableCellWithReuseIdentifier("MapCell", forIndexPath: indexPath) as MapCollectionViewCell!
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MapCell", forIndexPath: indexPath) as MapCollectionViewCell
         
         let map = maps[indexPath.row]
         
-        if !map.image.isDataAvailable {
-            cell.activityIndicator.startAnimating()
-            cell.mapImage.image = nil
-        }
+        cell.activityIndicator.startAnimating()
         
         map.image.getDataInBackgroundWithBlock { data, error in
             
+            // Allow the activity indicator to spin indefinitely if the image cannot be loaded as opposed to presenting an error label
+            // An error here is such a rare case and will occur so transiently that we can just leave it spinning
+            // All a user has to do is swipe to a different map and swipe back to get it to reload
+            
             if data != nil {
                 
-                if cell === collectionView.cellForItemAtIndexPath(indexPath) {
+                if let image = UIImage(data: data) {
                     
-                    if let image = UIImage(data: data) {
-                        cell.mapImage.image = image
+                    // Do not touch the cell unless it is still our cell
+                    
+                    if cell === collectionView.cellForItemAtIndexPath(indexPath) {
+                        cell.imageView.image = image
+                        cell.activityIndicator.stopAnimating()
                     }
+                    
                 }
             }
-            
-            cell.activityIndicator.stopAnimating()
         }
         
         return cell
@@ -147,13 +143,28 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     // MARK: Collection view delegate
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(self.collectionView!.frame.width, self.collectionView!.frame.height)
+        return collectionView.bounds.size
     }
     
     // MARK: Scroll view delegate
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let currentIndex = self.collectionView.contentOffset.x / self.collectionView.frame.width
-        self.pageControl.currentPage = Int(currentIndex)
+        
+        let index = Int(round(collectionView.contentOffset.x / collectionView.frame.width))
+        
+        pageControl.currentPage = index
+        
+        currentIndex = min(max(index, 0), maps.count - 1)
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func pageControlValueChanged() {
+        
+        let index = pageControl.currentPage
+        
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: pageControl.currentPage, inSection: 0), atScrollPosition: .CenteredHorizontally, animated: true)
+        
+        currentIndex = index
     }
 }

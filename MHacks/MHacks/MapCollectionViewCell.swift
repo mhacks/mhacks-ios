@@ -9,10 +9,14 @@
 import UIKit
 
 class MapCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var mapImage: UIImageView!
+    
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    class func ResuseIdentifier() -> String {
-        return "MapCell"
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        imageView.image = nil
+        activityIndicator.stopAnimating()
     }
 }

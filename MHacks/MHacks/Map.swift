@@ -11,7 +11,7 @@ import UIKit
 struct Map: Equatable {
    
     let ID: String
-    let title: String // FIXME: Actually use the title somewhere? May not be needed if the images include titles
+    let title: String
     let image: PFFile
 }
 
@@ -34,7 +34,9 @@ extension Map: Fetchable {
 
 func ==(lhs: Map, rhs: Map) -> Bool {
     
+    // Images are not compared because there is no way to compare PFFiles
+    // Two instances of PFFile wrapping the same data are not equal
+    
     return (lhs.ID == rhs.ID &&
-        lhs.title == rhs.title &&
-        lhs.image == rhs.image) // FIXME: Test image comparison
+        lhs.title == rhs.title)
 }
