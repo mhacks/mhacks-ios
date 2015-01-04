@@ -10,12 +10,28 @@ import UIKit
 
 class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIScrollViewDelegate {
     
-    // MARK: Outlets
+    // MARK: Initialization
     
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        let observer = Observer<[Map]> { [unowned self] maps in
+            self.maps = maps
+        }
+        
+        fetchResultsManager.observerCollection.addObserver(observer)
+    }
     
     // MARK: Model
+    
+    let fetchResultsManager: FetchResultsManager<Map> = {
+        
+        let query = PFQuery(className: "Map")
+        
+        query.orderByAscending("order")
+        
+        return FetchResultsManager<Map>(query: query, name: "Map")
+    }()
     
     private var maps: [Map] = [] {
         didSet {
@@ -24,24 +40,46 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
         }
     }
     
-    func fetchMaps() {
+    private func fetch() {
         
-        let query = PFQuery(className: "Map")
+        if !fetchResultsManager.fetched {
+            fetch(.Local)
+        } else {
+            fetch(.Remote)
+        }
+    }
+    
+    private func fetch(source: FetchSource) {
         
-        query.orderByDescending("order")
-        
-        query.fetch { (possibleMaps: [Map]?) in
+        if !fetchResultsManager.fetching {
             
-            if let maps = possibleMaps {
+            errorLabel.hidden = true
+            
+            if fetchResultsManager.results.isEmpty {
+                loadingIndicatorView.startAnimating()
+            }
+            
+            fetchResultsManager.fetch(source) { error in
                 
-                self.maps = maps
+                self.loadingIndicatorView.stopAnimating()
                 
-            } else {
+                if self.fetchResultsManager.results.isEmpty && error != nil {
+                    self.errorLabel.hidden = false
+                }
                 
-                // FIXME: Handle error
+                if source == .Local {
+                    self.fetch(.Remote)
+                }
             }
         }
     }
+    
+    // MARK: Outlets
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet private var loadingIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private var errorLabel: UILabel!
     
     // MARK: Lifecycle
 
@@ -65,7 +103,7 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        fetchMaps()
+        fetch()
     }
     
     // MARK: Collection view data source
@@ -83,6 +121,11 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
         
         let map = maps[indexPath.row]
         
+        if !map.image.isDataAvailable {
+            cell.activityIndicator.startAnimating()
+            cell.mapImage.image = nil
+        }
+        
         map.image.getDataInBackgroundWithBlock { data, error in
             
             if data != nil {
@@ -94,6 +137,8 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
                     }
                 }
             }
+            
+            cell.activityIndicator.stopAnimating()
         }
         
         return cell
