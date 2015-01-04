@@ -31,7 +31,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         query.includeKey("tier")
         query.includeKey("location")
         
-        query.orderByAscending("objectId")
+        query.orderByAscending("name")
         
         return FetchResultsManager<Sponsor>(query: query, name: "Sponsors")
     }()
