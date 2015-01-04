@@ -29,8 +29,7 @@ struct Category {
             case .Green:
                 return MHacks.Color.green
             case .Blue:
-                // FIXME: No blue color in color palette
-                return UIColor.blueColor()
+                return MHacks.Color.blue
             case .Purple:
                 return MHacks.Color.purple
             }
