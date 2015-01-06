@@ -18,10 +18,10 @@
                     </tabBar>
                     <connections>
                         <segue destination="NVe-Cj-Z6q" kind="relationship" relationship="viewControllers" id="dn5-Hp-yyR"/>
+                        <segue destination="ASc-xV-bp5" kind="relationship" relationship="viewControllers" id="8Zc-wZ-pQx"/>
                         <segue destination="sZ1-uG-KLM" kind="relationship" relationship="viewControllers" id="Aah-Qr-yhB"/>
                         <segue destination="sR8-bf-8g5" kind="relationship" relationship="viewControllers" id="bKc-cf-7e4"/>
                         <segue destination="TTZ-Ab-3ig" kind="relationship" relationship="viewControllers" id="w2U-N6-t5F"/>
-                        <segue destination="ASc-xV-bp5" kind="relationship" relationship="viewControllers" id="8Zc-wZ-pQx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -569,11 +569,11 @@ to Internet</string>
             </objects>
             <point key="canvasLocation" x="1668" y="2888"/>
         </scene>
-        <!--Map-->
+        <!--Maps-->
         <scene sceneID="bYl-Uo-o0q">
             <objects>
                 <navigationController id="ASc-xV-bp5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="Maps" id="4p4-yQ-XQc"/>
+                    <tabBarItem key="tabBarItem" title="Maps" image="Maps" id="4p4-yQ-XQc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GAt-GL-Vo8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -29,11 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: View controllers
     
     enum Tab: Int {
-        case Schedule = 0
-        case Countdown = 1
-        case Announcements = 2
-        case Sponsors = 3
-        case Maps = 4
+        case Schedule
+        case Maps
+        case Countdown
+        case Announcements
+        case Sponsors
     }
     
     var tabBarController: UITabBarController!
