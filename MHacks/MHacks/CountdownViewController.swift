@@ -79,10 +79,22 @@ class CountdownViewController: UIViewController {
     
     func updateCountdownViews() {
         
+        // Real code
+        
         progressIndicator.progress = countdown.progress
         countdownLabel.text = countdown.timeRemainingDescription
         
         startLabel.text = countdown.startDateDescription
         endLabel.text = countdown.endDateDescription
+        
+        // Screenshot code
+        
+        /*
+        progressIndicator.progress = 1.0 - 41038.0 / 129600.0
+        countdownLabel.text = "11:23:58" // Fibonacci, 41038 seconds
+        
+        startLabel.text = "Hacking started\nyesterday at 12:00 AM."
+        endLabel.text = "Hacks must be submitted by\ntoday at 12:00 PM."
+        */
     }
 }

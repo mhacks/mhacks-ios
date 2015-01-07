@@ -105,7 +105,7 @@ class DisappearingLabel: UILabel {
     
     override func drawRect(rect: CGRect) {
         
-        if bounds.height >= intrinsicContentSize().height {
+        if abs(bounds.height - intrinsicContentSize().height) <= 0.000001 {
             super.drawRect(rect)
         }
     }
