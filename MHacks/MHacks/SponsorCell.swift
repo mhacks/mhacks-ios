@@ -17,6 +17,8 @@ class SponsorCell: UICollectionViewCell {
     // MARK: Lifecycle
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         logoView.layer.minificationFilter = kCAFilterTrilinear
     }
     
