@@ -14,6 +14,12 @@ class SponsorCell: UICollectionViewCell {
     
     @IBOutlet weak var logoView: UIImageView!
     
+    // MARK: Lifecycle
+    
+    override func awakeFromNib() {
+        logoView.layer.minificationFilter = kCAFilterTrilinear
+    }
+    
     // MARK: Reuse
     
     override func prepareForReuse() {

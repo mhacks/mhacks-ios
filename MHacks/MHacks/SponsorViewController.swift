@@ -35,6 +35,7 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
         
         contentView.layoutMargins = Geometry.Insets
+        logoView.layer.minificationFilter = kCAFilterTrilinear
         
         updateLabels()
     }
