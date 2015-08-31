@@ -16,9 +16,7 @@ struct SponsorOrganizer {
         
         // Sorting
         
-        let sponsors = sorted(sponsors) {
-            return $0.name.localizedCaseInsensitiveCompare($1.name) == .OrderedAscending
-        }
+        let sponsors = sorted(sponsors)
         
         // Tier
         

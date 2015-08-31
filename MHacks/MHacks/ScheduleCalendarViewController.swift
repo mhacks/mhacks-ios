@@ -90,7 +90,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         collectionView.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
         collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
         
-        let layout = collectionView.collectionViewLayout as CalendarLayout
+        let layout = collectionView.collectionViewLayout as! CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 52.0, bottom: 0.0, right: 0.0)
     }
     
@@ -129,7 +129,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as ScheduleEventCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as! ScheduleEventCell
         
         let event = eventOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
         
@@ -145,13 +145,13 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         switch CalendarLayout.SupplementaryViewKind(rawValue: kind)! {
             
         case .Header:
-            let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as ScheduleDayHeader
+            let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as! ScheduleDayHeader
             dayHeader.textLabel.text = eventOrganizer.days[indexPath.section].weekdayTitle
             dayHeader.detailTextLabel.text = eventOrganizer.days[indexPath.section].dateTitle
             return dayHeader
             
         case .Separator:
-            let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as ScheduleHourSeparator
+            let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as! ScheduleHourSeparator
             hourSeparator.label.text = eventOrganizer.days[indexPath.section].hours[indexPath.item].title
             return hourSeparator
         }
@@ -195,9 +195,9 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         
         if segue.identifier == "Show Event" {
             
-            let indexPath = collectionView.indexPathsForSelectedItems().first as NSIndexPath
+            let indexPath = collectionView.indexPathsForSelectedItems().first as! NSIndexPath
             
-            let viewController = segue.destinationViewController as EventViewController
+            let viewController = segue.destinationViewController as! EventViewController
             viewController.event = eventOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
         }
     }

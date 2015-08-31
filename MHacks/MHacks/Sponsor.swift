@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Sponsor: Equatable {
+struct Sponsor: Equatable, Comparable {
     
     let ID: String
     let name: String
@@ -87,6 +87,10 @@ func ==(lhs: Sponsor, rhs: Sponsor) -> Bool {
         lhs.website == rhs.website &&
         lhs.tier == rhs.tier &&
         lhs.location == rhs.location)
+}
+
+func <(lhs: Sponsor, rhs: Sponsor) -> Bool {
+    return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .OrderedAscending
 }
 
 func ==(lhs: Sponsor.Tier, rhs: Sponsor.Tier) -> Bool {

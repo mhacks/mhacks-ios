@@ -82,7 +82,7 @@ struct Day: TimeInterval {
     
     static let weekdayFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: nil)
+        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("EEEE", options: 0, locale: NSLocale.autoupdatingCurrentLocale())
         return formatter
     }()
     
@@ -129,7 +129,7 @@ struct Hour: TimeInterval {
     
     static let Formatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
-        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: nil)
+        formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: NSLocale.autoupdatingCurrentLocale())
         return formatter
     }()
     
@@ -147,7 +147,16 @@ class EventOrganizer {
         
         // Return if no events
         
-        if (events.isEmpty) {
+        if events.isEmpty {
+            
+            self.days = []
+            self.eventsByDay = []
+            
+            self.partialHoursByDay = []
+            
+            self.numberOfColumnsByDay = []
+            self.columnsByDay = []
+            
             return
         }
         
@@ -155,7 +164,7 @@ class EventOrganizer {
         
         let firstDate = events.first!.startDate
         
-        let lastDate = events.reduce(NSDate.distantPast() as NSDate) { lastDate, event in
+        let lastDate = events.reduce(NSDate.distantPast() as! NSDate) { lastDate, event in
             return lastDate.laterDate(event.endDate)
         }
         
@@ -225,7 +234,7 @@ class EventOrganizer {
                     
                 } else {
                     
-                    numberOfColumns[(index-column)...index] = Slice(count: column+1, repeatedValue: column+1)
+                    numberOfColumns[(index-column)...index] = ArraySlice(count: column+1, repeatedValue: column+1)
                     
                     column = 0
                 }
@@ -241,11 +250,11 @@ class EventOrganizer {
     
     // MARK: Days and Hours
     
-    let days: [Day] = []
+    let days: [Day]
     
     // MARK: Events
     
-    private let eventsByDay: [[Event]] = []
+    private let eventsByDay: [[Event]]
     
     func numberOfEventsInDay(day: Int) -> Int {
         return eventsByDay[day].count
@@ -271,7 +280,7 @@ class EventOrganizer {
     
     // MARK: Partial hours
     
-    private let partialHoursByDay: [[HalfOpenInterval<Double>]] = []
+    private let partialHoursByDay: [[HalfOpenInterval<Double>]]
     
     func partialHoursForEventAtIndex(index: Int, inDay day: Int) -> HalfOpenInterval<Double> {
         return partialHoursByDay[day][index]
@@ -279,8 +288,8 @@ class EventOrganizer {
     
     // MARK: Columns
     
-    private let numberOfColumnsByDay: [[Int]] = []
-    private let columnsByDay: [[Int]] = []
+    private let numberOfColumnsByDay: [[Int]]
+    private let columnsByDay: [[Int]]
     
     func numberOfColumnsForEventAtIndex(index: Int, inDay day: Int) -> Int {
         return numberOfColumnsByDay[day][index]

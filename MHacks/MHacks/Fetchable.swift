@@ -46,7 +46,7 @@ class Fetcher<T: Fetchable> {
     
     init(query: PFQuery, name: String) {
         
-        let localQuery = query.copy() as PFQuery
+        let localQuery = query.copy() as! PFQuery
         localQuery.fromLocalDatastore()
         
         let remoteQuery = query
@@ -127,7 +127,7 @@ class Fetcher<T: Fetchable> {
     private let coalescer = Coalescer<FetchSource, NSError?>()
     
     func fetch(source: FetchSource, completionBlock: (NSError? -> Void)? = nil) {
-        coalescer.run(source, completionBlock)
+        coalescer.run(source, completionBlock: completionBlock)
     }
     
     var fetching: Bool {

@@ -70,7 +70,7 @@ class ScheduleEventCell: UICollectionViewCell {
     
     func updateBodyViewBackgroundColor() {
         
-        let bodyViewHighlighted = highlighted | selected
+        let bodyViewHighlighted = highlighted || selected
         
         bodyView.backgroundColor = bodyColorForColor(color, desaturated: !bodyViewHighlighted)
     }

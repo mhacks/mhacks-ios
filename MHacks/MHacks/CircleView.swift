@@ -12,7 +12,7 @@ class CircleView: UIView {
     
     // MARK: Initializers
     
-    convenience override init() {
+    convenience init() {
         self.init(frame: CGRectZero)
     }
     
@@ -39,7 +39,7 @@ class CircleView: UIView {
     }
     
     private var shapeLayer: CAShapeLayer {
-        return layer as CAShapeLayer
+        return layer as! CAShapeLayer
     }
     
     // MARK: Properties

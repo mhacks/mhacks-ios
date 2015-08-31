@@ -20,7 +20,7 @@ struct Keys {
         let url = NSBundle.mainBundle().URLForResource("Keys", withExtension: "plist")!
         let dictionary = NSDictionary(contentsOfURL: url)!
         
-        parseApplicationID = dictionary["ParseApplicationID"] as String
-        parseClientKey = dictionary["ParseClientKey"] as String
+        parseApplicationID = dictionary["ParseApplicationID"] as! String
+        parseClientKey = dictionary["ParseClientKey"] as! String
     }
 }

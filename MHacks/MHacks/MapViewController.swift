@@ -113,7 +113,7 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MapCell", forIndexPath: indexPath) as MapCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MapCell", forIndexPath: indexPath) as! MapCollectionViewCell
         
         let map = maps[indexPath.row]
         

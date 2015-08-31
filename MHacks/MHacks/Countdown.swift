@@ -11,7 +11,7 @@ import Foundation
 struct Countdown {
     
     let startDate: NSDate?
-    let duration: NSTimeInterval = 129600
+    let duration: NSTimeInterval
     
     var endDate: NSDate? {
         return startDate?.dateByAddingTimeInterval(duration)
@@ -44,7 +44,7 @@ struct Countdown {
         
         let dateText = startDate != nil ? Countdown.dateFormatter.stringFromDate(startDate!) : "…"
         
-        return NSString(format: message, dateText)
+        return NSString(format: message, dateText) as String
     }
     
     var endDateDescription: String {
@@ -61,7 +61,7 @@ struct Countdown {
         
         let dateText = endDate != nil ? Countdown.dateFormatter.stringFromDate(endDate!) : "…"
         
-        return NSString(format: message, dateText)
+        return NSString(format: message, dateText) as String
     }
     
     // The current date clipped to the start and end of the event
@@ -112,6 +112,8 @@ struct Countdown {
     
     init() {
         
+        self.startDate = nil
+        self.duration = 129600
     }
     
     private init?(config: PFConfig) {

@@ -115,7 +115,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "TierHeader", forIndexPath: indexPath) as SponsorTierHeader
+        let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "TierHeader", forIndexPath: indexPath) as! SponsorTierHeader
         
         headerView.textLabel.text = sponsorOrganizer.tiers[indexPath.section].name
         
@@ -134,7 +134,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SponsorCell", forIndexPath: indexPath) as SponsorCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SponsorCell", forIndexPath: indexPath) as! SponsorCell
         
         let sponsor = sponsorOrganizer.sponsors[indexPath.section][indexPath.item]
         
@@ -160,9 +160,9 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         
         if segue.identifier == "Show Sponsor" {
             
-            let indexPath = collectionView!.indexPathsForSelectedItems().first as NSIndexPath
+            let indexPath = collectionView!.indexPathsForSelectedItems().first as! NSIndexPath
             
-            let viewController = segue.destinationViewController as SponsorViewController
+            let viewController = segue.destinationViewController as! SponsorViewController
             viewController.sponsor = sponsorOrganizer.sponsors[indexPath.section][indexPath.item]
         }
     }

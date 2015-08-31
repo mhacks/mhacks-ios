@@ -13,12 +13,18 @@ class LoadingView: UIView {
     // MARK: Initialization
     
     override init(frame: CGRect) {
-        
-        activityIndicatorView = UIActivityIndicatorView()
-        
-        errorLabel = UILabel()
-        
         super.init(frame: frame)
+        
+        commonInit()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        commonInit()
+    }
+    
+    func commonInit() {
         
         activityIndicatorView.activityIndicatorViewStyle = .Gray
         
@@ -34,10 +40,6 @@ class LoadingView: UIView {
         
         addSubview(activityIndicatorView)
         addSubview(errorLabel)
-    }
-
-    required init(coder aDecoder: NSCoder) {
-        assertionFailure("Must be instantiated programmatically")
     }
     
     // MARK: State
@@ -69,9 +71,9 @@ class LoadingView: UIView {
         }
     }
     
-    let activityIndicatorView: UIActivityIndicatorView
+    let activityIndicatorView = UIActivityIndicatorView()
     
-    let errorLabel: UILabel
+    let errorLabel = UILabel()
     
     private func updateViewsHidden() {
         
@@ -90,8 +92,8 @@ class LoadingView: UIView {
         
         if contentViewConstraints == nil && contentView != nil {
             
-            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as [NSLayoutConstraint]
-            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as [NSLayoutConstraint]
+            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as! [NSLayoutConstraint]
+            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as! [NSLayoutConstraint]
             
             let constraints = horizontalConstraints + verticalConstraints
             

@@ -48,6 +48,8 @@ class CountdownViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        progressIndicator.progressColor = Color.purple
+        
         countdownLabel.font = Countdown.font
         
         if let countdown = Countdown.currentCountdown() {

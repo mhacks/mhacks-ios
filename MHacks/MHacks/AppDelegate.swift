@@ -63,27 +63,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // View controllers
         
-        tabBarController = window!.rootViewController as UITabBarController
+        tabBarController = window!.rootViewController as! UITabBarController
         
-        scheduleNavigationController = tabBarController.viewControllers![Tab.Schedule.rawValue] as UINavigationController
+        scheduleNavigationController = tabBarController.viewControllers![Tab.Schedule.rawValue] as! UINavigationController
         scheduleNavigationController.tabBarItem.selectedImage = UIImage(named: "Schedule Selected")
-        scheduleViewController = scheduleNavigationController.viewControllers.first as ScheduleCalendarViewController
+        scheduleViewController = scheduleNavigationController.viewControllers.first as! ScheduleCalendarViewController
         
-        countdownNavigationController = tabBarController.viewControllers![Tab.Countdown.rawValue] as UINavigationController
+        countdownNavigationController = tabBarController.viewControllers![Tab.Countdown.rawValue] as! UINavigationController
         countdownNavigationController.tabBarItem.selectedImage = UIImage(named: "Countdown Selected")
-        countdownViewController = countdownNavigationController.viewControllers.first as CountdownViewController
+        countdownViewController = countdownNavigationController.viewControllers.first as! CountdownViewController
         
-        announcementsNavigationController = tabBarController.viewControllers![Tab.Announcements.rawValue] as UINavigationController
+        announcementsNavigationController = tabBarController.viewControllers![Tab.Announcements.rawValue] as! UINavigationController
         announcementsNavigationController.tabBarItem.selectedImage = UIImage(named: "News Selected")
-        announcementsViewController = announcementsNavigationController.viewControllers.first as AnnouncementsViewController
+        announcementsViewController = announcementsNavigationController.viewControllers.first as! AnnouncementsViewController
         
-        sponsorsNavigationController = tabBarController.viewControllers![Tab.Sponsors.rawValue] as UINavigationController
+        sponsorsNavigationController = tabBarController.viewControllers![Tab.Sponsors.rawValue] as! UINavigationController
         sponsorsNavigationController.tabBarItem.selectedImage = UIImage(named: "Sponsors Selected")
-        sponsorsViewController = sponsorsNavigationController.viewControllers.first as SponsorsViewController
+        sponsorsViewController = sponsorsNavigationController.viewControllers.first as! SponsorsViewController
         
-        mapNavigationController = tabBarController.viewControllers![Tab.Maps.rawValue] as UINavigationController
+        mapNavigationController = tabBarController.viewControllers![Tab.Maps.rawValue] as! UINavigationController
         mapNavigationController.tabBarItem.selectedImage = UIImage(named: "Maps Selected")
-        mapViewController = mapNavigationController.viewControllers.first as MapViewController
+        mapViewController = mapNavigationController.viewControllers.first as! MapViewController
         
         return true
     }
