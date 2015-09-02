@@ -36,10 +36,10 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
         
         contentView.layoutMargins = Geometry.Insets
         
-        logoView.layer.minificationFilter = kCAFilterTrilinear
-        
         updateLabels()
     }
+    
+    let imageResizingQueue = NSOperationQueue()
     
     func updateLabels() {
         
@@ -53,10 +53,20 @@ class SponsorViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 if data != nil {
                     
-                    if self.sponsor == sponsor {
+                    let logoViewSize = self.logoView.bounds.size
+                    
+                    self.imageResizingQueue.addOperationWithBlock {
                         
                         if let image = UIImage(data: data) {
-                            self.logoView.image = image
+                            
+                            let resizedImage = image.resizedImageWithSize(logoViewSize)
+                            
+                            NSOperationQueue.mainQueue().addOperationWithBlock {
+                                
+                                if self.sponsor == sponsor {
+                                    self.logoView.image = resizedImage
+                                }
+                            }
                         }
                     }
                 }

@@ -132,6 +132,8 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
         return sponsorOrganizer.sponsors[section].count
     }
     
+    let imageResizingQueue = NSOperationQueue()
+    
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SponsorCell", forIndexPath: indexPath) as! SponsorCell
@@ -142,10 +144,20 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
             
             if data != nil {
                 
-                if cell === collectionView.cellForItemAtIndexPath(indexPath) {
+                let logoViewSize = cell.logoView.bounds.size
+                
+                self.imageResizingQueue.addOperationWithBlock {
                     
                     if let image = UIImage(data: data) {
-                        cell.logoView.image = image
+                        
+                        let resizedImage = image.resizedImageWithSize(logoViewSize)
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock {
+                            
+                            if cell === collectionView.cellForItemAtIndexPath(indexPath) {
+                                cell.logoView.image = resizedImage
+                            }
+                        }
                     }
                 }
             }

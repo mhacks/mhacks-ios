@@ -27,53 +27,62 @@ class CircularProgressIndicator: UIView {
     
     private func commonInit() {
         
-        trackView.frame = bounds
-        progressView.frame = bounds
+        trackLayer.fillColor = nil
         
-        trackView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        progressView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        progressLayer.fillColor = nil
+        progressLayer.lineCap = kCALineCapRound
         
-        trackView.color = UIColor.whiteColor()
-        updateProgressViewColor()
+        layer.addSublayer(trackLayer)
+        layer.addSublayer(progressLayer)
         
-        addSubview(trackView)
-        addSubview(progressView)
+        updateProgressLayerColor()
     }
     
-    // MARK: Subviews
+    // MARK: Layers
     
-    private let trackView = ArchView()
-    private let progressView = ArchView()
+    private let trackLayer = CAShapeLayer()
+    private let progressLayer = CAShapeLayer()
     
-    func updateProgressViewColor() {
-        progressView.color = progressColor ?? tintColor
+    private func updateTrackLayerColor() {
+        trackLayer.strokeColor = (trackColor ?? tintColor.colorWithAlphaComponent(0.1)).CGColor
+    }
+    
+    private func updateProgressLayerColor() {
+        progressLayer.strokeColor = (progressColor ?? tintColor).CGColor
+    }
+    
+    private func updateLayerLineWidths() {
+        
+        trackLayer.lineWidth = lineWidth
+        progressLayer.lineWidth = lineWidth
     }
     
     // MARK: Properties
     
     var progress: Double = 1.0 {
         didSet {
-            progress = min(max(0.0, progress), 1.0)
-            progressView.progress = progress
+            // Small number is to ensure a path is always stroked
+            progress = min(max(0.000001, progress), 1.0)
+            
+            progressLayer.strokeEnd = CGFloat(progress)
         }
     }
     
-    var lineWidth: CGFloat = 20.0 {
+    var lineWidth: CGFloat = 30.0 {
         didSet {
-            trackView.lineWidth = lineWidth
-            progressView.lineWidth = lineWidth
+            updateLayerLineWidths()
         }
     }
     
-    var trackColor: UIColor? = UIColor.whiteColor() {
+    var trackColor: UIColor? {
         didSet {
-            trackView.color = trackColor
+            updateTrackLayerColor()
         }
     }
     
     var progressColor: UIColor? {
         didSet {
-            updateProgressViewColor()
+            updateProgressLayerColor()
         }
     }
     
@@ -82,96 +91,29 @@ class CircularProgressIndicator: UIView {
     override func tintColorDidChange() {
         super.tintColorDidChange()
         
-        updateProgressViewColor()
-    }
-}
-
-class ArchView: UIView {
-    
-    // MARK: Initializers
-    
-    convenience init() {
-        self.init(frame: CGRectZero)
+        updateProgressLayerColor()
+        updateTrackLayerColor()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    // MARK: Layout
+    
+    override func layoutSublayersOfLayer(layer: CALayer!) {
+        super.layoutSublayersOfLayer(layer)
         
-        shapeLayer.fillColor = nil
+        trackLayer.frame = bounds
+        progressLayer.frame = bounds
         
-        updatePath()
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        let circleRect = bounds.rectByInsetting(dx: lineWidth / 2.0, dy: lineWidth / 2.0)
         
-        shapeLayer.fillColor = nil
+        trackLayer.path = UIBezierPath(ovalInRect: circleRect).CGPath
         
-        updatePath()
-    }
-    
-    // MARK: Layer
-    
-    override class func layerClass() -> AnyClass {
-        return CAShapeLayer.self
-    }
-    
-    private var shapeLayer: CAShapeLayer {
-        return layer as! CAShapeLayer
-    }
-
-    // MARK: Properties
-    
-    var lineWidth: CGFloat = 20.0 {
-        didSet {
-            updatePath()
-        }
-    }
-    
-    var progress: Double = 1.0 {
-        didSet {
-            progress = min(max(0.0, progress), 1.0)
-            updatePath()
-        }
-    }
-    
-    var color: UIColor? {
-        didSet {
-            shapeLayer.fillColor = color?.CGColor
-        }
-    }
-    
-    override var frame: CGRect {
-        didSet {
-            updatePath()
-        }
-    }
-    
-    // MARK: Shape layer
-    
-    func updatePath() {
-        
-        let midX = CGRectGetMidX(bounds)
-        let midY = CGRectGetMidY(bounds)
-        
-        let center = CGPointMake(midX, midY)
-        let outerRadius = midX
-        let innerRadius = outerRadius - lineWidth
+        let circleCenter = CGPoint(x: bounds.midX, y: bounds.midY)
         
         let startAngle = CGFloat(0.0 - M_PI_2)
-        let endAngle = CGFloat(progress * 2 * M_PI - M_PI_2)
+        let endAngle = CGFloat(2.0 * M_PI - M_PI_2)
         
-        let topMid = CGPointMake(midX, 0.0)
-        let innerEndPoint = CGPoint(x: midX + innerRadius * cos(-endAngle), y: midY + innerRadius * sin(endAngle))
+        let progressPath = UIBezierPath(arcCenter: circleCenter, radius: (bounds.width - lineWidth) / 2.0, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
-        let path = UIBezierPath()
-        
-        path.moveToPoint(topMid)
-        path.addArcWithCenter(center, radius: outerRadius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-        path.addLineToPoint(innerEndPoint)
-        path.addArcWithCenter(center, radius: innerRadius, startAngle: endAngle, endAngle: startAngle, clockwise: false)
-        path.closePath()
-        
-        shapeLayer.path = path.CGPath
+        progressLayer.path = progressPath.CGPath
     }
 }

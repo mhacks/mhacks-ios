@@ -23,4 +23,14 @@ class AnnouncementCell: UITableViewCell {
         
         contentView.layoutMargins = UIEdgeInsetsMake(8.0, 15.0, 8.0, 15.0)
     }
+    
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
+        messageLabel.preferredMaxLayoutWidth = messageLabel.frame.width
+        
+        super.layoutSubviews()
+    }
 }

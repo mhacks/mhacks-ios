@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Tint color
         
-        window!.tintColor = Color.purple
+        window!.tintColor = Color.yellow
         
         // View controllers
         
