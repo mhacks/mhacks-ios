@@ -157,7 +157,11 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
         
         pageControl.currentPage = index
         
-        currentIndex = min(max(index, 0), maps.count - 1)
+        if maps.count > 0 {
+            currentIndex = min(max(index, 0), maps.count - 1)
+        } else {
+            currentIndex = nil
+        }
     }
     
     // MARK: Actions
