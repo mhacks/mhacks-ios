@@ -29,7 +29,6 @@
 		464D46541A14450E005256B8 /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D46531A14450E005256B8 /* CircularProgressIndicator.swift */; };
 		466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15C91A30153000A2CD9D /* GridLayoutColumnSeparator.xib */; };
 		466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 466F15CB1A30170900A2CD9D /* GridLayoutRowSeparator.xib */; };
-		4673A3BC1B95E8E000E0AA9C /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4673A3BB1B95E8E000E0AA9C /* CoreImage.framework */; };
 		467B570519DF624D006AEB23 /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570419DF624D006AEB23 /* EventOrganizer.swift */; };
 		467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 467B570B19E0789E006AEB23 /* ScheduleHourSeparator.xib */; };
 		467B570E19E08620006AEB23 /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467B570D19E08620006AEB23 /* ScheduleCalendarViewController.swift */; };
@@ -166,7 +165,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4673A3BC1B95E8E000E0AA9C /* CoreImage.framework in Frameworks */,
 				46B11D751A3FDDB500445167 /* ParseFacebookUtils.framework in Frameworks */,
 				46C48CDC1A3FDA0100C39924 /* libsqlite3.dylib in Frameworks */,
 				46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */,
@@ -666,7 +664,7 @@
 					"$(PROJECT_DIR)/Parse",
 				);
 				INFOPLIST_FILE = MHacks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -688,7 +686,7 @@
 					"$(PROJECT_DIR)/Parse",
 				);
 				INFOPLIST_FILE = MHacks/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
