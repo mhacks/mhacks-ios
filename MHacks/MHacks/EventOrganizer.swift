@@ -32,15 +32,20 @@ struct Day: TimeInterval {
         
         let calendar = NSCalendar.currentCalendar()
         
-        startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: nil)!
-        endDate = calendar.nextDateAfterDate(firstDate, matchingUnit: .CalendarUnitHour, value: 0, options: .MatchNextTime)!
+        startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: [])!
+        endDate = calendar.nextDateAfterDate(firstDate, matchingUnit: .Hour, value: 0, options: .MatchNextTime)!
         
-        var hours = [Hour(startDate: calendar.dateBySettingHour(calendar.component(.CalendarUnitHour, fromDate: firstDate), minute: 0, second: 0, ofDate: firstDate, options: nil)!)]
+        var hours = [Hour(startDate: calendar.dateBySettingHour(calendar.component(.Hour, fromDate: firstDate), minute: 0, second: 0, ofDate: firstDate, options: [])!)]
         
         let stopDate = endDate.earlierDate(lastDate)
         
         calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Hour.Components, options: .MatchNextTime) { date, exactMatch, stop in
-            
+			// FIXME: This may not be right.
+			guard let date = date
+			else
+			{
+				return
+			}
             if date.timeIntervalSinceReferenceDate < stopDate.timeIntervalSinceReferenceDate {
                 hours += [Hour(startDate: date)]
             } else {
@@ -71,7 +76,7 @@ struct Day: TimeInterval {
     
     func partialHourForDate(date: NSDate) -> Double {
         
-        return reduce(hours, 0.0) { partial, hour in
+        return hours.reduce(0.0) { partial, hour in
             return partial + hour.partialForDate(date)
         }
     }
@@ -100,7 +105,7 @@ struct Hour: TimeInterval {
     let startDate: NSDate
     
     var endDate: NSDate {
-        return NSCalendar.currentCalendar().nextDateAfterDate(startDate, matchingUnit: .CalendarUnitMinute, value: 0, options: .MatchNextTime)!
+        return NSCalendar.currentCalendar().nextDateAfterDate(startDate, matchingUnit: .Minute, value: 0, options: .MatchNextTime)!
     }
     
     var duration: NSTimeInterval {
@@ -164,7 +169,7 @@ class EventOrganizer {
         
         let firstDate = events.first!.startDate
         
-        let lastDate = events.reduce(NSDate.distantPast() as! NSDate) { lastDate, event in
+        let lastDate = events.reduce(NSDate.distantPast() ) { lastDate, event in
             return lastDate.laterDate(event.endDate)
         }
         
@@ -177,7 +182,12 @@ class EventOrganizer {
         var days = [Day(firstDate: firstDate, lastDate: lastDate)]
         
         calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Day.Components, options: .MatchNextTime) { date, exactMatch, stop in
-            
+			// FIXME: This may not be correct.
+			guard let date = date
+			else
+			{
+				return
+			}
             if date.timeIntervalSinceReferenceDate < lastDate.timeIntervalSinceReferenceDate {
                 days += [Day(firstDate: date, lastDate: lastDate)]
             } else {
@@ -191,7 +201,7 @@ class EventOrganizer {
         
         self.eventsByDay = days.map { day in
             return events.filter { event in
-                return conflicts(day, event)
+                return conflicts(day, timeInterval2: event)
             }
         }
         
@@ -270,7 +280,7 @@ class EventOrganizer {
             
             let IDs = eventsByDay[day].map { $0.ID }
             
-            if let index = find(IDs, ID) {
+            if let index = IDs.indexOf(ID) {
                 return (day, index)
             }
         }

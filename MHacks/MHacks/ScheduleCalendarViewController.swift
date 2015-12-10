@@ -12,7 +12,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         let observer = Observer<[Event]> { [unowned self] events in
@@ -97,8 +97,11 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let indexPath = collectionView.indexPathsForSelectedItems().first as? NSIndexPath
-            
+        guard let indexPath = collectionView.indexPathsForSelectedItems()?.first
+		else
+		{
+			return
+		}
         transitionCoordinator()?.animateAlongsideTransition({ context in
             
             self.collectionView.deselectItemAtIndexPath(indexPath, animated: animated)
@@ -195,7 +198,12 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         
         if segue.identifier == "Show Event" {
             
-            let indexPath = collectionView.indexPathsForSelectedItems().first as! NSIndexPath
+            guard let indexPath = collectionView.indexPathsForSelectedItems()?.first
+			else
+			{
+				assertionFailure("Trying to segue without selecting an event")
+				return
+			}
             
             let viewController = segue.destinationViewController as! EventViewController
             viewController.event = eventOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)

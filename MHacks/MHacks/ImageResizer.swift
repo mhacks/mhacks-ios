@@ -17,7 +17,7 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         
-        CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationHigh)
+        CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), CGInterpolationQuality.High)
         
         drawInRect(rect)
         

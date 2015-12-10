@@ -37,7 +37,7 @@ class ScheduleViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Event Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Event Cell", forIndexPath: indexPath) 
         
         let event = eventOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section)
         
@@ -67,7 +67,7 @@ class ScheduleViewController: UITableViewController {
             
             let controller = segue.destinationViewController as! EventViewController
             
-            let indexPath = tableView.indexPathForSelectedRow()!
+            let indexPath = tableView.indexPathForSelectedRow!
             
             let selectedEvent = eventOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section)
             

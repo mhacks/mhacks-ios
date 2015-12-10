@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // User notifications
         
-        let settings = UIUserNotificationSettings(forTypes: .Sound | .Alert, categories: nil)
+        let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil)
         application.registerUserNotificationSettings(settings)
         
         return true
@@ -137,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     actions += [action]
                 }
                 
-                if let announcementID = userInfo[NotificationKey.AnnouncementID.rawValue] as? String {
+                if let _ = userInfo[NotificationKey.AnnouncementID.rawValue] as? String {
                     
                     announcementsViewController.fetchResultsManager.fetch(.Remote)
                 }
@@ -161,8 +161,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showAlertControllerWithMessage(message: String, actions: [UIAlertAction]) {
         
-        let title = NSLocalizedString("Alert", comment: "Alert title")
-        
+//        let title = NSLocalizedString("Alert", comment: "Alert title")
+		
         let alertController = UIAlertController(title: message, message: nil, preferredStyle: .Alert)
         
         for action in actions {

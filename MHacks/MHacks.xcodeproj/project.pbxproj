@@ -60,12 +60,12 @@
 		46F132D819EC7CEF00A30B82 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D719EC7CEF00A30B82 /* QuartzCore.framework */; };
 		46F132DA19EC7CF300A30B82 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132D919EC7CF300A30B82 /* Security.framework */; };
 		46F132DE19EC7CFF00A30B82 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */; };
-		46F132E119EC935700A30B82 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46F132E019EC935700A30B82 /* Keys.plist */; };
 		46F977B11A1D7E1E0014BB61 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F977B01A1D7E1E0014BB61 /* GridLayout.swift */; };
 		46FA35ED1B9419AD0088E957 /* ImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FA35EC1B9419AD0088E957 /* ImageResizer.swift */; };
 		46FA35EF1B9498D20088E957 /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FA35EE1B9498D20088E957 /* MultilineLabel.swift */; };
 		46FA35F11B94F8D10088E957 /* ArchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FA35F01B94F8D10088E957 /* ArchView.swift */; };
 		46FA52CF1A51CA3A000931F1 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FA52CE1A51CA3A000931F1 /* Color.swift */; };
+		8238D4201C1A306A00BC828D /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8238D41F1C1A306A00BC828D /* Keys.plist */; };
 		FB76FB3C1A0DCEFD0036C76D /* SponsorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */; };
 		FB86D1D61A1443F1001032B8 /* SponsorTierHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */; };
 		FB86D1D81A1444AF001032B8 /* SponsorTierHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */; };
@@ -145,12 +145,12 @@
 		46F132D719EC7CEF00A30B82 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		46F132D919EC7CF300A30B82 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		46F132DD19EC7CFF00A30B82 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		46F132E019EC935700A30B82 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46F977B01A1D7E1E0014BB61 /* GridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		46FA35EC1B9419AD0088E957 /* ImageResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageResizer.swift; sourceTree = "<group>"; };
 		46FA35EE1B9498D20088E957 /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; };
 		46FA35F01B94F8D10088E957 /* ArchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchView.swift; sourceTree = "<group>"; };
 		46FA52CE1A51CA3A000931F1 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		8238D41F1C1A306A00BC828D /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		FB76FB3B1A0DCEFD0036C76D /* SponsorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorCell.swift; sourceTree = "<group>"; };
 		FB86D1D51A1443F1001032B8 /* SponsorTierHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SponsorTierHeader.swift; sourceTree = "<group>"; };
 		FB86D1D71A1444AF001032B8 /* SponsorTierHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SponsorTierHeader.xib; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				4634FD1B19D3028C00CA8880 /* Info.plist */,
-				46F132E019EC935700A30B82 /* Keys.plist */,
+				8238D41F1C1A306A00BC828D /* Keys.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -419,7 +419,9 @@
 		4634FD0F19D3028C00CA8880 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
 					4634FD1619D3028C00CA8880 = {
@@ -466,12 +468,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				466F15CC1A30170900A2CD9D /* GridLayoutRowSeparator.xib in Resources */,
-				46F132E119EC935700A30B82 /* Keys.plist in Resources */,
 				4634FD2419D3028C00CA8880 /* Main.storyboard in Resources */,
 				466F15CA1A30153000A2CD9D /* GridLayoutColumnSeparator.xib in Resources */,
 				46A402CD19E38B430039C536 /* ScheduleDayHeader.xib in Resources */,
 				4634FD2919D3028C00CA8880 /* LaunchScreen.xib in Resources */,
 				467B570C19E0789E006AEB23 /* ScheduleHourSeparator.xib in Resources */,
+				8238D4201C1A306A00BC828D /* Keys.plist in Resources */,
 				4634FD2619D3028C00CA8880 /* Images.xcassets in Resources */,
 				FB86D1D81A1444AF001032B8 /* SponsorTierHeader.xib in Resources */,
 			);
@@ -593,6 +595,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -666,6 +669,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.MPowered.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
@@ -688,6 +692,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.MPowered.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
@@ -712,6 +717,7 @@
 				);
 				INFOPLIST_FILE = MHacksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GilbertLadd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MHacks.app/MHacks";
@@ -730,6 +736,7 @@
 				);
 				INFOPLIST_FILE = MHacksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.GilbertLadd.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MHacks.app/MHacks";

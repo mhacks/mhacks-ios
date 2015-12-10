@@ -18,7 +18,7 @@ class LoadingView: UIView {
         commonInit()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
@@ -92,8 +92,8 @@ class LoadingView: UIView {
         
         if contentViewConstraints == nil && contentView != nil {
             
-            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as! [NSLayoutConstraint]
-            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[content]|", options: nil, metrics: nil, views: ["activity": contentView!]) as! [NSLayoutConstraint]
+            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[content]|", options: [], metrics: nil, views: ["activity": contentView!]) 
+            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[content]|", options: [], metrics: nil, views: ["activity": contentView!]) 
             
             let constraints = horizontalConstraints + verticalConstraints
             

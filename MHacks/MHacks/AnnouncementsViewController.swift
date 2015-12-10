@@ -12,7 +12,7 @@ class AnnouncementsViewController: UIViewController, UITableViewDelegate, UITabl
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         let observer = Observer<[Announcement]> { [unowned self] announcements in

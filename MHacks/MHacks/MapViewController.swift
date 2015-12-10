@@ -12,7 +12,7 @@ class MapViewController: UIViewController, UICollectionViewDelegateFlowLayout, U
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         let observer = Observer<[Map]> { [unowned self] maps in

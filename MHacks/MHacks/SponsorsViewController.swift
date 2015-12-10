@@ -12,7 +12,7 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         let observer = Observer<[Sponsor]> { [unowned self] sponsors in
@@ -91,8 +91,12 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let indexPath = collectionView.indexPathsForSelectedItems().first as? NSIndexPath
-        
+		guard let indexPath = collectionView.indexPathsForSelectedItems()?.first
+		else
+		{
+			return
+		}
+		
         transitionCoordinator()?.animateAlongsideTransition({ context in
             
             self.collectionView.deselectItemAtIndexPath(indexPath, animated: animated)
@@ -171,10 +175,13 @@ class SponsorsViewController: UIViewController, GridLayoutDelegate, UICollection
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "Show Sponsor" {
-            
-            let indexPath = collectionView!.indexPathsForSelectedItems().first as! NSIndexPath
-            
-            let viewController = segue.destinationViewController as! SponsorViewController
+			
+			guard let indexPath = collectionView.indexPathsForSelectedItems()?.first, let viewController = segue.destinationViewController as? SponsorViewController
+			else
+			{
+				assertionFailure("Trying to go to sponsor page without selecting a sponsor")
+				return
+			}
             viewController.sponsor = sponsorOrganizer.sponsors[indexPath.section][indexPath.item]
         }
     }

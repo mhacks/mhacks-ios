@@ -16,13 +16,13 @@ struct SponsorOrganizer {
         
         // Sorting
         
-        let sponsors = sorted(sponsors)
+        let sponsors = sponsors.sort()
         
         // Tier
         
-        tiers = sorted(sponsors.reduce([]) { tiers, sponsor in
-            return tiers + (find(tiers, sponsor.tier) == nil ? [sponsor.tier] : [])
-        })
+        tiers = sponsors.reduce([]) { tiers, sponsor in
+            return tiers + (tiers.indexOf(sponsor.tier) == nil ? [sponsor.tier] : [])
+        }.sort()
         
         // Sponsors
         

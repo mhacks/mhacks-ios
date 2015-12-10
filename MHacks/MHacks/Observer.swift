@@ -32,7 +32,7 @@ struct ObserverCollection<Parameters> {
     }
     
     mutating func removeObserver(observer: Observer<Parameters>) {
-        observers.removeAtIndex(find(observers, observer)!)
+        observers.removeAtIndex(observers.indexOf(observer)!)
     }
     
     func notify(parameters: Parameters) {

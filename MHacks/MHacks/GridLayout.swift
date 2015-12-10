@@ -40,7 +40,7 @@ class GridLayout: UICollectionViewLayout {
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         registerNib(UINib(nibName: "GridLayoutColumnSeparator", bundle: nil), forDecorationViewOfKind: DecorationViewKind.ColumnSeparator.rawValue)
@@ -76,7 +76,7 @@ class GridLayout: UICollectionViewLayout {
     }
     
     private func heightForSections(sections: Range<Int>) -> CGFloat {
-        return reduce(sections, 0.0) { offset, section in
+        return sections.reduce(0.0) { offset, section in
             return offset + self.heightForSection(section)
         }
     }
@@ -131,11 +131,11 @@ class GridLayout: UICollectionViewLayout {
         cellLayoutAttributes = sectionRange().map { section in
             
             let numberOfColumns = self.numberOfColumnsBySection[section]
-            let numberOfRows = self.numberOfRowsBySection[section]
+//            let numberOfRows = self.numberOfRowsBySection[section]
             let itemSideLength = self.itemSideLengthsBySection[section]
             let sectionOffset = self.heightForSections(0..<section)
             
-            return map(self.itemRangeForSection(section)) { item in
+            return self.itemRangeForSection(section).map { item in
                 
                 let indexPath = NSIndexPath(forItem: item, inSection: section)
                 
@@ -211,7 +211,7 @@ class GridLayout: UICollectionViewLayout {
         return contentSize
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         // The Swift compiler doesn't like this implementation from some reason and hangs on it
         
@@ -223,7 +223,7 @@ class GridLayout: UICollectionViewLayout {
         
         // This implementation compiles just fine
         
-        return reduce(sectionRange(), [UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
+        return sectionRange().reduce([UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
             
             var attributes = layoutAttributes
             
@@ -234,7 +234,7 @@ class GridLayout: UICollectionViewLayout {
                 attributes += self.decorationViewLayoutAttributes[.RowSeparator]![section]
             }
             
-            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!
+            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))
             
             attributes += [headerLayoutAttributes]
             
@@ -242,16 +242,16 @@ class GridLayout: UICollectionViewLayout {
         }
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return cellLayoutAttributes[indexPath.section][indexPath.item]
     }
     
-    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes {
         
         let layoutAttributes = GridLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
         
-        let sectionOffset = heightForSections(0..<indexPath.section)
-        
+//        let sectionOffset = heightForSections(0..<indexPath.section)
+		
         switch SupplementaryViewKind(rawValue: elementKind)! {
             
         case .Header:
@@ -274,7 +274,7 @@ class GridLayout: UICollectionViewLayout {
         return layoutAttributes
     }
     
-    override func layoutAttributesForDecorationViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForDecorationViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes {
         return decorationViewLayoutAttributes[DecorationViewKind(rawValue: elementKind)!]![indexPath.section][indexPath.row]
     }
     

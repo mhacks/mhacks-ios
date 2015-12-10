@@ -24,7 +24,7 @@ class ArchView: UIView {
         updatePath()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         shapeLayer.fillColor = nil

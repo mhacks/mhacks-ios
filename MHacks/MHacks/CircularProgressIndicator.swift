@@ -13,7 +13,7 @@ class CircularProgressIndicator: UIView {
     
     // MARK: Initialization
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()
@@ -97,13 +97,13 @@ class CircularProgressIndicator: UIView {
     
     // MARK: Layout
     
-    override func layoutSublayersOfLayer(layer: CALayer!) {
+    override func layoutSublayersOfLayer(layer: CALayer) {
         super.layoutSublayersOfLayer(layer)
         
         trackLayer.frame = bounds
         progressLayer.frame = bounds
         
-        let circleRect = bounds.rectByInsetting(dx: lineWidth / 2.0, dy: lineWidth / 2.0)
+        let circleRect = bounds.insetBy(dx: lineWidth / 2.0, dy: lineWidth / 2.0)
         
         trackLayer.path = UIBezierPath(ovalInRect: circleRect).CGPath
         
