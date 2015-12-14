@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="s6b-gL-H5G">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="hNz-n2-bh7">
+            <objects>
+                <viewController id="9pv-A4-QxB" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
+                        <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vpW-17-tOM"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1562" y="-356"/>
+        </scene>
+        <!--Countdown-->
+        <scene sceneID="wg7-f3-ORb">
+            <objects>
+                <viewController id="8rJ-Kc-sve" customClass="CountdownViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79P-Nl-WkD" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
+                                <rect key="frame" x="125" y="124" width="351" height="351"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="ezO-Le-VfB">
+                                        <rect key="frame" x="36" y="105" width="279" height="142"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ezO-Le-VfB" secondAttribute="trailing" constant="36" id="WSr-fu-lGB"/>
+                                    <constraint firstAttribute="centerY" secondItem="ezO-Le-VfB" secondAttribute="centerY" id="tM3-j2-DzW"/>
+                                    <constraint firstItem="ezO-Le-VfB" firstAttribute="leading" secondItem="79P-Nl-WkD" secondAttribute="leading" constant="36" id="uTq-mi-69s"/>
+                                    <constraint firstAttribute="width" secondItem="79P-Nl-WkD" secondAttribute="height" multiplier="1:1" id="yge-oj-Fig"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                        <real key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smb-j5-wMc">
+                                <rect key="frame" x="8" y="28" width="584" height="36"/>
+                                <string key="text">Hacking starts
+… </string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-eT-boK">
+                                <rect key="frame" x="8" y="483" width="584" height="36"/>
+                                <string key="text">Hacks must be submitted by
+… </string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Smb-j5-wMc" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" id="NOq-uw-Qpp"/>
+                            <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="m3P-eT-boK" secondAttribute="bottom" constant="32" id="QNG-Lk-25k"/>
+                            <constraint firstItem="m3P-eT-boK" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="QUP-Co-ecI"/>
+                            <constraint firstItem="m3P-eT-boK" firstAttribute="top" secondItem="79P-Nl-WkD" secondAttribute="bottom" constant="8" id="dKS-q9-1Sb"/>
+                            <constraint firstItem="79P-Nl-WkD" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="ft6-AQ-MMK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Smb-j5-wMc" secondAttribute="trailing" constant="-12" id="qaN-b8-yWb"/>
+                            <constraint firstItem="Smb-j5-wMc" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="slG-xt-djW"/>
+                            <constraint firstItem="79P-Nl-WkD" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="yDf-oI-sH0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="m3P-eT-boK" secondAttribute="trailing" constant="-12" id="ydV-Uu-dtQ"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Countdown" image="Countdown" selectedImage="Countdown Selected" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="countdownLabel" destination="ezO-Le-VfB" id="ZVc-K7-SFm"/>
+                        <outlet property="endLabel" destination="m3P-eT-boK" id="C9h-Vj-Kpv"/>
+                        <outlet property="progressIndicator" destination="79P-Nl-WkD" id="Df8-A5-8LL"/>
+                        <outlet property="startLabel" destination="Smb-j5-wMc" id="je2-SA-ExQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1562" y="310"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="n6z-y1-OtI">
+            <objects>
+                <viewController id="s6b-gL-H5G" customClass="LoginViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CVh-ze-hO3"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cow-mq-kj8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="C4f-9I-J07">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="49e-Tb-3d3" kind="showDetail" identifier="loginSegue" id="qol-CQ-jpM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QZo-9w-ljA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-694" y="0.0"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="mKN-3u-sIs" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--First-->
+        <scene sceneID="R8F-hc-BKL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mKN-3u-sIs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="q5f-QQ-SOo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="4rG-eS-NPj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sn0-oc-xSS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="750" y="-356"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Countdown" width="25" height="25"/>
+        <image name="Countdown Selected" width="25" height="25"/>
+        <image name="first" width="30" height="30"/>
+    </resources>
+</document>
