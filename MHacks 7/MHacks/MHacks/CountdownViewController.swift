@@ -23,8 +23,7 @@ class CountdownViewController: UIViewController {
 
 	var timer: NSTimer!
 	
-	
-	
+	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -51,6 +50,7 @@ class CountdownViewController: UIViewController {
 		stopTimer()
 	}
 
+	// MARK: - Model Update
 	func startTimer() {
 		
 		let nextSecond = NSCalendar.currentCalendar().nextDateAfterDate(NSDate(), matchingUnit: .Nanosecond, value: 0, options: .MatchNextTime)!
@@ -69,6 +69,7 @@ class CountdownViewController: UIViewController {
 		timer = nil
 	}
 	
+	// MARK: - UI Update
 	func updateCountdownViews() {
 		
 		progressIndicator.progress = countdown.progress

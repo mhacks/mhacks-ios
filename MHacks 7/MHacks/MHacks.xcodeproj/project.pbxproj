@@ -16,6 +16,10 @@
 		82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */; };
 		82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */; };
 		82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
+		82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */; };
+		82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
+		82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
+		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,10 @@
 		82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; };
 		82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCreateable.swift; sourceTree = "<group>"; };
 		82473FC21C1F83C80061FFFB /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; };
+		82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsViewController.swift; sourceTree = "<group>"; };
+		82473FC61C1F8B0F0061FFFB /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
+		82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCell.swift; sourceTree = "<group>"; };
+		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,7 @@
 			children = (
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
+				82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -103,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */,
+				82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */,
+				82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -112,6 +123,7 @@
 			children = (
 				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
+				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -187,11 +199,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
+				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,
+				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
+				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -42,8 +42,8 @@
                                 <rect key="frame" x="125" y="124" width="351" height="351"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="ezO-Le-VfB">
-                                        <rect key="frame" x="36" y="105" width="279" height="142"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="120"/>
+                                        <rect key="frame" x="36" y="104.5" width="279" height="143.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="120"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -105,6 +105,89 @@
             </objects>
             <point key="canvasLocation" x="1562" y="310"/>
         </scene>
+        <!--News-->
+        <scene sceneID="Efb-xw-Rfz">
+            <objects>
+                <tableViewController title="News" id="NV6-fG-79i" customClass="AnnouncementsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="111" sectionHeaderHeight="18" sectionFooterHeight="18" id="2WC-rc-iEm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" rowHeight="110" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="113.5" width="600" height="110"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Pa-B2-ywx" id="OQs-WU-F2p">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYO-bj-4DQ">
+                                            <rect key="frame" x="8" y="8" width="522" height="24"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Nt-J46" customClass="MultilineLabel" customModule="MHacks" customModuleProvider="target">
+                                            <rect key="frame" x="8" y="40" width="584" height="61.5"/>
+                                            <string key="text">Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper augue. Maecenas vulputate tortor ut tempus sagittis.</string>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9:41 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVc-xy-de2">
+                                            <rect key="frame" x="538" y="14" width="53.5" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="XYO-bj-4DQ" firstAttribute="top" secondItem="OQs-WU-F2p" secondAttribute="topMargin" id="9FL-s7-kCM"/>
+                                        <constraint firstItem="fcW-Nt-J46" firstAttribute="trailing" secondItem="OQs-WU-F2p" secondAttribute="trailingMargin" id="Uch-8c-hrc"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="fcW-Nt-J46" secondAttribute="bottom" id="cya-zW-bI6"/>
+                                        <constraint firstItem="gVc-xy-de2" firstAttribute="baseline" secondItem="XYO-bj-4DQ" secondAttribute="baseline" id="fLh-nD-h1M"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="gVc-xy-de2" secondAttribute="trailing" id="fZL-eZ-2QP"/>
+                                        <constraint firstItem="XYO-bj-4DQ" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leadingMargin" id="lZt-FF-jKM"/>
+                                        <constraint firstItem="fcW-Nt-J46" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leadingMargin" id="rIq-Ka-1SR"/>
+                                        <constraint firstItem="gVc-xy-de2" firstAttribute="leading" secondItem="XYO-bj-4DQ" secondAttribute="trailing" constant="8" id="yjM-lp-4fY"/>
+                                        <constraint firstItem="fcW-Nt-J46" firstAttribute="top" secondItem="XYO-bj-4DQ" secondAttribute="bottom" constant="8" id="ylI-zO-Z9E"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="gVc-xy-de2" id="fIP-nb-SYW"/>
+                                    <outlet property="messageLabel" destination="fcW-Nt-J46" id="RLa-sf-Kfj"/>
+                                    <outlet property="titleLabel" destination="XYO-bj-4DQ" id="Xni-10-wKA"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NV6-fG-79i" id="a6S-5u-YMR"/>
+                            <outlet property="delegate" destination="NV6-fG-79i" id="i47-Fg-8mb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jof-wQ-jCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2378" y="981"/>
+        </scene>
+        <!--Announcements-->
+        <scene sceneID="rdL-6x-glM">
+            <objects>
+                <navigationController id="ODI-Mf-0FL" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Announcements" image="News" selectedImage="News Selected" id="rZV-ev-d7s"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZJR-ji-OoQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="NV6-fG-79i" kind="relationship" relationship="rootViewController" id="lhJ-16-bVz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XNT-Sa-OtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1558" y="981"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="n6z-y1-OtI">
             <objects>
@@ -139,6 +222,7 @@
                     <connections>
                         <segue destination="mKN-3u-sIs" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="ODI-Mf-0FL" kind="relationship" relationship="viewControllers" id="eu7-wM-XnY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -168,6 +252,8 @@
     <resources>
         <image name="Countdown" width="25" height="25"/>
         <image name="Countdown Selected" width="25" height="25"/>
+        <image name="News" width="25" height="25"/>
+        <image name="News Selected" width="25" height="25"/>
         <image name="first" width="30" height="30"/>
     </resources>
 </document>
