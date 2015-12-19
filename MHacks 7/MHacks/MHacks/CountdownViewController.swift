@@ -15,6 +15,9 @@ class CountdownViewController: UIViewController {
 	@IBOutlet weak var startLabel: UILabel!
 	@IBOutlet weak var endLabel: UILabel!
 	
+	// Ideally this is atomic (or better yet a semaphore), but usually we will only use it on the main queue which is serial so its not a problem
+	private var updatingCountdown = false
+	
 	var countdown: Countdown = Countdown() {
 		didSet {
 			updateCountdownViews()
@@ -29,24 +32,21 @@ class CountdownViewController: UIViewController {
 		super.viewDidLoad()
 		
 		countdownLabel.font = Countdown.font
-		// TODO: Update countdown object
+		updateCountdown()
 	}
 
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		
 		startTimer()
 	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		
-		// TODO: Update countdown object.
+		updateCountdown()
 	}
 	
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
-		
 		stopTimer()
 	}
 
@@ -67,6 +67,29 @@ class CountdownViewController: UIViewController {
 	func stopTimer() {
 		timer.invalidate()
 		timer = nil
+	}
+	
+	func updateCountdown() {
+		
+		guard !updatingCountdown
+		else
+		{
+			return
+		}
+		updatingCountdown = true
+		APIManager.sharedManager.taskWithRoute("/v1/countdown", completion: { (result: Either<Countdown>) in
+			defer { self.updatingCountdown = false }
+			switch result
+			{
+			case .Value(let counter):
+				self.countdown = counter
+			case .NetworkingError(_):
+				fallthrough
+			case .UnknownError:
+				// TODO: Use cache instead of object fetched from network.
+				break // Remove break, only added so that the compiler stays happy.
+			}
+		})
 	}
 	
 	// MARK: - UI Update

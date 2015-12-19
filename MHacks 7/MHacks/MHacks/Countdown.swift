@@ -33,13 +33,14 @@ struct Countdown {
     var startDateDescription: String {
         
         let message: String = {
-            
-            switch self.roundedCurrentDate?.compare(self.startDate!) ?? .OrderedAscending {
-            case .OrderedAscending, .OrderedSame:
-                return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
-            case .OrderedDescending:
-                return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
-            }
+			if self.roundedCurrentDate > self.startDate
+			{
+				return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
+			}
+			else
+			{
+				return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
+			}
         }()
         
         let dateText = startDate != nil ? Countdown.dateFormatter.stringFromDate(startDate!) : "…"
@@ -50,13 +51,15 @@ struct Countdown {
     var endDateDescription: String {
         
         let message: String = {
-            
-            switch self.roundedCurrentDate?.compare(self.endDate!) ?? .OrderedAscending {
-            case .OrderedAscending:
-                return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
-            case .OrderedSame, .OrderedDescending:
-                return NSLocalizedString("Hacks were submitted\n%@.", comment: "Countdown hacking did end")
-            }
+			
+			if self.roundedCurrentDate <= self.startDate
+			{
+				return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
+			}
+			else
+			{
+				return NSLocalizedString("Hacks were submitted\n%@.", comment: "Countdown hacking did end")
+			}
         }()
         
         let dateText = endDate != nil ? Countdown.dateFormatter.stringFromDate(endDate!) : "…"
@@ -112,40 +115,24 @@ struct Countdown {
     }
     
 	init(startDate: NSDate? = nil, duration: NSTimeInterval = 129600) {
-        
+		// TODO: Create from cache instead of from default values
         self.startDate = startDate
         self.duration = duration
     }
-    
-//    private init?(config: PFConfig) {
-//        
-//        let startDate = config["countdownStartDate"] as? NSDate
-//        let duration = (config["countdownDuration"] as? NSNumber)?.doubleValue
-//        
-//        if (startDate == nil || duration == nil) {
-//            return nil
-//        }
-//        
-//        self.startDate = startDate!
-//        self.duration = duration!
-//    }
-//    
-//    static func currentCountdown() -> Countdown? {
-//        return Countdown(config: PFConfig.currentConfig())
-//    }
-//    
-//    static func fetchCountdown(completionHandler: Countdown? -> Void) {
-//        
-//        PFConfig.getConfigInBackgroundWithBlock { config, error in
-//            
-//            if (error != nil) {
-//                
-//                completionHandler(nil)
-//                
-//            } else {
-//                
-//                completionHandler(Countdown(config: config))
-//            }
-//        }
-//    }
 }
+extension Countdown : JSONCreateable
+{
+	init?(JSON: [String: AnyObject])
+	{
+		guard let startDate = JSON["countdown_start_date"] as? NSTimeInterval, let duration = JSON["countdown_duration"] as? NSTimeInterval
+		else
+		{
+			return nil
+		}
+		// Make sure that the startDate from server is EPOCH time or UNIX time
+		self.startDate = NSDate(timeIntervalSince1970: startDate)
+		self.duration = duration
+		// TODO: Store to cache.
+	}
+}
+

@@ -3,7 +3,7 @@
 //  MHacks
 //
 //  Created by Manav Gabhawala on 12/14/15.
-//  Copyright © 2015 MPowered. All rights reserved.
+//  Copyright © 2015 MHacks. All rights reserved.
 //
 
 import Foundation
@@ -36,9 +36,14 @@ struct Announcement: Equatable {
 
 extension Announcement: JSONCreateable {
 	
-	init?(JSON: [String : Any]) {
-		let date = NSDate(timeIntervalSinceReferenceDate: (JSON["date"] as? NSTimeInterval) ?? -1)
-		guard let id = JSON["id"] as? String, let title = JSON["title"] as? String, let message = JSON["message"] as? String where NSDate().compare(date) != NSComparisonResult.OrderedAscending
+	init?(JSON: [String : AnyObject]) {
+		guard let timeIntervalForDate = JSON["date"] as? NSTimeInterval
+		else
+		{
+			return nil
+		}
+		let date = NSDate(timeIntervalSinceReferenceDate: timeIntervalForDate)
+		guard let id = JSON["id"] as? String, let title = JSON["title"] as? String, let message = JSON["message"] as? String where NSDate() < date
 		else
 		{
 			return nil

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA51C1F7A170061FFFB /* AppDelegate.swift */; };
 		82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA71C1F7A170061FFFB /* LoginViewController.swift */; };
 		82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA91C1F7A170061FFFB /* CountdownViewController.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		82473FA21C1F7A170061FFFB /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82473FA51C1F7A170061FFFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82473FA71C1F7A170061FFFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				82473FA51C1F7A170061FFFB /* AppDelegate.swift */,
+				820B8E651C2472EC007A2E88 /* Extensions.swift */,
 				82473FC11C1F80EF0061FFFB /* Model */,
 				82473FBE1C1F7F6E0061FFFB /* Views */,
 				82473FBB1C1F7F2A0061FFFB /* Controller */,
@@ -129,9 +132,9 @@
 			children = (
 				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FCC1C1F91D70061FFFB /* APIManager.swift */,
+				82473FCE1C1F925D0061FFFB /* Either.swift */,
 				82473FD01C1F93080061FFFB /* Authenticator.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
-				82473FCE1C1F925D0061FFFB /* Either.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 			);
 			name = Model;
@@ -165,7 +168,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = MPowered;
+				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
 					82473FA11C1F7A170061FFFB = {
 						CreatedOnToolsVersion = 7.2;
@@ -221,6 +224,7 @@
 				82473FD11C1F93080061FFFB /* Authenticator.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
+				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +376,7 @@
 				82473FB81C1F7A170061FFFB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

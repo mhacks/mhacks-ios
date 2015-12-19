@@ -3,7 +3,7 @@
 //  MHacks
 //
 //  Created by Manav Gabhawala on 12/14/15.
-//  Copyright © 2015 MPowered. All rights reserved.
+//  Copyright © 2015 MHacks. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ import Foundation
 
 protocol JSONCreateable
 {
-	init?(JSON: [String: Any])
+	init?(JSON: [String: AnyObject])
 }
 
 extension JSONCreateable
@@ -23,7 +23,7 @@ extension JSONCreateable
 		{
 			return nil
 		}
-		guard let JSON = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? [String: Any]
+		guard let JSON = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? [String: AnyObject]
 		else
 		{
 			return nil
@@ -32,20 +32,16 @@ extension JSONCreateable
 	}
 }
 
-extension Array where Element: JSONCreateable
+
+// A nice little wrapper to allow for interested parties to get to the JSON directly
+struct JSONWrapper: JSONCreateable
 {
-	init?(JSONData data: NSData?)
+	let JSON : [String: AnyObject]
+	init?(JSON: [String: AnyObject])
 	{
-		guard let data = data
-			else
-		{
-			return nil
-		}
-		guard let JSONs = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? [[String: Any]]
-			else
-		{
-			return nil
-		}
-		self = JSONs.flatMap { Element(JSON: $0) }
+		// Just set and always succeed.
+		// This is in case a request is made and we don't need to cast to any 
+		// particular type and just want the JSON back.
+		self.JSON = JSON
 	}
 }

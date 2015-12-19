@@ -199,9 +199,31 @@
                     <view key="view" contentMode="scaleToFill" id="C4f-9I-J07">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
+                                <rect key="frame" x="20" y="290" width="560" height="20"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-GB-CKO">
+                                <rect key="frame" x="20" y="318" width="560" height="20"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bbd-GB-CKO" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="5Lb-1G-tHf"/>
+                            <constraint firstItem="bbd-GB-CKO" firstAttribute="top" secondItem="9zC-sf-9Qq" secondAttribute="bottom" constant="8" id="LWH-cl-Ppo"/>
+                            <constraint firstItem="9zC-sf-9Qq" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="evg-ns-MUf"/>
+                            <constraint firstItem="9zC-sf-9Qq" firstAttribute="centerY" secondItem="C4f-9I-J07" secondAttribute="centerY" id="gOL-2M-Br2"/>
+                            <constraint firstItem="9zC-sf-9Qq" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="njF-dU-JLo"/>
+                            <constraint firstItem="bbd-GB-CKO" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="r0P-g1-39L"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="passwordField" destination="bbd-GB-CKO" id="ZM8-ev-m9A"/>
+                        <outlet property="usernameField" destination="9zC-sf-9Qq" id="ey3-uy-Rf3"/>
                         <segue destination="49e-Tb-3d3" kind="showDetail" identifier="loginSegue" id="qol-CQ-jpM"/>
                     </connections>
                 </viewController>
