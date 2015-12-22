@@ -53,6 +53,11 @@ extension Announcement: JSONCreateable {
 		self.date = date
 		self.message = message
 	}
+	static var jsonKeys : [String] { return ["id", "title", "message", "date"] }
+	func encodeWithCoder(aCoder: NSCoder) {
+		// TODO: Implement me
+	}
+	
 }
 
 func ==(lhs: Announcement, rhs: Announcement) -> Bool {

@@ -23,7 +23,13 @@ class LoginViewController: UIViewController
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
-		// TODO: Figure out if already logged in and if so call `didLogin()`
+		guard !APIManager.sharedManager.isLoggedIn
+		else
+		{
+			// TODO: Figure out if already logged in and if so call `didLogin()`
+			didLogin()
+			return
+		}
 	}
 	func didLogin()
 	{
@@ -35,7 +41,7 @@ class LoginViewController: UIViewController
 	}
 	func incorrectPassword()
 	{
-		// TODO: Shake password field.
+		// TODO: Shake password field for wrong input
 	}
 	@IBAction func loginWithoutCredentials(sender: UIButton)
 	{
@@ -50,18 +56,23 @@ class LoginViewController: UIViewController
 			incorrectPassword()
 			return
 		}
-		APIManager.sharedManager.taskWithRoute("/v1/sessions/create", parameters: ["username": username, "password": password], requireAccessToken: false, completion: { (result: Either<Authenticator>) in
-			switch result
+		APIManager.sharedManager.loginWithUsername(username, password: password) {
+			switch $0
 			{
-			case .Value(let user):
-				APIManager.sharedManager.authenticator = user
+			case .Value(let loggedIn):
+				guard loggedIn
+				else
+				{
+					self.incorrectPassword()
+					return
+				}
 				self.didLogin()
 			case .NetworkingError(let error):
 				self.showError(error)
 			case .UnknownError:
 				self.incorrectPassword()
 			}
-		})
+		}
 	}
 }
 

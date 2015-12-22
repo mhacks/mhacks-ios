@@ -9,75 +9,65 @@
 import UIKit
 
 class AnnouncementsViewController: UITableViewController {
-    
 	
     // MARK: Model
 	
 	private func fetch() {
-		guard let refreshControl = refreshControl where !(refreshControl.refreshing)
-		else { return }
-		refreshControl.beginRefreshing()
-		APIManager.sharedManager.taskWithRoute("/v1/announcements", usingHTTPMethod: .GET, completion: { (result: Either<Array<Announcement>>) in
-			defer {
-				refreshControl.endRefreshing()
-			}
-			switch result
-			{
-			case .Value(let newAnnouncements):
-				self.announcements = newAnnouncements
-			case .NetworkingError(let error):
-				// TODO: Handle error
-				print(error.localizedDescription)
-			case .UnknownError:
-				// TODO: Handle this error
-				break
-			}
-		})
+		refreshControl?.beginRefreshing()
+		APIManager.sharedManager.updateAnnouncements()
 	}
 	
-	private var announcements = [Announcement]() {
-		didSet {
-			tableView?.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-			// TODO: Set cache for announcements
-		}
-	}
-	
-    // MARK: View
+    // MARK: ViewController Lifecycle
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-		refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+		refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         tableView.rowHeight = UITableViewAutomaticDimension
-		tableView.estimatedRowHeight = 98.0
-		if APIManager.sharedManager.authenticator.canPostAnnouncements()
+		tableView.estimatedRowHeight = 100.0
+		
+    }
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "announcementsUpdated:", name: APIManager.announcementsUpdatedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
+		announcementsUpdated() // Just in case.
+		fetch()
+		if APIManager.sharedManager.canPostAnnouncements()
 		{
 			// TODO: Show compose post button
 		}
-    }
+	}
+	override func viewDidDisappear(animated: Bool) {
+		super.viewDidDisappear(animated)
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
 	
+	// MARK: - Actions/Notifications
 	func refresh(sender: UIRefreshControl)
 	{
 		fetch()
 	}
-	
-	override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-		// TODO: Load announcements from cache
-		fetch()
-    }
+	func announcementsUpdated(_: NSNotification? = nil)
+	{
+		refreshControl?.endRefreshing()
+		tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+	}
+	func connectionError(notification: NSNotification)
+	{
+		refreshControl?.endRefreshing()
+	}
     
-    // MARK: Table View
-    
+    // MARK: Table View Data
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return announcements.count
+        return APIManager.sharedManager.announcements.count
     }
 	
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("item", forIndexPath: indexPath) as! AnnouncementCell
         
-        let announcement = announcements[indexPath.row]
+        let announcement = APIManager.sharedManager.announcements[indexPath.row]
         
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate

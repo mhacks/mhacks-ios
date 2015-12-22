@@ -23,7 +23,6 @@
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		82473FCF1C1F925D0061FFFB /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCE1C1F925D0061FFFB /* Either.swift */; };
-		82473FD11C1F93080061FFFB /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FD01C1F93080061FFFB /* Authenticator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +44,6 @@
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		82473FCE1C1F925D0061FFFB /* Either.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
-		82473FD01C1F93080061FFFB /* Authenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +131,6 @@
 				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FCC1C1F91D70061FFFB /* APIManager.swift */,
 				82473FCE1C1F925D0061FFFB /* Either.swift */,
-				82473FD01C1F93080061FFFB /* Authenticator.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 			);
@@ -172,6 +169,11 @@
 				TargetAttributes = {
 					82473FA11C1F7A170061FFFB = {
 						CreatedOnToolsVersion = 7.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -221,7 +223,6 @@
 				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
-				82473FD11C1F93080061FFFB /* Authenticator.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,

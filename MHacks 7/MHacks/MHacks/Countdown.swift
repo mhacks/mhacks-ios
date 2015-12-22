@@ -132,7 +132,12 @@ extension Countdown : JSONCreateable
 		// Make sure that the startDate from server is EPOCH time or UNIX time
 		self.startDate = NSDate(timeIntervalSince1970: startDate)
 		self.duration = duration
-		// TODO: Store to cache.
 	}
+	
+	func encodeWithCoder(aCoder: NSCoder){
+		// TODO: Implement me
+	}
+	static var jsonKeys : [String] { return ["countdown_start_date", "countdown_duration"] }
+
 }
 

@@ -21,12 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil)
 		application.registerUserNotificationSettings(settings)
 
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 		
-		// TODO: Send to provider if it fails cache it to disk and send when internet 
-		// connection is available.
+		// TODO: Send to provider on login
+		NSUserDefaults.standardUserDefaults().setObject(deviceToken, forKey: remoteNotificationDataKey)
 	}
 	
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
@@ -54,6 +55,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	}
 
-
+	func connectionError(notification: NSNotification)
+	{
+		var statusWindow : UIWindow! = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
+		statusWindow.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
+		let label = UILabel(frame: statusWindow.bounds)
+		label.textAlignment = .Center
+		label.backgroundColor = UIColor.clearColor()
+		label.textColor = UIColor.blackColor()
+		label.font = UIFont.boldSystemFontOfSize(13)
+		label.text = (notification.object as? NSError)?.localizedDescription ?? "Network Error"
+		statusWindow.addSubview(label)
+		statusWindow.makeKeyAndVisible()
+		label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
+		UIView.animateWithDuration(0.7, animations: {
+			label.layer.transform = CATransform3DIdentity
+			}, completion: { finished in
+				let delayInSeconds = 5.0 // Hide after time
+				let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
+				dispatch_after(popTime, dispatch_get_main_queue(), {
+					UIView.animateWithDuration(0.5, animations: {
+						label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
+						}, completion: { finished in
+							statusWindow = nil
+							self.window?.makeKeyAndVisible()
+					})
+				})
+		})
+	}
+	
 }
 

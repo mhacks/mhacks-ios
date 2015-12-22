@@ -12,7 +12,10 @@ import Foundation
 
 extension Array : JSONCreateable
 {
+	static var jsonKeys : [String] { return [] }
 	
+	func encodeWithCoder(aCoder: NSCoder) {
+	}
 	init?(JSON: [String: AnyObject])
 	{
 		// TODO: Ask backend people to wrap arrays inside the dictionary with a results key
@@ -68,6 +71,16 @@ extension NSDate
 			return nil
 		}
 		let dateFormatter = NSDateFormatter()
-		
+		// TODO: Setup formatter
+		guard let date = dateFormatter.dateFromString(dateString)
+		else
+		{
+			return nil
+		}
+		self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
 	}
 }
+
+// MARK: - Keys
+
+let remoteNotificationDataKey = "remote_notifications"

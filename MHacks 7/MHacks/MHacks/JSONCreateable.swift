@@ -8,10 +8,12 @@
 
 import Foundation
 
-
 protocol JSONCreateable
 {
 	init?(JSON: [String: AnyObject])
+	static var jsonKeys : [String] { get }
+	func encodeWithCoder(aCoder: NSCoder)
+	init?(coder aDecoder: NSCoder)
 }
 
 extension JSONCreateable
@@ -30,13 +32,22 @@ extension JSONCreateable
 		}
 		self.init(JSON: JSON)
 	}
+	init?(coder aDecoder: NSCoder)
+	{
+		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(Self.jsonKeys))
+	}
 }
 
 
-// A nice little wrapper to allow for interested parties to get to the JSON directly
+/// A nice little wrapper to allow for interested parties to get to the JSON directly
 struct JSONWrapper: JSONCreateable
 {
 	let JSON : [String: AnyObject]
+	static let jsonKeys: [String] = [String]()
+	
+	func encodeWithCoder(aCoder: NSCoder) {
+	}
+	
 	init?(JSON: [String: AnyObject])
 	{
 		// Just set and always succeed.

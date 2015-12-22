@@ -15,15 +15,6 @@ class CountdownViewController: UIViewController {
 	@IBOutlet weak var startLabel: UILabel!
 	@IBOutlet weak var endLabel: UILabel!
 	
-	// Ideally this is atomic (or better yet a semaphore), but usually we will only use it on the main queue which is serial so its not a problem
-	private var updatingCountdown = false
-	
-	var countdown: Countdown = Countdown() {
-		didSet {
-			updateCountdownViews()
-		}
-	}
-
 	var timer: NSTimer!
 	
 	// MARK: - Lifecycle
@@ -32,7 +23,7 @@ class CountdownViewController: UIViewController {
 		super.viewDidLoad()
 		
 		countdownLabel.font = Countdown.font
-		updateCountdown()
+		APIManager.sharedManager.updateCountdown()
 	}
 
 	override func viewWillAppear(animated: Bool) {
@@ -42,12 +33,14 @@ class CountdownViewController: UIViewController {
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		updateCountdown()
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCountdownViews:", name: APIManager.countdownUpdateNotification, object: nil)
+		APIManager.sharedManager.updateCountdown()
 	}
 	
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
 		stopTimer()
+		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 
 	// MARK: - Model Update
@@ -69,31 +62,9 @@ class CountdownViewController: UIViewController {
 		timer = nil
 	}
 	
-	func updateCountdown() {
-		
-		guard !updatingCountdown
-		else
-		{
-			return
-		}
-		updatingCountdown = true
-		APIManager.sharedManager.taskWithRoute("/v1/countdown", completion: { (result: Either<Countdown>) in
-			defer { self.updatingCountdown = false }
-			switch result
-			{
-			case .Value(let counter):
-				self.countdown = counter
-			case .NetworkingError(_):
-				fallthrough
-			case .UnknownError:
-				// TODO: Use cache instead of object fetched from network.
-				break // Remove break, only added so that the compiler stays happy.
-			}
-		})
-	}
-	
 	// MARK: - UI Update
-	func updateCountdownViews() {
+	func updateCountdownViews(_: NSNotification? = nil) {
+		let countdown = APIManager.sharedManager.countdown
 		
 		progressIndicator.progress = countdown.progress
 		countdownLabel.text = countdown.timeRemainingDescription
