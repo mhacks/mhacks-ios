@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
+		820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BEF1C29325500CD9F09 /* SSKeychain.m */; };
+		820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */; };
+		820C5BF71C29327900CD9F09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C5BF61C29327900CD9F09 /* Security.framework */; };
 		82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA51C1F7A170061FFFB /* AppDelegate.swift */; };
 		82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA71C1F7A170061FFFB /* LoginViewController.swift */; };
 		82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA91C1F7A170061FFFB /* CountdownViewController.swift */; };
@@ -27,6 +30,12 @@
 
 /* Begin PBXFileReference section */
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		820C5BEE1C29325500CD9F09 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = MHacks/SSKeychain.h; sourceTree = "<group>"; };
+		820C5BEF1C29325500CD9F09 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = MHacks/SSKeychain.m; sourceTree = "<group>"; };
+		820C5BF01C29325500CD9F09 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychainQuery.h; path = MHacks/SSKeychainQuery.h; sourceTree = "<group>"; };
+		820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychainQuery.m; path = MHacks/SSKeychainQuery.m; sourceTree = "<group>"; };
+		820C5BF41C29326600CD9F09 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
+		820C5BF61C29327900CD9F09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		82473FA21C1F7A170061FFFB /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82473FA51C1F7A170061FFFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82473FA71C1F7A170061FFFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -51,16 +60,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820C5BF71C29327900CD9F09 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		820C5BED1C29323300CD9F09 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+				820C5BEE1C29325500CD9F09 /* SSKeychain.h */,
+				820C5BEF1C29325500CD9F09 /* SSKeychain.m */,
+				820C5BF01C29325500CD9F09 /* SSKeychainQuery.h */,
+				820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */,
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
+		820C5BF51C29326900CD9F09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				820C5BF61C29327900CD9F09 /* Security.framework */,
+				820C5BED1C29323300CD9F09 /* Keychain */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		82473F991C1F7A170061FFFB = {
 			isa = PBXGroup;
 			children = (
 				82473FA41C1F7A170061FFFB /* MHacks */,
+				820C5BF51C29326900CD9F09 /* Frameworks */,
 				82473FA31C1F7A170061FFFB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,6 +131,7 @@
 		82473FBA1C1F7F240061FFFB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				820C5BF41C29326600CD9F09 /* MHacks-Bridging-Header.h */,
 				82473FB31C1F7A170061FFFB /* Info.plist */,
 			);
 			name = Resources;
@@ -221,7 +253,9 @@
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,
+				820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */,
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
+				820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */,
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
@@ -338,11 +372,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -350,11 +387,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
 			};
 			name = Release;
 		};

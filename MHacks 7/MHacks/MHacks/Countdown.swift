@@ -134,7 +134,7 @@ extension Countdown : JSONCreateable
 		self.duration = duration
 	}
 	
-	func encodeWithCoder(aCoder: NSCoder){
+	func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me
 	}
 	static var jsonKeys : [String] { return ["countdown_start_date", "countdown_duration"] }

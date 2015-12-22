@@ -210,13 +210,21 @@ extension APIManager.Authenticator : JSONCreateable
 	convenience init?(JSON: [String : AnyObject])
 	{
 		// TODO: Use JSON to perform login and create the object.
+		// Also save to keychain once initialization is done.
 		self.init()
 	}
-	func encodeWithCoder(aCoder: NSCoder)
-	{
+	func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me
+		// Save things about the user except for private stuff which goes in keychain
 	}
 	static var jsonKeys : [String] { return [] }
+	
+	convenience init?(coder aDecoder: NSCoder)
+	{
+		// Override default implementation to use keychain here.
+		// TODO: Implement me
+		self.init(JSON: [String: AnyObject]())
+	}
 }
 
 extension APIManager
