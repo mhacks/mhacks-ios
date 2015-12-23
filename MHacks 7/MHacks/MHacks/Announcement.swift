@@ -37,6 +37,7 @@ struct Announcement: Equatable {
 extension Announcement: JSONCreateable {
 	
 	init?(JSON: [String : AnyObject]) {
+		// TODO: Ask backend for dates to be encoded in time interval since 1970 format.
 		guard let timeIntervalForDate = JSON["date"] as? NSTimeInterval
 		else
 		{
@@ -61,7 +62,6 @@ extension Announcement: JSONCreateable {
 }
 
 func ==(lhs: Announcement, rhs: Announcement) -> Bool {
-	
 	return (lhs.ID == rhs.ID &&
 		lhs.title == rhs.title &&
 		lhs.date == rhs.date &&

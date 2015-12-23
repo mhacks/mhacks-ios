@@ -26,6 +26,17 @@
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		82473FCF1C1F925D0061FFFB /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCE1C1F925D0061FFFB /* Either.swift */; };
+		82942B9B1C2A2B850084880C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
+		82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9C1C2A2EA00084880C /* EventOrganizer.swift */; };
+		82942B9F1C2A2EAE0084880C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
+		82942BA31C2A369D0084880C /* ScheduleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */; };
+		82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA41C2A36BC0084880C /* CalendarLayout.swift */; };
+		82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA61C2A36F70084880C /* ScheduleDayHeader.swift */; };
+		82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA81C2A37000084880C /* ScheduleHourSeparator.swift */; };
+		82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA91C2A37000084880C /* ScheduleEventCell.swift */; };
+		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
+		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
+		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +64,17 @@
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		82473FCE1C1F925D0061FFFB /* Either.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
+		82942B9A1C2A2B850084880C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		82942B9C1C2A2EA00084880C /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
+		82942B9E1C2A2EAE0084880C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCalendarViewController.swift; sourceTree = "<group>"; };
+		82942BA41C2A36BC0084880C /* CalendarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarLayout.swift; sourceTree = "<group>"; };
+		82942BA61C2A36F70084880C /* ScheduleDayHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleDayHeader.swift; sourceTree = "<group>"; };
+		82942BA81C2A37000084880C /* ScheduleHourSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleHourSeparator.swift; sourceTree = "<group>"; };
+		82942BA91C2A37000084880C /* ScheduleEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleEventCell.swift; sourceTree = "<group>"; };
+		82942BAC1C2A37670084880C /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
+		82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +146,8 @@
 				82473FAB1C1F7A170061FFFB /* Main.storyboard */,
 				82473FAE1C1F7A170061FFFB /* Assets.xcassets */,
 				82473FB01C1F7A170061FFFB /* LaunchScreen.storyboard */,
+				82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */,
+				82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -143,6 +167,7 @@
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
 				82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */,
+				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -150,9 +175,14 @@
 		82473FBE1C1F7F6E0061FFFB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				82942BA41C2A36BC0084880C /* CalendarLayout.swift */,
+				82942BA61C2A36F70084880C /* ScheduleDayHeader.swift */,
+				82942BA81C2A37000084880C /* ScheduleHourSeparator.swift */,
+				82942BA91C2A37000084880C /* ScheduleEventCell.swift */,
 				82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */,
 				82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */,
 				82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */,
+				82942BAC1C2A37670084880C /* Geometry.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -165,6 +195,9 @@
 				82473FCE1C1F925D0061FFFB /* Either.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
+				82942B9A1C2A2B850084880C /* Location.swift */,
+				82942B9E1C2A2EAE0084880C /* Event.swift */,
+				82942B9C1C2A2EA00084880C /* EventOrganizer.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -234,6 +267,8 @@
 			files = (
 				82473FB21C1F7A170061FFFB /* LaunchScreen.storyboard in Resources */,
 				82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */,
+				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
+				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
 				82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,15 +280,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
+				82942BA31C2A369D0084880C /* ScheduleCalendarViewController.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
+				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
+				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
+				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
 				82473FCF1C1F925D0061FFFB /* Either.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,
+				82942BAD1C2A37670084880C /* Geometry.swift in Sources */,
+				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
+				82942B9F1C2A2EAE0084880C /* Event.swift in Sources */,
 				820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */,
+				82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */,
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */,
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,

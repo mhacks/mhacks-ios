@@ -140,4 +140,7 @@ extension Countdown : JSONCreateable
 	static var jsonKeys : [String] { return ["countdown_start_date", "countdown_duration"] }
 
 }
-
+extension Countdown : Equatable { }
+func ==(lhs: Countdown, rhs: Countdown) -> Bool {
+	return lhs.startDate == rhs.startDate && lhs.duration == rhs.duration
+}

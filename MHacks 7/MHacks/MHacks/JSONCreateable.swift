@@ -56,3 +56,6 @@ struct JSONWrapper: JSONCreateable
 		self.JSON = JSON
 	}
 }
+func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
+	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }
+}

@@ -19,6 +19,7 @@ class LoginViewController: UIViewController
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
+
 	}
 	override func viewDidAppear(animated: Bool)
 	{
@@ -26,7 +27,6 @@ class LoginViewController: UIViewController
 		guard !APIManager.sharedManager.isLoggedIn
 		else
 		{
-			// TODO: Figure out if already logged in and if so call `didLogin()`
 			didLogin()
 			return
 		}
@@ -34,10 +34,6 @@ class LoginViewController: UIViewController
 	func didLogin()
 	{
 		performSegueWithIdentifier("loginSegue", sender: nil)
-	}
-	func showError(error: NSError)
-	{
-		// TODO: Show error on UIAlertController
 	}
 	func incorrectPassword()
 	{
@@ -68,7 +64,7 @@ class LoginViewController: UIViewController
 				}
 				self.didLogin()
 			case .NetworkingError(let error):
-				self.showError(error)
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
 				self.incorrectPassword()
 			}

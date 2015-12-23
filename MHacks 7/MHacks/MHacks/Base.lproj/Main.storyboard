@@ -7,10 +7,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Schedule-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" customClass="ScheduleCalendarViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -18,9 +18,93 @@
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="L7q-Y3-KUe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="150" y="64" width="300" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ye-g2-QpY">
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bph-C5-RVi">
+                                                            <rect key="frame" x="0.0" y="0.0" width="2" height="44"/>
+                                                            <color key="backgroundColor" red="0.041692961010000001" green="0.38031816480000002" blue="0.99836134909999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="2" id="eeY-cL-2cy"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7y-JG-7h0">
+                                                            <rect key="frame" x="4" y="2" width="294" height="17"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gMm-b8-3lS" customClass="DisappearingLabel" customModule="MHacks" customModuleProvider="target">
+                                                            <rect key="frame" x="4" y="19" width="294" height="14.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.70070827010000003" green="0.83693927530000001" blue="0.99931150670000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="gMm-b8-3lS" secondAttribute="trailing" constant="2" id="0Ll-Vy-6lp"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Bph-C5-RVi" secondAttribute="bottom" id="HAN-Rz-no5"/>
+                                                        <constraint firstItem="h7y-JG-7h0" firstAttribute="top" secondItem="2ye-g2-QpY" secondAttribute="top" constant="2" id="IcB-tG-7Da"/>
+                                                        <constraint firstItem="gMm-b8-3lS" firstAttribute="top" secondItem="h7y-JG-7h0" secondAttribute="bottom" id="JN7-6u-Afu"/>
+                                                        <constraint firstAttribute="trailing" secondItem="h7y-JG-7h0" secondAttribute="trailing" constant="2" id="RCW-Ff-UUd"/>
+                                                        <constraint firstItem="gMm-b8-3lS" firstAttribute="leading" secondItem="Bph-C5-RVi" secondAttribute="trailing" constant="2" id="Xmr-ST-LLl"/>
+                                                        <constraint firstItem="h7y-JG-7h0" firstAttribute="leading" secondItem="Bph-C5-RVi" secondAttribute="trailing" constant="2" id="YTT-MV-R1h"/>
+                                                        <constraint firstItem="Bph-C5-RVi" firstAttribute="leading" secondItem="2ye-g2-QpY" secondAttribute="leading" id="ZdT-3v-Dlt"/>
+                                                        <constraint firstItem="Bph-C5-RVi" firstAttribute="top" secondItem="2ye-g2-QpY" secondAttribute="top" id="doW-Za-NBL"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="gMm-b8-3lS" secondAttribute="bottom" constant="2" id="r8s-4a-uo3"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="2ye-g2-QpY" secondAttribute="trailing" id="FeW-VY-LYC"/>
+                                            <constraint firstAttribute="bottom" secondItem="2ye-g2-QpY" secondAttribute="bottom" id="dbS-oE-Le8"/>
+                                            <constraint firstItem="2ye-g2-QpY" firstAttribute="leading" secondItem="kfx-5F-nII" secondAttribute="leading" id="fBH-PG-xZX"/>
+                                            <constraint firstItem="2ye-g2-QpY" firstAttribute="top" secondItem="kfx-5F-nII" secondAttribute="top" id="g8G-jx-fO7"/>
+                                        </constraints>
+                                        <size key="customSize" width="300" height="44"/>
+                                        <connections>
+                                            <outlet property="bodyView" destination="2ye-g2-QpY" id="ujk-eJ-wdK"/>
+                                            <outlet property="bodyViewTopConstraint" destination="g8G-jx-fO7" id="KuV-bS-xzR"/>
+                                            <outlet property="detailTextLabel" destination="gMm-b8-3lS" id="Z8q-wV-HJ4"/>
+                                            <outlet property="leaderBar" destination="Bph-C5-RVi" id="fln-ns-gqS"/>
+                                            <outlet property="textLabel" destination="h7y-JG-7h0" id="wpX-Gh-kAZ"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="9pv-A4-QxB" id="WJG-xC-v0o"/>
+                                    <outlet property="delegate" destination="9pv-A4-QxB" id="3Ix-ND-TLy"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="L7q-Y3-KUe" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="topMargin" id="Tgr-fK-u7v"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="L7q-Y3-KUe" secondAttribute="trailing" constant="-20" id="Wmk-wj-RfL"/>
+                            <constraint firstItem="L7q-Y3-KUe" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-20" id="ltb-82-P2I"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="L7q-Y3-KUe" secondAttribute="bottom" id="uZm-qb-3Ft"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vpW-17-tOM"/>
+                    <navigationItem key="navigationItem" title="Schedule" id="vpW-17-tOM"/>
+                    <connections>
+                        <outlet property="collectionView" destination="L7q-Y3-KUe" id="6az-Qk-8r2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -251,11 +335,11 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--First-->
+        <!--Schedule-->
         <scene sceneID="R8F-hc-BKL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mKN-3u-sIs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Schedule" image="Schedule" selectedImage="Schedule Selected" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="q5f-QQ-SOo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -276,6 +360,7 @@
         <image name="Countdown Selected" width="25" height="25"/>
         <image name="News" width="25" height="25"/>
         <image name="News Selected" width="25" height="25"/>
-        <image name="first" width="30" height="30"/>
+        <image name="Schedule" width="25" height="25"/>
+        <image name="Schedule Selected" width="25" height="25"/>
     </resources>
 </document>

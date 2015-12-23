@@ -24,9 +24,22 @@ final class APIManager
 	private static let baseURL = NSURL(string: "")!
 	
 	// Private so that nobody else can access this.
-	private init () {
-		// TODO: Try to construct Authenticator from cache
-		// TODO: Construct everything else from cache if possible.
+	private init() {
+		// TODO: Put file path here
+		// This will construct the APIManager in in the initializer.
+		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile("")
+		{
+			// Copy everything over
+			print(obj)
+		}
+		else
+		{
+			// Initialize to empty, i.e. no cache exists.
+		}
+	}
+	
+	deinit {
+		// TODO: Archive object to cache.
 	}
 	
 	static var sharedManager: APIManager {
@@ -94,7 +107,6 @@ final class APIManager
 		return authenticator == nil ? false : authenticator.privilege.canPostAnnouncements()
 	}
 	
-	
 	// This is only for get requests to update a particular object type
 	private func updateGenerically<T: JSONCreateable>(route: String, inout objectToUpdate object: T, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
 	{
@@ -137,19 +149,49 @@ final class APIManager
 	func postAnnouncement(completion: (Bool) -> Void)
 	{
 		// TODO: Implement me
+		// This function wont acquire the semaphore, but maybe do something to ask for a UI update?
 	}
 	
 	// MARK: - Countdown
-	
 	private(set) var countdown = Countdown()
 	private let countdownSemaphore = dispatch_semaphore_create(1)
 	func updateCountdown()
 	{
 		updateGenerically("/v1/countdown", objectToUpdate: &countdown, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
 	}
+	
+	// MARK: - Events
+	private(set) var eventsOrganizer = EventOrganizer(events: [])
+	private let eventsSemaphore = dispatch_semaphore_create(1)
+
+	func updateEvents() {
+		// TODO: Make sure locations are fetched already somehow
+		updateGenerically("/v1/events", objectToUpdate: &eventsOrganizer, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: eventsSemaphore)
+	}
+	
+	// MARK: - Location
+	
+	private(set) var locations = [Location]()
+	private let locationSemaphore = dispatch_semaphore_create(1)
+	
+	func updateLocations() {
+		updateGenerically("/v1/locations", objectToUpdate: &locations, notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
+	}
+	func locationForID(id: String, @noescape completion: (Location?) -> Void) {
+		// TODO: Figure out a way to update locations (exactly once) if not found
+		completion((locations.filter { $0.ID == id }).first)
+	}
+
+
+	// MARK: - Notification Keys
+	static let announcementsUpdatedNotification = "AnnouncmentsUpdatedNotification"
+	static let countdownUpdateNotification = "CountdownUpdatedNotification"
+	static let eventsUpdatedNotification = "EventsUpdatedNotification"
+	static let locationsUpdatedNotification = "LocationsUpdatedNotification"
+	static let connectionFailedNotification = "ConnectionFailure"
 }
 
-// Authentication and user stuff
+// MARK: - Authentication and User Stuff
 extension APIManager
 {
 	func loginWithUsername(username: String, password: String, completion: (Either<Bool>) -> Void)
@@ -227,14 +269,8 @@ extension APIManager.Authenticator : JSONCreateable
 	}
 }
 
-extension APIManager
-{
-	// MARK: - Notification Keys
-	static var announcementsUpdatedNotification : String { return "AnnouncmentsUpdatedNotification" }
-	static var eventsUpdatedNotification : String { return "EventsUpdatedNotification" }
-	static var countdownUpdateNotification: String { return "CountdownUpdatedNotification" }
-	static var connectionFailedNotification: String { return  "ConnectionFailure" }
-}
+
+// MARK: - Archiving
 extension APIManager : NSCoding
 {
 	@objc func encodeWithCoder(aCoder: NSCoder) {

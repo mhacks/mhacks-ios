@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		application.registerUserNotificationSettings(settings)
 
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
+		
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -57,6 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func connectionError(notification: NSNotification)
 	{
+		guard !UIApplication.sharedApplication().statusBarHidden
+		else
+		{
+			// There already exists an error message
+			// so we discard this one. Maybe we could queue the errors up?
+			return
+		}
 		var statusWindow : UIWindow! = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
 		statusWindow.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
 		let label = UILabel(frame: statusWindow.bounds)
@@ -67,17 +75,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		label.text = (notification.object as? NSError)?.localizedDescription ?? "Network Error"
 		statusWindow.addSubview(label)
 		statusWindow.makeKeyAndVisible()
+		UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
 		label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
-		UIView.animateWithDuration(0.7, animations: {
+		UIView.animateWithDuration(0.5, animations: {
 			label.layer.transform = CATransform3DIdentity
-			}, completion: { finished in
-				let delayInSeconds = 5.0 // Hide after time
+			}, completion: { _ in
+				let delayInSeconds = 3.0 // Hide after time
 				let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
 				dispatch_after(popTime, dispatch_get_main_queue(), {
 					UIView.animateWithDuration(0.5, animations: {
 						label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
-						}, completion: { finished in
+						}, completion: { _ in
+							statusWindow.hidden = true
 							statusWindow = nil
+							UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
 							self.window?.makeKeyAndVisible()
 					})
 				})
