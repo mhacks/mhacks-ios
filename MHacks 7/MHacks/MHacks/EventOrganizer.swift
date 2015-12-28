@@ -315,6 +315,7 @@ extension EventOrganizer: JSONCreateable  {
 		}
 		self.init(events: eventsJSON.flatMap { Event(JSON: $0) })
 	}
+	// TODO: Implement
 	func encodeWithCoder(aCoder: NSCoder) {
 		
 	}

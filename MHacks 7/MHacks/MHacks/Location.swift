@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-// This is intentionally a class, we dont duplicate copies of this everywhere, just immutable references.
+// This is intentionally a class, we don't duplicate copies of this everywhere, just immutable references.
 final class Location : JSONCreateable {
 	
 	let ID: String

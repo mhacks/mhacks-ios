@@ -10,6 +10,8 @@ import UIKit
 
 class AnnouncementsViewController: UITableViewController {
 	
+	@IBOutlet var composeButton: UIBarButtonItem!
+	
     // MARK: Model
 	
 	private func fetch() {
@@ -35,7 +37,11 @@ class AnnouncementsViewController: UITableViewController {
 		fetch()
 		if APIManager.sharedManager.canPostAnnouncements()
 		{
-			// TODO: Show compose post button
+			composeButton.enabled = true
+		}
+		else
+		{
+			composeButton.enabled = false
 		}
 	}
 	override func viewDidDisappear(animated: Bool) {

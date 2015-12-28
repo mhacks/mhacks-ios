@@ -59,6 +59,14 @@ extension Announcement: JSONCreateable {
 		// TODO: Implement me
 	}
 	
+	init(title: String, message: String, date: NSDate)
+	{
+		self.ID = ""
+		self.title = title
+		self.message = message
+		self.date = date
+	}
+	
 }
 
 func ==(lhs: Announcement, rhs: Announcement) -> Bool {

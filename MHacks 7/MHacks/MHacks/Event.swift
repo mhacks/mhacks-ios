@@ -25,7 +25,7 @@ struct Event: Equatable {
     let ID: String
     let name: String
     let category: Category
-    let locations: [Location]
+    var locations: [Location]
     let startDate: NSDate
     let duration: NSTimeInterval
     let description: String
@@ -56,18 +56,28 @@ extension Event : JSONCreateable {
 		self.ID = ID
 		self.name = name
 		self.category = category
-		print(locationID)
-		self.locations = [] // TODO: Fill me
+		self.locations = []
 		self.startDate = NSDate(timeIntervalSince1970: startDate)
 		self.duration = duration
 		self.description = description
+		let waitForLocation = dispatch_semaphore_create(0)
+		APIManager.sharedManager.locationForID(locationID, completion: {
+			self.locations = [$0].flatMap({ $0 })
+			dispatch_semaphore_signal(waitForLocation)
+		})
+		dispatch_semaphore_wait(waitForLocation, DISPATCH_TIME_FOREVER)
+		guard locations.count > 0
+			else
+		{
+			return nil
+		}
 	}
 	
 	func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me.
 	}
 	
-	static var jsonKeys : [String] { return ["id", "name", "details", "category", "startTime", "duration"] }
+	static var jsonKeys : [String] { return ["id", "name", "details", "category", "startTime", "duration", "location"] }
 }
 
 func ==(lhs: Event, rhs: Event) -> Bool {

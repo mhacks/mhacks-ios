@@ -29,7 +29,7 @@ final class APIManager
 		// This will construct the APIManager in in the initializer.
 		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile("")
 		{
-			// Copy everything over
+			// Move everything over
 			print(obj)
 		}
 		else
@@ -146,10 +146,11 @@ final class APIManager
 	///	Posts a new announcment from a sponsor or admin
 	///
 	///	- parameter completion:	The completion block, true on success, false on failure.
-	func postAnnouncement(completion: (Bool) -> Void)
+	func postAnnouncement(announcement: Announcement, completion: (Bool) -> Void)
 	{
 		// TODO: Implement me
 		// This function wont acquire the semaphore, but maybe do something to ask for a UI update?
+		// like just call updateAnnouncements
 	}
 	
 	// MARK: - Countdown
@@ -177,12 +178,29 @@ final class APIManager
 	func updateLocations() {
 		updateGenerically("/v1/locations", objectToUpdate: &locations, notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
 	}
+	
+	private let locationFetchSemaphore = dispatch_semaphore_create(0)
+	
 	func locationForID(id: String, @noescape completion: (Location?) -> Void) {
-		// TODO: Figure out a way to update locations (exactly once) if not found
-		completion((locations.filter { $0.ID == id }).first)
+		if let location = (locations.filter { $0.ID == id }).first
+		{
+			completion(location)
+			return
+		}
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationFetchUpdated:", name: APIManager.locationsUpdatedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationFetchUpdated:", name: APIManager.connectionFailedNotification, object: nil)
+		updateLocations()
+		dispatch_semaphore_wait(locationFetchSemaphore, DISPATCH_TIME_FOREVER)
+		// We intentionally don't signal here again because the base value of
+		// the semaphore needs to be 0
+		completion(locations.filter { $0.ID == id}.first)
+	}
+	func locationFetchUpdated(sender: NSNotification) {
+		dispatch_semaphore_signal(locationFetchSemaphore)
 	}
 
-
+	// TODO: Awards
+	
 	// MARK: - Notification Keys
 	static let announcementsUpdatedNotification = "AnnouncmentsUpdatedNotification"
 	static let countdownUpdateNotification = "CountdownUpdatedNotification"
@@ -209,6 +227,8 @@ extension APIManager
 			}
 		}
 	}
+	// This class should encapsulate everything about the user and save all of it
+	// including whatever information the server decides to send us.
 	final class Authenticator
 	{
 		private enum Privilege {
@@ -242,7 +262,7 @@ extension APIManager
 				return false
 			}
 			// TODO: Ask backend for expected auth token format
-			request.addValue("Bearer \(authToken)", forHTTPHeaderField: "Authentication")
+			request.addValue("\(authToken)", forHTTPHeaderField: "Authentication")
 			return true
 		}
 	}
@@ -257,7 +277,7 @@ extension APIManager.Authenticator : JSONCreateable
 	}
 	func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me
-		// Save things about the user except for private stuff which goes in keychain
+		// Save things about the user except for private stuff which already goes in keychain
 	}
 	static var jsonKeys : [String] { return [] }
 	
@@ -265,7 +285,8 @@ extension APIManager.Authenticator : JSONCreateable
 	{
 		// Override default implementation to use keychain here.
 		// TODO: Implement me
-		self.init(JSON: [String: AnyObject]())
+		
+		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
 	}
 }
 

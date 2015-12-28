@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Schedule-->
@@ -196,7 +197,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="111" sectionHeaderHeight="18" sectionFooterHeight="18" id="2WC-rc-iEm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" rowHeight="110" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="113.5" width="600" height="110"/>
@@ -208,7 +209,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYO-bj-4DQ">
                                             <rect key="frame" x="8" y="8" width="522" height="24"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Nt-J46" customClass="MultilineLabel" customModule="MHacks" customModuleProvider="target">
@@ -249,11 +250,82 @@
                             <outlet property="delegate" destination="NV6-fG-79i" id="i47-Fg-8mb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ"/>
+                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="hRv-Eg-TTB">
+                            <connections>
+                                <segue destination="m6P-0S-Uhh" kind="show" action="showDetailViewController:sender:" id="Luh-Xq-55p"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="composeButton" destination="hRv-Eg-TTB" id="JH1-At-9oH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jof-wQ-jCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2378" y="981"/>
+        </scene>
+        <!--Create Announcement-->
+        <scene sceneID="mPl-Xw-zup">
+            <objects>
+                <viewController title="Create Announcement" id="m6P-0S-Uhh" customClass="ComposeAnnouncementViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fXh-Ni-4Db"/>
+                        <viewControllerLayoutGuide type="bottom" id="wbW-Ch-1QU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sBS-50-cUc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iIg-NG-Tun">
+                                <rect key="frame" x="20" y="104" width="560" height="60"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                            </textField>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="wMl-rr-GTt">
+                                <rect key="frame" x="20" y="209" width="560" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="472589731.96768498">
+                                    <!--2015-12-23 18:55:31 +0000-->
+                                </date>
+                            </datePicker>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Message" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Bz-oK-UNl">
+                                <rect key="frame" x="20" y="172" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wMl-rr-GTt" firstAttribute="top" secondItem="8Bz-oK-UNl" secondAttribute="bottom" constant="16" id="BBH-uh-uyd"/>
+                            <constraint firstItem="iIg-NG-Tun" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="EST-2f-pB2"/>
+                            <constraint firstItem="iIg-NG-Tun" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="FmZ-7H-dbJ"/>
+                            <constraint firstItem="iIg-NG-Tun" firstAttribute="top" secondItem="fXh-Ni-4Db" secondAttribute="bottom" multiplier="1.5" constant="8" id="HCg-3H-y2C"/>
+                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="top" secondItem="iIg-NG-Tun" secondAttribute="bottom" constant="8" id="NNM-V1-ga7"/>
+                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="SKr-LL-8rq"/>
+                            <constraint firstItem="wMl-rr-GTt" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="SNX-MT-OBa"/>
+                            <constraint firstItem="wMl-rr-GTt" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="dRt-Wy-RO8"/>
+                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="oX8-NB-HFr"/>
+                            <constraint firstItem="iIg-NG-Tun" firstAttribute="centerX" secondItem="sBS-50-cUc" secondAttribute="centerX" id="sdK-Xq-DwL"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="done" systemItem="done" id="ItY-H0-7yQ">
+                            <connections>
+                                <action selector="post:" destination="m6P-0S-Uhh" id="EwG-gx-ZbU"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="announceAt" destination="wMl-rr-GTt" id="6t2-hc-Umi"/>
+                        <outlet property="messageField" destination="8Bz-oK-UNl" id="frC-AT-Nnn"/>
+                        <outlet property="titleField" destination="iIg-NG-Tun" id="sx9-JH-laO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ueh-Ej-WG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3053" y="981"/>
         </scene>
         <!--Announcements-->
         <scene sceneID="rdL-6x-glM">
