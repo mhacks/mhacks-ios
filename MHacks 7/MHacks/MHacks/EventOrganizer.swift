@@ -148,10 +148,10 @@ final class EventOrganizer {
     // MARK: Initialization
     
     // Events are assumed to be sorted by start date
-    init(events: [Event]) {
+    init(events theEvents: [Event]) {
         
         // Return if no events
-        guard !events.isEmpty
+        guard !theEvents.isEmpty
 		else
 		{
 			self.days = []
@@ -163,7 +163,8 @@ final class EventOrganizer {
 			self.columnsByDay = []
 			return
 		}
-        
+		let events = theEvents.sort { $0.0.startDate < $0.1.startDate }
+		
         // First and last date
         let firstDate = events.first!.startDate
         
@@ -307,18 +308,29 @@ final class EventOrganizer {
         return columnsByDay[day][index]
     }
 }
-extension EventOrganizer: JSONCreateable  {
+extension EventOrganizer: JSONCreateable, NSCoding  {
 	convenience init?(JSON: [String : AnyObject]) {
-		guard let eventsJSON = JSON["events"] as? [[String: AnyObject]]
+		guard let eventsJSON = JSON["results"] as? [[String: AnyObject]]
 		else {
 			return nil
 		}
 		self.init(events: eventsJSON.flatMap { Event(JSON: $0) })
 	}
 	// TODO: Implement
-	func encodeWithCoder(aCoder: NSCoder) {
-		
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		var events = [Event]()
+		events.reserveCapacity(eventsByDay.count * (eventsByDay.first?.count ?? 1))
+		eventsByDay.forEach { events.appendContentsOf($0) }
+		aCoder.encodeObject(events, forKey: "events")
 	}
-	static var jsonKeys: [String] { return [] }
+	static var jsonKeys: [String] { return ["events"] }
 	
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		guard let events = aDecoder.decodeObjectForKey("events") as? [Event]
+		else
+		{
+			return nil
+		}
+		self.init(events: events)
+	}
 }

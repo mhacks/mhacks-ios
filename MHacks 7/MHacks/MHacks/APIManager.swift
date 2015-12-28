@@ -21,7 +21,7 @@ final class APIManager
 {
 	
 	// TODO: Put actual base URL here
-	private static let baseURL = NSURL(string: "")!
+	private static let baseURL = NSURL(string: "http://testonehack.herokuapp.com")!
 	
 	// Private so that nobody else can access this.
 	private init() {
@@ -57,20 +57,22 @@ final class APIManager
 		
 		let mutableRequest = NSMutableURLRequest(URL: URL)
 		mutableRequest.HTTPMethod = method.rawValue
-		mutableRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//		mutableRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		if accessTokenRequired
 		{
 			assert(authenticator != nil, "The authenticator must be set before making a fetch or post, except for logins.")
-			guard authenticator.addBearerAccessHeader(mutableRequest)
-			else
-			{
-				assertionFailure("Could not add bearer access header even though it is required")
-				return mutableRequest
-			}
+			authenticator.addBearerAccessHeader(mutableRequest)
 		}
 		do
 		{
-			mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+			if method == .POST {
+				let formData = parameters.reduce("", combine: { $0 + "\($1.0)=\($1.1)&" })
+				mutableRequest.HTTPBody = formData.substringToIndex(formData.endIndex.predecessor()).dataUsingEncoding(NSUTF8StringEncoding)
+			}
+			else {
+				mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+			}
+			
 		}
 		catch
 		{
@@ -242,6 +244,14 @@ extension APIManager
 			}
 		}
 		
+		private let authToken : String
+		private var username: String
+		private static let authTokenKey = "MHacksAuthenticationToken"
+		private init(authToken: String) {
+			self.authToken = authToken
+			username = ""
+		}
+		
 		// We make this private so that nobody can hard code in if privilege ==
 		// That is an anti-pattern and we want to discourage it.
 		private var privilege: Privilege { return .Hacker }
@@ -249,44 +259,59 @@ extension APIManager
 		class func loginWithUsername(username: String, password: String, completion: (Either<Authenticator>) -> Void)
 		{
 			// Add in keychain storage of authToken once received.
-			APIManager.sharedManager.taskWithRoute("/v1/sessions", parameters: ["username": username, "password": password], requireAccessToken: false, usingHTTPMethod: .POST, completion: completion)
+			APIManager.sharedManager.taskWithRoute("/v1/sessions", parameters: ["email": username, "password": password], requireAccessToken: false, usingHTTPMethod: .POST, completion: { (result: Either<Authenticator>) in
+				defer { completion(result) }
+				switch result {
+				case .Value(let auth):
+					auth.username = username
+				default:
+					break
+				}
+			})
 		}
 		
 		// Returns false if it failed
-		func addBearerAccessHeader(request: NSMutableURLRequest) -> Bool
+		func addBearerAccessHeader(request: NSMutableURLRequest)
 		{
-			let auth : String? = "" // FIXME: This is wrong
-			guard let authToken = auth
-				else
-			{
-				return false
-			}
-			// TODO: Ask backend for expected auth token format
 			request.addValue("\(authToken)", forHTTPHeaderField: "Authentication")
-			return true
 		}
 	}
 }
-extension APIManager.Authenticator : JSONCreateable
+extension APIManager.Authenticator : JSONCreateable, NSCoding
 {
 	convenience init?(JSON: [String : AnyObject])
 	{
+		guard let token = JSON["token"] as? String
+		else
+		{
+			return nil
+		}
 		// TODO: Use JSON to perform login and create the object.
 		// Also save to keychain once initialization is done.
-		self.init()
+		self.init(authToken: token)
 	}
-	func encodeWithCoder(aCoder: NSCoder) {
-		// TODO: Implement me
-		// Save things about the user except for private stuff which already goes in keychain
-	}
-	static var jsonKeys : [String] { return [] }
 	
-	convenience init?(coder aDecoder: NSCoder)
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		SSKeychain.setPassword(authToken, forService: APIManager.Authenticator.authTokenKey, account: username)
+		aCoder.encodeObject(username, forKey: APIManager.Authenticator.authTokenKey)
+	}
+	
+	static var jsonKeys : [String] { return ["username"] }
+	
+	@objc convenience init?(coder aDecoder: NSCoder)
 	{
 		// Override default implementation to use keychain here.
-		// TODO: Implement me
-		
-		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
+		guard let username = aDecoder.valueForKey("username") as? String
+		else
+		{
+			return nil
+		}
+		guard let authToken = SSKeychain.passwordForService(APIManager.Authenticator.authTokenKey, account: username)
+		else {
+			return nil
+		}
+		self.init(authToken: authToken)
+		self.username = username
 	}
 }
 

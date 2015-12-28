@@ -14,8 +14,6 @@ extension Array : JSONCreateable
 {
 	static var jsonKeys : [String] { return [] }
 	
-	func encodeWithCoder(aCoder: NSCoder) {
-	}
 	init?(JSON: [String: AnyObject])
 	{
 		// TODO: Ask backend people to wrap arrays inside the dictionary with a results key
@@ -61,18 +59,23 @@ public func <=(lhs: NSDate, rhs: NSDate) -> Bool
 	return res == .OrderedAscending || res == .OrderedSame
 }
 
+let JSONDateFormatter : NSDateFormatter = {
+	let dateFormat = NSDateFormatter()
+	dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+	return dateFormat
+}()
+
 extension NSDate
 {
-	convenience init?(JSONValue: AnyObject)
+	
+	convenience init?(JSONValue: AnyObject?)
 	{
 		guard let dateString = JSONValue as? String
 		else
 		{
 			return nil
 		}
-		let dateFormatter = NSDateFormatter()
-		// TODO: Setup formatter
-		guard let date = dateFormatter.dateFromString(dateString)
+		guard let date = JSONDateFormatter.dateFromString(dateString)
 		else
 		{
 			return nil

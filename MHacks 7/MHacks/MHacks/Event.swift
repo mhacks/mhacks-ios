@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-struct Event: Equatable {
+final class Event: Equatable {
  
 	enum Category: String {
 		// TODO: Fill
@@ -24,16 +24,21 @@ struct Event: Equatable {
 	
     let ID: String
     let name: String
-    let category: Category
+//  let category: Category
     var locations: [Location]
     let startDate: NSDate
-    let duration: NSTimeInterval
+    let endDate: NSDate
     let description: String
-    
-    var endDate: NSDate {
-        return startDate.dateByAddingTimeInterval(duration)
-    }
-    
+	
+	init(ID: String, name: String, locations: [Location], startDate: NSDate, endDate: NSDate, description: String) {
+		self.ID = ID
+		self.name = name
+		self.locations = locations
+		self.startDate = startDate
+		self.endDate = endDate
+		self.description = description
+	}
+	
     var locationsDescription: String {
         switch locations.count {
         case 1:
@@ -47,46 +52,48 @@ struct Event: Equatable {
 }
 
 extension Event : JSONCreateable {
-	init?(JSON: [String : AnyObject]) {
-		guard let name = JSON["name"] as? String, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw), let locationID = JSON["location"] as? String, let startDate = JSON["startTime"] as? NSTimeInterval, let duration = JSON["duration"] as? NSTimeInterval, let description = JSON["details"] as? String, let ID = JSON["id"] as? String
+	convenience init?(JSON: [String : AnyObject]) {
+		guard let name = JSON["name"] as? String/*, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw)*/, let locationID = JSON["location_id"] as? String, let startDate = NSDate(JSONValue: JSON["startTime"]), let endDate = NSDate(JSONValue: JSON["endTime"]), let description = JSON["info"] as? String, let ID = JSON["id"] as? String
 		else
 		{
 			return nil
 		}
-		self.ID = ID
-		self.name = name
-		self.category = category
-		self.locations = []
-		self.startDate = NSDate(timeIntervalSince1970: startDate)
-		self.duration = duration
-		self.description = description
 		let waitForLocation = dispatch_semaphore_create(0)
+		var location: Location?
 		APIManager.sharedManager.locationForID(locationID, completion: {
-			self.locations = [$0].flatMap({ $0 })
+			location = $0
 			dispatch_semaphore_signal(waitForLocation)
 		})
 		dispatch_semaphore_wait(waitForLocation, DISPATCH_TIME_FOREVER)
-		guard locations.count > 0
-			else
+		guard let loc = location
+		else
 		{
 			return nil
 		}
+		
+		self.init(ID: ID, name: name, locations: [loc], startDate: startDate, endDate: endDate, description: description)
 	}
 	
-	func encodeWithCoder(aCoder: NSCoder) {
-		// TODO: Implement me.
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encodeObject(ID, forKey: "id")
+		aCoder.encodeObject(name, forKey: "name")
+		aCoder.encodeObject(description, forKey: "id")
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(startDate), forKey: "startTime")
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(endDate), forKey: "endTime")
+		aCoder.encodeObject(locations.first!.ID, forKey: "location_id")
+		// This ^ line makes us wonder whether its worth keeping locations as an array
 	}
 	
-	static var jsonKeys : [String] { return ["id", "name", "details", "category", "startTime", "duration", "location"] }
+	static var jsonKeys : [String] { return ["id", "name", "info", /*"category", */"startTime", "endTime", "location_id"] }
 }
 
 func ==(lhs: Event, rhs: Event) -> Bool {
     
     return (lhs.ID == rhs.ID &&
         lhs.name == rhs.name &&
-        lhs.category == rhs.category &&
+//      lhs.category == rhs.category &&
         lhs.locations == rhs.locations &&
         lhs.startDate == rhs.startDate &&
-        lhs.duration == rhs.duration &&
+        lhs.endDate == rhs.endDate &&
         lhs.description == rhs.description)
 }

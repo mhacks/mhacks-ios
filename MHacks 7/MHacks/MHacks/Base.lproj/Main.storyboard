@@ -167,13 +167,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Smb-j5-wMc" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" constant="8" id="NOq-uw-Qpp"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="m3P-eT-boK" secondAttribute="bottom" constant="32" id="QNG-Lk-25k"/>
                             <constraint firstItem="m3P-eT-boK" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="QUP-Co-ecI"/>
                             <constraint firstItem="m3P-eT-boK" firstAttribute="top" secondItem="79P-Nl-WkD" secondAttribute="bottom" constant="8" id="dKS-q9-1Sb"/>
                             <constraint firstItem="79P-Nl-WkD" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="ft6-AQ-MMK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Smb-j5-wMc" secondAttribute="trailing" constant="-12" id="qaN-b8-yWb"/>
                             <constraint firstItem="Smb-j5-wMc" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="slG-xt-djW"/>
+                            <constraint firstItem="Smb-j5-wMc" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="topMargin" constant="28" id="x63-zd-0Me"/>
                             <constraint firstItem="79P-Nl-WkD" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="yDf-oI-sH0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="m3P-eT-boK" secondAttribute="trailing" constant="-12" id="ydV-Uu-dtQ"/>
                         </constraints>
@@ -366,10 +366,19 @@
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-e3-dyN">
+                                <rect key="frame" x="279" y="346" width="42" height="30"/>
+                                <state key="normal" title="Log In"/>
+                                <connections>
+                                    <action selector="login:" destination="s6b-gL-H5G" eventType="touchUpInside" id="99x-KU-yV6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4Zc-e3-dyN" firstAttribute="centerX" secondItem="C4f-9I-J07" secondAttribute="centerX" id="3FO-f5-MuN"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="5Lb-1G-tHf"/>
+                            <constraint firstItem="4Zc-e3-dyN" firstAttribute="top" secondItem="bbd-GB-CKO" secondAttribute="bottom" constant="8" id="5Sp-03-JIF"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="top" secondItem="9zC-sf-9Qq" secondAttribute="bottom" constant="8" id="LWH-cl-Ppo"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="evg-ns-MUf"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="centerY" secondItem="C4f-9I-J07" secondAttribute="centerY" id="gOL-2M-Br2"/>

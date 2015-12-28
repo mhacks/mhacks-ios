@@ -33,11 +33,14 @@ class LoginViewController: UIViewController
 	}
 	func didLogin()
 	{
-		performSegueWithIdentifier("loginSegue", sender: nil)
+		dispatch_async(dispatch_get_main_queue(), {
+			self.performSegueWithIdentifier("loginSegue", sender: nil)
+		})
 	}
 	func incorrectPassword()
 	{
 		// TODO: Shake password field for wrong input
+		print("Incorrect password")
 	}
 	@IBAction func loginWithoutCredentials(sender: UIButton)
 	{
@@ -52,6 +55,9 @@ class LoginViewController: UIViewController
 			incorrectPassword()
 			return
 		}
+		let remoteNotificationData = NSUserDefaults.standardUserDefaults().dataForKey(remoteNotificationDataKey)
+		// TODO: Use remote notification data to login
+		print(remoteNotificationData)
 		APIManager.sharedManager.loginWithUsername(username, password: password) {
 			switch $0
 			{

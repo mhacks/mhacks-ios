@@ -8,12 +8,19 @@
 
 import Foundation
 
-struct Announcement: Equatable {
+final class Announcement: Equatable {
 	
 	let ID: String
 	let title: String
-	let date: NSDate
 	let message: String
+	let date: NSDate
+
+	init(ID: String, title: String, message: String, date: NSDate) {
+		self.ID = ID
+		self.title = title
+		self.message = message
+		self.date = date
+	}
 	
 	static private let todayDateFormatter: NSDateFormatter = {
 		let formatter = NSDateFormatter()
@@ -32,41 +39,29 @@ struct Announcement: Equatable {
 		let formatter = NSCalendar.currentCalendar().isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.stringFromDate(date)
 	}
-}
+} 
 
-extension Announcement: JSONCreateable {
+extension Announcement: JSONCreateable, NSCoding {
 	
-	init?(JSON: [String : AnyObject]) {
-		// TODO: Ask backend for dates to be encoded in time interval since 1970 format.
-		guard let timeIntervalForDate = JSON["date"] as? NSTimeInterval
+	convenience init?(JSON: [String : AnyObject]) {
+		guard let id = JSON["id"] as? String, let title = JSON["name"] as? String, let message = JSON["info"] as? String, let date = NSDate(JSONValue: JSON["broadcastTime"]) where NSDate(timeIntervalSinceNow: 0) > date
 		else
 		{
 			return nil
 		}
-		let date = NSDate(timeIntervalSinceReferenceDate: timeIntervalForDate)
-		guard let id = JSON["id"] as? String, let title = JSON["title"] as? String, let message = JSON["message"] as? String where NSDate() < date
-		else
-		{
-			return nil
-		}
-		self.ID = id
-		self.title = title
-		self.date = date
-		self.message = message
+		self.init(ID: id, title: title, message: message, date: date)
 	}
-	static var jsonKeys : [String] { return ["id", "title", "message", "date"] }
-	func encodeWithCoder(aCoder: NSCoder) {
-		// TODO: Implement me
-	}
+	static var jsonKeys : [String] { return ["id", "name", "info", "broadcastTime"] }
 	
-	init(title: String, message: String, date: NSDate)
-	{
-		self.ID = ""
-		self.title = title
-		self.message = message
-		self.date = date
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encodeObject(ID, forKey: "id")
+		aCoder.encodeObject(title, forKey: "name")
+		aCoder.encodeObject(message, forKey: "info")
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(date), forKey: "broadcastTime")
 	}
-	
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
+	}
 }
 
 func ==(lhs: Announcement, rhs: Announcement) -> Bool {

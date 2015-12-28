@@ -12,8 +12,8 @@ protocol JSONCreateable
 {
 	init?(JSON: [String: AnyObject])
 	static var jsonKeys : [String] { get }
-	func encodeWithCoder(aCoder: NSCoder)
-	init?(coder aDecoder: NSCoder)
+//	func encodeWithCoder(aCoder: NSCoder)
+//	init?(coder aDecoder: NSCoder)
 }
 
 extension JSONCreateable
@@ -28,15 +28,21 @@ extension JSONCreateable
 		guard let JSON = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? [String: AnyObject]
 		else
 		{
-			return nil
+			guard let JSONs = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? [[String: AnyObject]]
+			else {
+				return nil
+			}
+			self.init(JSON: ["results": JSONs])
+			return
 		}
 		self.init(JSON: JSON)
 	}
-	init?(coder aDecoder: NSCoder)
-	{
-		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(Self.jsonKeys))
-	}
 }
+//extension JSONCreateable {
+//	init?(coder aDecoder: NSCoder) {
+//		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(Self.jsonKeys))
+//	}
+//}
 
 
 /// A nice little wrapper to allow for interested parties to get to the JSON directly
@@ -44,10 +50,6 @@ struct JSONWrapper: JSONCreateable
 {
 	let JSON : [String: AnyObject]
 	static let jsonKeys: [String] = [String]()
-	
-	func encodeWithCoder(aCoder: NSCoder) {
-	}
-	
 	init?(JSON: [String: AnyObject])
 	{
 		// Just set and always succeed.

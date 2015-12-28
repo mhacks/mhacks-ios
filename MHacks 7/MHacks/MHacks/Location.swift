@@ -10,34 +10,36 @@ import Foundation
 import CoreLocation
 
 // This is intentionally a class, we don't duplicate copies of this everywhere, just immutable references.
-final class Location : JSONCreateable {
+final class Location {
 	
 	let ID: String
 	let name: String
 	let coreLocation: CLLocation
-	
-	required init?(JSON: [String: AnyObject]) {
+	init(ID: String, name: String, coreLocation: CLLocation) {
+		self.ID = ID
+		self.name = name
+		self.coreLocation = coreLocation
+	}
+}
+extension Location : JSONCreateable {
+	convenience init?(JSON: [String: AnyObject]) {
 		guard let latitude = JSON["latitude"] as? Double, let longitude = JSON["longitude"] as? Double, let id = JSON["id"] as? String, let locationName = JSON["name"] as? String
-		else
+			else
 		{
-			ID = ""
-			name = ""
-			coreLocation = CLLocation()
 			return nil
 		}
-		ID = id
-		coreLocation = CLLocation(latitude: latitude, longitude: longitude)
-		name = locationName
+		self.init(ID: id, name: locationName, coreLocation: CLLocation(latitude: latitude, longitude: longitude))
 	}
 	
 	static var jsonKeys : [String] { return ["id", "name", "latitude", "longitude"] }
 	
-	func encodeWithCoder(aCoder: NSCoder) {
+	@objc func encodeWithCoder(aCoder: NSCoder) {
 		aCoder.encodeObject(ID, forKey: "id")
 		aCoder.encodeDouble(coreLocation.coordinate.latitude, forKey: "latitude")
 		aCoder.encodeDouble(coreLocation.coordinate.longitude, forKey: "longitude")
 		aCoder.encodeObject(name, forKey: "name")
 	}
+
 }
 extension Location : Equatable { }
 

@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 		// TODO: Use notification 
 	}
+	
 	func applicationWillResignActive(application: UIApplication) {
 		// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 		// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -65,33 +66,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// so we discard this one. Maybe we could queue the errors up?
 			return
 		}
-		var statusWindow : UIWindow! = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
-		statusWindow.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
-		let label = UILabel(frame: statusWindow.bounds)
-		label.textAlignment = .Center
-		label.backgroundColor = UIColor.clearColor()
-		label.textColor = UIColor.blackColor()
-		label.font = UIFont.boldSystemFontOfSize(13)
-		label.text = (notification.object as? NSError)?.localizedDescription ?? "Network Error"
-		statusWindow.addSubview(label)
-		statusWindow.makeKeyAndVisible()
-		UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
-		label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
-		UIView.animateWithDuration(0.5, animations: {
-			label.layer.transform = CATransform3DIdentity
-			}, completion: { _ in
-				let delayInSeconds = 3.0 // Hide after time
-				let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-				dispatch_after(popTime, dispatch_get_main_queue(), {
-					UIView.animateWithDuration(0.5, animations: {
-						label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
-						}, completion: { _ in
-							statusWindow.hidden = true
-							statusWindow = nil
-							UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
-							self.window?.makeKeyAndVisible()
+		dispatch_async(dispatch_get_main_queue(), {
+			var statusWindow : UIWindow! = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
+			statusWindow.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
+			let label = UILabel(frame: statusWindow.bounds)
+			label.textAlignment = .Center
+			label.backgroundColor = UIColor.clearColor()
+			label.textColor = UIColor.blackColor()
+			label.font = UIFont.boldSystemFontOfSize(11)
+			label.text = (notification.object as? NSError)?.localizedDescription ?? "Network Error"
+			statusWindow.addSubview(label)
+			statusWindow.makeKeyAndVisible()
+			UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
+			label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
+			UIView.animateWithDuration(0.5, animations: {
+				label.layer.transform = CATransform3DIdentity
+				}, completion: { _ in
+					let delayInSeconds = 3.0 // Hide after time
+					let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
+					dispatch_after(popTime, dispatch_get_main_queue(), {
+						UIView.animateWithDuration(0.5, animations: {
+							label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
+							}, completion: { _ in
+								statusWindow.hidden = true
+								statusWindow = nil
+								UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
+								self.window?.makeKeyAndVisible()
+						})
 					})
-				})
+			})
 		})
 	}
 	

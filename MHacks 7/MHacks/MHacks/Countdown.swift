@@ -8,11 +8,11 @@
 
 import UIKit
 
-struct Countdown {
+final class Countdown {
     
     let startDate: NSDate?
     let duration: NSTimeInterval
-    
+	
     var endDate: NSDate? {
         return startDate?.dateByAddingTimeInterval(duration)
     }
@@ -120,25 +120,25 @@ struct Countdown {
         self.duration = duration
     }
 }
-extension Countdown : JSONCreateable
+extension Countdown : JSONCreateable, NSCoding
 {
-	init?(JSON: [String: AnyObject])
+	convenience init?(JSON: [String: AnyObject])
 	{
-		guard let startDate = JSON["countdown_start_date"] as? NSTimeInterval, let duration = JSON["countdown_duration"] as? NSTimeInterval
+		guard let startDate = NSDate(JSONValue: JSON["countdown_start_date"]), let duration = JSON["countdown_duration"] as? NSTimeInterval
 		else
 		{
 			return nil
 		}
-		// Make sure that the startDate from server is EPOCH time or UNIX time
-		self.startDate = NSDate(timeIntervalSince1970: startDate)
-		self.duration = duration
+		self.init(startDate: startDate, duration: duration)
 	}
 	
-	func encodeWithCoder(aCoder: NSCoder) {
+	@objc func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me
 	}
 	static var jsonKeys : [String] { return ["countdown_start_date", "countdown_duration"] }
-
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
+	}
 }
 extension Countdown : Equatable { }
 func ==(lhs: Countdown, rhs: Countdown) -> Bool {
