@@ -44,12 +44,12 @@ final class Announcement: Equatable {
 extension Announcement: JSONCreateable, NSCoding {
 	
 	convenience init?(JSON: [String : AnyObject]) {
-		guard let id = JSON["id"] as? String, let title = JSON["name"] as? String, let message = JSON["info"] as? String, let date = NSDate(JSONValue: JSON["broadcastTime"]) where NSDate(timeIntervalSinceNow: 0) > date
+		guard let id = JSON["id"] as? Int, let title = JSON["name"] as? String, let message = JSON["info"] as? String, let date = NSDate(JSONValue: JSON["broadcastTime"]) where NSDate(timeIntervalSinceNow: 0) > date
 		else
 		{
 			return nil
 		}
-		self.init(ID: id, title: title, message: message, date: date)
+		self.init(ID: "\(id)", title: title, message: message, date: date)
 	}
 	static var jsonKeys : [String] { return ["id", "name", "info", "broadcastTime"] }
 	

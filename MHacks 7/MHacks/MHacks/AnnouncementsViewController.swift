@@ -56,8 +56,10 @@ class AnnouncementsViewController: UITableViewController {
 	}
 	func announcementsUpdated(_: NSNotification? = nil)
 	{
-		refreshControl?.endRefreshing()
-		tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+		dispatch_async(dispatch_get_main_queue(), {
+			self.refreshControl?.endRefreshing()
+			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+		})
 	}
 	func connectionError(notification: NSNotification)
 	{

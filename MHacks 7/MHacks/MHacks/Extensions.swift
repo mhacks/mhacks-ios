@@ -10,29 +10,22 @@ import Foundation
 
 // This file is to make Foundation more Swifty
 
-extension Array : JSONCreateable
-{
-	static var jsonKeys : [String] { return [] }
+
+final class MyArray<Element: JSONCreateable> : JSONCreateable {
 	
+	let _array : [Element]
 	init?(JSON: [String: AnyObject])
 	{
-		// TODO: Ask backend people to wrap arrays inside the dictionary with a results key
-		guard Element.self is JSONCreateable
-			else
-		{
-			// If Element is not JSONCreateable, what are we doing here?
-			// Ideally, we would restrict the extension using where Element == JSONCreateable
-			// But in Swift 2.0 that's not possible.
-			return nil
-		}
 		guard let JSONs = JSON["results"] as? [[String: AnyObject]]
-			else
+		else
 		{
+			_array = []
 			return nil
 		}
-		// This is one ugly line of code, but what can we do it enables us to do some remarkable things.
-		self = JSONs.flatMap({ (Element.self as! JSONCreateable).dynamicType.init(JSON: $0) as? Element })
+		_array = JSONs.flatMap({ Element(JSON: $0) })
 	}
+	init(_ elems: [Element] = []) { _array = elems }
+	static var jsonKeys : [String] { return [] }
 }
 
 extension NSDate: Comparable {}
@@ -81,6 +74,28 @@ extension NSDate
 			return nil
 		}
 		self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
+	}
+}
+
+extension String {
+	public var sentenceCapitalizedString : String
+	{
+		var formatted = ""
+		let range = Range(start: startIndex, end: endIndex)
+		enumerateSubstringsInRange(range, options: NSStringEnumerationOptions.BySentences, { sentence, sentenceRange, enclosingRange, stop in
+			guard let sentence = sentence
+				else
+			{
+				return
+			}
+			formatted += sentence.stringByReplacingCharactersInRange(Range(start: self.startIndex, end: self.startIndex.advancedBy(1)), withString: sentence.substringToIndex(sentence.startIndex.successor()).capitalizedString)
+		})
+		// Add trailing full stop.
+		if (formatted[formatted.endIndex.predecessor()] != ".")
+		{
+			formatted += "."
+		}
+		return formatted
 	}
 }
 

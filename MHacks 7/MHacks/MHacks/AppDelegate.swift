@@ -30,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// TODO: Send to provider on login
 		NSUserDefaults.standardUserDefaults().setObject(deviceToken, forKey: remoteNotificationDataKey)
 	}
-	
+	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+		NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+	}
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 		// TODO: Use notification 
 	}
@@ -57,9 +59,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	}
 
+	var statusWindow : UIWindow?
+	
 	func connectionError(notification: NSNotification)
 	{
-		guard !UIApplication.sharedApplication().statusBarHidden
+		guard statusWindow == nil
 		else
 		{
 			// There already exists an error message
@@ -67,30 +71,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			return
 		}
 		dispatch_async(dispatch_get_main_queue(), {
-			var statusWindow : UIWindow! = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
-			statusWindow.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
-			let label = UILabel(frame: statusWindow.bounds)
+			self.statusWindow = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
+			self.statusWindow!.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
+			let label = UILabel(frame: self.statusWindow!.bounds)
 			label.textAlignment = .Center
-			label.backgroundColor = UIColor.clearColor()
-			label.textColor = UIColor.blackColor()
-			label.font = UIFont.boldSystemFontOfSize(11)
-			label.text = (notification.object as? NSError)?.localizedDescription ?? "Network Error"
-			statusWindow.addSubview(label)
-			statusWindow.makeKeyAndVisible()
-			UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
-			label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
+			label.backgroundColor = UIColor.redColor()
+			label.textColor = UIColor.whiteColor()
+			label.font = UIFont.boldSystemFontOfSize(12)
+			label.text = (notification.object as? NSError)?.localizedDescription.sentenceCapitalizedString ?? "Network Error"
+			self.statusWindow!.addSubview(label)
+			self.statusWindow!.makeKeyAndVisible()
+			self.statusWindow!.frame.origin.y -= self.statusWindow!.frame.height
+			// FIXME: Make animation better?
+//			label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
 			UIView.animateWithDuration(0.5, animations: {
-				label.layer.transform = CATransform3DIdentity
+//				label.layer.transform = CATransform3DIdentity
+				self.statusWindow!.frame.origin.y += self.statusWindow!.frame.height
 				}, completion: { _ in
 					let delayInSeconds = 3.0 // Hide after time
 					let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
 					dispatch_after(popTime, dispatch_get_main_queue(), {
 						UIView.animateWithDuration(0.5, animations: {
-							label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
+//							label.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
+							self.statusWindow!.frame.origin.y -= self.statusWindow!.frame.height
 							}, completion: { _ in
-								statusWindow.hidden = true
-								statusWindow = nil
-								UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
+								self.statusWindow!.hidden = true
+								self.statusWindow = nil
 								self.window?.makeKeyAndVisible()
 						})
 					})

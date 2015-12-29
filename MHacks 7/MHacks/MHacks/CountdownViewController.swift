@@ -64,13 +64,13 @@ class CountdownViewController: UIViewController {
 	
 	// MARK: - UI Update
 	func updateCountdownViews(_: NSNotification? = nil) {
-		let countdown = APIManager.sharedManager.countdown
-		
-		progressIndicator.progress = countdown.progress
-		countdownLabel.text = countdown.timeRemainingDescription
-		
-		startLabel.text = countdown.startDateDescription
-		endLabel.text = countdown.endDateDescription
+		dispatch_async(dispatch_get_main_queue(), {
+			self.progressIndicator.progress = APIManager.sharedManager.countdown.progress
+			self.countdownLabel.text = APIManager.sharedManager.countdown.timeRemainingDescription
+			
+			self.startLabel.text = APIManager.sharedManager.countdown.startDateDescription
+			self.endLabel.text = APIManager.sharedManager.countdown.endDateDescription
+		})
 	}
 }
 

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum HTTPMethod : String
 {
@@ -16,6 +17,7 @@ enum HTTPMethod : String
 }
 
 private let manager = APIManager()
+private let archiveLocation = (NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!) + "/manager.plist"
 
 final class APIManager
 {
@@ -23,13 +25,21 @@ final class APIManager
 	// TODO: Put actual base URL here
 	private static let baseURL = NSURL(string: "http://testonehack.herokuapp.com")!
 	
+	private init(empty: () -> ()) { }
+	
 	// Private so that nobody else can access this.
 	private init() {
 		// TODO: Put file path here
 		// This will construct the APIManager in in the initializer.
-		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile("")
+		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(archiveLocation) as? APIManager
 		{
 			// Move everything over
+			self.countdown = obj.countdown
+			self.announcements = obj.announcements
+			self.locations = obj.locations
+			self.eventsOrganizer = obj.eventsOrganizer
+			self.authenticator = obj.authenticator
+			
 			print(obj)
 		}
 		else
@@ -40,6 +50,7 @@ final class APIManager
 	
 	deinit {
 		// TODO: Archive object to cache.
+		NSKeyedArchiver.archiveRootObject(self, toFile: archiveLocation)
 	}
 	
 	static var sharedManager: APIManager {
@@ -70,7 +81,9 @@ final class APIManager
 				mutableRequest.HTTPBody = formData.substringToIndex(formData.endIndex.predecessor()).dataUsingEncoding(NSUTF8StringEncoding)
 			}
 			else {
-				mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+				if parameters.count > 0 {
+					mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
+				}
 			}
 			
 		}
@@ -85,7 +98,9 @@ final class APIManager
 	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), requireAccessToken accessTokenRequired: Bool = true, usingHTTPMethod method: HTTPMethod = .GET, completion: (Either<Object>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
+		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
+			defer { UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
 			guard error == nil
 			else
 			{
@@ -110,7 +125,7 @@ final class APIManager
 	}
 	
 	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, inout objectToUpdate object: T, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
+	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Void, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
 	{
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
 		else
@@ -123,7 +138,7 @@ final class APIManager
 			switch result
 			{
 			case .Value(let newValue):
-				object = newValue
+				updater(newValue)
 				NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
@@ -137,12 +152,19 @@ final class APIManager
 	
 	
 	// MARK: - Announcements
-	private(set) var announcements = [Announcement]()
+	private(set) var announcements : [Announcement] {
+		get { return announcementBuffer._array }
+		set {
+			announcementBuffer = MyArray(newValue)
+		}
+	}
+	private var announcementBuffer = MyArray<Announcement>()
+	
 	private let announcementsSemaphore = dispatch_semaphore_create(1)
 	///	Updates the announcements and posts a notification on completion.
 	func updateAnnouncements()
 	{
-		updateGenerically("/v1/announcements", objectToUpdate: &announcements, notificationName: APIManager.announcementsUpdatedNotification, semaphoreGuard: announcementsSemaphore)
+		updateGenerically("/v1/announcements", objectToUpdate: { self.announcementBuffer = $0 }, notificationName: APIManager.announcementsUpdatedNotification, semaphoreGuard: announcementsSemaphore)
 	}
 	
 	///	Posts a new announcment from a sponsor or admin
@@ -160,7 +182,7 @@ final class APIManager
 	private let countdownSemaphore = dispatch_semaphore_create(1)
 	func updateCountdown()
 	{
-		updateGenerically("/v1/countdown", objectToUpdate: &countdown, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
+		updateGenerically("/v1/countdown", objectToUpdate: { self.countdown = $0 }, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
 	}
 	
 	// MARK: - Events
@@ -168,17 +190,22 @@ final class APIManager
 	private let eventsSemaphore = dispatch_semaphore_create(1)
 
 	func updateEvents() {
+		updateLocations()
 		// TODO: Make sure locations are fetched already somehow
-		updateGenerically("/v1/events", objectToUpdate: &eventsOrganizer, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: eventsSemaphore)
+		updateGenerically("/v1/events", objectToUpdate: { self.eventsOrganizer = $0 }, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: eventsSemaphore)
 	}
 	
 	// MARK: - Location
 	
-	private(set) var locations = [Location]()
+	private(set) var locations : [Location] {
+		get { return locationBuffer._array }
+		set { locationBuffer = MyArray(newValue) }
+	}
+	private var locationBuffer = MyArray<Location>()
 	private let locationSemaphore = dispatch_semaphore_create(1)
 	
 	func updateLocations() {
-		updateGenerically("/v1/locations", objectToUpdate: &locations, notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
+		updateGenerically("/v1/locations", objectToUpdate: { self.locationBuffer = $0 } , notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
 	}
 	
 	private let locationFetchSemaphore = dispatch_semaphore_create(0)
@@ -321,10 +348,25 @@ extension APIManager : NSCoding
 {
 	@objc func encodeWithCoder(aCoder: NSCoder) {
 		// TODO: Implement me
+		aCoder.encodeObject(authenticator, forKey: "authenticator")
+		aCoder.encodeObject(locations, forKey: "locations")
+		aCoder.encodeObject(eventsOrganizer, forKey: "eventsOrganizer")
+		aCoder.encodeObject(announcements, forKey: "announcements")
+		aCoder.encodeObject(countdown, forKey: "countdown")
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		// TODO: Implement me
-		self.init()
+		self.init(empty: { })
+		
+		guard let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator, let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer, let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
+		else {
+				return nil
+		}
+		self.authenticator = authenticator
+		self.countdown = countdown
+		self.locations = locations
+		self.announcements = announcements
+		self.eventsOrganizer = eventsOrganizer
 	}
 }

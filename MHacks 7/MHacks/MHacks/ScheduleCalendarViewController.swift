@@ -74,7 +74,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as! ScheduleEventCell
         
         let event = APIManager.sharedManager.eventsOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
-        
+        cell.color = UIColor.blueColor()
 		//        cell.color = event.category.color // TODO: Implement category at some point
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.locationsDescription

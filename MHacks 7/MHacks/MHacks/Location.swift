@@ -23,12 +23,12 @@ final class Location {
 }
 extension Location : JSONCreateable {
 	convenience init?(JSON: [String: AnyObject]) {
-		guard let latitude = JSON["latitude"] as? Double, let longitude = JSON["longitude"] as? Double, let id = JSON["id"] as? String, let locationName = JSON["name"] as? String
+		guard let latitude = Double(JSON["latitude"] as? String ?? ""), let longitude = Double(JSON["longitude"] as? String ?? ""), let id = JSON["id"] as? Int, let locationName = JSON["name"] as? String
 			else
 		{
 			return nil
 		}
-		self.init(ID: id, name: locationName, coreLocation: CLLocation(latitude: latitude, longitude: longitude))
+		self.init(ID: "\(id)", name: locationName, coreLocation: CLLocation(latitude: latitude, longitude: longitude))
 	}
 	
 	static var jsonKeys : [String] { return ["id", "name", "latitude", "longitude"] }

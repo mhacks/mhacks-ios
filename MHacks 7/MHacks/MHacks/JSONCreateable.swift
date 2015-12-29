@@ -46,9 +46,10 @@ extension JSONCreateable
 
 
 /// A nice little wrapper to allow for interested parties to get to the JSON directly
-struct JSONWrapper: JSONCreateable
+final class JSONWrapper: JSONCreateable
 {
 	let JSON : [String: AnyObject]
+	
 	static let jsonKeys: [String] = [String]()
 	init?(JSON: [String: AnyObject])
 	{

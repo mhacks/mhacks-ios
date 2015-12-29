@@ -53,14 +53,14 @@ final class Event: Equatable {
 
 extension Event : JSONCreateable {
 	convenience init?(JSON: [String : AnyObject]) {
-		guard let name = JSON["name"] as? String/*, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw)*/, let locationID = JSON["location_id"] as? String, let startDate = NSDate(JSONValue: JSON["startTime"]), let endDate = NSDate(JSONValue: JSON["endTime"]), let description = JSON["info"] as? String, let ID = JSON["id"] as? String
+		guard let name = JSON["name"] as? String/*, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw)*/, let locationID = JSON["location_id"] as? Int, let startDate = NSDate(JSONValue: JSON["startTime"]), let endDate = NSDate(JSONValue: JSON["endTime"]), let description = JSON["info"] as? String, let ID = JSON["id"] as? Int
 		else
 		{
 			return nil
 		}
 		let waitForLocation = dispatch_semaphore_create(0)
 		var location: Location?
-		APIManager.sharedManager.locationForID(locationID, completion: {
+		APIManager.sharedManager.locationForID("\(locationID)", completion: {
 			location = $0
 			dispatch_semaphore_signal(waitForLocation)
 		})
@@ -71,7 +71,7 @@ extension Event : JSONCreateable {
 			return nil
 		}
 		
-		self.init(ID: ID, name: name, locations: [loc], startDate: startDate, endDate: endDate, description: description)
+		self.init(ID: "\(ID)", name: name, locations: [loc], startDate: startDate, endDate: endDate, description: description)
 	}
 	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
