@@ -36,7 +36,7 @@ import Foundation
 	}()
 	
 	var localizedDate: String {
-		let formatter = NSCalendar.currentCalendar().isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
+		let formatter = NSCalendar.sharedCalendar.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.stringFromDate(date)
 	}
 	private static let idKey = "id"

@@ -30,7 +30,7 @@ struct Day: TimeInterval {
     // Clamps hours to firstDate and lastDate
     init(firstDate: NSDate, lastDate: NSDate) {
         
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = NSCalendar.sharedCalendar
         
         startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: firstDate, options: [])!
         endDate = calendar.nextDateAfterDate(firstDate, matchingUnit: .Hour, value: 0, options: .MatchNextTime)!
@@ -105,7 +105,7 @@ struct Hour: TimeInterval {
     let startDate: NSDate
     
     var endDate: NSDate {
-        return NSCalendar.currentCalendar().nextDateAfterDate(startDate, matchingUnit: .Minute, value: 0, options: .MatchNextTime)!
+        return NSCalendar.sharedCalendar.nextDateAfterDate(startDate, matchingUnit: .Minute, value: 0, options: .MatchNextTime)!
     }
     
     var duration: NSTimeInterval {
@@ -174,7 +174,7 @@ struct Hour: TimeInterval {
         
         // Calendar
         
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = NSCalendar.sharedCalendar
         
         // Get first day
         

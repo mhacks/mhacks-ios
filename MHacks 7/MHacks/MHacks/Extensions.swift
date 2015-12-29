@@ -127,6 +127,14 @@ extension String {
 		return formatted
 	}
 }
+private let calendarLock = NSLock()
+extension NSCalendar {
+	static var sharedCalendar: NSCalendar {
+		calendarLock.lock()
+		defer { calendarLock.unlock() }
+		return NSCalendar.currentCalendar()
+	}
+}
 
 // MARK: - Keys
 
