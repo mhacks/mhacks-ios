@@ -319,7 +319,6 @@ struct Hour: TimeInterval {
 }
 extension EventOrganizer: JSONCreateable, NSCoding  {
 	
-	// TODO: Implement
 	@objc func encodeWithCoder(aCoder: NSCoder) {
 		var events = [Event]()
 		events.reserveCapacity(eventsByDay.count * (eventsByDay.first?.count ?? 1))

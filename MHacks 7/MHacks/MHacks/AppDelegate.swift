@@ -26,10 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-		
-		// TODO: Send to provider on login
 		NSUserDefaults.standardUserDefaults().setObject(deviceToken, forKey: remoteNotificationDataKey)
 	}
+	
 	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
 		NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 	}

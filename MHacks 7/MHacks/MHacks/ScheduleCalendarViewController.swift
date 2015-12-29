@@ -76,7 +76,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as! ScheduleEventCell
         
         let event = APIManager.sharedManager.eventsOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
-        cell.color = UIColor.blueColor()
+        cell.color = UIColor.purpleColor()
 		//        cell.color = event.category.color // TODO: Implement category at some point
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.locationsDescription
@@ -122,7 +122,9 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: NSIndexPath) -> Int {
         return APIManager.sharedManager.eventsOrganizer.columnForEventAtIndex(indexPath.item, inDay: indexPath.section)
     }
-    
+	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+		showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section))
+	}
     // MARK: Segues
     
     func showDetailsForEventWithID(ID: String) {
@@ -131,9 +133,13 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(ID) {
             
             collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: day), animated: false, scrollPosition: .CenteredVertically)
-            // FIXME: Implement in a better way 
-			// Use navigation View controller push view controller
-//            performSegueWithIdentifier("Show Event", sender: nil)
+			showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
         }
-    }    
+    }
+	func showDetailsForEvent(event: Event) {
+		let eventController = storyboard!.instantiateViewControllerWithIdentifier("EventViewController") as! EventViewController
+		eventController.event = event
+		navigationController?.pushViewController(eventController, animated: true)
+
+	}
 }

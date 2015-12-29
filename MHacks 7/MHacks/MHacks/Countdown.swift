@@ -120,7 +120,6 @@ import UIKit
 	private static let countdownDurationKey = "countdown_duration"
 	
 	init(startDate: NSDate = NSDate(timeIntervalSinceReferenceDate: 477608400), duration: NSTimeInterval = 129600) {
-		// TODO: Create from cache instead of from default values
         self.startDate = startDate
 		self.duration = duration
     }

@@ -130,7 +130,6 @@ final class APIManager : NSObject
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
-				// TODO: Handle this error differently?
 				NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self)
 				break
 			}
@@ -274,8 +273,6 @@ extension APIManager
 			{
 				return nil
 			}
-			// TODO: Use JSON to perform login and create the object.
-			// Also save to keychain once initialization is done.
 			self.init(authToken: token)
 		}
 		

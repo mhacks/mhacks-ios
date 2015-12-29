@@ -18,7 +18,10 @@ class LoginViewController: UIViewController
 	{
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
-		
+		guard !APIManager.sharedManager.isLoggedIn
+		else {
+			return
+		}
 
 	}
 	override func viewDidAppear(animated: Bool)
@@ -37,11 +40,28 @@ class LoginViewController: UIViewController
 			self.performSegueWithIdentifier("loginSegue", sender: nil)
 		})
 	}
+	private func shakePasswordField(iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: NSTimeInterval) {
+		UIView.animateWithDuration(interval, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: [], animations: {() in
+			self.passwordField.transform = CGAffineTransformMakeTranslation(size * CGFloat(direction), 0)
+			}, completion: {(finished) in
+				if (currentTimes >= iterations)
+				{
+					UIView.animateWithDuration(interval, animations: {() in
+						self.passwordField.transform = CGAffineTransformIdentity
+					})
+					return
+				}
+				self.shakePasswordField(iterations - 1, direction: -direction, currentTimes: currentTimes + 1, size: size, interval: interval)
+		})
+
+	}
+	
 	func incorrectPassword()
 	{
-		// TODO: Shake password field for wrong input
-		print("Incorrect password")
+		passwordField.text = ""
+		shakePasswordField(7, direction: 1, currentTimes: 0, size: 10, interval: 0.1)
 	}
+	
 	@IBAction func loginWithoutCredentials(sender: UIButton)
 	{
 		// TODO: Set the authenticator with the default values somehow.
