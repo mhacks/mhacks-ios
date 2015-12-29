@@ -8,31 +8,23 @@
 
 import UIKit
 
-final class Countdown {
-    
-    let startDate: NSDate?
+@objc final class Countdown : NSObject {
+	
+	// MARK : - Properties
+    let startDate: NSDate
     let duration: NSTimeInterval
 	
-    var endDate: NSDate? {
-        return startDate?.dateByAddingTimeInterval(duration)
+    var endDate: NSDate {
+        return startDate.dateByAddingTimeInterval(duration)
     }
     
     var roundedCurrentDate: NSDate? {
-        return startDate?.dateByAddingTimeInterval(duration - roundedTimeRemaining)
+        return startDate.dateByAddingTimeInterval(duration - roundedTimeRemaining)
     }
-    
-    private static var dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.formattingContext = .MiddleOfSentence
-        formatter.dateStyle = .FullStyle
-        formatter.timeStyle = .ShortStyle
-        formatter.doesRelativeDateFormatting = true
-        return formatter
-    }()
-    
-    var startDateDescription: String {
-        
-        let message: String = {
+	
+	var startDateDescription: String {
+		
+		let message: String = {
 			if self.roundedCurrentDate > self.startDate
 			{
 				return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
@@ -41,18 +33,18 @@ final class Countdown {
 			{
 				return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
 			}
-        }()
-        
-        let dateText = startDate != nil ? Countdown.dateFormatter.stringFromDate(startDate!) : "…"
-        
-        return NSString(format: message, dateText) as String
-    }
-    
-    var endDateDescription: String {
-        
-        let message: String = {
+		}()
+		
+		let dateText = Countdown.dateFormatter.stringFromDate(startDate)
+		
+		return String(format: message, dateText)
+	}
+	
+	var endDateDescription: String {
+		
+		let message: String = {
 			
-			if self.roundedCurrentDate <= self.startDate
+			if self.roundedCurrentDate <= self.endDate
 			{
 				return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
 			}
@@ -60,87 +52,103 @@ final class Countdown {
 			{
 				return NSLocalizedString("Hacks were submitted\n%@.", comment: "Countdown hacking did end")
 			}
-        }()
-        
-        let dateText = endDate != nil ? Countdown.dateFormatter.stringFromDate(endDate!) : "…"
-        
-        return NSString(format: message, dateText) as String
-    }
-    
-    // The current date clipped to the start and end of the event
-    var progressDate: NSDate {
-        return NSDate().laterDate(startDate!).earlierDate(endDate!);
-    }
-    
-    var timeRemaining: NSTimeInterval {
-        return endDate?.timeIntervalSinceDate(progressDate) ?? duration
-    }
-    
-    var roundedTimeRemaining: NSTimeInterval {
-        return round(timeRemaining)
-    }
-    
+		}()
+		
+		let dateText = Countdown.dateFormatter.stringFromDate(endDate)
+		
+		return NSString(format: message, dateText) as String
+	}
+	
+	// The current date clipped to the start and end of the event
+	var progressDate: NSDate {
+		return min(max(NSDate(), startDate), endDate)
+	}
+	
+	var timeRemaining: NSTimeInterval {
+		return endDate.timeIntervalSinceDate(progressDate)
+	}
+	
+	var roundedTimeRemaining: NSTimeInterval {
+		return round(timeRemaining)
+	}
+	
+	var timeRemainingDescription: String {
+		
+		let total = Int(roundedTimeRemaining)
+		
+		let hours = Countdown.timeRemainingFormatter.stringFromNumber(total / 3600)!
+		let minutes = Countdown.timeRemainingFormatter.stringFromNumber((total % 3600) / 60)!
+		let seconds = Countdown.timeRemainingFormatter.stringFromNumber(total % 60)!
+		
+		return "\(hours):\(minutes):\(seconds)"
+	}
+	
+	static let font: UIFont = {
+		if #available(iOS 9.0, *) {
+			// Use SF font with monospaced digit for iOS 9+
+			return UIFont.monospacedDigitSystemFontOfSize(120.0, weight: UIFontWeightThin)
+		} else {
+			// Use helvetica neue for iOS 8.0
+			let timeSeparatorValue = 1
+			let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
+			let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
+			return UIFont(descriptor: descriptor, size: 0.0)
+		}
+	}()
+	
+	var progress: Double {
+		return timeRemaining / duration
+	}
+	
+	// MARK: - Helpers
+    private static var dateFormatter: NSDateFormatter = {
+        let formatter = NSDateFormatter()
+        formatter.formattingContext = .MiddleOfSentence
+        formatter.dateStyle = .FullStyle
+        formatter.timeStyle = .ShortStyle
+        formatter.doesRelativeDateFormatting = true
+        return formatter
+    }()
+	
     private static var timeRemainingFormatter: NSNumberFormatter = {
         let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 2
         return formatter
     }()
     
-    var timeRemainingDescription: String {
-        
-        let total = Int(roundedTimeRemaining)
-        
-        let hours = Countdown.timeRemainingFormatter.stringFromNumber(total / 3600)!
-        let minutes = Countdown.timeRemainingFormatter.stringFromNumber((total % 3600) / 60)!
-        let seconds = Countdown.timeRemainingFormatter.stringFromNumber(total % 60)!
-        
-        return "\(hours):\(minutes):\(seconds)"
-    }
-    
-    static let font: UIFont = {
-		if #available(iOS 9.0, *) {
-			// Use SF font with monospaced digit for iOS 9+
-			return UIFont.monospacedDigitSystemFontOfSize(120.0, weight: UIFontWeightThin)
-		} else {
-		    // Use helvetica neue for iOS 8.0
-			let timeSeparatorValue = 1
-			let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
-			let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
-			return UIFont(descriptor: descriptor, size: 0.0)
-		}
-    }()
-    
-    var progress: Double {
-        return 1.0 - timeRemaining / duration
-    }
-    
-	init(startDate: NSDate? = nil, duration: NSTimeInterval = 129600) {
+	private static let countdownStartDateKey = "countdown_start_date"
+	private static let countdownDurationKey = "countdown_duration"
+	
+	init(startDate: NSDate = NSDate(timeIntervalSinceReferenceDate: 477608400), duration: NSTimeInterval = 129600) {
 		// TODO: Create from cache instead of from default values
         self.startDate = startDate
-        self.duration = duration
+		self.duration = duration
     }
-}
-extension Countdown : JSONCreateable, NSCoding
-{
-	convenience init?(JSON: [String: AnyObject])
+	
+	convenience init?(serialized: Serialized)
 	{
-		guard let startDate = NSDate(JSONValue: JSON["countdown_start_date"]), let duration = JSON["countdown_duration"] as? NSTimeInterval
+		guard let startDate = NSDate(JSONValue: serialized[Countdown.countdownStartDateKey]), let duration = serialized._JSON?[Countdown.countdownDurationKey] as? NSTimeInterval ?? serialized._coder?.decodeDoubleForKey(Countdown.countdownDurationKey)
 		else
 		{
 			return nil
 		}
+		
 		self.init(startDate: startDate, duration: duration)
 	}
-	
+}
+
+// MARK: - NSCoding
+extension Countdown : JSONCreateable, NSCoding
+{
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		// TODO: Implement me
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(startDate), forKey: Countdown.countdownStartDateKey)
+		aCoder.encodeDouble(duration, forKey: Countdown.countdownDurationKey)
 	}
-	static var jsonKeys : [String] { return ["countdown_start_date", "countdown_duration"] }
 	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
+		self.init(serialized: Serialized(coder: aDecoder))
 	}
 }
-extension Countdown : Equatable { }
+
 func ==(lhs: Countdown, rhs: Countdown) -> Bool {
 	return lhs.startDate == rhs.startDate && lhs.duration == rhs.duration
 }

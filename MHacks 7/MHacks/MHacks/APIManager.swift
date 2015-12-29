@@ -19,44 +19,31 @@ enum HTTPMethod : String
 private let manager = APIManager()
 private let archiveLocation = (NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!) + "/manager.plist"
 
-final class APIManager
+final class APIManager : NSObject
 {
-	
 	// TODO: Put actual base URL here
 	private static let baseURL = NSURL(string: "http://testonehack.herokuapp.com")!
 	
-	private init(empty: () -> ()) { }
+	// MARK: - Initializers
+	
+	private var initialized = false
 	
 	// Private so that nobody else can access this.
-	private init() {
-		// TODO: Put file path here
-		// This will construct the APIManager in in the initializer.
-		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(archiveLocation) as? APIManager
-		{
-			// Move everything over
-			self.countdown = obj.countdown
-			self.announcements = obj.announcements
-			self.locations = obj.locations
-			self.eventsOrganizer = obj.eventsOrganizer
-			self.authenticator = obj.authenticator
-			
-			print(obj)
-		}
-		else
-		{
-			// Initialize to empty, i.e. no cache exists.
-		}
+	private override init() {
+		super.init()
+		// Try constructing the APIManager using the cache.
+		// If that fails initialize to empty, i.e. no cache exists.
 	}
-	
-	deinit {
-		// TODO: Archive object to cache.
-		NSKeyedArchiver.archiveRootObject(self, toFile: archiveLocation)
-	}
-	
 	static var sharedManager: APIManager {
+		if !manager.initialized
+		{
+			manager.initialize()
+			locationForID = { ID in manager.locations.filter { $0.ID == ID }.first }
+		}
 		return manager
 	}
-	private var authenticator : Authenticator! // Must be set before using this class.
+	
+	private var authenticator : Authenticator! // Must be set before using this class for authenticated purposes
 	
 	var isLoggedIn: Bool { return authenticator != nil }
 	
@@ -72,7 +59,7 @@ final class APIManager
 		if accessTokenRequired
 		{
 			assert(authenticator != nil, "The authenticator must be set before making a fetch or post, except for logins.")
-			authenticator.addBearerAccessHeader(mutableRequest)
+			authenticator.addAuthorizationHeader(mutableRequest)
 		}
 		do
 		{
@@ -191,8 +178,11 @@ final class APIManager
 
 	func updateEvents() {
 		updateLocations()
-		// TODO: Make sure locations are fetched already somehow
-		updateGenerically("/v1/events", objectToUpdate: { self.eventsOrganizer = $0 }, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: eventsSemaphore)
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+			dispatch_semaphore_wait(self.locationSemaphore, DISPATCH_TIME_FOREVER)
+			dispatch_semaphore_signal(self.locationSemaphore)
+			self.updateGenerically("/v1/events", objectToUpdate: { self.eventsOrganizer = $0 }, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: self.eventsSemaphore)
+		})
 	}
 	
 	// MARK: - Location
@@ -208,25 +198,6 @@ final class APIManager
 		updateGenerically("/v1/locations", objectToUpdate: { self.locationBuffer = $0 } , notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
 	}
 	
-	private let locationFetchSemaphore = dispatch_semaphore_create(0)
-	
-	func locationForID(id: String, @noescape completion: (Location?) -> Void) {
-		if let location = (locations.filter { $0.ID == id }).first
-		{
-			completion(location)
-			return
-		}
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationFetchUpdated:", name: APIManager.locationsUpdatedNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationFetchUpdated:", name: APIManager.connectionFailedNotification, object: nil)
-		updateLocations()
-		dispatch_semaphore_wait(locationFetchSemaphore, DISPATCH_TIME_FOREVER)
-		// We intentionally don't signal here again because the base value of
-		// the semaphore needs to be 0
-		completion(locations.filter { $0.ID == id}.first)
-	}
-	func locationFetchUpdated(sender: NSNotification) {
-		dispatch_semaphore_signal(locationFetchSemaphore)
-	}
 
 	// TODO: Awards
 	
@@ -243,22 +214,28 @@ extension APIManager
 {
 	func loginWithUsername(username: String, password: String, completion: (Either<Bool>) -> Void)
 	{
-		Authenticator.loginWithUsername(username, password: password) {
-			switch $0
-			{
-			case .Value(let user):
-				self.authenticator = user
+		guard !isLoggedIn
+		else {
+			completion(.Value(true))
+			return
+		}
+		taskWithRoute("/v1/sessions", parameters: ["email": username, "password": password], requireAccessToken: false, usingHTTPMethod: .POST, completion: { (result: Either<Authenticator>) in
+			switch result {
+			case .Value(let auth):
+				auth.username = username
+				self.authenticator = auth
 				completion(.Value(true))
 			case .NetworkingError(let error):
 				completion(.NetworkingError(error))
 			case .UnknownError:
-				completion(.UnknownError)
+				completion(.Value(false))
 			}
-		}
+		})
 	}
-	// This class should encapsulate everything about the user and save all of it
-	// including whatever information the server decides to send us.
-	final class Authenticator
+	
+	/// This class should encapsulate everything about the user and save all of it
+	/// The implementation used here is pretty secure so there's noting to worry about
+	@objc private final class Authenticator: NSObject, JSONCreateable, NSCoding
 	{
 		private enum Privilege {
 			case Hacker // The default privilege requires no login
@@ -271,74 +248,57 @@ extension APIManager
 			}
 		}
 		
-		private let authToken : String
 		private var username: String
+		private let authToken : String
 		private static let authTokenKey = "MHacksAuthenticationToken"
-		private init(authToken: String) {
+		private static let usernameKey = "username"
+
+		@objc private init(authToken: String) {
 			self.authToken = authToken
 			username = ""
+			super.init()
 		}
 		
 		// We make this private so that nobody can hard code in if privilege ==
 		// That is an anti-pattern and we want to discourage it.
 		private var privilege: Privilege { return .Hacker }
 		
-		class func loginWithUsername(username: String, password: String, completion: (Either<Authenticator>) -> Void)
-		{
-			// Add in keychain storage of authToken once received.
-			APIManager.sharedManager.taskWithRoute("/v1/sessions", parameters: ["email": username, "password": password], requireAccessToken: false, usingHTTPMethod: .POST, completion: { (result: Either<Authenticator>) in
-				defer { completion(result) }
-				switch result {
-				case .Value(let auth):
-					auth.username = username
-				default:
-					break
-				}
-			})
-		}
-		
-		// Returns false if it failed
-		func addBearerAccessHeader(request: NSMutableURLRequest)
-		{
+		func addAuthorizationHeader(request: NSMutableURLRequest) {
 			request.addValue("\(authToken)", forHTTPHeaderField: "Authentication")
 		}
-	}
-}
-extension APIManager.Authenticator : JSONCreateable, NSCoding
-{
-	convenience init?(JSON: [String : AnyObject])
-	{
-		guard let token = JSON["token"] as? String
-		else
+		
+		@objc convenience init?(serialized: Serialized)
 		{
-			return nil
+			guard let token = serialized["token"] as? String
+				else
+			{
+				return nil
+			}
+			// TODO: Use JSON to perform login and create the object.
+			// Also save to keychain once initialization is done.
+			self.init(authToken: token)
 		}
-		// TODO: Use JSON to perform login and create the object.
-		// Also save to keychain once initialization is done.
-		self.init(authToken: token)
-	}
-	
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		SSKeychain.setPassword(authToken, forService: APIManager.Authenticator.authTokenKey, account: username)
-		aCoder.encodeObject(username, forKey: APIManager.Authenticator.authTokenKey)
-	}
-	
-	static var jsonKeys : [String] { return ["username"] }
-	
-	@objc convenience init?(coder aDecoder: NSCoder)
-	{
-		// Override default implementation to use keychain here.
-		guard let username = aDecoder.valueForKey("username") as? String
-		else
-		{
-			return nil
+		
+		
+		// MARK: Authenticator Archiving
+		@objc func encodeWithCoder(aCoder: NSCoder) {
+			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
+			aCoder.encodeObject(username, forKey: Authenticator.usernameKey)
 		}
-		guard let authToken = SSKeychain.passwordForService(APIManager.Authenticator.authTokenKey, account: username)
-		else {
-			return nil
+		
+		@objc convenience init?(coder aDecoder: NSCoder) {
+			// Override default implementation to use keychain here.
+			guard let username = aDecoder.decodeObjectForKey(Authenticator.usernameKey) as? String
+			else {
+				return nil
+			}
+			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username)
+			else {
+				return nil
+			}
+			self.init(authToken: authToken)
+			self.username = username
 		}
-		self.init(authToken: authToken)
-		self.username = username
 	}
 }
 
@@ -346,27 +306,45 @@ extension APIManager.Authenticator : JSONCreateable, NSCoding
 // MARK: - Archiving
 extension APIManager : NSCoding
 {
+	func initialize() {
+		initialized = true
+		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(archiveLocation) as? APIManager
+		{
+			// Move everything over
+			self.countdown = obj.countdown
+			self.announcements = obj.announcements
+			self.locations = obj.locations
+			self.eventsOrganizer = obj.eventsOrganizer
+			self.authenticator = obj.authenticator
+		}
+	}
+	
+	func archive() {
+		NSKeyedArchiver.archiveRootObject(self, toFile: archiveLocation)
+	}
+	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		// TODO: Implement me
 		aCoder.encodeObject(authenticator, forKey: "authenticator")
-		aCoder.encodeObject(locations, forKey: "locations")
+		aCoder.encodeObject(locations as NSArray, forKey: "locations")
 		aCoder.encodeObject(eventsOrganizer, forKey: "eventsOrganizer")
-		aCoder.encodeObject(announcements, forKey: "announcements")
+		aCoder.encodeObject(announcements as NSArray, forKey: "announcements")
 		aCoder.encodeObject(countdown, forKey: "countdown")
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {
-		// TODO: Implement me
-		self.init(empty: { })
-		
-		guard let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator, let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer, let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
+		self.init()
+		guard let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator, let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
 		else {
-				return nil
+			return nil
 		}
+		locationForID = { ID in locations.filter { loc in loc.ID == ID }.first }
+		guard let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer
+		else { return nil }
+		self.locations = locations
 		self.authenticator = authenticator
 		self.countdown = countdown
-		self.locations = locations
 		self.announcements = announcements
 		self.eventsOrganizer = eventsOrganizer
 	}
 }
+var locationForID : ((String) -> Location?)!

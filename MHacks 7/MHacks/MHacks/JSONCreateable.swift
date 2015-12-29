@@ -8,18 +8,38 @@
 
 import Foundation
 
-protocol JSONCreateable
+// A single interface wrapper around JSON and a coder
+@objc final class Serialized : NSObject {
+	let _JSON : [String: AnyObject]?
+	let _coder : NSCoder?
+	
+	init(JSON: [String: AnyObject]) {
+		self._JSON = JSON
+		self._coder = nil
+		super.init()
+	}
+	init(coder: NSCoder) {
+		self._coder = coder
+		self._JSON = nil
+		super.init()
+	}
+	
+	subscript(key: String) -> AnyObject? {
+		return _JSON?[key] ?? _coder?.decodeObjectForKey(key)
+	}
+}
+
+protocol JSONCreateable : NSCoding
 {
-	init?(JSON: [String: AnyObject])
-	static var jsonKeys : [String] { get }
-//	func encodeWithCoder(aCoder: NSCoder)
-//	init?(coder aDecoder: NSCoder)
+	init?(serialized: Serialized)
 }
 
 extension JSONCreateable
 {
-	init?(data: NSData?)
-	{
+	init?(JSON: [String: AnyObject]) {
+		self.init(serialized: Serialized(JSON: JSON))
+	}
+	init?(data: NSData?) {
 		guard let data = data
 		else
 		{
@@ -38,27 +58,4 @@ extension JSONCreateable
 		self.init(JSON: JSON)
 	}
 }
-//extension JSONCreateable {
-//	init?(coder aDecoder: NSCoder) {
-//		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(Self.jsonKeys))
-//	}
-//}
 
-
-/// A nice little wrapper to allow for interested parties to get to the JSON directly
-final class JSONWrapper: JSONCreateable
-{
-	let JSON : [String: AnyObject]
-	
-	static let jsonKeys: [String] = [String]()
-	init?(JSON: [String: AnyObject])
-	{
-		// Just set and always succeed.
-		// This is in case a request is made and we don't need to cast to any 
-		// particular type and just want the JSON back.
-		self.JSON = JSON
-	}
-}
-func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
-	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }
-}

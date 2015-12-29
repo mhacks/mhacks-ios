@@ -143,7 +143,7 @@ struct Hour: TimeInterval {
     }
 }
 
-final class EventOrganizer {
+@objc final class EventOrganizer : NSObject {
     
     // MARK: Initialization
     
@@ -307,26 +307,28 @@ final class EventOrganizer {
     func columnForEventAtIndex(index: Int, inDay day: Int) -> Int {
         return columnsByDay[day][index]
     }
-}
-extension EventOrganizer: JSONCreateable, NSCoding  {
-	convenience init?(JSON: [String : AnyObject]) {
-		guard let eventsJSON = JSON["results"] as? [[String: AnyObject]]
+	
+	@objc convenience init?(serialized: Serialized) {
+		guard let eventsJSON = serialized["results"] as? [[String: AnyObject]]
 		else {
 			return nil
 		}
 		self.init(events: eventsJSON.flatMap { Event(JSON: $0) })
 	}
+	private static let eventsKey = "events"
+}
+extension EventOrganizer: JSONCreateable, NSCoding  {
+	
 	// TODO: Implement
 	@objc func encodeWithCoder(aCoder: NSCoder) {
 		var events = [Event]()
 		events.reserveCapacity(eventsByDay.count * (eventsByDay.first?.count ?? 1))
 		eventsByDay.forEach { events.appendContentsOf($0) }
-		aCoder.encodeObject(events, forKey: "events")
+		aCoder.encodeObject(events as NSArray, forKey: EventOrganizer.eventsKey)
 	}
-	static var jsonKeys: [String] { return ["events"] }
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {
-		guard let events = aDecoder.decodeObjectForKey("events") as? [Event]
+		guard let events = aDecoder.decodeObjectForKey(EventOrganizer.eventsKey) as? [Event]
 		else
 		{
 			return nil

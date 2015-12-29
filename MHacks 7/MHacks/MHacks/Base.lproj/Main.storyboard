@@ -127,7 +127,7 @@
                                 <rect key="frame" x="125" y="124" width="351" height="351"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="ezO-Le-VfB">
-                                        <rect key="frame" x="36" y="104.5" width="279" height="143.5"/>
+                                        <rect key="frame" x="36" y="104" width="279" height="143.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="120"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -169,8 +169,10 @@
                         <constraints>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="m3P-eT-boK" secondAttribute="bottom" constant="32" id="QNG-Lk-25k"/>
                             <constraint firstItem="m3P-eT-boK" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="QUP-Co-ecI"/>
+                            <constraint firstItem="79P-Nl-WkD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="8" id="WC2-SK-Hon"/>
                             <constraint firstItem="m3P-eT-boK" firstAttribute="top" secondItem="79P-Nl-WkD" secondAttribute="bottom" constant="8" id="dKS-q9-1Sb"/>
                             <constraint firstItem="79P-Nl-WkD" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="ft6-AQ-MMK"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="79P-Nl-WkD" secondAttribute="trailing" constant="8" id="p98-HY-bEE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Smb-j5-wMc" secondAttribute="trailing" constant="-12" id="qaN-b8-yWb"/>
                             <constraint firstItem="Smb-j5-wMc" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="slG-xt-djW"/>
                             <constraint firstItem="Smb-j5-wMc" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="topMargin" constant="28" id="x63-zd-0Me"/>
@@ -194,13 +196,13 @@
         <scene sceneID="Efb-xw-Rfz">
             <objects>
                 <tableViewController title="News" id="NV6-fG-79i" customClass="AnnouncementsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="111" sectionHeaderHeight="18" sectionFooterHeight="18" id="2WC-rc-iEm">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="111" sectionHeaderHeight="28" sectionFooterHeight="28" id="2WC-rc-iEm">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" rowHeight="110" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="113.5" width="600" height="110"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Pa-B2-ywx" id="OQs-WU-F2p">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-final class Event: Equatable {
+@objc final class Event: NSObject {
  
 	enum Category: String {
 		// TODO: Fill
@@ -28,15 +28,15 @@ final class Event: Equatable {
     var locations: [Location]
     let startDate: NSDate
     let endDate: NSDate
-    let description: String
+    let information: String
 	
-	init(ID: String, name: String, locations: [Location], startDate: NSDate, endDate: NSDate, description: String) {
+	init(ID: String, name: String, locations: [Location], startDate: NSDate, endDate: NSDate, info: String) {
 		self.ID = ID
 		self.name = name
 		self.locations = locations
 		self.startDate = startDate
 		self.endDate = endDate
-		self.description = description
+		self.information = info
 	}
 	
     var locationsDescription: String {
@@ -49,42 +49,40 @@ final class Event: Equatable {
             return locations.reduce("") { $0 + ", " + $1.name }
         }
     }
+	
+	private static let nameKey = "name"
+	private static let locationIDKey = "location_id"
+	private static let startDateKey = "startTime"
+	private static let endDateKey = "endTime"
+	private static let infoKey = "info"
+	private static let idKey = "id"
+	
+	
+	@objc convenience init?(serialized: Serialized) {
+		guard let name = serialized[Event.nameKey] as? String/*, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw)*/, let locationID : Any = serialized[Event.locationIDKey] as? Int ?? serialized[Event.locationIDKey] as? String, let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID : Any = serialized[Event.idKey] as? Int ?? serialized[Event.idKey] as? String, let location = locationForID("\(locationID)")
+		else
+		{
+			return nil
+		}
+		self.init(ID: "\(ID)", name: name, locations: [location], startDate: startDate, endDate: endDate, info: description)
+	}
+
 }
 
 extension Event : JSONCreateable {
-	convenience init?(JSON: [String : AnyObject]) {
-		guard let name = JSON["name"] as? String/*, let categoryRaw = JSON["category"] as? String, let category = Category(rawValue: categoryRaw)*/, let locationID = JSON["location_id"] as? Int, let startDate = NSDate(JSONValue: JSON["startTime"]), let endDate = NSDate(JSONValue: JSON["endTime"]), let description = JSON["info"] as? String, let ID = JSON["id"] as? Int
-		else
-		{
-			return nil
-		}
-		let waitForLocation = dispatch_semaphore_create(0)
-		var location: Location?
-		APIManager.sharedManager.locationForID("\(locationID)", completion: {
-			location = $0
-			dispatch_semaphore_signal(waitForLocation)
-		})
-		dispatch_semaphore_wait(waitForLocation, DISPATCH_TIME_FOREVER)
-		guard let loc = location
-		else
-		{
-			return nil
-		}
-		
-		self.init(ID: "\(ID)", name: name, locations: [loc], startDate: startDate, endDate: endDate, description: description)
-	}
 	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeObject(ID, forKey: "id")
-		aCoder.encodeObject(name, forKey: "name")
-		aCoder.encodeObject(description, forKey: "id")
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(startDate), forKey: "startTime")
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(endDate), forKey: "endTime")
-		aCoder.encodeObject(locations.first!.ID, forKey: "location_id")
+		aCoder.encodeObject(ID, forKey: Event.idKey)
+		aCoder.encodeObject(name, forKey: Event.nameKey)
+		aCoder.encodeObject(information, forKey: Event.infoKey)
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(startDate), forKey: Event.startDateKey)
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(endDate), forKey: Event.endDateKey)
+		aCoder.encodeObject(locations.first!.ID, forKey: Event.locationIDKey)
 		// This ^ line makes us wonder whether its worth keeping locations as an array
 	}
-	
-	static var jsonKeys : [String] { return ["id", "name", "info", /*"category", */"startTime", "endTime", "location_id"] }
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		self.init(serialized: Serialized(coder: aDecoder))
+	}
 }
 
 func ==(lhs: Event, rhs: Event) -> Bool {
@@ -95,5 +93,5 @@ func ==(lhs: Event, rhs: Event) -> Bool {
         lhs.locations == rhs.locations &&
         lhs.startDate == rhs.startDate &&
         lhs.endDate == rhs.endDate &&
-        lhs.description == rhs.description)
+        lhs.information == rhs.information)
 }

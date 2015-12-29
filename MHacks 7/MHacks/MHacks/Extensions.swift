@@ -10,23 +10,53 @@ import Foundation
 
 // This file is to make Foundation more Swifty
 
-
-final class MyArray<Element: JSONCreateable> : JSONCreateable {
+final class MyArray<Element: JSONCreateable> : NSObject, JSONCreateable {
 	
 	let _array : [Element]
-	init?(JSON: [String: AnyObject])
+	@objc init?(serialized: Serialized)
 	{
-		guard let JSONs = JSON["results"] as? [[String: AnyObject]]
+		guard let JSONs = serialized["results"] as? [[String: AnyObject]]
 		else
 		{
 			_array = []
+			super.init()
 			return nil
 		}
 		_array = JSONs.flatMap({ Element(JSON: $0) })
+		super.init()
 	}
-	init(_ elems: [Element] = []) { _array = elems }
-	static var jsonKeys : [String] { return [] }
+	init(_ elems: [Element] = []) {
+		_array = elems
+		super.init()
+	}
+	func encodeWithCoder(aCoder: NSCoder) {
+	}
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		return nil
+	}
 }
+
+/// A nice little wrapper to allow for interested parties to get to the JSON directly
+final class JSONWrapper: JSONCreateable
+{
+	let JSON : [String: AnyObject]
+	
+	@objc init?(serialized: Serialized) {
+		// Just set and always succeed.
+		// This is in case a request is made and we don't need to cast to any
+		// particular type and just want the JSON back.
+		self.JSON = serialized._JSON ?? [String: AnyObject]()
+	}
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+	}
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		return nil
+	}
+}
+func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
+	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }
+}
+
 
 extension NSDate: Comparable {}
 public func <(lhs: NSDate, rhs: NSDate) -> Bool
@@ -60,7 +90,6 @@ let JSONDateFormatter : NSDateFormatter = {
 
 extension NSDate
 {
-	
 	convenience init?(JSONValue: AnyObject?)
 	{
 		guard let dateString = JSONValue as? String

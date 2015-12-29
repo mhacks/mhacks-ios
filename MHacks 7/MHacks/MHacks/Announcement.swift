@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class Announcement: Equatable {
+@objc final class Announcement: NSObject {
 	
 	let ID: String
 	let title: String
@@ -39,28 +39,31 @@ final class Announcement: Equatable {
 		let formatter = NSCalendar.currentCalendar().isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.stringFromDate(date)
 	}
-} 
-
-extension Announcement: JSONCreateable, NSCoding {
+	private static let idKey = "id"
+	private static let infoKey = "info"
+	private static let nameKey = "name"
+	private static let dateKey = "broadcastTime"
 	
-	convenience init?(JSON: [String : AnyObject]) {
-		guard let id = JSON["id"] as? Int, let title = JSON["name"] as? String, let message = JSON["info"] as? String, let date = NSDate(JSONValue: JSON["broadcastTime"]) where NSDate(timeIntervalSinceNow: 0) > date
+	@objc convenience init?(serialized: Serialized) {
+		guard let id : Any = serialized[Announcement.idKey] as? Int ?? serialized[Announcement.idKey] as? String, let title = serialized[Announcement.nameKey] as? String, let message = serialized[Announcement.infoKey] as? String, let date = NSDate(JSONValue: serialized[Announcement.dateKey]) where NSDate(timeIntervalSinceNow: 0) > date
 		else
 		{
 			return nil
 		}
 		self.init(ID: "\(id)", title: title, message: message, date: date)
 	}
-	static var jsonKeys : [String] { return ["id", "name", "info", "broadcastTime"] }
-	
+} 
+
+extension Announcement: JSONCreateable, NSCoding {
+		
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeObject(ID, forKey: "id")
-		aCoder.encodeObject(title, forKey: "name")
-		aCoder.encodeObject(message, forKey: "info")
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(date), forKey: "broadcastTime")
+		aCoder.encodeObject(ID, forKey: Announcement.idKey)
+		aCoder.encodeObject(title, forKey: Announcement.nameKey)
+		aCoder.encodeObject(message, forKey: Announcement.infoKey)
+		aCoder.encodeObject(JSONDateFormatter.stringFromDate(date), forKey: Announcement.dateKey)
 	}
 	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(JSON: aDecoder.dictionaryWithValuesForKeys(APIManager.Authenticator.jsonKeys))
+		self.init(serialized: Serialized(coder: aDecoder))
 	}
 }
 
