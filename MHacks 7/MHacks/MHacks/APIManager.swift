@@ -22,7 +22,7 @@ private let archiveLocation = (NSSearchPathForDirectoriesInDomains(.CachesDirect
 final class APIManager : NSObject
 {
 	// TODO: Put actual base URL here
-	private static let baseURL = NSURL(string: "http://testonehack.herokuapp.com")!
+	private static let baseURL = NSURL(string: " http://ec2-52-5-127-162.compute-1.amazonaws.com")!
 	
 	// MARK: - Initializers
 	
@@ -49,26 +49,25 @@ final class APIManager : NSObject
 	
 	// MARK: - Helpers
 	
-	@warn_unused_result private func createRequestForRoute(route: String, parameters: [String: AnyObject] = [String: AnyObject](), requireUserAccessToken accessTokenRequired: Bool = true, usingHTTPMethod method: HTTPMethod = .GET) -> NSURLRequest
+	@warn_unused_result private func createRequestForRoute(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET) -> NSURLRequest
 	{
 		let URL = APIManager.baseURL.URLByAppendingPathComponent(route)
 		
 		let mutableRequest = NSMutableURLRequest(URL: URL)
 		mutableRequest.HTTPMethod = method.rawValue
 //		mutableRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-		if accessTokenRequired
-		{
-			assert(authenticator != nil, "The authenticator must be set before making a fetch or post, except for logins.")
-			authenticator.addAuthorizationHeader(mutableRequest)
-		}
+		authenticator?.addAuthorizationHeader(mutableRequest)
 		do
 		{
-			if method == .POST {
+			if method == .POST
+			{
 				let formData = parameters.reduce("", combine: { $0 + "\($1.0)=\($1.1)&" })
 				mutableRequest.HTTPBody = formData.substringToIndex(formData.endIndex.predecessor()).dataUsingEncoding(NSUTF8StringEncoding)
 			}
-			else {
-				if parameters.count > 0 {
+			else
+			{
+				if parameters.count > 0
+				{
 					mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
 				}
 			}
@@ -82,9 +81,9 @@ final class APIManager : NSObject
 		return mutableRequest.copy() as! NSURLRequest
 	}
 	
-	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), requireAccessToken accessTokenRequired: Bool = true, usingHTTPMethod method: HTTPMethod = .GET, completion: (Either<Object>) -> Void)
+	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, completion: (Either<Object>) -> Void)
 	{
-		let request = createRequestForRoute(route, parameters: parameters, requireUserAccessToken: accessTokenRequired, usingHTTPMethod: method)
+		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
 		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
 			defer { UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
@@ -105,10 +104,6 @@ final class APIManager : NSObject
 			completion(.Value(obj))
 		}
 		task.resume()
-	}
-	
-	func canPostAnnouncements() -> Bool {
-		return authenticator == nil ? false : authenticator.privilege.canPostAnnouncements()
 	}
 	
 	// This is only for get requests to update a particular object type
@@ -199,6 +194,16 @@ final class APIManager : NSObject
 	
 
 	// TODO: Awards
+	// MARK: - Awards
+	
+	
+	
+	
+	// MARK: - Privilege
+	
+	func canPostAnnouncements() -> Bool {
+		return authenticator == nil ? false : authenticator.privilege.canPostAnnouncements()
+	}
 	
 	// MARK: - Notification Keys
 	static let announcementsUpdatedNotification = "AnnouncmentsUpdatedNotification"
@@ -218,23 +223,39 @@ extension APIManager
 			completion(.Value(true))
 			return
 		}
-		taskWithRoute("/v1/sessions", parameters: ["email": username, "password": password], requireAccessToken: false, usingHTTPMethod: .POST, completion: { (result: Either<Authenticator>) in
-			switch result {
-			case .Value(let auth):
-				auth.username = username
-				self.authenticator = auth
-				completion(.Value(true))
-			case .NetworkingError(let error):
-				completion(.NetworkingError(error))
-			case .UnknownError:
-				completion(.Value(false))
+		let request = createRequestForRoute("/v1/auth/sign_in", parameters: ["email": username, "password": password], usingHTTPMethod: .POST)
+		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+			defer { UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
+			guard error == nil
+			else
+			{
+				// The fetch failed because of a networking error
+				completion(.NetworkingError(error!))
+				return
 			}
-		})
+			guard let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields
+			else {
+				completion(.UnknownError)
+				return
+			}
+			
+			guard let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let username = responseHeaders["uid"] as? String, let expiry = responseHeaders["expiry"] as? Double
+			else
+			{
+				completion(.Value(false))
+				return
+			}
+			
+			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, expiry: expiry)
+			
+			completion(.Value(true))
+		}
 	}
 	
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
-	@objc private final class Authenticator: NSObject, JSONCreateable, NSCoding
+	@objc private final class Authenticator: NSObject, JSONCreateable
 	{
 		private enum Privilege {
 			case Hacker // The default privilege requires no login
@@ -247,54 +268,60 @@ extension APIManager
 			}
 		}
 		
-		private var username: String
+		private let username: String
 		private let authToken : String
-		private static let authTokenKey = "MHacksAuthenticationToken"
-		private static let usernameKey = "username"
+		private let expiry : Double
+		private let client: String
+		private let privilege: Privilege
 
-		@objc private init(authToken: String) {
+		private static let authTokenKey = "MHacksAuthenticationToken"
+		private static let clientKey = "MHacksClientKey"
+		private static let expiryKey = "expiry"
+		private static let usernameKey = "username"
+		
+		
+		private init(authToken: String, client: String, username: String, expiry: Double) {
 			self.authToken = authToken
-			username = ""
+			self.client = client
+			self.username = username
+			self.expiry = expiry
+			self.privilege = .Hacker
 			super.init()
-		}
-		
-		// We make this private so that nobody can hard code in if privilege ==
-		// That is an anti-pattern and we want to discourage it.
-		private var privilege: Privilege { return .Hacker }
-		
-		func addAuthorizationHeader(request: NSMutableURLRequest) {
-			request.addValue("\(authToken)", forHTTPHeaderField: "Authentication")
 		}
 		
 		@objc convenience init?(serialized: Serialized)
 		{
-			guard let token = serialized["token"] as? String
-				else
-			{
-				return nil
-			}
-			self.init(authToken: token)
+			return nil
 		}
 		
+		private func addAuthorizationHeader(request: NSMutableURLRequest) {
+			request.addValue("Bearer", forHTTPHeaderField: "token-type")
+			request.addValue("\(authToken)", forHTTPHeaderField: "access-token")
+			request.addValue("\(expiry)", forHTTPHeaderField: "expiry")
+			request.addValue("\(client)", forHTTPHeaderField: "client")
+			request.addValue("\(username)", forHTTPHeaderField: "uid")
+		}
 		
 		// MARK: Authenticator Archiving
 		@objc func encodeWithCoder(aCoder: NSCoder) {
-			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
 			aCoder.encodeObject(username, forKey: Authenticator.usernameKey)
+			aCoder.encodeDouble(expiry, forKey: "expiry")
+			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
+			SSKeychain.setPassword(client, forService: Authenticator.clientKey, account: username)
 		}
 		
 		@objc convenience init?(coder aDecoder: NSCoder) {
 			// Override default implementation to use keychain here.
+			let expiry = aDecoder.decodeDoubleForKey(Authenticator.expiryKey)
 			guard let username = aDecoder.decodeObjectForKey(Authenticator.usernameKey) as? String
 			else {
 				return nil
 			}
-			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username)
+			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username), let client = SSKeychain.passwordForService(Authenticator.clientKey, account: username)
 			else {
 				return nil
 			}
-			self.init(authToken: authToken)
-			self.username = username
+			self.init(authToken: authToken, client: client, username: username, expiry: expiry)
 		}
 	}
 }
@@ -303,7 +330,7 @@ extension APIManager
 // MARK: - Archiving
 extension APIManager : NSCoding
 {
-	func initialize() {
+	private func initialize() {
 		initialized = true
 		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(archiveLocation) as? APIManager
 		{
