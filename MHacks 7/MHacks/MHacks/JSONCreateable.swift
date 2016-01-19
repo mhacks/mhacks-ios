@@ -27,6 +27,12 @@ import Foundation
 	subscript(key: String) -> AnyObject? {
 		return _JSON?[key] ?? _coder?.decodeObjectForKey(key)
 	}
+	func doubleValueForKey(key: String) -> Double? {
+		return _JSON?[key] as? Double ?? _coder?.decodeDoubleForKey(key)
+	}
+	func intValueForKey(key: String) -> Int? {
+		return _JSON?[key] as? Int ?? _coder?.decodeIntegerForKey(key)
+	}
 }
 
 protocol JSONCreateable : NSCoding

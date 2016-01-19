@@ -116,7 +116,7 @@ import UIKit
         return formatter
     }()
     
-	private static let countdownStartDateKey = "countdown_start_date"
+	private static let countdownStartDateKey = "start_time"
 	private static let countdownDurationKey = "countdown_duration"
 	
 	init(startDate: NSDate = NSDate(timeIntervalSinceReferenceDate: 477608400), duration: NSTimeInterval = 129600) {
@@ -126,12 +126,11 @@ import UIKit
 	
 	convenience init?(serialized: Serialized)
 	{
-		guard let startDate = NSDate(JSONValue: serialized[Countdown.countdownStartDateKey]), let duration = serialized._JSON?[Countdown.countdownDurationKey] as? NSTimeInterval ?? serialized._coder?.decodeDoubleForKey(Countdown.countdownDurationKey)
+		guard let startDate = NSDate(JSONValue: serialized[Countdown.countdownStartDateKey]), let duration = serialized.doubleValueForKey(Countdown.countdownDurationKey)
 		else
 		{
 			return nil
 		}
-		
 		self.init(startDate: startDate, duration: duration)
 	}
 }

@@ -27,11 +27,11 @@ class ComposeAnnouncementViewController: UIViewController {
 	
 	@IBAction func post(_: UIBarButtonItem)
 	{
-		let announcement = Announcement(ID: "", title: titleField.text ?? "", message: messageField.text ?? "", date: announceAt.date)
+//		let announcement = Announcement(ID: "", title: titleField.text ?? "", message: messageField.text ?? "", date: announceAt.date, category: [], owner: )
 		
-		APIManager.sharedManager.postAnnouncement(announcement, completion: { finished in
-			// TODO: Pop view controller on success. 
+//		APIManager.sharedManager.postAnnouncement(announcement, completion: { finished in
+			// TODO: Pop view controller on success.
 			// Otherwise error message? 
-		})
+//		})
 	}
 }

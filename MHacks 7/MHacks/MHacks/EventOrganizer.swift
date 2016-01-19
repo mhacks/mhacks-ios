@@ -147,7 +147,6 @@ struct Hour: TimeInterval {
     
     // MARK: Initialization
     
-    // Events are assumed to be sorted by start date
     init(events theEvents: [Event]) {
         
         // Return if no events
