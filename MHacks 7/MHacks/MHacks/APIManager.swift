@@ -22,7 +22,7 @@ private let archiveLocation = (NSSearchPathForDirectoriesInDomains(.CachesDirect
 final class APIManager : NSObject
 {
 	// TODO: Put actual base URL here
-	private static let baseURL = NSURL(string: " http://ec2-52-5-127-162.compute-1.amazonaws.com")!
+	private static let baseURL = NSURL(string: "http://ec2-52-5-127-162.compute-1.amazonaws.com")!
 	
 	// MARK: - Initializers
 	
@@ -192,12 +192,6 @@ final class APIManager : NSObject
 		updateGenerically("/v1/locations", objectToUpdate: { self.locationBuffer = $0 } , notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
 	}
 	
-
-	// TODO: Awards
-	// MARK: - Awards
-	
-	
-	
 	
 	// MARK: - Privilege
 	
@@ -240,28 +234,29 @@ extension APIManager
 				return
 			}
 			
-			guard let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let username = responseHeaders["uid"] as? String, let expiry = responseHeaders["expiry"] as? Double
+			guard let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let username = responseHeaders["uid"] as? String, let expiry = responseHeaders["expiry"] as? String, let tokenType = responseHeaders["token-type"] as? String
 			else
 			{
 				completion(.Value(false))
 				return
 			}
-			
-			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, expiry: expiry)
-			
+			let JSON = try? NSJSONSerialization.JSONObjectWithData(data ?? NSData(), options: [])
+			let privilege = (JSON?["data"] as? [String: AnyObject])?["roles"] as? Int ?? 0
+			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, expiry: expiry, tokenType: tokenType, privilege: privilege)
 			completion(.Value(true))
 		}
+		task.resume()
 	}
 	
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
 	@objc private final class Authenticator: NSObject, JSONCreateable
 	{
-		private enum Privilege {
-			case Hacker // The default privilege requires no login
-			case Mentor // A mentor can do ?? TBD
-			case Sponsor // A sponsor can (limited) post new announcements
-			case Admin // An admin can do whatever he wants
+		private enum Privilege: Int {
+			case Hacker = 0
+			case Sponsor =  1
+			case Organizer = 2
+			case Admin = 3
 			
 			func canPostAnnouncements() -> Bool {
 				return self == .Sponsor || self == .Admin
@@ -270,7 +265,8 @@ extension APIManager
 		
 		private let username: String
 		private let authToken : String
-		private let expiry : Double
+		private let expiry : String
+		private let tokenType: String
 		private let client: String
 		private let privilege: Privilege
 
@@ -278,14 +274,16 @@ extension APIManager
 		private static let clientKey = "MHacksClientKey"
 		private static let expiryKey = "expiry"
 		private static let usernameKey = "username"
+		private static let tokenTypeKey = "token-type"
+		private static let privilegeKey = "privilege"
 		
-		
-		private init(authToken: String, client: String, username: String, expiry: Double) {
+		private init(authToken: String, client: String, username: String, expiry: String, tokenType: String, privilege: Int) {
 			self.authToken = authToken
 			self.client = client
 			self.username = username
 			self.expiry = expiry
-			self.privilege = .Hacker
+			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
+			self.tokenType = tokenType
 			super.init()
 		}
 		
@@ -304,16 +302,18 @@ extension APIManager
 		
 		// MARK: Authenticator Archiving
 		@objc func encodeWithCoder(aCoder: NSCoder) {
+			aCoder.encodeInteger(privilege.rawValue, forKey: Authenticator.privilegeKey)
 			aCoder.encodeObject(username, forKey: Authenticator.usernameKey)
-			aCoder.encodeDouble(expiry, forKey: "expiry")
+			aCoder.encodeObject(expiry, forKey: Authenticator.expiryKey)
+			aCoder.encodeObject(tokenType, forKey: Authenticator.tokenTypeKey)
 			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
 			SSKeychain.setPassword(client, forService: Authenticator.clientKey, account: username)
 		}
 		
 		@objc convenience init?(coder aDecoder: NSCoder) {
 			// Override default implementation to use keychain here.
-			let expiry = aDecoder.decodeDoubleForKey(Authenticator.expiryKey)
-			guard let username = aDecoder.decodeObjectForKey(Authenticator.usernameKey) as? String
+			let privilege = aDecoder.decodeIntegerForKey(Authenticator.privilegeKey)
+			guard let username = aDecoder.decodeObjectForKey(Authenticator.usernameKey) as? String, let expiry = aDecoder.decodeObjectForKey(Authenticator.expiryKey) as? String, let tokenType = aDecoder.decodeObjectForKey(Authenticator.tokenTypeKey) as? String
 			else {
 				return nil
 			}
@@ -321,7 +321,7 @@ extension APIManager
 			else {
 				return nil
 			}
-			self.init(authToken: authToken, client: client, username: username, expiry: expiry)
+			self.init(authToken: authToken, client: client, username: username, expiry: expiry, tokenType: tokenType, privilege: privilege)
 		}
 	}
 }

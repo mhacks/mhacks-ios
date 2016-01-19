@@ -58,8 +58,10 @@ class LoginViewController: UIViewController
 	
 	func incorrectPassword()
 	{
-		passwordField.text = ""
-		shakePasswordField(7, direction: 1, currentTimes: 0, size: 10, interval: 0.1)
+		dispatch_async(dispatch_get_main_queue(), {
+			self.passwordField.text = ""
+			self.shakePasswordField(7, direction: 1, currentTimes: 0, size: 10, interval: 0.1)
+		})
 	}
 	
 	@IBAction func loginWithoutCredentials(sender: UIButton)
@@ -69,6 +71,7 @@ class LoginViewController: UIViewController
 	}
 	@IBAction func login(sender: UIButton)
 	{
+		resignFirstResponder()
 		guard let username = usernameField.text, let password = passwordField.text where !username.isEmpty && !password.isEmpty
 		else
 		{
