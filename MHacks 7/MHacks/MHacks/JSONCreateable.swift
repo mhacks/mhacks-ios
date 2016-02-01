@@ -33,6 +33,9 @@ import Foundation
 	func intValueForKey(key: String) -> Int? {
 		return _JSON?[key] as? Int ?? _coder?.decodeIntegerForKey(key)
 	}
+	func boolValueForKey(key: String) -> Bool? {
+		return _JSON?[key] as? Bool ?? _coder?.decodeBoolForKey(key)
+	}
 }
 
 protocol JSONCreateable : NSCoding

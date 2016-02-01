@@ -17,6 +17,18 @@ class MapViewController: UIViewController {
             longitude: -83.7158580, zoom: 16)
 		let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
 		mapView.myLocationEnabled = true
+		
+		let northEast = CLLocationCoordinate2D(latitude: 42.294240, longitude: -83.712727)
+		let southWest = CLLocationCoordinate2D(latitude: 42.291597, longitude: -83.716529)
+		
+		let overlayBounds = GMSCoordinateBounds(coordinate: southWest, coordinate: northEast)
+		
+		let icon = UIImage(named: "Map")
+		
+		let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: icon)
+		overlay.bearing = 0
+		overlay.map = mapView
+		
 		self.view = mapView
         
         // no marker

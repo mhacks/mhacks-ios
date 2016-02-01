@@ -35,7 +35,7 @@ class EventViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-//    @IBOutlet weak var colorView: CircleView!
+    @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
@@ -56,8 +56,9 @@ class EventViewController: UIViewController {
         if let event = event {
             
             titleLabel.text = event.name
-            subtitleLabel.text =  /*event.category.title + " | " +*/ event.locationsDescription
-//            colorView.color = event.category.color
+            subtitleLabel.text = event.category.description + " | " + event.locationsDescription
+            colorView.backgroundColor = event.category.color
+			colorView.layer.cornerRadius = colorView.frame.width / 2
             descriptionLabel.text = event.information
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         }

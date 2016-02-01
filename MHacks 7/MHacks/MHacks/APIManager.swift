@@ -373,4 +373,4 @@ extension APIManager : NSCoding
 		self.eventsOrganizer = eventsOrganizer
 	}
 }
-var locationForID : ((String) -> Location?)!
+var locationForID : ((Int?) -> Location?)!

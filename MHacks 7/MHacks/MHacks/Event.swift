@@ -77,8 +77,8 @@ import UIKit
         }
     }
 	
-	private static let nameKey = "title"
-	private static let locationIDsKey = "locations"
+	private static let nameKey = "name"
+	private static let locationIDsKey = "location_ids"
 	private static let startDateKey = "start_time"
 	private static let endDateKey = "end_time"
 	private static let infoKey = "info"
@@ -86,12 +86,20 @@ import UIKit
 	private static let categoryKey = "category"
 	
 	@objc convenience init?(serialized: Serialized) {
-		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized.intValueForKey(Event.categoryKey), let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as?  [String], let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String
+		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized.intValueForKey(Event.categoryKey), let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as?  [String], let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String where startDate <= endDate
 		else
 		{
 			return nil
 		}
-		let locations = locationIDs.flatMap(locationForID)
+		if let isApproved = serialized["is_approved"] as? Bool
+		{
+			guard isApproved
+			else
+			{
+				return nil
+			}
+		}
+		let locations = locationIDs.flatMap { locationForID(Int($0)) }
 		guard locations.count > 0
 		else
 		{
