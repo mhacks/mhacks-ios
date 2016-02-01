@@ -71,7 +71,6 @@ final class APIManager : NSObject
 					mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
 				}
 			}
-			
 		}
 		catch
 		{
@@ -293,7 +292,7 @@ extension APIManager
 		}
 		
 		private func addAuthorizationHeader(request: NSMutableURLRequest) {
-			request.addValue("Bearer", forHTTPHeaderField: "token-type")
+			request.addValue("\(tokenType)", forHTTPHeaderField: "token-type")
 			request.addValue("\(authToken)", forHTTPHeaderField: "access-token")
 			request.addValue("\(expiry)", forHTTPHeaderField: "expiry")
 			request.addValue("\(client)", forHTTPHeaderField: "client")
@@ -347,7 +346,8 @@ extension APIManager : NSCoding
 		NSKeyedArchiver.archiveRootObject(self, toFile: archiveLocation)
 	}
 	
-	@objc func encodeWithCoder(aCoder: NSCoder) {
+	@objc func encodeWithCoder(aCoder: NSCoder)
+    {
 		aCoder.encodeObject(authenticator, forKey: "authenticator")
 		aCoder.encodeObject(locations as NSArray, forKey: "locations")
 		aCoder.encodeObject(eventsOrganizer, forKey: "eventsOrganizer")
@@ -355,10 +355,12 @@ extension APIManager : NSCoding
 		aCoder.encodeObject(countdown, forKey: "countdown")
 	}
 	
-	@objc convenience init?(coder aDecoder: NSCoder) {
+	@objc convenience init?(coder aDecoder: NSCoder)
+    {
 		self.init()
 		guard let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator, let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
-		else {
+		else
+        {
 			return nil
 		}
 		locationForID = { ID in locations.filter { loc in loc.ID == ID }.first }

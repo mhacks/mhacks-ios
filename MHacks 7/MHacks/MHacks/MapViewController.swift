@@ -9,21 +9,16 @@
 import UIKit
 import GoogleMaps
 
-class MapViewController: UIViewController
-{
-	override func viewDidLoad()
-	{
+class MapViewController: UIViewController {
+	
+    override func viewDidLoad() {
 		super.viewDidLoad()
-		let camera = GMSCameraPosition.cameraWithLatitude(-33.86,
-			longitude: 151.20, zoom: 6)
+		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
+            longitude: -83.7158580, zoom: 16)
 		let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
 		mapView.myLocationEnabled = true
 		self.view = mapView
-		
-		let marker = GMSMarker()
-		marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-		marker.title = "Sydney"
-		marker.snippet = "Australia"
-		marker.map = mapView
+        
+        // no marker
 	}
 }
