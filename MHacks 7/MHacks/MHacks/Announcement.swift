@@ -10,14 +10,51 @@ import Foundation
 
 @objc final class Announcement: NSObject {
 	
-	struct Category : OptionSetType {
+	struct Category : OptionSetType, CustomStringConvertible {
 		let rawValue : Int
+		static let None = Category(rawValue: 0 << 0)
 		static let Emergency = Category(rawValue: 1 << 0)
 		static let Logistics = Category(rawValue: 1 << 1)
 		static let Food = Category(rawValue: 1 << 2)
 		static let Swag = Category(rawValue: 1 << 3)
 		static let Sponsor = Category(rawValue: 1 << 4)
 		static let Other = Category(rawValue: 1 << 5)
+		
+		static let maxBit = 5
+		var description: String {
+			var categories = [String]()
+			for i in 0...Category.maxBit
+			{
+				guard self.contains(Category(rawValue: 1 << i))
+				else {
+					continue
+				}
+				categories.append( {
+					switch i
+					{
+					case 0:
+						return "Emergency"
+					case 1:
+						return "Logistics"
+					case 2:
+						return "Food"
+					case 3:
+						return "Swag"
+					case 4:
+						return "Sponsor"
+					case 5:
+						return "Other"
+					default:
+						fatalError("Unrecognized category \(i)")
+					}
+				}())
+			}
+			guard categories.count > 0
+			else {
+					return "None"
+			}
+			return categories.joinWithSeparator(", ")
+		}
 	}
 	
 	let ID: String
@@ -71,6 +108,10 @@ import Foundation
 			return nil
 		}
 		self.init(ID: id, title: title, message: message, date: date, category: Category(rawValue: categoryRaw), owner: owner, approved: Bool(approved))
+	}
+	func encodeForCreation() -> [String: AnyObject]
+	{
+		return [Announcement.titleKey: title, Announcement.dateKey: JSONDateFormatter.stringFromDate(date), Announcement.infoKey: message, Announcement.categoryKey: category.rawValue]
 	}
 } 
 

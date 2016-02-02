@@ -43,7 +43,10 @@ class EventViewController: UIViewController {
         super.viewDidLoad()
         
         contentView.layoutMargins = Geometry.Insets
-        
+        if APIManager.sharedManager.canEditEvents()
+		{
+			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit:")
+		}
         updateViews()
     }
     
@@ -63,4 +66,8 @@ class EventViewController: UIViewController {
             dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
         }
     }
+	func edit(sender: UIBarButtonItem)
+	{
+		
+	}
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="s6b-gL-H5G">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Schedule-->
@@ -109,7 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1562" y="-356"/>
+            <point key="canvasLocation" x="1194" y="-660"/>
         </scene>
         <!--Countdown-->
         <scene sceneID="wg7-f3-ORb">
@@ -190,7 +189,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1562" y="310"/>
+            <point key="canvasLocation" x="382" y="86"/>
         </scene>
         <!--News-->
         <scene sceneID="Efb-xw-Rfz">
@@ -252,25 +251,16 @@
                             <outlet property="delegate" destination="NV6-fG-79i" id="i47-Fg-8mb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="hRv-Eg-TTB">
-                            <connections>
-                                <segue destination="m6P-0S-Uhh" kind="show" action="showDetailViewController:sender:" id="Luh-Xq-55p"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="composeButton" destination="hRv-Eg-TTB" id="JH1-At-9oH"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jof-wQ-jCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2378" y="981"/>
+            <point key="canvasLocation" x="1218" y="1965"/>
         </scene>
         <!--Create Announcement-->
         <scene sceneID="mPl-Xw-zup">
             <objects>
-                <viewController title="Create Announcement" id="m6P-0S-Uhh" customClass="ComposeAnnouncementViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComposeAnnouncementViewController" title="Create Announcement" useStoryboardIdentifierAsRestorationIdentifier="YES" id="m6P-0S-Uhh" customClass="ComposeAnnouncementViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fXh-Ni-4Db"/>
                         <viewControllerLayoutGuide type="bottom" id="wbW-Ch-1QU"/>
@@ -279,35 +269,91 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="iIg-NG-Tun">
-                                <rect key="frame" x="20" y="104" width="560" height="60"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
-                            </textField>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="wMl-rr-GTt">
-                                <rect key="frame" x="20" y="209" width="560" height="216"/>
-                                <date key="date" timeIntervalSinceReferenceDate="472589731.96768498">
-                                    <!--2015-12-23 18:55:31 +0000-->
-                                </date>
-                            </datePicker>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Message" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Bz-oK-UNl">
-                                <rect key="frame" x="20" y="172" width="560" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="U6p-9G-q7a">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="titleCell" rowHeight="77" id="5kV-c5-tSr" customClass="TextFieldCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="113.5" width="600" height="77"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5kV-c5-tSr" id="aKE-Rc-TGO">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="76.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lfJ-27-9qq">
+                                                    <rect key="frame" x="8" y="8" width="584" height="60"/>
+                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="lfJ-27-9qq" firstAttribute="leading" secondItem="aKE-Rc-TGO" secondAttribute="leadingMargin" id="Bdc-4j-FyP"/>
+                                                <constraint firstItem="lfJ-27-9qq" firstAttribute="trailing" secondItem="aKE-Rc-TGO" secondAttribute="trailingMargin" id="a4H-Hi-pe5"/>
+                                                <constraint firstItem="lfJ-27-9qq" firstAttribute="top" secondItem="aKE-Rc-TGO" secondAttribute="topMargin" id="aJ5-4M-qhQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="lfJ-27-9qq" id="QCi-Dv-DTS"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="infoCell" rowHeight="46" id="nWt-zF-gWJ" customClass="TextFieldCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="190.5" width="600" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nWt-zF-gWJ" id="xf9-Dn-Q2h">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="45.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Message" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="x6J-xh-m5o">
+                                                    <rect key="frame" x="8" y="8" width="584" height="30"/>
+                                                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="25"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="x6J-xh-m5o" firstAttribute="trailing" secondItem="xf9-Dn-Q2h" secondAttribute="trailingMargin" id="Li8-PA-ThR"/>
+                                                <constraint firstItem="x6J-xh-m5o" firstAttribute="top" secondItem="xf9-Dn-Q2h" secondAttribute="topMargin" id="XBM-fx-A07"/>
+                                                <constraint firstItem="x6J-xh-m5o" firstAttribute="leading" secondItem="xf9-Dn-Q2h" secondAttribute="leadingMargin" id="acn-M9-G3r"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="textField" destination="x6J-xh-m5o" id="kuN-fW-oCW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="broadcastCell" rowHeight="233" id="krp-vj-YAu" customClass="DatePickerCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="236.5" width="600" height="233"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="krp-vj-YAu" id="qR7-tw-q4H">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="232.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zJt-HU-Gga">
+                                                    <rect key="frame" x="8" y="8" width="584" height="216"/>
+                                                    <date key="date" timeIntervalSinceReferenceDate="476083129.707708">
+                                                        <!--2016-02-02 05:18:49 +0000-->
+                                                    </date>
+                                                </datePicker>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zJt-HU-Gga" firstAttribute="leading" secondItem="qR7-tw-q4H" secondAttribute="leadingMargin" id="2vR-Gm-aEq"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zJt-HU-Gga" secondAttribute="trailing" id="6YP-9u-So6"/>
+                                                <constraint firstItem="zJt-HU-Gga" firstAttribute="top" secondItem="qR7-tw-q4H" secondAttribute="topMargin" id="QMN-ON-Mva"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="datePicker" destination="zJt-HU-Gga" id="j7j-I1-iP0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wMl-rr-GTt" firstAttribute="top" secondItem="8Bz-oK-UNl" secondAttribute="bottom" constant="16" id="BBH-uh-uyd"/>
-                            <constraint firstItem="iIg-NG-Tun" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="EST-2f-pB2"/>
-                            <constraint firstItem="iIg-NG-Tun" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="FmZ-7H-dbJ"/>
-                            <constraint firstItem="iIg-NG-Tun" firstAttribute="top" secondItem="fXh-Ni-4Db" secondAttribute="bottom" multiplier="1.5" constant="8" id="HCg-3H-y2C"/>
-                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="top" secondItem="iIg-NG-Tun" secondAttribute="bottom" constant="8" id="NNM-V1-ga7"/>
-                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="SKr-LL-8rq"/>
-                            <constraint firstItem="wMl-rr-GTt" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="SNX-MT-OBa"/>
-                            <constraint firstItem="wMl-rr-GTt" firstAttribute="trailing" secondItem="sBS-50-cUc" secondAttribute="trailingMargin" id="dRt-Wy-RO8"/>
-                            <constraint firstItem="8Bz-oK-UNl" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" id="oX8-NB-HFr"/>
-                            <constraint firstItem="iIg-NG-Tun" firstAttribute="centerX" secondItem="sBS-50-cUc" secondAttribute="centerX" id="sdK-Xq-DwL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="U6p-9G-q7a" secondAttribute="trailing" constant="-20" id="Cr3-lg-E2k"/>
+                            <constraint firstItem="U6p-9G-q7a" firstAttribute="top" secondItem="sBS-50-cUc" secondAttribute="topMargin" id="QYg-0i-X5N"/>
+                            <constraint firstItem="U6p-9G-q7a" firstAttribute="leading" secondItem="sBS-50-cUc" secondAttribute="leadingMargin" constant="-20" id="Voo-yr-lzN"/>
+                            <constraint firstItem="U6p-9G-q7a" firstAttribute="bottom" secondItem="sBS-50-cUc" secondAttribute="bottomMargin" id="rd3-qQ-MtE"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -320,14 +366,12 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="announceAt" destination="wMl-rr-GTt" id="6t2-hc-Umi"/>
-                        <outlet property="messageField" destination="8Bz-oK-UNl" id="frC-AT-Nnn"/>
-                        <outlet property="titleField" destination="iIg-NG-Tun" id="sx9-JH-laO"/>
+                        <outlet property="tableView" destination="U6p-9G-q7a" id="H09-VQ-FsW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ueh-Ej-WG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3053" y="981"/>
+            <point key="canvasLocation" x="1893" y="1965"/>
         </scene>
         <!--Announcements-->
         <scene sceneID="rdL-6x-glM">
@@ -344,11 +388,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XNT-Sa-OtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1558" y="981"/>
+            <point key="canvasLocation" x="398" y="1965"/>
         </scene>
         <!--Maps-->
         <scene sceneID="6md-ve-ikr">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xdx-Qt-Ty3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="4qu-ZM-Kct" customClass="MapViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u3h-cO-Uyd"/>
@@ -361,9 +406,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Maps" image="Maps" selectedImage="Maps Selected" id="qAA-BX-Ttp"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xdx-Qt-Ty3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1542" y="1669"/>
+            <point key="canvasLocation" x="382" y="1135"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="n6z-y1-OtI">
@@ -380,7 +424,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
                                 <rect key="frame" x="20" y="290" width="560" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-GB-CKO">
                                 <rect key="frame" x="20" y="318" width="560" height="20"/>
@@ -410,12 +454,11 @@
                     <connections>
                         <outlet property="passwordField" destination="bbd-GB-CKO" id="ZM8-ev-m9A"/>
                         <outlet property="usernameField" destination="9zC-sf-9Qq" id="ey3-uy-Rf3"/>
-                        <segue destination="49e-Tb-3d3" kind="showDetail" identifier="loginSegue" id="qol-CQ-jpM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QZo-9w-ljA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-694" y="0.0"/>
+            <point key="canvasLocation" x="-336" y="-158"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -432,11 +475,12 @@
                         <segue destination="4qu-ZM-Kct" kind="relationship" relationship="viewControllers" id="s6d-lp-gFj"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="ODI-Mf-0FL" kind="relationship" relationship="viewControllers" id="eu7-wM-XnY"/>
+                        <segue destination="s6b-gL-H5G" kind="presentation" identifier="loginSegue" modalTransitionStyle="coverVertical" id="cZo-Wt-uWa"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="680" y="1484"/>
+            <point key="canvasLocation" x="-336" y="684"/>
         </scene>
         <!--Schedule-->
         <scene sceneID="R8F-hc-BKL">
@@ -455,7 +499,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sn0-oc-xSS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-356"/>
+            <point key="canvasLocation" x="382" y="-660"/>
         </scene>
         <!--Event-->
         <scene sceneID="alB-Mc-NVT">
@@ -554,7 +598,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ien-RE-7AC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2274" y="-356"/>
+            <point key="canvasLocation" x="1906" y="-660"/>
         </scene>
     </scenes>
     <resources>

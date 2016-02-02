@@ -150,8 +150,22 @@ final class APIManager : NSObject
 	///	Posts a new announcment from a sponsor or admin
 	///
 	///	- parameter completion:	The completion block, true on success, false on failure.
-	func postAnnouncement(announcement: Announcement, completion: (Bool) -> Void)
+	func postAnnouncement(announcement: Announcement, completion: Bool -> Void)
 	{
+		taskWithRoute("/v1/announcements", parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (JSON: Either<JSONWrapper>) in
+			switch JSON
+			{
+			case .Value(let newValue):
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				completion(false)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				break
+			}
+
+		})
 		// TODO: Implement me
 		// This function wont acquire the semaphore, but maybe do something to ask for a UI update?
 		// like just call updateAnnouncements
@@ -195,7 +209,11 @@ final class APIManager : NSObject
 	// MARK: - Privilege
 	
 	func canPostAnnouncements() -> Bool {
-		return authenticator == nil ? false : authenticator.privilege.canPostAnnouncements()
+		return authenticator?.privilege == .Sponsor || authenticator?.privilege == .Organizer || authenticator?.privilege == .Admin
+	}
+	
+	func canEditEvents() -> Bool {
+		return authenticator?.privilege == .Admin
 	}
 	
 	// MARK: - Notification Keys
@@ -256,10 +274,6 @@ extension APIManager
 			case Sponsor =  1
 			case Organizer = 2
 			case Admin = 3
-			
-			func canPostAnnouncements() -> Bool {
-				return self == .Sponsor || self == .Admin
-			}
 		}
 		
 		private let username: String

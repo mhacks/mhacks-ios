@@ -18,11 +18,6 @@ class LoginViewController: UIViewController
 	{
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
-		guard !APIManager.sharedManager.isLoggedIn
-		else {
-			return
-		}
-
 	}
 	override func viewDidAppear(animated: Bool)
 	{

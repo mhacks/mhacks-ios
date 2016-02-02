@@ -10,8 +10,6 @@ import UIKit
 
 class AnnouncementsViewController: UITableViewController {
 	
-	@IBOutlet var composeButton: UIBarButtonItem!
-	
     // MARK: Model
 	
 	private func fetch() {
@@ -37,13 +35,10 @@ class AnnouncementsViewController: UITableViewController {
 		fetch()
 		if APIManager.sharedManager.canPostAnnouncements()
 		{
-			composeButton.enabled = true
-		}
-		else
-		{
-			composeButton.enabled = false
+			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "compose:")
 		}
 	}
+	
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
 		NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -57,15 +52,21 @@ class AnnouncementsViewController: UITableViewController {
 	func announcementsUpdated(_: NSNotification? = nil)
 	{
 		dispatch_async(dispatch_get_main_queue(), {
+			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Top)
 			self.refreshControl?.endRefreshing()
-			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
 		})
 	}
 	func connectionError(notification: NSNotification)
 	{
 		refreshControl?.endRefreshing()
 	}
-    
+	
+	func compose(sender: UIBarButtonItem)
+	{
+		let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
+		navigationController?.pushViewController(compose, animated: true)
+	}
+	
     // MARK: Table View Data
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return APIManager.sharedManager.announcements.count

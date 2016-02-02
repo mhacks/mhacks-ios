@@ -63,6 +63,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var statusWindow : UIWindow?
 	var label : UILabel?
 	
+	func makeLabel(error: NSError?)
+	{
+		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRectZero)
+		self.label?.textAlignment = .Center
+		self.label?.backgroundColor = UIColor.redColor()
+		self.label?.textColor = UIColor.whiteColor()
+		self.label?.font = UIFont.boldSystemFontOfSize(12)
+		self.label?.text = error?.localizedDescription.sentenceCapitalizedString ?? "Unknown Error"
+	}
+	
 	func connectionError(notification: NSNotification)
 	{
 		guard statusWindow == nil && label == nil
@@ -76,26 +86,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		dispatch_async(dispatch_get_main_queue(), {
 			self.statusWindow = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
 			self.statusWindow?.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
-			self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRectZero)
-			self.label?.textAlignment = .Center
-			self.label?.backgroundColor = UIColor.redColor()
-			self.label?.textColor = UIColor.whiteColor()
-			self.label?.font = UIFont.boldSystemFontOfSize(12)
-			self.label?.text = (notification.object as? NSError)?.localizedDescription.sentenceCapitalizedString ?? "Network Error"
+			
+			self.makeLabel(notification.object as? NSError)
+			
 			self.statusWindow?.addSubview(self.label!)
 			self.statusWindow?.makeKeyAndVisible()
 			self.statusWindow?.frame.origin.y -= self.statusWindow?.frame.height ?? 0.0
-			// FIXME: Make animation better?
-//			self.label?.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, 1, 0, 0)
+
 			UIView.animateWithDuration(0.5, animations: {
-//				self.label?.layer.transform = CATransform3DIdentity
 				self.statusWindow?.frame.origin.y += self.statusWindow?.frame.height ?? 0.0
 				}, completion: { _ in
 					let delayInSeconds = 3.0 // Hide after time
 					let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
 					dispatch_after(popTime, dispatch_get_main_queue(), {
 						UIView.animateWithDuration(0.5, animations: {
-//							self.label?.layer.transform = CATransform3DMakeRotation(CGFloat(M_PI) * 0.5, -1, 0, 0)
 							self.statusWindow?.frame.origin.y -= self.statusWindow?.frame.height ?? 0.0
 							}, completion: { _ in
 								self.statusWindow = nil
