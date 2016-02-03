@@ -14,6 +14,7 @@ enum HTTPMethod : String
 	case GET
 	case POST
 	case PUT
+	case PATCH
 }
 
 private let manager = APIManager()
@@ -46,6 +47,8 @@ final class APIManager : NSObject
 	private var authenticator : Authenticator! // Must be set before using this class for authenticated purposes
 	
 	var isLoggedIn: Bool { return authenticator != nil }
+	var loggedInUsername: String? { return authenticator?.username }
+	
 	
 	// MARK: - Helpers
 	
@@ -150,26 +153,25 @@ final class APIManager : NSObject
 	///	Posts a new announcment from a sponsor or admin
 	///
 	///	- parameter completion:	The completion block, true on success, false on failure.
-	func postAnnouncement(announcement: Announcement, completion: Bool -> Void)
+	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
 	{
-		taskWithRoute("/v1/announcements", parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (JSON: Either<JSONWrapper>) in
+		
+		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: announcement.encodeForCreation(), usingHTTPMethod: method, completion: { (JSON: Either<Announcement>) in
 			switch JSON
 			{
-			case .Value(let newValue):
+			case .Value(_):
 				completion(true)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 				completion(false)
 			case .UnknownError:
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
-				break
+				completion(false)
 			}
-
 		})
-		// TODO: Implement me
-		// This function wont acquire the semaphore, but maybe do something to ask for a UI update?
-		// like just call updateAnnouncements
 	}
+	
+
 	
 	// MARK: - Countdown
 	private(set) var countdown = Countdown()
@@ -213,6 +215,9 @@ final class APIManager : NSObject
 	}
 	
 	func canEditEvents() -> Bool {
+		return authenticator?.privilege == .Admin
+	}
+	func canEditAnnouncements() -> Bool {
 		return authenticator?.privilege == .Admin
 	}
 	
@@ -295,7 +300,7 @@ extension APIManager
 			self.client = client
 			self.username = username
 			self.expiry = expiry
-			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
+			self.privilege = .Admin // Privilege(rawValue: privilege) ?? .Hacker
 			self.tokenType = tokenType
 			super.init()
 		}

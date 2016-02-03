@@ -32,7 +32,7 @@ class LoginViewController: UIViewController
 	func didLogin()
 	{
 		dispatch_async(dispatch_get_main_queue(), {
-			self.performSegueWithIdentifier("loginSegue", sender: nil)
+			self.dismissViewControllerAnimated(true, completion: nil)
 		})
 	}
 	private func shakePasswordField(iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: NSTimeInterval) {

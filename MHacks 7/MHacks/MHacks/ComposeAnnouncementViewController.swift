@@ -11,13 +11,46 @@ import UIKit
 
 class ComposeAnnouncementViewController: UIViewController {
 	weak var titleField: UITextField!
-	weak var messageField: UITextField!
+	weak var messageField: UITextView!
 	weak var announceAt: UIDatePicker!
 	var currentSelectedCategory = Announcement.Category.None
 	@IBOutlet var tableView: UITableView!
 	
 	var cells = [UITableViewCell]()
 	var categoryCells = [UITableViewCell]()
+	
+	
+	var editingAnnouncement: Announcement?
+	{
+		didSet {
+			guard let announce = editingAnnouncement
+			else
+			{
+				return
+			}
+			titleField?.text = announce.title
+			messageField?.text = announce.message
+			messageField?.delegate?.textViewDidChange?(messageField!)
+			announceAt?.date = announce.date
+			currentSelectedCategory = announce.category
+			guard !categoryCells.isEmpty
+			else
+			{
+				return
+			}
+			for i in 0...Announcement.Category.maxBit
+			{
+				if currentSelectedCategory.contains(Announcement.Category(rawValue: 1 << i))
+				{
+					categoryCells[i].accessoryType = .Checkmark
+				}
+				else
+				{
+					categoryCells[i].accessoryType = .None
+				}
+			}
+		}
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -33,8 +66,9 @@ class ComposeAnnouncementViewController: UIViewController {
 		self.titleField = titleCell.textField
 		cells.append(titleCell)
 		
-		let messageCell = tableView.dequeueReusableCellWithIdentifier("infoCell") as! TextFieldCell
-		self.messageField = messageCell.textField
+		let messageCell = tableView.dequeueReusableCellWithIdentifier("infoCell") as! TextViewCell
+		messageCell.delegate = self
+		self.messageField = messageCell.textView
 		cells.append(messageCell)
 		
 		let dateCell = tableView.dequeueReusableCellWithIdentifier("broadcastCell") as! DatePickerCell
@@ -44,32 +78,45 @@ class ComposeAnnouncementViewController: UIViewController {
 		for categoryRaw in 0...Announcement.Category.maxBit
 		{
 			let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "categoryCell")
-			cell.textLabel?.text = Announcement.Category(rawValue: 1 << categoryRaw).description
-			cell.accessoryType = .None
+			let category = Announcement.Category(rawValue: 1 << categoryRaw)
+			cell.textLabel?.text = category.description
 			categoryCells.append(cell)
 		}
+		// Set it explicitly here so that didSet gets called again
+		let announce = editingAnnouncement
+		editingAnnouncement = announce
+		tableView.reloadData()
 	}
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		announceAt.minimumDate = NSDate(timeIntervalSinceNow: 0)
+		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate
 		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate
+	}
+	
+	func pushEditAnnouncement()
+	{
+		let editedAnnouncement = Announcement(ID: editingAnnouncement!.ID, title: titleField.text ?? editingAnnouncement!.title, message: messageField.text ?? editingAnnouncement!.message, date: announceAt.date, category: currentSelectedCategory, owner: editingAnnouncement!.owner, approved: editingAnnouncement!.approved)
+		APIManager.sharedManager.updateAnnouncement(editedAnnouncement, usingMethod: .PATCH) { finished in
+			guard finished
+			else { return }
+			self.navigationController?.popViewControllerAnimated(true)
+		}
 	}
 	
 	@IBAction func post(_: UIBarButtonItem)
 	{
-		let announcement = Announcement(ID: "", title: titleField.text ?? "", message: messageField.text ?? "", date: announceAt.date, category: currentSelectedCategory, owner: "", approved: false)
+		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PATCH
 		
-		APIManager.sharedManager.postAnnouncement(announcement, completion: { finished in
+		let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: titleField.text ?? editingAnnouncement?.title ?? "", message: messageField.text ?? editingAnnouncement?.message ?? "", date: announceAt?.date ?? editingAnnouncement?.date ?? NSDate(timeIntervalSinceNow: 0), category: currentSelectedCategory, owner: editingAnnouncement?.owner ?? "", approved: editingAnnouncement?.approved ?? false)
+		APIManager.sharedManager.updateAnnouncement(announcement, usingMethod: method) { finished in
 			guard finished
-			else
-			{
-				return
-			}
+			else { return }
 			self.navigationController?.popViewControllerAnimated(true)
-		})
+		}
 	}
 }
+
 extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDataSource
 {
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int
@@ -98,7 +145,7 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 			case "broadcastCell":
 				return 232.5
 			case "infoCell":
-				return 46.5
+				return (cells[indexPath.row] as! TextViewCell).rowHeight
 		default:
 			return 44.0
 		}
@@ -122,5 +169,14 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 			currentSelectedCategory.unionInPlace(selected)
 			categoryCells[indexPath.row].accessoryType = .Checkmark
 		}
+	}
+}
+
+extension ComposeAnnouncementViewController : TextViewCellDelegate
+{
+	func cell(cell: TextViewCell, didChangeSize: CGSize)
+	{
+		tableView.beginUpdates()
+		tableView.endUpdates()
 	}
 }

@@ -16,6 +16,7 @@ class AnnouncementsViewController: UITableViewController {
 		refreshControl?.beginRefreshing()
 		APIManager.sharedManager.updateAnnouncements()
 	}
+	var topAnnouncementID: String? = nil
 	
     // MARK: ViewController Lifecycle
 	
@@ -31,12 +32,26 @@ class AnnouncementsViewController: UITableViewController {
 		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "announcementsUpdated:", name: APIManager.announcementsUpdatedNotification, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
-		announcementsUpdated() // Just in case.
-		fetch()
 		if APIManager.sharedManager.canPostAnnouncements()
 		{
 			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "compose:")
 		}
+		if APIManager.sharedManager.canEditAnnouncements()
+		{
+			tableView.allowsSelection = true
+			tableView.allowsMultipleSelection = false
+		}
+		else
+		{
+			tableView.allowsSelection = false
+			tableView.allowsMultipleSelection = false
+		}
+		if let indexPath = tableView.indexPathForSelectedRow
+		{
+			tableView.deselectRowAtIndexPath(indexPath, animated: true)
+		}
+		tableView.reloadData()
+		fetch()
 	}
 	
 	override func viewDidDisappear(animated: Bool) {
@@ -52,8 +67,26 @@ class AnnouncementsViewController: UITableViewController {
 	func announcementsUpdated(_: NSNotification? = nil)
 	{
 		dispatch_async(dispatch_get_main_queue(), {
-			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Top)
+			CATransaction.begin()
+			CATransaction.setCompletionBlock({
+				self.tableView.beginUpdates()
+				defer { self.tableView.endUpdates() }
+				var endIndex = APIManager.sharedManager.announcements.count
+				for (i, announcement) in APIManager.sharedManager.announcements.enumerate()
+				{
+					guard announcement.ID == self.topAnnouncementID
+					else {
+						continue
+					}
+					endIndex = i
+					break
+				}
+				self.topAnnouncementID = APIManager.sharedManager.announcements.first?.ID
+				self.tableView.insertRowsAtIndexPaths((0..<endIndex).map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Top)
+				
+			})
 			self.refreshControl?.endRefreshing()
+			CATransaction.commit()
 		})
 	}
 	func connectionError(notification: NSNotification)
@@ -84,5 +117,17 @@ class AnnouncementsViewController: UITableViewController {
         
         return cell
     }
-	
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	{
+		if APIManager.sharedManager.canEditAnnouncements()
+		{
+			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
+			compose.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
+			navigationController?.pushViewController(compose, animated: true)
+		}
+		else
+		{
+			tableView.deselectRowAtIndexPath(indexPath, animated: true)
+		}
+	}
 }

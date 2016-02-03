@@ -11,6 +11,7 @@
 		820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BEF1C29325500CD9F09 /* SSKeychain.m */; };
 		820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */; };
 		820C5BF71C29327900CD9F09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C5BF61C29327900CD9F09 /* Security.framework */; };
+		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
 		82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA51C1F7A170061FFFB /* AppDelegate.swift */; };
 		82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA71C1F7A170061FFFB /* LoginViewController.swift */; };
 		82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA91C1F7A170061FFFB /* CountdownViewController.swift */; };
@@ -74,6 +75,7 @@
 		820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychainQuery.m; path = MHacks/SSKeychainQuery.m; sourceTree = "<group>"; };
 		820C5BF41C29326600CD9F09 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
 		820C5BF61C29327900CD9F09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		823E4D321C615EE400F37D0B /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
 		82473FA21C1F7A170061FFFB /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82473FA51C1F7A170061FFFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		82473FA71C1F7A170061FFFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */,
 				82942BAC1C2A37670084880C /* Geometry.swift */,
 				8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */,
+				823E4D321C615EE400F37D0B /* TextViewCell.swift */,
 				8286A0211C6074D100B6EFEE /* DatePickerCell.swift */,
 			);
 			name = Views;
@@ -410,6 +413,7 @@
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
 				8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
+				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
 				8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
