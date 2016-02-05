@@ -52,6 +52,10 @@ final class JSONWrapper: JSONCreateable
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		return nil
 	}
+	subscript(key: String) -> AnyObject?
+	{
+		return JSON[key]
+	}
 }
 func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
 	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }

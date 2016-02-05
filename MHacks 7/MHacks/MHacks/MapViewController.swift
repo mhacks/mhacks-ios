@@ -11,8 +11,15 @@ import GoogleMaps
 
 class MapViewController: UIViewController {
 	
-    override func viewDidLoad() {
+    override func viewDidLoad()
+	{
 		super.viewDidLoad()
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
+		
+		APIManager.sharedManager.updateMap()
+		
+		
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
             longitude: -83.7158580, zoom: 16)
 		let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
@@ -32,5 +39,15 @@ class MapViewController: UIViewController {
 		self.view = mapView
         
         // no marker
+	}
+	
+	func mapUpdated(notification: NSNotification)
+	{
+		guard let map = APIManager.sharedManager.map
+		else
+		{
+			return
+		}
+		// TODO: Do things with map
 	}
 }

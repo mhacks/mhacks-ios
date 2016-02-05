@@ -228,11 +228,38 @@ final class APIManager : NSObject
 		return authenticator?.privilege == .Sponsor || authenticator?.privilege == .Organizer || authenticator?.privilege == .Admin
 	}
 	
-	func canEditEvents() -> Bool {
-		return authenticator?.privilege == .Admin
-	}
 	func canEditAnnouncements() -> Bool {
 		return authenticator?.privilege == .Admin
+	}
+	
+	// MARK: - Map
+	private(set) var map: Map? = nil
+	private let mapSemaphore = dispatch_semaphore_create(1)
+	
+	func updateMap() {
+		
+		guard dispatch_semaphore_wait(mapSemaphore, DISPATCH_TIME_NOW) == 0
+		else
+		{
+			// A timeout occurred on the semaphore guard.
+			return
+		}
+		taskWithRoute("/v1/map", completion: {(result: Either<JSONWrapper>) in
+			defer { dispatch_semaphore_signal(self.mapSemaphore) }
+			switch result
+			{
+			case .Value(let JSON):
+				JSON
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
+				break
+			}
+		})
+
+		updateGenerically("/v1/map", objectToUpdate: { (m: Map) -> Void in self.map = m } , notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
 	}
 	
 	// MARK: - Notification Keys
@@ -240,6 +267,7 @@ final class APIManager : NSObject
 	static let countdownUpdateNotification = "CountdownUpdatedNotification"
 	static let eventsUpdatedNotification = "EventsUpdatedNotification"
 	static let locationsUpdatedNotification = "LocationsUpdatedNotification"
+	static let mapUpdatedNotification = "MapUpdatedNotification"
 	static let connectionFailedNotification = "ConnectionFailure"
 }
 
