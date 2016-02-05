@@ -27,7 +27,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-		NSUserDefaults.standardUserDefaults().setObject(deviceToken, forKey: remoteNotificationDataKey)
+		let deviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "")
+		NSUserDefaults.standardUserDefaults().setObject(deviceTokenString, forKey: remoteNotificationDataKey)
+		let sentAPNSToken = NSUserDefaults.standardUserDefaults().boolForKey(remoteNotificationSentKey)
+		if !sentAPNSToken
+		{
+			APIManager.sharedManager.updateAPNSToken(deviceTokenString, completion: { pushed in
+				guard pushed
+				else
+				{
+					return
+				}
+				NSUserDefaults.standardUserDefaults().setBool(true, forKey: remoteNotificationSentKey)
+			})
+		}
 	}
 	
 	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

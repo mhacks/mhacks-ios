@@ -139,3 +139,5 @@ extension NSCalendar {
 // MARK: - Keys
 
 let remoteNotificationDataKey = "remote_notifications"
+let remoteNotificationSentKey = "remote_notification_token_sent"
+

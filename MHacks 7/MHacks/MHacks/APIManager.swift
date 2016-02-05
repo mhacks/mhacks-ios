@@ -172,6 +172,21 @@ final class APIManager : NSObject
 	}
 	
 
+	func updateAPNSToken(token: String, preference: Int? = 63, method: HTTPMethod = .POST, completion: Bool -> Void)
+	{
+		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: method, completion: { (result: Either<JSONWrapper>) in
+			switch result
+			{
+			case .Value(_):
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+			}
+		})
+	}
+	
 	// MARK: - Countdown
 	private(set) var countdown = Countdown()
 	private let countdownSemaphore = dispatch_semaphore_create(1)
