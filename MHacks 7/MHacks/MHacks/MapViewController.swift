@@ -48,6 +48,7 @@ class MapViewController: UIViewController {
 		{
 			return
 		}
+		print(map)
 		// TODO: Do things with map
 	}
 }
