@@ -46,7 +46,8 @@ final class APIManager : NSObject
 	
 	private var authenticator : Authenticator! // Must be set before using this class for authenticated purposes
 	
-	var isLoggedIn: Bool { return authenticator != nil }
+	var isLoggedIn: Bool { return authenticator != nil || NSUserDefaults.standardUserDefaults().boolForKey(LoginViewController.guestLoginKey) }
+	
 	var loggedInUsername: String? { return authenticator?.username }
 	
 	
@@ -58,7 +59,6 @@ final class APIManager : NSObject
 		
 		let mutableRequest = NSMutableURLRequest(URL: URL)
 		mutableRequest.HTTPMethod = method.rawValue
-//		mutableRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
 		authenticator?.addAuthorizationHeader(mutableRequest)
 		do
 		{
@@ -172,6 +172,20 @@ final class APIManager : NSObject
 	}
 	
 
+	func updateAPNSToken(token: String, preference: Int? = 63, method: HTTPMethod = .POST, completion: Bool -> Void)
+	{
+		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: method, completion: { (result: Either<JSONWrapper>) in
+			switch result
+			{
+			case .Value(_):
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+			}
+		})
+	}
 	
 	// MARK: - Countdown
 	private(set) var countdown = Countdown()
@@ -300,7 +314,7 @@ extension APIManager
 			self.client = client
 			self.username = username
 			self.expiry = expiry
-			self.privilege = .Admin // Privilege(rawValue: privilege) ?? .Hacker
+			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
 			self.tokenType = tokenType
 			super.init()
 		}
