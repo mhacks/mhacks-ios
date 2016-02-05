@@ -69,20 +69,21 @@ class AnnouncementsViewController: UITableViewController {
 		dispatch_async(dispatch_get_main_queue(), {
 			CATransaction.begin()
 			CATransaction.setCompletionBlock({
-				self.tableView.beginUpdates()
-				defer { self.tableView.endUpdates() }
-				var endIndex = APIManager.sharedManager.announcements.count
-				for (i, announcement) in APIManager.sharedManager.announcements.enumerate()
-				{
-					guard announcement.ID == self.topAnnouncementID
-					else {
-						continue
-					}
-					endIndex = i
-					break
-				}
-				self.topAnnouncementID = APIManager.sharedManager.announcements.first?.ID
-				self.tableView.insertRowsAtIndexPaths((0..<endIndex).map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Top)
+				self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+//				self.tableView.beginUpdates()
+//				defer { self.tableView.endUpdates() }
+//				var endIndex = APIManager.sharedManager.announcements.count
+//				for (i, announcement) in APIManager.sharedManager.announcements.enumerate()
+//				{
+//					guard announcement.ID == self.topAnnouncementID
+//					else {
+//						continue
+//					}
+//					endIndex = i
+//					break
+//				}
+//				self.topAnnouncementID = APIManager.sharedManager.announcements.first?.ID
+//				self.tableView.insertRowsAtIndexPaths((0..<endIndex).map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Top)
 				
 			})
 			self.refreshControl?.endRefreshing()

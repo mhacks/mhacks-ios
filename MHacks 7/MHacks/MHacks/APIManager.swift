@@ -172,7 +172,6 @@ final class APIManager : NSObject
 	}
 	
 
-	
 	// MARK: - Countdown
 	private(set) var countdown = Countdown()
 	private let countdownSemaphore = dispatch_semaphore_create(1)
@@ -300,7 +299,7 @@ extension APIManager
 			self.client = client
 			self.username = username
 			self.expiry = expiry
-			self.privilege = .Admin // Privilege(rawValue: privilege) ?? .Hacker
+			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
 			self.tokenType = tokenType
 			super.init()
 		}

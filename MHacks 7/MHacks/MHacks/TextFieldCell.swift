@@ -14,6 +14,5 @@ class TextFieldCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(false, animated: animated)
-		textField.becomeFirstResponder()
     }
 }

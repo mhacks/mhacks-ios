@@ -261,12 +261,12 @@
 			children = (
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				8286A01D1C606A5700B6EFEE /* TabBarController.swift */,
+				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
+				82EFDE8A1C32ED060074AB99 /* EventViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
 				82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */,
 				8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */,
-				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
 				82E9C4881C4F09B100ED2EBF /* MapViewController.swift */,
-				82EFDE8A1C32ED060074AB99 /* EventViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

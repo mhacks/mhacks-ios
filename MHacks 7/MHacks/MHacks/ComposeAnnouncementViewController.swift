@@ -31,7 +31,8 @@ class ComposeAnnouncementViewController: UIViewController {
 			titleField?.text = announce.title
 			messageField?.text = announce.message
 			messageField?.delegate?.textViewDidChange?(messageField!)
-			announceAt?.date = announce.date
+			announceAt?.setDate(announce.date, animated: true)
+			announceAt?.sendActionsForControlEvents(.ValueChanged)
 			currentSelectedCategory = announce.category
 			guard !categoryCells.isEmpty
 			else
@@ -49,6 +50,7 @@ class ComposeAnnouncementViewController: UIViewController {
 					categoryCells[i].accessoryType = .None
 				}
 			}
+			messageField?.resignFirstResponder()
 		}
 	}
 	
@@ -57,6 +59,8 @@ class ComposeAnnouncementViewController: UIViewController {
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "post:")
 		tableView.delegate = self
 		tableView.dataSource = self
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShown:", name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardWillHideNotification, object: nil)
 		buildCells()
 	}
 	
@@ -72,6 +76,7 @@ class ComposeAnnouncementViewController: UIViewController {
 		cells.append(messageCell)
 		
 		let dateCell = tableView.dequeueReusableCellWithIdentifier("broadcastCell") as! DatePickerCell
+		dateCell.delegate = self
 		self.announceAt = dateCell.datePicker
 		cells.append(dateCell)
 		
@@ -92,17 +97,13 @@ class ComposeAnnouncementViewController: UIViewController {
 		super.viewDidAppear(animated)
 		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate
 		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate
-	}
-	
-	func pushEditAnnouncement()
-	{
-		let editedAnnouncement = Announcement(ID: editingAnnouncement!.ID, title: titleField.text ?? editingAnnouncement!.title, message: messageField.text ?? editingAnnouncement!.message, date: announceAt.date, category: currentSelectedCategory, owner: editingAnnouncement!.owner, approved: editingAnnouncement!.approved)
-		APIManager.sharedManager.updateAnnouncement(editedAnnouncement, usingMethod: .PATCH) { finished in
-			guard finished
-			else { return }
-			self.navigationController?.popViewControllerAnimated(true)
+		if editingAnnouncement == nil
+		{
+			announceAt.setDate(NSDate(timeIntervalSinceNow: 60 * 60), animated: true)
+			announceAt.sendActionsForControlEvents(.ValueChanged)
 		}
 	}
+	
 	
 	@IBAction func post(_: UIBarButtonItem)
 	{
@@ -143,8 +144,12 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 			case "titleCell":
 				return 76.5
 			case "broadcastCell":
-				return 232.5
+				return (cells[indexPath.row] as! DatePickerCell).rowHeight
 			case "infoCell":
+				defer {
+					(cells[indexPath.row] as! TextViewCell).textView.setContentOffset(CGPointZero, animated: true)
+					(cells[indexPath.row] as! TextViewCell).textView.setNeedsLayout()
+				}
 				return (cells[indexPath.row] as! TextViewCell).rowHeight
 		default:
 			return 44.0
@@ -153,6 +158,10 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
 	{
 		tableView.deselectRowAtIndexPath(indexPath, animated: true)
+		if indexPath.section == 0 && cells[indexPath.row].reuseIdentifier == "broadcastCell"
+		{
+			(cells[indexPath.row] as! DatePickerCell).expanded = !(cells[indexPath.row] as! DatePickerCell).expanded
+		}
 		guard indexPath.section == 1
 		else
 		{
@@ -172,11 +181,63 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 	}
 }
 
-extension ComposeAnnouncementViewController : TextViewCellDelegate
+extension ComposeAnnouncementViewController : ChangingHeightCellDelegate
 {
-	func cell(cell: TextViewCell, didChangeSize: CGSize)
+	func cell(cell: UITableViewCell, didChangeSize: CGSize)
 	{
 		tableView.beginUpdates()
 		tableView.endUpdates()
+	}
+	
+	func keyboardShown (notification: NSNotification)
+	{
+		guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+		else {
+			return
+		}
+		var contentInsets = tableView.contentInset
+		contentInsets.bottom += keyboardSize.height
+		tableView.contentInset = contentInsets
+		tableView.scrollIndicatorInsets = contentInsets
+		var rect = self.view.frame
+		rect.size.height -= keyboardSize.height
+		var activeField : UIView?
+		for textField in [titleField, messageField]
+		{
+			if textField.isFirstResponder()
+			{
+				activeField = textField
+				break
+			}
+		}
+		guard let active = activeField
+		else
+		{
+			return
+		}
+		if (!rect.contains(active.frame.origin))
+		{
+			tableView.scrollRectToVisible(active.frame, animated: true)
+		}
+	}
+	
+	func keyboardHidden(notification: NSNotification)
+	{
+		guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+			else {
+				return
+		}
+		for textField in [titleField, messageField]
+		{
+			if textField.isFirstResponder()
+			{
+				textField.resignFirstResponder()
+				break
+			}
+		}
+		var contentInsets = tableView.contentInset
+		contentInsets.bottom -= keyboardSize.height
+		tableView.contentInset = contentInsets
+		tableView.scrollIndicatorInsets = contentInsets
 	}
 }
