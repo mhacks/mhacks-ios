@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HgZ-fn-MYq">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -636,6 +636,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QZo-9w-ljA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2474" y="98"/>
+        </scene>
+        <!--Initial View Controller-->
+        <scene sceneID="AMI-dL-XqA">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="HgZ-fn-MYq" customClass="InitialViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rid-4z-sDS"/>
+                        <viewControllerLayoutGuide type="bottom" id="K9W-Fu-f5W"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dIh-Qo-h1e">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hL1-gE-SjW">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="1" green="0.90196078431372551" blue="0.25490196078431371" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.90196078431372551" blue="0.25490196078431371" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hL1-gE-SjW" secondAttribute="trailing" id="4TR-RS-dYc"/>
+                            <constraint firstItem="K9W-Fu-f5W" firstAttribute="top" secondItem="hL1-gE-SjW" secondAttribute="bottom" id="8tc-Df-DBp"/>
+                            <constraint firstItem="hL1-gE-SjW" firstAttribute="leading" secondItem="dIh-Qo-h1e" secondAttribute="leading" id="CGz-aG-EyR"/>
+                            <constraint firstItem="hL1-gE-SjW" firstAttribute="top" secondItem="dIh-Qo-h1e" secondAttribute="topMargin" id="J6E-Tb-ICC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="hL1-gE-SjW" id="J8v-69-jQm"/>
+                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="startApp" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="mQj-Tt-sq5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x2g-tx-zJN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1070" y="536"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

@@ -32,6 +32,8 @@
 		8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01D1C606A5700B6EFEE /* TabBarController.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
+		828D49891C65ECE70090313C /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D49881C65ECE70090313C /* InitialViewController.swift */; };
+		828D498B1C65ED9B0090313C /* animation.html in Resources */ = {isa = PBXBuildFile; fileRef = 828D498A1C65ED9B0090313C /* animation.html */; };
 		82942B9B1C2A2B850084880C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
 		82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9C1C2A2EA00084880C /* EventOrganizer.swift */; };
 		82942B9F1C2A2EAE0084880C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
@@ -100,6 +102,8 @@
 		8286A01D1C606A5700B6EFEE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		8286A0211C6074D100B6EFEE /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
+		828D49881C65ECE70090313C /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		828D498A1C65ED9B0090313C /* animation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = animation.html; sourceTree = "<group>"; };
 		82942B9A1C2A2B850084880C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		82942B9C1C2A2EA00084880C /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; };
 		82942B9E1C2A2EAE0084880C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				82473FB01C1F7A170061FFFB /* LaunchScreen.storyboard */,
 				82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */,
 				82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */,
+				828D498A1C65ED9B0090313C /* animation.html */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -263,6 +268,7 @@
 		82473FBB1C1F7F2A0061FFFB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				828D49881C65ECE70090313C /* InitialViewController.swift */,
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				8286A01D1C606A5700B6EFEE /* TabBarController.swift */,
 				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
@@ -378,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82473FB21C1F7A170061FFFB /* LaunchScreen.storyboard in Resources */,
+				828D498B1C65ED9B0090313C /* animation.html in Resources */,
 				82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */,
 				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
 				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
@@ -400,6 +407,7 @@
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
+				828D49891C65ECE70090313C /* InitialViewController.swift in Sources */,
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,

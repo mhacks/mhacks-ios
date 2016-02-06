@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+		window?.backgroundColor = UIColor(red: 255.0 / 255.0, green: 230.0 / 255.0, blue: 65.0 / 255.0, alpha: 1.0)
 		// Override point for customization after application launch.
 		GMSServices.provideAPIKey("AIzaSyDZwjHS79q4iV2_ZWWYvcNDRYzhdYKGoFQ")
 		application.registerForRemoteNotifications()
