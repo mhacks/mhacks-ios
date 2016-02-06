@@ -46,7 +46,7 @@ final class APIManager : NSObject
 	
 	private var authenticator : Authenticator! // Must be set before using this class for authenticated purposes
 	
-	var isLoggedIn: Bool { return authenticator != nil || NSUserDefaults.standardUserDefaults().boolForKey(LoginViewController.guestLoginKey) }
+	var isLoggedIn: Bool { return authenticator != nil }
 	
 	var loggedInUsername: String? { return authenticator?.username }
 	
