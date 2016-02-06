@@ -69,7 +69,7 @@ class MapViewController: UIViewController
 					}
 					
 					CATransaction.begin()
-					CATransaction.setValue(1.0, forKeyPath: kCATransactionAnimationDuration)
+					CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
 					self.mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 100))
 					CATransaction.commit()
 				}
