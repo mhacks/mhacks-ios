@@ -180,7 +180,6 @@ struct Hour: TimeInterval {
         var days = [Day(firstDate: firstDate, lastDate: lastDate)]
         
         calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Day.Components, options: .MatchNextTime) { date, exactMatch, stop in
-			// FIXME: This may not be correct.
 			guard let date = date
 			else
 			{
@@ -318,11 +317,12 @@ struct Hour: TimeInterval {
 }
 extension EventOrganizer: JSONCreateable, NSCoding  {
 	
+	var allEvents : [Event] {
+		return eventsByDay.flatten().map { $0 }
+	}
+	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		var events = [Event]()
-		events.reserveCapacity(eventsByDay.count * (eventsByDay.first?.count ?? 1))
-		eventsByDay.forEach { events.appendContentsOf($0) }
-		aCoder.encodeObject(events as NSArray, forKey: EventOrganizer.eventsKey)
+		aCoder.encodeObject(allEvents as NSArray, forKey: EventOrganizer.eventsKey)
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {

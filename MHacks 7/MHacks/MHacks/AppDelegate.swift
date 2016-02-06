@@ -27,11 +27,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-		let deviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "")
-		NSUserDefaults.standardUserDefaults().setObject(deviceTokenString, forKey: remoteNotificationDataKey)
 		let sentAPNSToken = NSUserDefaults.standardUserDefaults().boolForKey(remoteNotificationSentKey)
 		if !sentAPNSToken
 		{
+			let deviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "")
+			NSUserDefaults.standardUserDefaults().setObject(deviceTokenString, forKey: remoteNotificationDataKey)
 			APIManager.sharedManager.updateAPNSToken(deviceTokenString, completion: { pushed in
 				guard pushed
 				else
@@ -47,7 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 	}
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-		// TODO: Use notification 
+		APIManager.sharedManager.updateAnnouncements()
+		completionHandler(.NewData)
 	}
 	
 	func applicationWillResignActive(application: UIApplication) {
@@ -71,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationWillTerminate(application: UIApplication) {
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+		APIManager.sharedManager.archive()
 	}
 
 	var statusWindow : UIWindow?

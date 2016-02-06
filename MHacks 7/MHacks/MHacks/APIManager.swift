@@ -109,7 +109,7 @@ final class APIManager : NSObject
 	}
 	
 	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Void, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
+	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
 	{
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
 		else
@@ -122,12 +122,16 @@ final class APIManager : NSObject
 			switch result
 			{
 			case .Value(let newValue):
-				updater(newValue)
+				guard updater(newValue)
+				else
+				{
+					return
+				}
 				NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self)
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
 				break
 			}
 		})
@@ -147,7 +151,16 @@ final class APIManager : NSObject
 	///	Updates the announcements and posts a notification on completion.
 	func updateAnnouncements()
 	{
-		updateGenerically("/v1/announcements", objectToUpdate: { self.announcementBuffer = $0 }, notificationName: APIManager.announcementsUpdatedNotification, semaphoreGuard: announcementsSemaphore)
+		updateGenerically("/v1/announcements", objectToUpdate: { (result: MyArray<Announcement>) in
+			guard result._array != self.announcementBuffer._array
+			else
+			{
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.announcementsUpdatedNotification, object: nil)
+				return false
+			}
+			self.announcementBuffer = result
+			return true
+			}, notificationName: APIManager.announcementsUpdatedNotification, semaphoreGuard: announcementsSemaphore)
 	}
 	
 	///	Posts a new announcment from a sponsor or admin
@@ -192,7 +205,15 @@ final class APIManager : NSObject
 	private let countdownSemaphore = dispatch_semaphore_create(1)
 	func updateCountdown()
 	{
-		updateGenerically("/v1/countdown", objectToUpdate: { self.countdown = $0 }, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
+		updateGenerically("/v1/countdown", objectToUpdate: { (result: Countdown) in
+			guard result != self.countdown
+			else
+			{
+				return false
+			}
+			self.countdown = result
+			return true
+		}, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
 	}
 	
 	// MARK: - Events
@@ -204,7 +225,15 @@ final class APIManager : NSObject
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
 			dispatch_semaphore_wait(self.locationSemaphore, DISPATCH_TIME_FOREVER)
 			dispatch_semaphore_signal(self.locationSemaphore)
-			self.updateGenerically("/v1/events", objectToUpdate: { self.eventsOrganizer = $0 }, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: self.eventsSemaphore)
+			self.updateGenerically("/v1/events", objectToUpdate: { (result: EventOrganizer) in
+				guard self.eventsOrganizer.allEvents != result.allEvents
+				else
+				{
+					return false
+				}
+				self.eventsOrganizer = result
+				return true
+			}, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: self.eventsSemaphore)
 		})
 	}
 	
@@ -218,7 +247,10 @@ final class APIManager : NSObject
 	private let locationSemaphore = dispatch_semaphore_create(1)
 	
 	func updateLocations() {
-		updateGenerically("/v1/locations", objectToUpdate: { self.locationBuffer = $0 } , notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
+		updateGenerically("/v1/locations", objectToUpdate: { (result: MyArray<Location>) in
+			self.locationBuffer = result
+			return true
+		}, notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
 	}
 	
 	
@@ -238,28 +270,20 @@ final class APIManager : NSObject
 	
 	func updateMap() {
 		
-		guard dispatch_semaphore_wait(mapSemaphore, DISPATCH_TIME_NOW) == 0
-		else
-		{
-			// A timeout occurred on the semaphore guard.
-			return
-		}
-		taskWithRoute("/v1/map", completion: {(result: Either<JSONWrapper>) in
-			defer { dispatch_semaphore_signal(self.mapSemaphore) }
-			switch result
+		updateGenerically("/v1/map", objectToUpdate: {(result: JSONWrapper) in
+			var newJSON = result.JSON
+			if self.map?.imageURL == Map.imageURLFromJSON(result)
 			{
-			case .Value(let JSON):
-				JSON
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
-				break
+				newJSON[Map.fileLocationKey] = self.map?.fileLocation
 			}
-		})
-
-		updateGenerically("/v1/map", objectToUpdate: { (m: Map) -> Void in self.map = m } , notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
+			guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
+			else
+			{
+				return false
+			}
+			self.map = map
+			return true
+			}, notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
 	}
 	
 	// MARK: - Notification Keys
@@ -311,7 +335,10 @@ extension APIManager
 		}
 		task.resume()
 	}
-	
+	func logout()
+	{
+		self.authenticator = nil
+	}
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
 	@objc private final class Authenticator: NSObject, JSONCreateable
@@ -419,18 +446,19 @@ extension APIManager : NSCoding
 	@objc convenience init?(coder aDecoder: NSCoder)
     {
 		self.init()
-		guard let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator, let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
+		let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator
+		guard let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
 		else
         {
 			return nil
 		}
-		locationForID = { ID in locations.filter { loc in loc.ID == ID }.first }
-		guard let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer
-		else { return nil }
 		self.locations = locations
 		self.authenticator = authenticator
 		self.countdown = countdown
 		self.announcements = announcements
+		locationForID = { ID in self.locations.filter { loc in loc.ID == ID }.first }
+		guard let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer
+		else { return nil }
 		self.eventsOrganizer = eventsOrganizer
 	}
 }

@@ -9,46 +9,51 @@
 import UIKit
 import GoogleMaps
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController
+{	
+	weak var mapView: GMSMapView!
+	
 	
     override func viewDidLoad()
 	{
 		super.viewDidLoad()
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
-		
-		APIManager.sharedManager.updateMap()
-		
-		
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
             longitude: -83.7158580, zoom: 16)
-		let mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
+		mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
 		mapView.myLocationEnabled = true
 		
-		let northEast = CLLocationCoordinate2D(latitude: 42.294240, longitude: -83.712727)
-		let southWest = CLLocationCoordinate2D(latitude: 42.291597, longitude: -83.716529)
-		
-		let overlayBounds = GMSCoordinateBounds(coordinate: southWest, coordinate: northEast)
-		
-		let icon = UIImage(named: "Map")
-		
-		let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: icon)
-		overlay.bearing = 0
-		overlay.map = mapView
-		
 		self.view = mapView
-        
-        // no marker
 	}
 	
-	func mapUpdated(notification: NSNotification)
+	override func viewDidAppear(animated: Bool)
 	{
-		guard let map = APIManager.sharedManager.map
+		super.viewDidAppear(animated)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
+		APIManager.sharedManager.updateMap()
+		guard let overlay = APIManager.sharedManager.map?.overlay
 		else
 		{
 			return
 		}
-		print(map)
-		// TODO: Do things with map
+		mapView.clear()
+		overlay.map = mapView
+	}
+	
+	override func viewDidDisappear(animated: Bool)
+	{
+		super.viewDidDisappear(animated)
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
+	
+	func mapUpdated(notification: NSNotification)
+	{
+		guard let overlay = APIManager.sharedManager.map?.overlay
+		else
+		{
+			return
+		}
+		mapView.clear()
+		overlay.map = mapView
 	}
 }

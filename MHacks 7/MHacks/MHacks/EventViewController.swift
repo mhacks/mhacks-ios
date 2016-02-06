@@ -49,65 +49,84 @@ class EventViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        if let event = event {
-            setMarkersAndCamera(event.locations)
-        }
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
+		APIManager.sharedManager.updateMap()
+		setMarkersAndCamera(event?.locations ?? [])
     }
-    
+	
+	override func viewDidDisappear(animated: Bool) {
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
+	
+	func mapModelDidUpdate(_: NSNotification)
+	{
+		dispatch_async(dispatch_get_main_queue(), {
+			guard let overlay = APIManager.sharedManager.map?.overlay
+				else
+			{
+				return
+			}
+			self.mapView.clear()
+			overlay.bearing = 0
+			overlay.map = self.mapView
+			self.setMarkersAndCamera(self.event?.locations ?? [])
+		})
+	}
+	
     func updateViews() {
         
         if !isViewLoaded() {
             return
         }
-        
-        if let event = event {
-            
-            titleLabel.text = event.name
-            subtitleLabel.text = event.category.description + " | " + event.locationsDescription
-            colorView.backgroundColor = event.category.color
-			colorView.layer.cornerRadius = colorView.frame.width / 2
-            descriptionLabel.text = event.information
-            dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
-            
-            updateMap()
-        }
+        guard let event = event
+		else {
+			return
+		}
+        titleLabel.text = event.name
+		subtitleLabel.text = event.category.description + " | " + event.locationsDescription
+		colorView.backgroundColor = event.category.color
+		colorView.layer.cornerRadius = colorView.frame.width / 2
+		descriptionLabel.text = event.information
+		dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
+		
+		updateMap()
     }
 	
-    func updateMap () {
+    func updateMap ()
+	{
         let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
             longitude: -83.7158580, zoom: 16)
         mapView.camera = camera
         mapView.myLocationEnabled = true
         mapView.settings.setAllGesturesEnabled(false)
         mapView.setMinZoom(10.0, maxZoom: 18.0)
-        
-        let northEast = CLLocationCoordinate2D(latitude: 42.294240, longitude: -83.712727)
-        let southWest = CLLocationCoordinate2D(latitude: 42.291597, longitude: -83.716529)
-        
-        let overlayBounds = GMSCoordinateBounds(coordinate: southWest, coordinate: northEast)
-        
-        let icon = UIImage(named: "Map")
-        
-        let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: icon)
+        guard let overlay = APIManager.sharedManager.map?.overlay
+		else
+		{
+			return
+		}
+		mapView.clear()
         overlay.bearing = 0
         overlay.map = mapView
     }
     
-    func setMarkersAndCamera (var locations: [Location]) {
-        let marker = GMSMarker(position: locations[0].coreLocation.coordinate)
-        marker.tappable = false
-        marker.map = mapView
-        var boundBuilder = GMSCoordinateBounds(coordinate: marker.position,
-            coordinate: marker.position)
-        
-        var i: Int
-        for i = 1; i < locations.count; ++i {
-            let marker = GMSMarker(position: locations[i].coreLocation.coordinate)
-            marker.tappable = false
-            marker.map = mapView
-            boundBuilder = boundBuilder.includingCoordinate(marker.position)
-        }
-        
+    func setMarkersAndCamera(locations: [Location])
+	{
+		guard locations.count > 0
+		else
+		{
+			return
+		}
+        var boundBuilder = GMSCoordinateBounds(coordinate: locations.first!.coreLocation.coordinate,
+            coordinate: locations.first!.coreLocation.coordinate)
+		for location in locations
+		{
+			let marker = GMSMarker(position: location.coreLocation.coordinate)
+			marker.tappable = false
+			marker.map = mapView
+			boundBuilder = boundBuilder.includingCoordinate(location.coreLocation.coordinate)
+		}
+		
         CATransaction.begin()
         CATransaction.setValue(1.0, forKeyPath: kCATransactionAnimationDuration)
         mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 20))

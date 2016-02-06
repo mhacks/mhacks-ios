@@ -8,13 +8,12 @@
 
 import UIKit
 import CoreLocation
-
-private var currentDownloadedImageURL : String?
+import GoogleMaps
 
 @objc final class Map: NSObject
 {
-	private let fileLocation: String
-	private let imageURL : NSURL
+	let fileLocation: String
+	let imageURL : String
 
 	private let southWestLatitude : CLLocationDegrees
 	private let southWestLongitude : CLLocationDegrees
@@ -22,22 +21,26 @@ private var currentDownloadedImageURL : String?
 	private let northEastLatitude: CLLocationDegrees
 	private let northEastLongitude: CLLocationDegrees
 	
+	var overlay: GMSGroundOverlay {
+		let overlayBounds = GMSCoordinateBounds(coordinate: southWestCoordinate, coordinate: northEastCoordinate)
+		let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: image)
+		return overlay
+	}
 	
-	let image: UIImage
+	private let image: UIImage
 	
-	var northEastCoordinate: CLLocationCoordinate2D {
+	private var northEastCoordinate: CLLocationCoordinate2D {
 		return CLLocationCoordinate2D(latitude: northEastLatitude, longitude: northEastLongitude)
 	}
 	
-	var southWestCoordinate: CLLocationCoordinate2D {
+	private var southWestCoordinate: CLLocationCoordinate2D {
 		return CLLocationCoordinate2D(latitude: southWestLatitude, longitude: southWestLongitude)
 	}
 	
-	init?(fileLocation: String, imageURL: NSURL, southWestLatitude : CLLocationDegrees, southWestLongitude : CLLocationDegrees, northEastLatitude: CLLocationDegrees, northEastLongitude: CLLocationDegrees)
+	init?(fileLocation: String, imageURL: String, southWestLatitude : CLLocationDegrees, southWestLongitude : CLLocationDegrees, northEastLatitude: CLLocationDegrees, northEastLongitude: CLLocationDegrees)
 	{
 		self.fileLocation = fileLocation
 		self.imageURL = imageURL
-		currentDownloadedImageURL = imageURL.absoluteString
 		self.southWestLatitude = southWestLatitude
 		self.southWestLongitude = southWestLongitude
 		self.northEastLatitude = northEastLatitude
@@ -101,10 +104,10 @@ private var currentDownloadedImageURL : String?
 		{
 			return nil
 		}
-		self.init(fileLocation: file, imageURL: imageURL, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)
+		self.init(fileLocation: file, imageURL: imageURLString, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)
 	}
 	
-	private static let fileLocationKey = "fileLocation"
+	static let fileLocationKey = "fileLocation"
 	private static let imageURLKey = "image_url"
 	private static let southWestLatitudeKey = "south_west_lat"
 	private static let southWestLongitudeKey = "south_west_lon"
@@ -121,7 +124,7 @@ extension Map : JSONCreateable {
 	@objc func encodeWithCoder(aCoder: NSCoder)
 	{
 		aCoder.encodeObject(fileLocation, forKey: Map.fileLocationKey)
-		aCoder.encodeObject(imageURL.absoluteString, forKey: Map.imageURLKey)
+		aCoder.encodeObject(imageURL, forKey: Map.imageURLKey)
 		aCoder.encodeDouble(southWestLatitude, forKey: Map.southWestLatitudeKey)
 		aCoder.encodeDouble(southWestLongitude, forKey: Map.southWestLongitudeKey)
 		aCoder.encodeDouble(northEastLatitude, forKey: Map.northEastLatitudeKey)
@@ -132,3 +135,8 @@ extension Map : JSONCreateable {
 		self.init(serialized: Serialized(coder: aDecoder))
 	}
 }
+func ==(lhs: Map, rhs: Map) -> Bool
+{
+	return lhs.southWestLatitude == rhs.southWestLatitude && lhs.southWestLongitude == rhs.southWestLongitude && lhs.northEastLatitude == rhs.northEastLatitude && lhs.northEastLongitude == rhs.northEastLongitude && lhs.imageURL == rhs.imageURL
+}
+
