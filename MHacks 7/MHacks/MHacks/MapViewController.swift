@@ -12,16 +12,22 @@ import GoogleMaps
 class MapViewController: UIViewController
 {	
 	@IBOutlet var mapView: GMSMapView!
+	@IBOutlet var buttonView: UIView!
 	var locations = [Location]()
+	{
+		didSet {
+			buttonView.hidden = locations.count == 0
+		}
+	}
 	
     override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		
-		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
-            longitude: -83.7158580, zoom: 16)
+		locations = []
+		let camera = GMSCameraPosition.cameraWithLatitude(42.291991,
+            longitude: -83.7158780, zoom: 18.0)
 		mapView.camera = camera
-        mapView.setMinZoom(15.0, maxZoom: 18.0)
+        mapView.setMinZoom(16.0, maxZoom: 20.0)
 		mapView.myLocationEnabled = true
 	}
 	override func viewWillAppear(animated: Bool)

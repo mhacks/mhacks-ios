@@ -13,9 +13,7 @@ class LoginViewController: UIViewController
 
 	@IBOutlet var usernameField: UITextField!
 	@IBOutlet var passwordField: UITextField!
-	
-	static let guestLoginKey = "UseGuestLogin"
-	
+		
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -61,11 +59,6 @@ class LoginViewController: UIViewController
 		})
 	}
 	
-	@IBAction func loginWithoutCredentials(sender: UIButton)
-	{
-		NSUserDefaults.standardUserDefaults().setBool(true, forKey: LoginViewController.guestLoginKey)
-		didLogin()
-	}
 	@IBAction func login(sender: UIButton)
 	{
 		resignFirstResponder()
