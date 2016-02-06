@@ -11,7 +11,7 @@ import GoogleMaps
 
 class MapViewController: UIViewController
 {	
-	var mapView: GMSMapView!
+	@IBOutlet var mapView: GMSMapView!
 	var locations = [Location]()
 	
     override func viewDidLoad()
@@ -20,12 +20,12 @@ class MapViewController: UIViewController
 		
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
             longitude: -83.7158580, zoom: 16)
-		mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
+		mapView.camera = camera
         mapView.setMinZoom(15.0, maxZoom: 18.0)
 		mapView.myLocationEnabled = true
-		self.view = mapView
 	}
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(animated: Bool)
+	{
 		super.viewWillAppear(animated)
 		let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
 		blurView.frame = UIApplication.sharedApplication().statusBarFrame
@@ -42,8 +42,13 @@ class MapViewController: UIViewController
 	override func viewDidDisappear(animated: Bool)
 	{
 		super.viewDidDisappear(animated)
-		locations = []
 		NSNotificationCenter.defaultCenter().removeObserver(self)
+	}
+	
+	@IBAction func clearPins(sender: UIButton)
+	{
+		locations = []
+		mapUpdated()
 	}
 	
 	func mapUpdated(_: NSNotification? = nil)

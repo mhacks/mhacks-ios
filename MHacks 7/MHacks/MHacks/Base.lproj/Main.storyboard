@@ -430,9 +430,78 @@
                     <view key="view" contentMode="scaleToFill" id="ZNp-5o-HPi">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RY1-0W-2fc" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lJY-OO-Gjk">
+                                <rect key="frame" x="520" y="513" width="60" height="30"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DTg-1y-rbJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufY-ag-nrx">
+                                            <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="zRU-d5-Z5f">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGb-71-rVN">
+                                                        <rect key="frame" x="11.5" y="0.0" width="36" height="30"/>
+                                                        <state key="normal" title="Clear">
+                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="clearPins:" destination="4qu-ZM-Kct" eventType="touchUpInside" id="9cv-rp-Nez"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="top" secondItem="pGb-71-rVN" secondAttribute="top" id="DcB-Pb-f7k"/>
+                                                    <constraint firstItem="pGb-71-rVN" firstAttribute="centerX" secondItem="zRU-d5-Z5f" secondAttribute="centerX" id="ar5-bM-za6"/>
+                                                    <constraint firstItem="pGb-71-rVN" firstAttribute="bottom" secondItem="zRU-d5-Z5f" secondAttribute="bottom" id="y6n-n0-cMG"/>
+                                                </constraints>
+                                            </view>
+                                            <vibrancyEffect>
+                                                <blurEffect style="dark"/>
+                                            </vibrancyEffect>
+                                        </visualEffectView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="top" secondItem="ufY-ag-nrx" secondAttribute="top" id="MPs-Rv-7mr"/>
+                                        <constraint firstItem="ufY-ag-nrx" firstAttribute="bottom" secondItem="DTg-1y-rbJ" secondAttribute="bottom" id="fYM-9l-NY0"/>
+                                        <constraint firstAttribute="trailing" secondItem="ufY-ag-nrx" secondAttribute="trailing" id="jIi-7L-1L3"/>
+                                        <constraint firstItem="ufY-ag-nrx" firstAttribute="leading" secondItem="DTg-1y-rbJ" secondAttribute="leading" id="r4E-EP-o6K"/>
+                                    </constraints>
+                                </view>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="iqa-bW-ga7"/>
+                                </constraints>
+                                <blurEffect style="dark"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </visualEffectView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RY1-0W-2fc" firstAttribute="bottom" secondItem="ZNp-5o-HPi" secondAttribute="bottomMargin" id="3Nn-CP-OWa"/>
+                            <constraint firstItem="lJY-OO-Gjk" firstAttribute="trailing" secondItem="ZNp-5o-HPi" secondAttribute="trailingMargin" id="8ng-Qn-stF"/>
+                            <constraint firstItem="RY1-0W-2fc" firstAttribute="leading" secondItem="ZNp-5o-HPi" secondAttribute="leading" id="PUC-2i-4JH"/>
+                            <constraint firstItem="RY1-0W-2fc" firstAttribute="top" secondItem="ZNp-5o-HPi" secondAttribute="topMargin" id="Y6U-hb-KS2"/>
+                            <constraint firstItem="4OB-Ee-c0a" firstAttribute="top" secondItem="lJY-OO-Gjk" secondAttribute="bottom" constant="8" id="lbC-t7-ubm"/>
+                            <constraint firstAttribute="trailing" secondItem="RY1-0W-2fc" secondAttribute="trailing" id="u6r-cE-d6j"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Maps" image="Maps" selectedImage="Maps Selected" id="qAA-BX-Ttp"/>
+                    <connections>
+                        <outlet property="mapView" destination="RY1-0W-2fc" id="h7y-2s-OIK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xdx-Qt-Ty3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
