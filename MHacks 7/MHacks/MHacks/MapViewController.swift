@@ -16,7 +16,7 @@ class MapViewController: UIViewController
 	var locations = [Location]()
 	{
 		didSet {
-			buttonView.hidden = locations.count == 0
+			buttonView?.hidden = locations.count == 0
 		}
 	}
 	
@@ -25,7 +25,7 @@ class MapViewController: UIViewController
 		super.viewDidLoad()
 		locations = []
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291991,
-            longitude: -83.7158780, zoom: 18.0)
+            longitude: -83.7158780, zoom: 17.0)
 		mapView.camera = camera
         mapView.setMinZoom(16.0, maxZoom: 20.0)
 		mapView.myLocationEnabled = true
