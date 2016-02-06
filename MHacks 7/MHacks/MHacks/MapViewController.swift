@@ -11,8 +11,8 @@ import GoogleMaps
 
 class MapViewController: UIViewController
 {	
-	weak var mapView: GMSMapView!
-	
+	var mapView: GMSMapView!
+	var locations = [Location]()
 	
     override func viewDidLoad()
 	{
@@ -22,7 +22,6 @@ class MapViewController: UIViewController
             longitude: -83.7158580, zoom: 16)
 		mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
 		mapView.myLocationEnabled = true
-		
 		self.view = mapView
 	}
 	
@@ -31,29 +30,44 @@ class MapViewController: UIViewController
 		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
-		guard let overlay = APIManager.sharedManager.map?.overlay
-		else
-		{
-			return
-		}
-		mapView.clear()
-		overlay.map = mapView
+		mapUpdated()
 	}
 	
 	override func viewDidDisappear(animated: Bool)
 	{
 		super.viewDidDisappear(animated)
+		locations = []
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 	
-	func mapUpdated(notification: NSNotification)
+	func mapUpdated(_: NSNotification? = nil)
 	{
+		defer
+		{
+			if locations.count > 0
+			{
+				var boundBuilder = GMSCoordinateBounds(coordinate: locations.first!.coreLocation.coordinate,
+					coordinate: locations.first!.coreLocation.coordinate)
+				for location in locations
+				{
+					let marker = GMSMarker(position: location.coreLocation.coordinate)
+					marker.tappable = false
+					marker.map = mapView
+					boundBuilder = boundBuilder.includingCoordinate(location.coreLocation.coordinate)
+				}
+				
+				CATransaction.begin()
+				CATransaction.setValue(1.0, forKeyPath: kCATransactionAnimationDuration)
+				mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 100))
+				CATransaction.commit()
+			}
+		}
+		mapView.clear()
 		guard let overlay = APIManager.sharedManager.map?.overlay
 		else
 		{
 			return
 		}
-		mapView.clear()
 		overlay.map = mapView
 	}
 }

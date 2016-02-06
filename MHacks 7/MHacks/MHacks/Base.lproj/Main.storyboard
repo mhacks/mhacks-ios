@@ -537,9 +537,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wth-FJ-wu9" customClass="GMSMapView">
                                         <rect key="frame" x="8" y="215" width="584" height="584"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Wth-FJ-wu9" secondAttribute="height" multiplier="1:1" id="zOg-cn-J7k"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="H5r-h1-VYO" appends="YES" id="kfF-qw-CaH"/>
+                                        </connections>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-wF-91S">
                                         <rect key="frame" x="8" y="8" width="44.5" height="19.5"/>
@@ -625,6 +629,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ien-RE-7AC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="H5r-h1-VYO">
+                    <connections>
+                        <action selector="mapWasTapped:" destination="zCk-07-Lo5" id="auB-vR-ssV"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1906" y="-660"/>
         </scene>

@@ -49,6 +49,15 @@ import GoogleMaps
 		guard let image = UIImage(contentsOfFile: fileLocation)
 		else
 		{
+			let image = UIImage(named: "Map")
+			guard !fileLocation.isEmpty && image != nil
+			else
+			{
+				// Debugging
+				self.image = image!
+				super.init()
+				return
+			}
 			self.image = UIImage()
 			super.init()
 			return nil
@@ -59,65 +68,26 @@ import GoogleMaps
 	
 	convenience init?(serialized: Serialized)
 	{
-		guard let southWestLat = serialized.doubleValueForKey(Map.southWestLatitudeKey), let southWestLong = serialized.doubleValueForKey(Map.southWestLongitudeKey), let northEastLat = serialized.doubleValueForKey(Map.northEastLatitudeKey), let northEastLong = serialized.doubleValueForKey(Map.northEastLongitudeKey), let imageURLString = serialized[Map.imageURLKey] as? String, let imageURL = NSURL(string: imageURLString)
+		guard let southWestLat = serialized.doubleValueForKey(Map.southWestLatitudeKey), let southWestLong = serialized.doubleValueForKey(Map.southWestLongitudeKey), let northEastLat = serialized.doubleValueForKey(Map.northEastLatitudeKey), let northEastLong = serialized.doubleValueForKey(Map.northEastLongitudeKey), let imageURLString = serialized[Map.imageURLKey] as? String
 		else
 		{
 			return nil
 		}
-		var fileLocation = serialized[Map.fileLocationKey] as? String
-		if fileLocation == nil
-		{
-			let semaphore = dispatch_semaphore_create(0)
-			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(imageURL, completionHandler: { downloadedImage, response, error in
-				defer {
-					dispatch_semaphore_signal(semaphore)
-				}
-				guard let downloaded = downloadedImage where error == nil
-				else
-				{
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
-					return
-				}
-				guard let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first
-				else
-				{
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
-					return
-				}
-				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
-				let fileURL = directoryURL.URLByAppendingPathComponent("map")
-				do
-				{
-					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
-					fileLocation = fileURL.absoluteString
-				}
-				catch
-				{
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error as NSError)
-				}
-			})
-			downloadTask.resume()
-			dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
-		}
-		guard let file = fileLocation
+		guard let file = serialized[Map.fileLocationKey] as? String
 		else
 		{
-			return nil
+			self.init(fileLocation: "", imageURL: "", southWestLatitude: 42.291597, southWestLongitude: -83.716529, northEastLatitude: 42.294240, northEastLongitude: -83.712727)
+			return
 		}
 		self.init(fileLocation: file, imageURL: imageURLString, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)
 	}
 	
 	static let fileLocationKey = "fileLocation"
-	private static let imageURLKey = "image_url"
+	static let imageURLKey = "image_url"
 	private static let southWestLatitudeKey = "south_west_lat"
 	private static let southWestLongitudeKey = "south_west_lon"
 	private static let northEastLatitudeKey = "north_east_lat"
 	private static let northEastLongitudeKey = "north_east_lon"
-	
-	static func imageURLFromJSON(JSON: JSONWrapper) -> String?
-	{
-		return JSON[imageURLKey] as? String
-	}
 }
 extension Map : JSONCreateable {
 	

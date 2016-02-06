@@ -28,13 +28,14 @@ import Foundation
 		return _JSON?[key] ?? _coder?.decodeObjectForKey(key)
 	}
 	func doubleValueForKey(key: String) -> Double? {
-		return _JSON?[key] as? Double ?? _coder?.decodeDoubleForKey(key)
+		
+		return _JSON?[key] as? Double ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.doubleValue
 	}
 	func intValueForKey(key: String) -> Int? {
-		return _JSON?[key] as? Int ?? _coder?.decodeIntegerForKey(key)
+		return _JSON?[key] as? Int ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.integerValue
 	}
 	func boolValueForKey(key: String) -> Bool? {
-		return _JSON?[key] as? Bool ?? _coder?.decodeBoolForKey(key)
+		return _JSON?[key] as? Bool ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.boolValue
 	}
 }
 

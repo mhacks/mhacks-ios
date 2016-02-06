@@ -132,7 +132,6 @@ final class APIManager : NSObject
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
-				break
 			}
 		})
 	}
@@ -272,18 +271,64 @@ final class APIManager : NSObject
 		
 		updateGenerically("/v1/map", objectToUpdate: {(result: JSONWrapper) in
 			var newJSON = result.JSON
-			if self.map?.imageURL == Map.imageURLFromJSON(result)
-			{
-				newJSON[Map.fileLocationKey] = self.map?.fileLocation
+			let completion = { () -> Bool in
+				guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
+				else
+				{
+					return false
+				}
+				self.map = map
+				return true
 			}
-			guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
+			guard let URLString = result[Map.imageURLKey] as? String
 			else
 			{
 				return false
 			}
-			self.map = map
-			return true
-			}, notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
+			guard self.map?.imageURL != URLString
+			else
+			{
+				newJSON[Map.fileLocationKey] = self.map?.fileLocation
+				return completion()
+			}
+			guard let URL = NSURL(string: URLString)
+			else
+			{
+				return false
+			}
+			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(URL, completionHandler: { downloadedImage, response, error in
+				guard let downloaded = downloadedImage, let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first where error == nil
+				else
+				{
+					guard completion()
+					else
+					{
+						NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+						return
+					}
+					return
+				}
+				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
+				let fileURL = directoryURL.URLByAppendingPathComponent("map")
+				do
+				{
+					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
+					newJSON[Map.fileLocationKey] = fileURL.absoluteString
+					guard completion()
+					else
+					{
+						return
+					}
+					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
+				}
+				catch
+				{
+					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error as NSError)
+				}
+			})
+			downloadTask.resume()
+			return false
+		}, notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
 	}
 	
 	// MARK: - Notification Keys
@@ -441,24 +486,24 @@ extension APIManager : NSCoding
 		aCoder.encodeObject(eventsOrganizer, forKey: "eventsOrganizer")
 		aCoder.encodeObject(announcements as NSArray, forKey: "announcements")
 		aCoder.encodeObject(countdown, forKey: "countdown")
+		aCoder.encodeObject(map, forKey: "map")
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder)
     {
 		self.init()
-		let authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator
-		guard let locations = aDecoder.decodeObjectForKey("locations") as? [Location], let announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement], let countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown
-		else
-        {
-			return nil
-		}
-		self.locations = locations
-		self.authenticator = authenticator
-		self.countdown = countdown
-		self.announcements = announcements
+		self.authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator
+		self.map = aDecoder.decodeObjectForKey("map") as? Map
+		self.locations = aDecoder.decodeObjectForKey("locations") as? [Location] ?? []
+		self.announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement] ?? []
+		self.countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown ?? Countdown()
 		locationForID = { ID in self.locations.filter { loc in loc.ID == ID }.first }
 		guard let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer
-		else { return nil }
+		else
+		{
+			self.eventsOrganizer = EventOrganizer(events: [])
+			return
+		}
 		self.eventsOrganizer = eventsOrganizer
 	}
 }

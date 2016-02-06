@@ -43,7 +43,7 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+		
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
     }
@@ -58,11 +58,28 @@ class EventViewController: UIViewController {
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 	
+	@IBAction func mapWasTapped(sender: UITapGestureRecognizer)
+	{
+		defer { tabBarController!.selectedIndex = 1 }
+		guard let viewControllers = tabBarController?.viewControllers where viewControllers.count > 2
+		else
+		{
+			return
+		}
+		guard let mapViewController = viewControllers[1] as? MapViewController
+		else
+		{
+			return
+		}
+		mapViewController.locations = self.event?.locations ?? []
+	}
+	
+	
 	func mapModelDidUpdate(_: NSNotification)
 	{
 		dispatch_async(dispatch_get_main_queue(), {
 			guard let overlay = APIManager.sharedManager.map?.overlay
-				else
+			else
 			{
 				return
 			}
