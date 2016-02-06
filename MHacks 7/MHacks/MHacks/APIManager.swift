@@ -184,17 +184,19 @@ final class APIManager : NSObject
 	}
 	
 
-	func updateAPNSToken(token: String, preference: Int? = 63, method: HTTPMethod = .POST, completion: Bool -> Void)
+	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
 	{
 		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: method, completion: { (result: Either<JSONWrapper>) in
 			switch result
 			{
 			case .Value(_):
-				completion(true)
+				NSUserDefaults.standardUserDefaults().setInteger(preference, forKey: remoteNotificationPreferencesKey)
+				NSUserDefaults.standardUserDefaults().setObject(token, forKey: remoteNotificationTokenKey)
+				completion?(true)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				completion?(false)
 			}
 		})
 	}

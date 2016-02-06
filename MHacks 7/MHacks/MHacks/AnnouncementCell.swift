@@ -27,8 +27,8 @@ class AnnouncementCell: UITableViewCell {
 		}
         contentView.layoutMargins = UIEdgeInsetsMake(8.0, 15.0, 8.0, 15.0)
     }
-    
-    override func layoutSubviews() {
+
+	override func layoutSubviews() {
         
         super.layoutSubviews()
         

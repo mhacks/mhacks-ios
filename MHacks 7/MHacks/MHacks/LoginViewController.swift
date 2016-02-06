@@ -68,9 +68,6 @@ class LoginViewController: UIViewController
 			incorrectPassword()
 			return
 		}
-		let remoteNotificationData = NSUserDefaults.standardUserDefaults().dataForKey(remoteNotificationDataKey)
-		// TODO: Use remote notification data to login
-		print(remoteNotificationData)
 		APIManager.sharedManager.loginWithUsername(username, password: password) {
 			switch $0
 			{

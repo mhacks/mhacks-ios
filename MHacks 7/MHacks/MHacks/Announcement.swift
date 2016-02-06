@@ -127,7 +127,19 @@ import UIKit
 	private static let ownerKey = "user_id"
 	private static let approvedKey = "is_approved"
 	
-	
+	static let dateFont: UIFont = {
+		if #available(iOS 9.0, *) {
+			// Use SF font with monospaced digit for iOS 9+
+			return UIFont.monospacedDigitSystemFontOfSize(14.0, weight: UIFontWeightThin)
+		} else {
+			// Use helvetica neue for iOS 8.0
+			let timeSeparatorValue = 1
+			let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
+			let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 14.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
+			return UIFont(descriptor: descriptor, size: 0.0)
+		}
+	}()
+
 	@objc convenience init?(serialized: Serialized) {
 		guard let id = serialized[Announcement.idKey] as? String, let title = serialized[Announcement.titleKey] as? String, let message = serialized[Announcement.infoKey] as? String, let date = NSDate(JSONValue: serialized[Announcement.dateKey]), let categoryRaw = serialized.intValueForKey(Announcement.categoryKey), let owner = serialized[Announcement.ownerKey] as? String, let approved = serialized.boolValueForKey(Announcement.approvedKey)
 		else

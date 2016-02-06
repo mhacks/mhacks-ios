@@ -82,9 +82,11 @@ class ComposeAnnouncementViewController: UIViewController {
 		
 		for categoryRaw in 0...Announcement.Category.maxBit
 		{
-			let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "categoryCell")
+			let cell = tableView.dequeueReusableCellWithIdentifier("categoryCell") as! CategoryCell
 			let category = Announcement.Category(rawValue: 1 << categoryRaw)
-			cell.textLabel?.text = category.description
+			cell.categoryLabel.text = category.description
+			cell.colorView.layer.borderColor = category.color.CGColor
+			cell.colorView.layer.borderWidth = cell.colorView.frame.width
 			categoryCells.append(cell)
 		}
 		// Set it explicitly here so that didSet gets called again
@@ -137,7 +139,7 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 		guard indexPath.section == 0, let reuse = cells[indexPath.row].reuseIdentifier
 		else
 		{
-			return 44.0
+			return 55.0
 		}
 		switch reuse
 		{
