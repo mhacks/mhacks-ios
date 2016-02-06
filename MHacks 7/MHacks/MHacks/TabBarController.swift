@@ -14,14 +14,4 @@ class TabBarController: UITabBarController
 		super.viewDidLoad()
 		selectedIndex = 2 // Set to countdown
 	}
-	override func viewDidAppear(animated: Bool)
-	{
-		super.viewDidAppear(animated)
-		guard APIManager.sharedManager.isLoggedIn
-		else
-		{
-			performSegueWithIdentifier("loginSegue", sender: nil)
-			return
-		}
-	}
 }

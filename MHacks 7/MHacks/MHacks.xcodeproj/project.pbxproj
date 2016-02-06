@@ -66,6 +66,7 @@
 		82E9C4AE1C4F0D7900ED2EBF /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */; };
 		82E9C4B21C4F0DD100ED2EBF /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E9C4B11C4F0DD100ED2EBF /* GoogleMaps.bundle */; };
 		82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EFDE8A1C32ED060074AB99 /* EventViewController.swift */; };
+		9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +133,7 @@
 		82E9C4AC1C4F0CE200ED2EBF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		82E9C4B11C4F0DD100ED2EBF /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		82EFDE8A1C32ED060074AB99 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +271,7 @@
 				82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */,
 				8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */,
 				82E9C4881C4F09B100ED2EBF /* MapViewController.swift */,
+				9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			files = (
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				82942BA31C2A369D0084880C /* ScheduleCalendarViewController.swift in Sources */,
+				9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */,
 				827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,

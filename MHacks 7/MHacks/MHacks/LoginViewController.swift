@@ -96,5 +96,9 @@ class LoginViewController: UIViewController
 			}
 		}
 	}
+    
+    @IBAction func cancelLogin (sender: UINavigationItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
