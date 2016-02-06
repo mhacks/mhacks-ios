@@ -185,11 +185,9 @@
         animateLoop("center-over", "center-under", duration, timeout);
         animateLoop("right-under", "right-over", duration, timeout);
 
-        var animationTime = 900
-        timeout += duration
+        var animationTime = 200
+		timeout += duration + animationTime;
 
-        colorMeID("mHacks-standard-logo", "#FFF", "fill", timeout);
-        timeout += animationTime;
         colorMeID("mHacks-standard-logo", 0, "opacity", timeout);
         colorMeClass("loop", "#FEC111 ", "stroke", timeout);
         colorMeID("refactor", "1", "opacity", timeout);

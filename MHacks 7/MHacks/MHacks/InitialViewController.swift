@@ -25,7 +25,7 @@ class InitialViewController: UIViewController
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
-		timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "finishedAnimation:", userInfo: nil, repeats: false)
+		timer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "finishedAnimation:", userInfo: nil, repeats: false)
 	}
 	func finishedAnimation(timer: NSTimer)
 	{
