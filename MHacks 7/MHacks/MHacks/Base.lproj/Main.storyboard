@@ -278,7 +278,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="AP5-Fx-5vd" kind="relationship" relationship="rootViewController" id="35t-tz-mBt"/>
+                        <segue destination="sal-Fe-WoM" kind="relationship" relationship="rootViewController" id="uzs-Ij-4sC"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Thg-dc-0lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -286,32 +286,42 @@
             <point key="canvasLocation" x="382" y="756"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="oVk-Hz-g6p">
+        <scene sceneID="ruZ-6I-stl">
             <objects>
-                <viewController id="AP5-Fx-5vd" customClass="SettingsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CgS-ji-dTB"/>
-                        <viewControllerLayoutGuide type="bottom" id="MUV-P8-iGy"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="9NQ-hK-V1P">
+                <tableViewController id="sal-Fe-WoM" customClass="SettingsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="yUs-yC-jNb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Settings" id="oaN-x3-BfO">
-                        <barButtonItem key="rightBarButtonItem" title="Login" id="qBs-wj-chn">
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BLAHBLAHBITCH" id="pOu-v5-YZj">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pOu-v5-YZj" id="cLb-j5-0MS">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="sal-Fe-WoM" id="Dni-Li-KnU"/>
+                            <outlet property="delegate" destination="sal-Fe-WoM" id="Vyn-VN-qka"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="gpC-KV-UoH">
+                        <barButtonItem key="rightBarButtonItem" title="Login" id="cX2-SQ-8Qo">
                             <connections>
-                                <action selector="changeLoginStatus:" destination="AP5-Fx-5vd" id="JCB-Bc-8bE"/>
+                                <action selector="changeLoginStatus:" destination="sal-Fe-WoM" id="BgD-z4-ASQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="7v2-cA-drb" kind="presentation" identifier="changeLoginStatusSegue" id="m79-uU-K5w"/>
+                        <segue destination="7v2-cA-drb" kind="show" identifier="changeLoginStatusSegue" id="pRa-Eg-cXf"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MeH-hV-Vej" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VHR-lr-D33" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1092" y="756"/>
+            <point key="canvasLocation" x="1065" y="756"/>
         </scene>
         <!--Create Announcement-->
         <scene sceneID="mPl-Xw-zup">
@@ -566,7 +576,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gfs-Mi-Ogp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1819" y="98"/>
+            <point key="canvasLocation" x="1799" y="98"/>
         </scene>
         <!--Login-->
         <scene sceneID="n6z-y1-OtI">
