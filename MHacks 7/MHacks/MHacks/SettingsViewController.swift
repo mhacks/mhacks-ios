@@ -80,8 +80,12 @@ class SettingsViewController: UITableViewController {
 			if currentPreference.remove(category) == nil
 			{
 				currentPreference.insert(category)
+				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
 			}
-			tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+			else
+			{
+				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+			}
 		}
     }
     
