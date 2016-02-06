@@ -21,6 +21,7 @@ class MapViewController: UIViewController
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
             longitude: -83.7158580, zoom: 16)
 		mapView = GMSMapView.mapWithFrame(CGRectZero, camera: camera)
+        mapView.setMinZoom(15.0, maxZoom: 18.0)
 		mapView.myLocationEnabled = true
 		self.view = mapView
 	}
