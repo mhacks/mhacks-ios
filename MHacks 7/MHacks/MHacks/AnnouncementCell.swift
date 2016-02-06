@@ -15,7 +15,8 @@ class AnnouncementCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    
+	@IBOutlet weak var colorView: UIView!
+	
     // MARK: Life cycle
     
     override func awakeFromNib() {

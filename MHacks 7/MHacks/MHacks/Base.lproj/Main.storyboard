@@ -207,39 +207,50 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="109.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYO-bj-4DQ">
-                                            <rect key="frame" x="8" y="8" width="522" height="24"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Nt-J46" customClass="MultilineLabel" customModule="MHacks" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="40" width="584" height="62"/>
+                                            <rect key="frame" x="13" y="40" width="579" height="61.5"/>
                                             <string key="text">Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper augue. Maecenas vulputate tortor ut tempus sagittis.</string>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9:41 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVc-xy-de2">
-                                            <rect key="frame" x="538" y="14" width="54" height="17"/>
+                                            <rect key="frame" x="538" y="14" width="53.5" height="17"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a">
+                                            <rect key="frame" x="0.0" y="0.0" width="5" height="109.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="5" id="Kfn-Ee-OfF"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYO-bj-4DQ">
+                                            <rect key="frame" x="13" y="8" width="517" height="24"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="XYO-bj-4DQ" firstAttribute="top" secondItem="OQs-WU-F2p" secondAttribute="topMargin" id="9FL-s7-kCM"/>
+                                        <constraint firstItem="fcW-Nt-J46" firstAttribute="leading" secondItem="hQ7-2n-g8a" secondAttribute="trailing" constant="8" id="Ahu-pM-4lv"/>
+                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="top" secondItem="OQs-WU-F2p" secondAttribute="top" id="B8V-pg-pmd"/>
                                         <constraint firstItem="fcW-Nt-J46" firstAttribute="trailing" secondItem="OQs-WU-F2p" secondAttribute="trailingMargin" id="Uch-8c-hrc"/>
+                                        <constraint firstItem="XYO-bj-4DQ" firstAttribute="leading" secondItem="hQ7-2n-g8a" secondAttribute="trailing" constant="8" id="ZgR-pf-cjJ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="fcW-Nt-J46" secondAttribute="bottom" id="cya-zW-bI6"/>
                                         <constraint firstItem="gVc-xy-de2" firstAttribute="baseline" secondItem="XYO-bj-4DQ" secondAttribute="baseline" id="fLh-nD-h1M"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="gVc-xy-de2" secondAttribute="trailing" id="fZL-eZ-2QP"/>
-                                        <constraint firstItem="XYO-bj-4DQ" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leadingMargin" id="lZt-FF-jKM"/>
-                                        <constraint firstItem="fcW-Nt-J46" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leadingMargin" id="rIq-Ka-1SR"/>
+                                        <constraint firstAttribute="bottom" secondItem="hQ7-2n-g8a" secondAttribute="bottom" id="k23-id-c82"/>
+                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leading" id="lOD-CW-AQa"/>
                                         <constraint firstItem="gVc-xy-de2" firstAttribute="leading" secondItem="XYO-bj-4DQ" secondAttribute="trailing" constant="8" id="yjM-lp-4fY"/>
                                         <constraint firstItem="fcW-Nt-J46" firstAttribute="top" secondItem="XYO-bj-4DQ" secondAttribute="bottom" constant="8" id="ylI-zO-Z9E"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="colorView" destination="hQ7-2n-g8a" id="2cE-9d-69g"/>
                                     <outlet property="dateLabel" destination="gVc-xy-de2" id="fIP-nb-SYW"/>
                                     <outlet property="messageLabel" destination="fcW-Nt-J46" id="RLa-sf-Kfj"/>
                                     <outlet property="titleLabel" destination="XYO-bj-4DQ" id="Xni-10-wKA"/>

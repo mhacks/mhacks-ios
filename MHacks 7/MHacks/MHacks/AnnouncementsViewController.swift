@@ -106,7 +106,7 @@ class AnnouncementsViewController: UITableViewController {
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
         cell.messageLabel.text = announcement.message
-        
+        cell.colorView.backgroundColor = announcement.category.color
         return cell
     }
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
