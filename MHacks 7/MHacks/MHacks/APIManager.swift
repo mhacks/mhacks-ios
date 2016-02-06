@@ -306,6 +306,7 @@ final class APIManager : NSObject
 						NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 						return
 					}
+					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: error)
 					return
 				}
 				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
