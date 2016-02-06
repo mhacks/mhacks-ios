@@ -145,7 +145,7 @@ class EventViewController: UIViewController {
 		}
 		
         CATransaction.begin()
-        CATransaction.setValue(1.0, forKeyPath: kCATransactionAnimationDuration)
+        CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
         mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 20))
         CATransaction.commit()
     }
