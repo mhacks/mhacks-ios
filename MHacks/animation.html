@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            background-color: #FFE641;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        .header {
+            position: fixed;
+            text-align: center;
+            font-family: 'Avenir Next';
+            width: 100%;
+            height: 100%;
+        }
+
+        .header .content {
+            position: relative;
+            z-index: 2;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header h1 {
+            font-size: 54pt;
+            color: #FFF;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, .25);
+            font-weight: 400;
+        }
+
+        .header h2 {
+            font-size: 20pt;
+            letter-spacing: 15px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, .4);
+            font-weight: 200;
+        }
+
+        .header .background {
+            position: relative;
+            top: 50%;
+            transform: translateY(-100%);
+        }
+
+        #mHacks-standard-logo {
+            fill: #FEC111;
+            -webkit-transition: 1.2s fill, 1.2s opacity;
+            transition: 1.2s fill, 1.2s opacity;
+        }
+
+        .loop {
+            fill: none;
+            stroke:#FFE641 ;
+            stroke-width:16;
+            stroke-linejoin:round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            -webkit-transition: 1.2s stroke;
+            transition: 1.2s stroke;
+        }
+        #mhacks-text {
+            opacity: 0;
+            transition: 1.2s;
+            margin: 0;
+        }
+        #refactor {
+            opacity: 0;
+            transition: 1.2s;
+            letter-spacing: 16px;
+            margin: 0;
+        }
+        @-webkit-keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="header">
+    <div class="content">
+        <h1 id="mhacks-text">MHacks</h1>
+        <h2 id="refactor">&nbsp;REFACTOR</h2>
+    </div>
+    <div class="background">
+        <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-8 -8 392 308" xml:space="preserve">
+                <g id="under">
+                    <path id="right-under" class="loop" d="M208.435,128.502l85.979-118.16c0.491-0.675,0.935-1.18,1.307-1.551
+                        c0.213,0.481,0.442,1.115,0.654,1.923L367.256,281.2c0.318,1.215,0.402,2.109,0.397,2.696c-0.551-0.063-1.412-0.247-2.619-0.732"/>
+                    <path id="center-under" class="loop" d="M262.932,128.748c4.185,5.784,4.185,15.933,0,21.718l-70.569,97.538
+                        c-1.461,2.019-3.153,3.131-4.768,3.131s-3.307-1.112-4.767-3.13l-70.569-97.539c-4.185-5.785-4.185-15.933,0-21.718"/>
+                    <path id="left-under" class="loop" d="M167.221,128.502L81.242,10.343c-0.491-0.675-0.935-1.181-1.308-1.551
+                        c-0.212,0.481-0.442,1.115-0.654,1.923L8.4,281.2c-0.318,1.215-0.403,2.109-0.398,2.696c0.551-0.063,1.412-0.246,2.62-0.732"/>
+                </g>
+                <path id="mHacks-standard-logo" d="M295.5,249.594l-4.391-1.425c-23.31-7.558-47.308-12.563-71.332-14.88l-3.035-0.295v-55.84
+                    c-6.722,6.799-12.771,13.524-19.094,20.559c-2.441,2.712-4.965,5.52-7.512,8.312l-2.479,2.716l-2.478-2.716
+                    c-2.889-3.162-5.703-6.337-8.425-9.405c-5.954-6.711-11.648-13.134-18.184-19.619v55.994l-3.034,0.295
+                    c-23.933,2.309-47.12,7.175-70.884,14.88l-4.392,1.425V32.178l4.392,1.424c23.338,7.566,47.474,12.573,71.738,14.88l1.701,0.163
+                    l0.87,1.471c9.89,16.735,19.785,32.49,29.124,47.14c10.848-17.05,20.123-32.135,28.992-47.14l0.869-1.471l1.702-0.163
+                    c24.002-2.283,48.044-7.289,71.459-14.88l4.391-1.424V249.594z M284.566,47.061c-8.868,2.591-17.813,4.832-26.671,6.677
+                    c-10.974,2.289-22.186,4.05-33.359,5.243c-9.126,15.348-18.714,30.849-30.062,48.597l-6.385,9.991l-6.387-9.991
+                    c-9.58-14.986-19.847-31.217-30.195-48.595c-20.325-2.167-40.573-6.172-60.309-11.925v187.649c8.84-2.589,17.728-4.829,26.492-6.672
+                    c9.866-2.075,19.923-3.72,29.946-4.897V151.81l12.726,11.762c9.43,8.717,17.119,17.385,24.575,25.792
+                    c0.903,1.018,1.817,2.048,2.739,3.085c0.396-0.441,1.841-2.049,1.841-2.049c7.829-8.707,15.924-17.71,25.339-26.736l12.824-12.291
+                    v71.762c19.106,2.236,38.196,6.122,56.888,11.578V47.061z"/>
+                <g id="over">
+                    <path id="center-over" class="loop" d="M112.258,128.748l70.569-97.539c1.46-2.018,3.153-3.129,4.768-3.129s3.308,1.111,4.768,3.129
+                        l70.569,97.539"/>
+                    <path id="left-over" class="loop" d="M10.622,283.164l72.167-29.032c8.472-3.408,20.083-12.582,25.354-20.033l59.231-83.728
+                        c4.139-5.85,4.067-16.069-0.154-21.869"/>
+                    <path id="right-over" class="loop" d="M365.034,283.164l-72.168-29.032c-8.472-3.408-20.083-12.582-25.354-20.033l-59.231-83.728 
+                        c-4.139-5.851-4.067-16.07,0.153-21.869"/>
+                </g>
+            </svg>
+
+    </div>
+</section>
+<script>
+    NodeList.prototype.forEach = function (callback, scope) {
+        for (var i = 0; i < this.length; i++) {
+            callback.call(scope,  this[i]);
+    }
+    };
+    Object.prototype.setCss = function(attribute, value) {
+        this.style[attribute] = value;
+    };
+    function colorMeID (id, color, style, timeout){
+        setTimeout(function (){
+            document.getElementById(id).setCss(style, color)
+        }, timeout);
+    };
+    function colorMeClass (className, color, style, timeout){
+        setTimeout(function (){
+            document.getElementsByClassName(className).forEach(function (element) {
+                element.setCss(style, color);
+            });
+        }, timeout);
+    };
+
+    function animateLoop (lineIdA, lineIdB, animationDuration, timeout){
+
+        var lineA = document.getElementById(lineIdA);
+        var lineB = document.getElementById(lineIdB);
+
+        var lengthA = lineA.getTotalLength();
+        var lengthB = lineB.getTotalLength();
+        var rate = (lengthA + lengthB) / animationDuration;
+
+        timeout = animateLine( lineIdA, rate, timeout );
+        animateLine( lineIdB, rate, timeout );
+    }
+
+    function animateLine (lineId, rate, timeout){
+
+        var line = document.getElementById(lineId);
+        var lineLength = line.getTotalLength();
+        var animationDuration =  lineLength / rate;
+        var animation = "dash " + animationDuration / 1000 + "s linear forwards"
+
+        line.setCss("stroke-dasharray", lineLength );
+        line.setCss("stroke-dashoffset", lineLength );
+
+        setTimeout(function () {
+           line.setCss( "stroke-linecap", "round" );
+            line.setCss( "animation", animation );
+        }, timeout);
+
+
+        return animationDuration + timeout;
+    }
+    function logoAnimation (){
+        var duration = 1200;
+
+        var timeout = 100;
+
+        colorMeClass("loop", "#333", "stroke", timeout );
+        animateLoop("left-under", "left-over", duration, timeout);
+        animateLoop("center-over", "center-under", duration, timeout);
+        animateLoop("right-under", "right-over", duration, timeout);
+
+        var animationTime = 200
+		timeout += duration + animationTime;
+
+        colorMeID("mHacks-standard-logo", 0, "opacity", timeout);
+        colorMeClass("loop", "#FEC111 ", "stroke", timeout);
+        colorMeID("refactor", "1", "opacity", timeout);
+        colorMeID("mhacks-text", "1", "opacity", timeout);
+    }
+    window.onload = logoAnimation
+</script>
+</body>
+</html>
