@@ -51,7 +51,7 @@ class EventViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
-		setMarkersAndCamera(event?.locations ?? [])
+		mapModelDidUpdate()
     }
 	
 	override func viewDidDisappear(animated: Bool) {
@@ -60,7 +60,7 @@ class EventViewController: UIViewController {
 	
 	@IBAction func mapWasTapped(sender: UITapGestureRecognizer)
 	{
-		defer { tabBarController!.selectedIndex = 1 }
+		defer { tabBarController?.selectedIndex = 1 }
 		guard let viewControllers = tabBarController?.viewControllers where viewControllers.count > 2
 		else
 		{
@@ -75,7 +75,7 @@ class EventViewController: UIViewController {
 	}
 	
 	
-	func mapModelDidUpdate(_: NSNotification)
+	func mapModelDidUpdate(_: NSNotification? = nil)
 	{
 		dispatch_async(dispatch_get_main_queue(), {
 			guard let overlay = APIManager.sharedManager.map?.overlay
@@ -105,26 +105,16 @@ class EventViewController: UIViewController {
 		colorView.layer.cornerRadius = colorView.frame.width / 2
 		descriptionLabel.text = event.information
 		dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
-		
 		updateMap()
     }
 	
     func updateMap ()
 	{
-        let camera = GMSCameraPosition.cameraWithLatitude(42.291921,
-            longitude: -83.7158580, zoom: 16)
+        let camera = GMSCameraPosition.cameraWithLatitude(42.291921, longitude: -83.7158580, zoom: 16)
         mapView.camera = camera
         mapView.myLocationEnabled = true
         mapView.settings.setAllGesturesEnabled(false)
         mapView.setMinZoom(10.0, maxZoom: 18.0)
-        guard let overlay = APIManager.sharedManager.map?.overlay
-		else
-		{
-			return
-		}
-		mapView.clear()
-        overlay.bearing = 0
-        overlay.map = mapView
     }
     
     func setMarkersAndCamera(locations: [Location])
