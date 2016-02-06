@@ -23,7 +23,10 @@ class MapViewController: UIViewController
     override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		locations = []
+		if locations.isEmpty
+		{
+			locations = []
+		}
 		let camera = GMSCameraPosition.cameraWithLatitude(42.291991,
             longitude: -83.7158780, zoom: 17.0)
 		mapView.camera = camera
