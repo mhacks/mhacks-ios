@@ -46,7 +46,6 @@
 		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
 		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
-		82E9C4871C4F094200ED2EBF /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */; };
 		82E9C4891C4F09B100ED2EBF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C4881C4F09B100ED2EBF /* MapViewController.swift */; };
 		82E9C4911C4F0C5100ED2EBF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C48A1C4F0C5100ED2EBF /* CoreBluetooth.framework */; };
 		82E9C4921C4F0C5100ED2EBF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C48B1C4F0C5100ED2EBF /* CoreData.framework */; };
@@ -66,10 +65,10 @@
 		82E9C4A91C4F0CC400ED2EBF /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4A81C4F0CC400ED2EBF /* libc++.tbd */; };
 		82E9C4AB1C4F0CD000ED2EBF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4AA1C4F0CD000ED2EBF /* libicucore.tbd */; };
 		82E9C4AD1C4F0CE200ED2EBF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4AC1C4F0CE200ED2EBF /* libz.tbd */; };
-		82E9C4AE1C4F0D7900ED2EBF /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */; };
 		82E9C4B21C4F0DD100ED2EBF /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E9C4B11C4F0DD100ED2EBF /* GoogleMaps.bundle */; };
 		82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EFDE8A1C32ED060074AB99 /* EventViewController.swift */; };
 		9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */; };
+		9D4D0CCD1C669911003DAAF3 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,12 +161,11 @@
 				82E9C4911C4F0C5100ED2EBF /* CoreBluetooth.framework in Frameworks */,
 				82E9C4921C4F0C5100ED2EBF /* CoreData.framework in Frameworks */,
 				82E9C4931C4F0C5100ED2EBF /* CoreFoundation.framework in Frameworks */,
-				82E9C4AE1C4F0D7900ED2EBF /* GoogleMaps.framework in Frameworks */,
 				82E9C4941C4F0C5100ED2EBF /* CoreGraphics.framework in Frameworks */,
 				82E9C4951C4F0C5100ED2EBF /* CoreLocation.framework in Frameworks */,
 				82E9C4961C4F0C5100ED2EBF /* CoreText.framework in Frameworks */,
+				9D4D0CCD1C669911003DAAF3 /* GoogleMaps.framework in Frameworks */,
 				82E9C4971C4F0C5100ED2EBF /* QuartzCore.framework in Frameworks */,
-				82E9C4871C4F094200ED2EBF /* GoogleMaps.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
