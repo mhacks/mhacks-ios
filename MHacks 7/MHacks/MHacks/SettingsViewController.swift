@@ -12,12 +12,11 @@ class SettingsViewController: UITableViewController {
     
     var lastStatus: Bool = false
     
-    let adminTool = "Announcements Pending Approval"
     var sections: [[String]] = [["Emergency","Logistics","Food","Swag",
         "Sponsor","Other"]]
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
 	
-    var sectionNames = ["Push Notifications"]
+    var sectionNames = ["Push Notifications","Announcements Pending Approval"]
 	
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
@@ -94,11 +93,11 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if section == 0
-		{
+		if section == 0 {
 			return announcementCategories.count
 		}
-		return 0
+        
+        return 1
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -119,8 +118,10 @@ class SettingsViewController: UITableViewController {
 			}
 			return cell
 		}
-		// FIXME: Do section 2
-        return UITableViewCell()
+        
+        let cell = UITableViewCell()
+        cell.backgroundColor = UIColor.clearColor()
+        return cell
     }
 	
     
