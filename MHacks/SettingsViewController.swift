@@ -45,9 +45,6 @@ class SettingsViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         if !lastStatus && APIManager.sharedManager.isLoggedIn {
-            // FUNCTIONALLY THE USER HAS LOGGED IN
-            
-            print("I detected a login state change")
             self.tableView.reloadData()
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             lastStatus = true
@@ -163,13 +160,34 @@ class SettingsViewController: UITableViewController {
         cell.colorView.layer.borderWidth = cell.colorView.frame.width
         return cell
     }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return indexPath.section != 0
+    }
 	
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
+            
+            // TODO: REMOVE FROM PENDING USING API MANAGER
+            print("I'm trying to delete this cell")
+            // END TODO
+        }
+        delete.backgroundColor = UIColor.redColor()
+        
+        let edit = UITableViewRowAction(style: .Normal, title: "Edit") { action, index in
+            
+            // TODO: GO TO EDIT VIEW (REUSE ANNOUNCEMENT VIEW FROM MAIN PAGE)
+            print("I'm trying to edit this cell")
+            // END TODO
+        }
+        edit.backgroundColor = UIColor.orangeColor()
+        
+        return [delete,edit]
+    }
     
     @IBAction func changeLoginStatus (sender: UIEvent) {
         if APIManager.sharedManager.isLoggedIn {
             APIManager.sharedManager.logout()
-            // TODO: remove any stuff in pending approval
-            print("I detected a logout state change")
             self.tableView.reloadData()
             self.navigationItem.rightBarButtonItem!.title = "Login"
             lastStatus = false

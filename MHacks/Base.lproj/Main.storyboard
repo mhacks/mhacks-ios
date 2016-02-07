@@ -272,7 +272,7 @@
         <scene sceneID="tck-q6-pm0">
             <objects>
                 <navigationController id="6X2-Rl-zZC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" id="pAB-hQ-aV2"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="first" id="pAB-hQ-aV2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ojF-sI-WQf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -724,6 +724,9 @@
                                     <action selector="login:" destination="s6b-gL-H5G" eventType="touchUpInside" id="99x-KU-yV6"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zmb-2B-ZmN">
+                                <rect key="frame" x="180" y="119" width="240" height="128"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -956,5 +959,6 @@
         <image name="News Selected" width="25" height="25"/>
         <image name="Schedule" width="25" height="25"/>
         <image name="Schedule Selected" width="25" height="25"/>
+        <image name="first" width="30" height="30"/>
     </resources>
 </document>
