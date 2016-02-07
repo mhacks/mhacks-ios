@@ -76,11 +76,24 @@ class MapViewController: UIViewController
 						marker.map = self.mapView
 						boundBuilder = boundBuilder.includingCoordinate(location.coreLocation.coordinate)
 					}
-					
-					CATransaction.begin()
-					CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
-					self.mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 100))
-					CATransaction.commit()
+                    
+                    var camera: GMSCameraPosition?
+                    if self.locations.count == 1 {
+                        let coor = self.locations.first!.coreLocation.coordinate
+                        camera = GMSCameraPosition.cameraWithLatitude(coor.latitude,
+                            longitude: coor.longitude, zoom: 18.0)
+                    }
+                    
+                    CATransaction.begin()
+                    CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
+                    
+                    if self.locations.count == 1 {
+                        self.mapView.animateToCameraPosition(camera)
+                    } else {
+                        self.mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder,
+                            withPadding: 100.0))
+                    }
+                    CATransaction.commit()
 				}
 			}
 			self.mapView.clear()
