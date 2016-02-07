@@ -166,23 +166,51 @@ class SettingsViewController: UITableViewController {
     }
 	
     override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
-            
-            // TODO: REMOVE FROM PENDING USING API MANAGER
-            print("I'm trying to delete this cell")
-            // END TODO
+        let delete = UITableViewRowAction(style: .Normal, title: "✕") { action, index in
+            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .Alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+                
+                // TODO: REMOVE FROM PENDING USING API MANAGER
+                print("I'm trying to delete this announcement")
+                
+                // REMOVE THIS CELL FROM TABLE VIEW
+                //BLAHBLAH
+                // UNCOMMENT WHEN API MANAGER HOOKED IN
+                
+                // END TODO
+            }))
+            self.presentViewController(confirm, animated: true, completion: nil)
         }
         delete.backgroundColor = UIColor.redColor()
         
-        let edit = UITableViewRowAction(style: .Normal, title: "Edit") { action, index in
+        let edit = UITableViewRowAction(style: .Normal, title: "✎") { action, index in
             
             // TODO: GO TO EDIT VIEW (REUSE ANNOUNCEMENT VIEW FROM MAIN PAGE)
-            print("I'm trying to edit this cell")
+            print("I'm trying to edit this announcement")
             // END TODO
         }
         edit.backgroundColor = UIColor.orangeColor()
         
-        return [delete,edit]
+        let approve = UITableViewRowAction(style: .Normal, title: "✓") { action, index in
+            let confirm = UIAlertController(title: "Announcement Approval", message: "This announcement will be pushed to all MHacks participants, sponsors, and organizers.",preferredStyle: .Alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+                
+                // TODO: REMOVE FROM PENDING AND ACCEPT USING API MANAGER
+                print("I'm trying to approve this announcement")
+                
+                // REMOVE THIS CELL FROM TABLE VIEW
+                //BLAHBLAH
+                // UNCOMMENT WHEN API MANAGER HOOKED IN
+                
+                // END TODO
+            }))
+            self.presentViewController(confirm, animated: true, completion: nil)
+        }
+        approve.backgroundColor = UIColor.blueColor()
+        
+        return [delete,edit,approve]
     }
     
     @IBAction func changeLoginStatus (sender: UIEvent) {
