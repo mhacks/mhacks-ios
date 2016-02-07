@@ -12,12 +12,14 @@ class SettingsViewController: UITableViewController {
     
     var lastStatus: Bool = false
     
-    var sections: [[String]] = [["Emergency","Logistics","Food","Swag",
-        "Sponsor","Other"]]
+    var settingTypes = ["Push Notifications","Announcements Pending Approval"]
+    
+    // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
+    var pendingApproval:[Announcement] = [Announcement(ID: "2", title: "h0w 2 spell", message: "dickshunayyrees?", date: NSDate(timeIntervalSince1970: NSTimeInterval(35655333)), category: Announcement.Category.Sponsor, owner: "apl", approved: false),
+    Announcement(ID: "3", title: "Perfect Grammar", message: "There is an idiot above me and I'm intentionally making this announcement message very long so that it takes up multiple lines.", date: NSDate(timeIntervalSince1970: NSTimeInterval(356554)), category: Announcement.Category.Swag, owner: "MHacks: Refactor", approved: false)]
+    // END TODO
+    
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
-	
-    var sectionNames = ["Push Notifications","Announcements Pending Approval"]
-	
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
     override func viewDidLoad () {
@@ -36,19 +38,24 @@ class SettingsViewController: UITableViewController {
 		}
 		let categories = Announcement.Category(rawValue: preference.integerValue)
 		currentPreference = categories.contains(Announcement.Category.Emergency) ? categories : categories.intersect(Announcement.Category.Emergency)
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 100.0
     }
     
     override func viewDidAppear(animated: Bool) {
         if !lastStatus && APIManager.sharedManager.isLoggedIn {
-         
-            // TODO: add any stuff pending approval (if has privilege)
-            // TODO: add any set preferences, activate appropriate cells
+            // FUNCTIONALLY THE USER HAS LOGGED IN
             
             print("I detected a login state change")
+            self.tableView.reloadData()
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             lastStatus = true
         }
+        
+        tableView.reloadData()
     }
+    
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
 		guard let token = NSUserDefaults.standardUserDefaults().objectForKey(remoteNotificationTokenKey) as? String
@@ -63,6 +70,7 @@ class SettingsViewController: UITableViewController {
 			}
 		})
 	}
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		if indexPath.section == 0
@@ -86,14 +94,21 @@ class SettingsViewController: UITableViewController {
 				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
 			}
 		}
+        
+        // add selection pushing to edit
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionNames.count
+        if (APIManager.sharedManager.canEditAnnouncements()) {
+            return settingTypes.count
+        }
+        
+        return 1
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionNames[section]
+        
+        return settingTypes[section]
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,13 +116,19 @@ class SettingsViewController: UITableViewController {
 			return announcementCategories.count
 		}
         
-        return 1
+        // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
+        guard pendingApproval.count > 0 else {
+            return 1
+        }
+        
+        return pendingApproval.count
+        // END TODO
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		if indexPath.section == 0
 		{
-			let cell = tableView.dequeueReusableCellWithIdentifier("notificationTypes") as! CategoryCell
+			let cell = tableView.dequeueReusableCellWithIdentifier("notificationCell") as! CategoryCell
 			let category = announcementCategories[indexPath.row]
 			cell.categoryLabel.text = category.description
 			cell.colorView.layer.borderColor = category.color.CGColor
@@ -123,8 +144,23 @@ class SettingsViewController: UITableViewController {
 			return cell
 		}
         
-        let cell = UITableViewCell()
-        cell.backgroundColor = UIColor.clearColor()
+        guard pendingApproval.count > 0 else {
+            let cell = UITableViewCell()
+            cell.backgroundColor = UIColor.clearColor()
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            cell.textLabel?.textColor = UIColor.grayColor()
+            cell.textLabel?.text = "NO PENDING ANNOUNCEMENTS"
+            cell.textLabel?.font = UIFont.systemFontOfSize(12)
+            return cell
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
+        cell.titleLabel.text = pendingApproval[indexPath.row].title
+        cell.dateLabel.text = pendingApproval[indexPath.row].localizedDate
+        cell.dateLabel.font = Announcement.dateFont
+        cell.messageLabel.text = pendingApproval[indexPath.row].message
+        cell.colorView.layer.borderColor = pendingApproval[indexPath.row].category.color.CGColor
+        cell.colorView.layer.borderWidth = cell.colorView.frame.width
         return cell
     }
 	
@@ -133,8 +169,8 @@ class SettingsViewController: UITableViewController {
         if APIManager.sharedManager.isLoggedIn {
             APIManager.sharedManager.logout()
             // TODO: remove any stuff in pending approval
-            // TODO: remove any set preferences, activate all cells
             print("I detected a logout state change")
+            self.tableView.reloadData()
             self.navigationItem.rightBarButtonItem!.title = "Login"
             lastStatus = false
         } else {
