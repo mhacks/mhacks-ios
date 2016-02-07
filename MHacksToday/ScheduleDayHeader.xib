@@ -12,34 +12,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="00E-cU-uS0">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bbB-nd-1y4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    </view>
-                    <blurEffect style="extraLight"/>
-                </visualEffectView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-WQ-I7s">
                     <rect key="frame" x="53" y="15" width="29.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1/15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUw-ye-l13">
                     <rect key="frame" x="273.5" y="16.5" width="38.5" height="18"/>
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="00E-cU-uS0" firstAttribute="top" secondItem="OMP-Rs-JBe" secondAttribute="top" id="1mz-HA-NJN"/>
-                <constraint firstAttribute="trailing" secondItem="00E-cU-uS0" secondAttribute="trailing" id="2je-q6-BY5"/>
                 <constraint firstItem="gUw-ye-l13" firstAttribute="baseline" secondItem="Igg-WQ-I7s" secondAttribute="baseline" id="42u-9E-s1z"/>
                 <constraint firstAttribute="trailingMargin" secondItem="gUw-ye-l13" secondAttribute="trailing" id="WXZ-nZ-emp"/>
-                <constraint firstItem="00E-cU-uS0" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" id="YQY-hY-l04"/>
-                <constraint firstAttribute="bottom" secondItem="00E-cU-uS0" secondAttribute="bottom" id="k4s-Ia-e0D"/>
                 <constraint firstAttribute="centerY" secondItem="Igg-WQ-I7s" secondAttribute="centerY" id="wgf-7s-qiz"/>
                 <constraint firstItem="Igg-WQ-I7s" firstAttribute="leading" secondItem="OMP-Rs-JBe" secondAttribute="leading" constant="53" id="xl8-ur-v8l"/>
             </constraints>

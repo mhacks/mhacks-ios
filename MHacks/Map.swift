@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import GoogleMaps
 
 @objc final class Map: NSObject
 {
@@ -21,19 +20,14 @@ import GoogleMaps
 	private let northEastLatitude: CLLocationDegrees
 	private let northEastLongitude: CLLocationDegrees
 	
-	var overlay: GMSGroundOverlay {
-		let overlayBounds = GMSCoordinateBounds(coordinate: southWestCoordinate, coordinate: northEastCoordinate)
-		let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: image)
-		return overlay
-	}
 	
-	private let image: UIImage
+	let image: UIImage
 	
-	private var northEastCoordinate: CLLocationCoordinate2D {
+	var northEastCoordinate: CLLocationCoordinate2D {
 		return CLLocationCoordinate2D(latitude: northEastLatitude, longitude: northEastLongitude)
 	}
 	
-	private var southWestCoordinate: CLLocationCoordinate2D {
+	var southWestCoordinate: CLLocationCoordinate2D {
 		return CLLocationCoordinate2D(latitude: southWestLatitude, longitude: southWestLongitude)
 	}
 	

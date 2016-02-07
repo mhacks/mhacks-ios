@@ -140,6 +140,10 @@ extension NSCalendar {
 	}
 }
 
+private let groupName = "group.com.MPowered.MHacks"
+let defaults = NSUserDefaults(suiteName: groupName)!
+let container = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(groupName)!.absoluteString
+
 // MARK: - Keys
 
 let remoteNotificationTokenKey = "remote_notification_token"

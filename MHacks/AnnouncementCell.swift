@@ -32,8 +32,8 @@ class AnnouncementCell: UITableViewCell {
         
         super.layoutSubviews()
         
-        titleLabel.preferredMaxLayoutWidth = titleLabel.frame.width
-        messageLabel.preferredMaxLayoutWidth = messageLabel.frame.width
+        titleLabel?.preferredMaxLayoutWidth = titleLabel.frame.width
+        messageLabel?.preferredMaxLayoutWidth = messageLabel.frame.width
         
         super.layoutSubviews()
     }

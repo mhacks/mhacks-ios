@@ -321,6 +321,24 @@ extension EventOrganizer: JSONCreateable, NSCoding  {
 		return eventsByDay.flatten().map { $0 }
 	}
 	
+	var next5Events : [Event] {
+		let today = NSDate(timeIntervalSinceNow: 0)
+		var startIndex = 0
+		let events = allEvents
+		// we could use binary search here but its too much work with little benefit
+		for (i, event) in events.enumerate()
+		{
+			// Keep going while the event's start date is less than today
+			guard event.startDate < today
+			else
+			{
+				startIndex = i
+				break
+			}
+		}
+		return Array(events[startIndex..<min(startIndex + 5, events.count)])
+	}
+	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
 		aCoder.encodeObject(allEvents as NSArray, forKey: EventOrganizer.eventsKey)
 	}

@@ -27,7 +27,7 @@ class SettingsViewController: UITableViewController {
         } else {
             self.navigationItem.rightBarButtonItem!.title = "Login"
         }
-		guard let preference = NSUserDefaults.standardUserDefaults().objectForKey(remoteNotificationPreferencesKey) as? NSNumber
+		guard let preference = defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber
 		else
 		{
 			// We shouldn't ever reach here though...
@@ -51,7 +51,7 @@ class SettingsViewController: UITableViewController {
     }
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
-		guard let token = NSUserDefaults.standardUserDefaults().objectForKey(remoteNotificationTokenKey) as? String
+		guard let token = defaults.objectForKey(remoteNotificationTokenKey) as? String
 		else
 		{
 			return

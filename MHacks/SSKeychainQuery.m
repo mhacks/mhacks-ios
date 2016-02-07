@@ -9,6 +9,7 @@
 #import "SSKeychainQuery.h"
 #import "SSKeychain.h"
 
+
 @implementation SSKeychainQuery
 
 @synthesize account = _account;
@@ -28,6 +29,10 @@
 - (instancetype)init
 {
 	self = [super init];
+	if (self)
+	{
+		[self setAccessGroup:@"group.com.MPowered.MHacks"];
+	}
 	return self;
 }
 

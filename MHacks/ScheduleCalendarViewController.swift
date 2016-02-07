@@ -13,6 +13,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     // MARK: View
     
     @IBOutlet private var collectionView: UICollectionView!
+	private let emptyEvents = NSCondition()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,19 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+		if launchTo != nil
+		{
+			switch launchTo!
+			{
+			case .Event(let ID):
+				launchTo = nil
+				showDetailsForEventWithID(ID)
+				return
+			default:
+				break
+			}
+		}
+		
         guard let indexPath = collectionView.indexPathsForSelectedItems()?.first
 		else
 		{
@@ -47,6 +60,10 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+		if !APIManager.sharedManager.eventsOrganizer.allEvents.isEmpty
+		{
+			emptyEvents.broadcast()
+		}
         APIManager.sharedManager.updateEvents()
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "eventsUpdated:", name: APIManager.eventsUpdatedNotification, object: nil)
     }
@@ -56,6 +73,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	}
 	
 	func eventsUpdated(notification: NSNotification) {
+		emptyEvents.broadcast()
 		dispatch_async(dispatch_get_main_queue(), {
 			self.collectionView?.reloadData()
 		})
@@ -68,7 +86,11 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return APIManager.sharedManager.eventsOrganizer.numberOfEventsInDay(section)
+		if APIManager.sharedManager.eventsOrganizer.numberOfEventsInDay(section) > 0
+		{
+			emptyEvents.broadcast()
+		}
+		return APIManager.sharedManager.eventsOrganizer.numberOfEventsInDay(section)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -127,13 +149,20 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     // MARK: Segues
     
     func showDetailsForEventWithID(ID: String) {
-		
-		
-        if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(ID) {
-            
-            collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: day), animated: false, scrollPosition: .CenteredVertically)
-			showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
-        }
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+			self.emptyEvents.lock()
+			if APIManager.sharedManager.eventsOrganizer.allEvents.isEmpty // intentionally using if
+			{
+				self.emptyEvents.waitUntilDate(NSDate(timeIntervalSinceNow: 5))
+			}
+			self.emptyEvents.unlock()
+			if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(ID) {
+				
+				dispatch_async(dispatch_get_main_queue(), {
+					self.showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
+				})
+			}
+		})
     }
 	func showDetailsForEvent(event: Event) {
 		let eventController = storyboard!.instantiateViewControllerWithIdentifier("EventViewController") as! EventViewController

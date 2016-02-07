@@ -25,11 +25,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
 		
+		if let notif = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
+		{
+			if let eventID = notif.userInfo?["id"] as? String
+			{
+				launchTo = .Event(eventID)
+			}
+			else
+			{
+				launchTo = .Announcement
+			}
+		}
+		if let _ = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject]
+		{
+			launchTo = .Announcement
+		}
+		
 		return true
 	}
 	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 		
-		if let _ = NSUserDefaults.standardUserDefaults().objectForKey(remoteNotificationTokenKey) as? String
+		if let _ = defaults.objectForKey(remoteNotificationTokenKey) as? String
 		{
 			return
 		}
@@ -69,6 +85,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		APIManager.sharedManager.archive()
 	}
 
+	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+		guard url.absoluteString.hasPrefix("mhacks://")
+		else
+		{
+			return false
+		}
+		let eventID = url.absoluteString.stringByReplacingOccurrencesOfString("mhacks://", withString: "")
+		if !eventID.isEmpty
+		{
+			launchTo = .Event(eventID)
+		}
+		else
+		{
+			launchTo = .Announcement
+		}
+		NSNotificationCenter.defaultCenter().postNotificationName(launchToNotification, object: nil)
+		return true
+	}
+	
+	
+	
 	var statusWindow : UIWindow?
 	var label : UILabel?
 	
@@ -119,6 +156,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			})
 		})
 	}
-	
 }
 
+let launchToNotification = "LaunchToUpdatedNotification"
+enum LaunchTo
+{
+	case Announcement
+	case Event(String)
+}
+
+var launchTo: LaunchTo?

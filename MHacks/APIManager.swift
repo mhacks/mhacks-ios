@@ -18,7 +18,8 @@ enum HTTPMethod : String
 }
 
 private let manager = APIManager()
-private let archiveLocation = (NSSearchPathForDirectoriesInDomains(.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true).first!) + "/manager.plist"
+
+private let archiveLocation = container + "/manager.plist"
 
 final class APIManager : NSObject
 {
@@ -49,7 +50,6 @@ final class APIManager : NSObject
 	var isLoggedIn: Bool { return authenticator != nil }
 	
 	var loggedInUsername: String? { return authenticator?.username }
-	
 	
 	// MARK: - Helpers
 	
@@ -86,18 +86,18 @@ final class APIManager : NSObject
 	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, completion: (Either<Object>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
-		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+		showNetworkIndicator()
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
-			defer { UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
+			defer { self.hideNetworkIndicator() }
 			guard error == nil
-			else
+				else
 			{
 				// The fetch failed because of a networking error
 				completion(.NetworkingError(error!))
 				return
 			}
 			guard let obj = Object(data: data)
-			else
+				else
 			{
 				// Couldn't create the object out of the data we recieved
 				completion(.UnknownError)
@@ -112,7 +112,7 @@ final class APIManager : NSObject
 	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
 	{
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
-		else
+			else
 		{
 			// A timeout occurred on the semaphore guard.
 			return
@@ -123,7 +123,7 @@ final class APIManager : NSObject
 			{
 			case .Value(let newValue):
 				guard updater(newValue)
-				else
+					else
 				{
 					return
 				}
@@ -135,6 +135,8 @@ final class APIManager : NSObject
 			}
 		})
 	}
+	
+	
 	
 	
 	// MARK: - Announcements
@@ -190,8 +192,8 @@ final class APIManager : NSObject
 			switch result
 			{
 			case .Value(_):
-				NSUserDefaults.standardUserDefaults().setInteger(preference, forKey: remoteNotificationPreferencesKey)
-				NSUserDefaults.standardUserDefaults().setObject(token, forKey: remoteNotificationTokenKey)
+				defaults.setInteger(preference, forKey: remoteNotificationPreferencesKey)
+				defaults.setObject(token, forKey: remoteNotificationTokenKey)
 				completion?(true)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
@@ -354,9 +356,9 @@ extension APIManager
 			return
 		}
 		let request = createRequestForRoute("/v1/auth/sign_in", parameters: ["email": username, "password": password], usingHTTPMethod: .POST)
-		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+		showNetworkIndicator()
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-			defer { UIApplication.sharedApplication().networkActivityIndicatorVisible = false }
+			defer { self.hideNetworkIndicator() }
 			guard error == nil
 			else
 			{
@@ -389,7 +391,7 @@ extension APIManager
 	}
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
-	@objc private final class Authenticator: NSObject, JSONCreateable
+	@objc final private class Authenticator: NSObject, JSONCreateable
 	{
 		private enum Privilege: Int {
 			case Hacker = 0

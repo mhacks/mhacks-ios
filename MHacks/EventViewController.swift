@@ -47,8 +47,9 @@ class EventViewController: UIViewController {
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
     }
-    
+	
     override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
 		mapModelDidUpdate()
