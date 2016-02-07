@@ -16,7 +16,6 @@ class AnnouncementsViewController: UITableViewController {
 		refreshControl?.beginRefreshing()
 		APIManager.sharedManager.updateAnnouncements()
 	}
-	var topAnnouncementID: String? = nil
 	
     // MARK: ViewController Lifecycle
 	
