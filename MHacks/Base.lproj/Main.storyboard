@@ -272,7 +272,7 @@
         <scene sceneID="tck-q6-pm0">
             <objects>
                 <navigationController id="6X2-Rl-zZC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="first" id="pAB-hQ-aV2"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings Selected" id="pAB-hQ-aV2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ojF-sI-WQf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -710,12 +710,12 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
                                 <rect key="frame" x="20" y="290" width="560" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-GB-CKO">
                                 <rect key="frame" x="20" y="318" width="560" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-e3-dyN">
                                 <rect key="frame" x="279" y="346" width="42" height="30"/>
@@ -959,6 +959,7 @@
         <image name="News Selected" width="25" height="25"/>
         <image name="Schedule" width="25" height="25"/>
         <image name="Schedule Selected" width="25" height="25"/>
-        <image name="first" width="30" height="30"/>
+        <image name="Settings" width="26" height="26"/>
+        <image name="Settings Selected" width="26" height="26"/>
     </resources>
 </document>
