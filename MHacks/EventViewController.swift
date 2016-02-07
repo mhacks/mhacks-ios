@@ -140,4 +140,24 @@ class EventViewController: UIViewController {
         mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 20))
         CATransaction.commit()
     }
+	
+	func notifyMe()
+	{
+		guard let event = event
+		else
+		{
+			return
+		}
+		let notification = UILocalNotification()
+		notification.userInfo = ["id": event.ID]
+		notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
+		notification.fireDate = event.startDate.dateByAddingTimeInterval(-3600)
+		
+		if #available(iOS 8.2, *) {
+		    notification.alertTitle = "\(event.name)"
+		} else {
+		    // Fallback on earlier versions
+		}
+		
+	}
 }

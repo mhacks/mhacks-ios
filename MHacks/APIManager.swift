@@ -97,7 +97,7 @@ final class APIManager : NSObject
 				return
 			}
 			guard let obj = Object(data: data)
-				else
+			else
 			{
 				// Couldn't create the object out of the data we recieved
 				completion(.UnknownError)
