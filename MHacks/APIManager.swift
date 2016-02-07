@@ -185,7 +185,25 @@ final class APIManager : NSObject
 		})
 	}
 	
+	private var unapprovedAnnouncementBuffer = MyArray<Announcement>()
+	
+	private let unapprovedAnnouncementsSemaphore = dispatch_semaphore_create(1)
 
+	func updateUnapprovedAnnouncements()
+	{
+		updateGenerically("/v1/all_announcements", objectToUpdate: { (result: MyArray<Announcement>) in
+			guard result._array != self.unapprovedAnnouncementBuffer._array
+				else
+			{
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
+				return false
+			}
+			self.unapprovedAnnouncementBuffer = result
+			return true
+			}, notificationName: APIManager.unapprovedAnnouncementsUpdatedNotification, semaphoreGuard: unapprovedAnnouncementsSemaphore)
+	}
+	
+	
 	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
 	{
 		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: method, completion: { (result: Either<JSONWrapper>) in
@@ -338,6 +356,7 @@ final class APIManager : NSObject
 	
 	// MARK: - Notification Keys
 	static let announcementsUpdatedNotification = "AnnouncmentsUpdatedNotification"
+	static let unapprovedAnnouncementsUpdatedNotification = "UnapprovedAnnouncmentsUpdatedNotification"
 	static let countdownUpdateNotification = "CountdownUpdatedNotification"
 	static let eventsUpdatedNotification = "EventsUpdatedNotification"
 	static let locationsUpdatedNotification = "LocationsUpdatedNotification"

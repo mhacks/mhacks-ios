@@ -17,6 +17,8 @@ class SettingsViewController: UITableViewController {
     // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
     var pendingApproval:[Announcement] = [Announcement(ID: "2", title: "h0w 2 spell", message: "dickshunayyrees?", date: NSDate(timeIntervalSince1970: NSTimeInterval(35655333)), category: Announcement.Category.Sponsor, owner: "apl", approved: false),
     Announcement(ID: "3", title: "Perfect Grammar", message: "There is an idiot above me and I'm intentionally making this announcement message very long so that it takes up multiple lines.", date: NSDate(timeIntervalSince1970: NSTimeInterval(356554)), category: Announcement.Category.Swag, owner: "MHacks: Refactor", approved: false)]
+	
+	
     // END TODO
     
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
