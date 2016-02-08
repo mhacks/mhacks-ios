@@ -13,6 +13,8 @@ class MapViewController: UIViewController
 {	
 	@IBOutlet var mapView: GMSMapView!
 	@IBOutlet var buttonView: UIView!
+	var blurView: UIVisualEffectView!
+	
 	var locations = [Location]()
 	{
 		didSet {
@@ -32,17 +34,15 @@ class MapViewController: UIViewController
 		mapView.camera = camera
         mapView.setMinZoom(16.0, maxZoom: 20.0)
 		mapView.myLocationEnabled = true
-	}
-	override func viewWillAppear(animated: Bool)
-	{
-		super.viewWillAppear(animated)
-		let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
+		blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
 		blurView.frame = UIApplication.sharedApplication().statusBarFrame
 		self.view.addSubview(blurView)
 	}
+
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
+		blurView.frame = UIApplication.sharedApplication().statusBarFrame
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
 		mapUpdated()
@@ -98,7 +98,7 @@ class MapViewController: UIViewController
 			}
 			self.mapView.clear()
 			guard let overlay = APIManager.sharedManager.map?.overlay
-				else
+			else
 			{
 				return
 			}

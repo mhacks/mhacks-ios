@@ -112,7 +112,7 @@ final class APIManager : NSObject
 	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
 	{
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
-			else
+		else
 		{
 			// A timeout occurred on the semaphore guard.
 			return
