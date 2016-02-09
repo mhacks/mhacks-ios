@@ -15,6 +15,7 @@ enum HTTPMethod : String
 	case POST
 	case PUT
 	case PATCH
+	case DELETE
 }
 
 private let manager = APIManager()
@@ -170,8 +171,8 @@ final class APIManager : NSObject
 	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
 	{
 		
-		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: announcement.encodeForCreation(), usingHTTPMethod: method, completion: { (JSON: Either<Announcement>) in
-			switch JSON
+		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: announcement.encodeForCreation(), usingHTTPMethod: method, completion: { (updatedAnnouncement: Either<Announcement>) in
+			switch updatedAnnouncement
 			{
 			case .Value(_):
 				completion(true)
@@ -205,12 +206,52 @@ final class APIManager : NSObject
 	
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
 	{
-		
+		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<Announcement>) in
+			switch deletedAnnouncement
+			{
+			case .Value(_):
+				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				completion(false)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				completion(false)
+			}
+		}
 	}
 	
 	func approveAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
 	{
-		
+		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
+		var jsonToSend = announcement.encodeForCreation()
+		jsonToSend["is_approved"] = true
+		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .PUT) { (approvedAnnouncement: Either<Announcement>) in
+			switch approvedAnnouncement
+			{
+			case .Value(announcement):
+				guard announcement.approved
+				else
+				{
+					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+					completion(false)
+					break
+				}
+				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				completion(false)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				completion(false)
+			default:
+				completion(false)
+				break
+			}
+		}
 	}
 	
 	

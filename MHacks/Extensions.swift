@@ -12,7 +12,7 @@ import Foundation
 
 final class MyArray<Element: JSONCreateable> : NSObject, JSONCreateable {
 	
-	let _array : [Element]
+	var _array : [Element]
 	@objc init?(serialized: Serialized)
 	{
 		guard let JSONs = serialized["results"] as? [[String: AnyObject]]
