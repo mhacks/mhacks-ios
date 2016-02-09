@@ -17,8 +17,7 @@ class SettingsViewController: UITableViewController {
     // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
     var pendingApproval:[Announcement] = [Announcement(ID: "2", title: "h0w 2 spell", message: "dickshunayyrees?", date: NSDate(timeIntervalSince1970: NSTimeInterval(35655333)), category: Announcement.Category.Sponsor, owner: "apl", approved: false),
     Announcement(ID: "3", title: "Perfect Grammar", message: "There is an idiot above me and I'm intentionally making this announcement message very long so that it takes up multiple lines.", date: NSDate(timeIntervalSince1970: NSTimeInterval(356554)), category: Announcement.Category.Swag, owner: "MHacks: Refactor", approved: false)]
-	
-	
+    //var pendingApproval:[Announcement] = []
     // END TODO
     
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
@@ -115,13 +114,7 @@ class SettingsViewController: UITableViewController {
 			return announcementCategories.count
 		}
         
-        // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
-        guard pendingApproval.count > 0 else {
-            return 1
-        }
-        
         return pendingApproval.count
-        // END TODO
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -142,16 +135,6 @@ class SettingsViewController: UITableViewController {
 			}
 			return cell
 		}
-        
-        guard pendingApproval.count > 0 else {
-            let cell = UITableViewCell()
-            cell.backgroundColor = UIColor.clearColor()
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
-            cell.textLabel?.textColor = UIColor.grayColor()
-            cell.textLabel?.text = "NO PENDING ANNOUNCEMENTS"
-            cell.textLabel?.font = UIFont.systemFontOfSize(12)
-            return cell
-        }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
         cell.titleLabel.text = pendingApproval[indexPath.row].title
@@ -177,22 +160,14 @@ class SettingsViewController: UITableViewController {
                 print("I'm trying to delete this announcement")
                 
                 // REMOVE THIS CELL FROM TABLE VIEW
-                //BLAHBLAH
-                // UNCOMMENT WHEN API MANAGER HOOKED IN
+                self.pendingApproval.removeAtIndex(indexPath.row)
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                 
                 // END TODO
             }))
             self.presentViewController(confirm, animated: true, completion: nil)
         }
         delete.backgroundColor = UIColor.redColor()
-        
-        let edit = UITableViewRowAction(style: .Normal, title: "✎") { action, index in
-            
-            // TODO: GO TO EDIT VIEW (REUSE ANNOUNCEMENT VIEW FROM MAIN PAGE)
-            print("I'm trying to edit this announcement")
-            // END TODO
-        }
-        edit.backgroundColor = UIColor.orangeColor()
         
         let approve = UITableViewRowAction(style: .Normal, title: "✓") { action, index in
             let confirm = UIAlertController(title: "Announcement Approval", message: "This announcement will be pushed to all MHacks participants, sponsors, and organizers.",preferredStyle: .Alert)
@@ -203,8 +178,8 @@ class SettingsViewController: UITableViewController {
                 print("I'm trying to approve this announcement")
                 
                 // REMOVE THIS CELL FROM TABLE VIEW
-                //BLAHBLAH
-                // UNCOMMENT WHEN API MANAGER HOOKED IN
+                self.pendingApproval.removeAtIndex(indexPath.row)
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                 
                 // END TODO
             }))
@@ -212,7 +187,7 @@ class SettingsViewController: UITableViewController {
         }
         approve.backgroundColor = UIColor.blueColor()
         
-        return [delete,edit,approve]
+        return [delete,approve]
     }
     
     @IBAction func changeLoginStatus (sender: UIEvent) {
