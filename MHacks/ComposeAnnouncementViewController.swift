@@ -56,6 +56,7 @@ class ComposeAnnouncementViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancel:")
 		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "post:")
 		tableView.delegate = self
 		tableView.dataSource = self
@@ -107,7 +108,7 @@ class ComposeAnnouncementViewController: UIViewController {
 	}
 	
 	
-	@IBAction func post(_: UIBarButtonItem)
+	func post(_: UIBarButtonItem)
 	{
 		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PATCH
 		
@@ -117,6 +118,12 @@ class ComposeAnnouncementViewController: UIViewController {
 			else { return }
 			self.navigationController?.popViewControllerAnimated(true)
 		}
+	}
+	func cancel(_: UIBarButtonItem)
+	{
+		dispatch_async(dispatch_get_main_queue(), {
+			self.dismissViewControllerAnimated(true, completion: nil)
+		})
 	}
 }
 

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -391,7 +392,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="gpC-KV-UoH">
-                        <barButtonItem key="rightBarButtonItem" title="Login" id="cX2-SQ-8Qo">
+                        <barButtonItem key="rightBarButtonItem" title="Login" style="done" id="cX2-SQ-8Qo">
                             <connections>
                                 <action selector="changeLoginStatus:" destination="sal-Fe-WoM" id="BgD-z4-ASQ"/>
                             </connections>
@@ -556,13 +557,7 @@
                             <constraint firstItem="U6p-9G-q7a" firstAttribute="bottom" secondItem="sBS-50-cUc" secondAttribute="bottomMargin" id="rd3-qQ-MtE"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem style="done" systemItem="done" id="ItY-H0-7yQ">
-                            <connections>
-                                <action selector="post:" destination="m6P-0S-Uhh" id="EwG-gx-ZbU"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -571,7 +566,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ueh-Ej-WG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1893" y="1965"/>
+            <point key="canvasLocation" x="1884" y="2085"/>
         </scene>
         <!--Announcements-->
         <scene sceneID="rdL-6x-glM">
@@ -693,7 +688,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gfs-Mi-Ogp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1799" y="98"/>
+            <point key="canvasLocation" x="1781" y="756"/>
         </scene>
         <!--Login-->
         <scene sceneID="n6z-y1-OtI">
@@ -708,42 +703,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
-                                <rect key="frame" x="20" y="290" width="560" height="20"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <rect key="frame" x="20" y="182" width="560" height="30"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="s6b-gL-H5G" id="XDf-nz-mFt"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-GB-CKO">
-                                <rect key="frame" x="20" y="318" width="560" height="20"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <rect key="frame" x="20" y="220" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-e3-dyN">
-                                <rect key="frame" x="279" y="346" width="42" height="30"/>
-                                <state key="normal" title="Log In"/>
                                 <connections>
-                                    <action selector="login:" destination="s6b-gL-H5G" eventType="touchUpInside" id="99x-KU-yV6"/>
+                                    <outlet property="delegate" destination="s6b-gL-H5G" id="iXY-Gc-Dso"/>
                                 </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zmb-2B-ZmN">
-                                <rect key="frame" x="180" y="119" width="240" height="128"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Fhj-0i-AOe">
+                                <rect key="frame" x="175" y="300" width="251" height="251"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Fhj-0i-AOe" secondAttribute="height" multiplier="1:1" id="Aew-C9-RIQ"/>
+                                </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.90196078430000004" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="4Zc-e3-dyN" firstAttribute="centerX" secondItem="C4f-9I-J07" secondAttribute="centerX" id="3FO-f5-MuN"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="5Lb-1G-tHf"/>
-                            <constraint firstItem="4Zc-e3-dyN" firstAttribute="top" secondItem="bbd-GB-CKO" secondAttribute="bottom" constant="8" id="5Sp-03-JIF"/>
+                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="top" secondItem="C4f-9I-J07" secondAttribute="centerY" id="Bpa-45-qEd"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="top" secondItem="9zC-sf-9Qq" secondAttribute="bottom" constant="8" id="LWH-cl-Ppo"/>
+                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="top" secondItem="bbd-GB-CKO" secondAttribute="bottom" constant="50" id="Wqh-Ig-ZR5"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="evg-ns-MUf"/>
-                            <constraint firstItem="9zC-sf-9Qq" firstAttribute="centerY" secondItem="C4f-9I-J07" secondAttribute="centerY" id="gOL-2M-Br2"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="njF-dU-JLo"/>
+                            <constraint firstItem="Cow-mq-kj8" firstAttribute="top" secondItem="Fhj-0i-AOe" secondAttribute="bottom" id="ns4-eV-xxO"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="r0P-g1-39L"/>
+                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="centerX" secondItem="C4f-9I-J07" secondAttribute="centerX" id="yvv-9U-jhR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="MXX-2V-acF">
-                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="C3t-UF-ji2">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="C3t-UF-ji2">
                             <connections>
                                 <action selector="cancelLogin:" destination="s6b-gL-H5G" id="suW-q0-yNa"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Login" style="done" id="tNH-2G-yJ7">
+                            <connections>
+                                <action selector="login:" destination="s6b-gL-H5G" id="MET-k2-YAJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -754,7 +758,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QZo-9w-ljA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2474" y="98"/>
+            <point key="canvasLocation" x="2514" y="756"/>
         </scene>
         <!--Initial View Controller-->
         <scene sceneID="AMI-dL-XqA">
@@ -953,6 +957,7 @@
     <resources>
         <image name="Countdown" width="25" height="25"/>
         <image name="Countdown Selected" width="25" height="25"/>
+        <image name="Logo" width="700" height="700"/>
         <image name="Maps" width="25" height="25"/>
         <image name="Maps Selected" width="25" height="25"/>
         <image name="News" width="25" height="25"/>

@@ -47,7 +47,13 @@ class AnnouncementsViewController: UITableViewController {
 		}
 		if let indexPath = tableView.indexPathForSelectedRow
 		{
-			tableView.deselectRowAtIndexPath(indexPath, animated: true)
+			transitionCoordinator()?.animateAlongsideTransition({ context in
+				self.tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+				}, completion: { context in
+					if context.isCancelled() {
+						self.tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+					}
+			})
 		}
 		tableView.reloadData()
 		fetch()
@@ -87,8 +93,14 @@ class AnnouncementsViewController: UITableViewController {
 	
 	func compose(sender: UIBarButtonItem)
 	{
+		guard APIManager.sharedManager.canPostAnnouncements()
+		else
+		{
+			navigationItem.rightBarButtonItem = nil
+			return
+		}
 		let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
-		navigationController?.pushViewController(compose, animated: true)
+		presentViewController(compose, animated: true, completion: nil)
 	}
 	
     // MARK: Table View Data
@@ -116,7 +128,7 @@ class AnnouncementsViewController: UITableViewController {
 		{
 			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
 			compose.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
-			navigationController?.pushViewController(compose, animated: true)
+			presentViewController(compose, animated: true, completion: nil)
 		}
 		else
 		{

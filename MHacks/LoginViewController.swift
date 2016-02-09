@@ -13,27 +13,21 @@ class LoginViewController: UIViewController
 
 	@IBOutlet var usernameField: UITextField!
 	@IBOutlet var passwordField: UITextField!
-		
-	override func viewDidLoad()
-	{
-		super.viewDidLoad()
-		// Do any additional setup after loading the view, typically from a nib.
-	}
+	
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
 		guard !APIManager.sharedManager.isLoggedIn
 		else
 		{
-			didLogin()
+			self.dismissViewControllerAnimated(true, completion: nil)
 			return
 		}
 	}
-	func didLogin()
-	{
-		dispatch_async(dispatch_get_main_queue(), {
-			self.dismissViewControllerAnimated(true, completion: nil)
-		})
+	override func viewWillDisappear(animated: Bool) {
+		super.viewWillDisappear(animated)
+		usernameField.resignFirstResponder()
+		passwordField.resignFirstResponder()
 	}
 	private func shakePasswordField(iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: NSTimeInterval) {
 		UIView.animateWithDuration(interval, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: [], animations: {() in
@@ -48,7 +42,6 @@ class LoginViewController: UIViewController
 				}
 				self.shakePasswordField(iterations - 1, direction: -direction, currentTimes: currentTimes + 1, size: size, interval: interval)
 		})
-
 	}
 	
 	func incorrectPassword()
@@ -59,7 +52,7 @@ class LoginViewController: UIViewController
 		})
 	}
 	
-	@IBAction func login(sender: UIButton)
+	@IBAction func login(sender: UIBarButtonItem? = nil)
 	{
 		resignFirstResponder()
 		guard let username = usernameField.text, let password = passwordField.text where !username.isEmpty && !password.isEmpty
@@ -78,7 +71,7 @@ class LoginViewController: UIViewController
 					self.incorrectPassword()
 					return
 				}
-				self.didLogin()
+				self.dismissViewControllerAnimated(true, completion: nil)
 			case .NetworkingError(let error):
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
 			case .UnknownError:
@@ -87,8 +80,26 @@ class LoginViewController: UIViewController
 		}
 	}
     
-    @IBAction func cancelLogin (sender: UINavigationItem) {
+    @IBAction func cancelLogin (sender: UIBarButtonItem)
+	{
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
+extension LoginViewController : UITextFieldDelegate
+{
+	func textFieldShouldReturn(textField: UITextField) -> Bool
+	{
+		if textField === usernameField
+		{
+			textField.resignFirstResponder()
+			passwordField.becomeFirstResponder()
+		}
+		else
+		{
+			passwordField.resignFirstResponder()
+			login()
+		}
+		return true
+	}
+}

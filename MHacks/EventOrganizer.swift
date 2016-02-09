@@ -40,7 +40,6 @@ struct Day: TimeInterval {
         let stopDate = endDate.earlierDate(lastDate)
         
         calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Hour.Components, options: .MatchNextTime) { date, exactMatch, stop in
-			// FIXME: This may not be right.
 			guard let date = date
 			else
 			{

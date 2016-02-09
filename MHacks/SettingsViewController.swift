@@ -11,19 +11,28 @@ import UIKit
 class SettingsViewController: UITableViewController {
     
     var lastStatus: Bool = false
-    
+	{
+		didSet
+		{
+			if lastStatus {
+				self.navigationItem.rightBarButtonItem!.title = "Logout"
+			} else {
+				self.navigationItem.rightBarButtonItem!.title = "Login"
+			}
+			tableView.reloadData()
+		}
+	}
+	
     var settingTypes = ["Push Notifications","Announcements Pending Approval"]
     
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
     override func viewDidLoad () {
-        lastStatus = APIManager.sharedManager.isLoggedIn
-        if APIManager.sharedManager.isLoggedIn {
-            self.navigationItem.rightBarButtonItem!.title = "Logout"
-        } else {
-            self.navigationItem.rightBarButtonItem!.title = "Login"
-        }
+		self.tableView.rowHeight = UITableViewAutomaticDimension
+		self.tableView.estimatedRowHeight = 100.0
+		
+		lastStatus = APIManager.sharedManager.isLoggedIn
 		guard let preference = defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber
 		else
 		{
@@ -33,18 +42,11 @@ class SettingsViewController: UITableViewController {
 		}
 		let categories = Announcement.Category(rawValue: preference.integerValue)
 		currentPreference = categories.contains(Announcement.Category.Emergency) ? categories : categories.intersect(Announcement.Category.Emergency)
-        
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 100.0
     }
     
     override func viewDidAppear(animated: Bool) {
-        if !lastStatus && APIManager.sharedManager.isLoggedIn {
-            self.tableView.reloadData()
-            self.navigationItem.rightBarButtonItem!.title = "Logout"
-            lastStatus = true
-        }
-        
+		lastStatus = APIManager.sharedManager.isLoggedIn
+		
         if APIManager.sharedManager.canEditAnnouncements() {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "unapprovedAnnouncementsUpdated:", name: APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
             
@@ -54,12 +56,14 @@ class SettingsViewController: UITableViewController {
     
     func unapprovedAnnouncementsUpdated (notification: NSNotification? = nil) {
         dispatch_async(dispatch_get_main_queue(), {
-            self.tableView.reloadData()
+            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
         })
     }
     
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
+		NSNotificationCenter.defaultCenter().removeObserver(self)
+		
 		guard let token = defaults.objectForKey(remoteNotificationTokenKey) as? String
 		else
 		{
@@ -70,10 +74,10 @@ class SettingsViewController: UITableViewController {
 			guard currentPreference != Announcement.Category(rawValue: preference.integerValue)
 			else
 			{
+				// There was no change in preference return
 				return
 			}
 		}
-		
 		APIManager.sharedManager.updateAPNSToken(token, preference: currentPreference.rawValue, method: .PUT, completion: { updated in
 			if !updated
 			{
@@ -114,20 +118,28 @@ class SettingsViewController: UITableViewController {
 				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
 			}
 		}
-        
-        // add selection pushing to edit
+        else
+		{
+			guard APIManager.sharedManager.canEditAnnouncements()
+			else
+			{
+				lastStatus = APIManager.sharedManager.isLoggedIn
+				return
+			}
+			let compose = storyboard!.instantiateViewControllerWithIdentifier("") as! ComposeAnnouncementViewController
+			compose.editingAnnouncement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
+			presentViewController(compose, animated: true, completion: nil)
+		}
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if (APIManager.sharedManager.canEditAnnouncements()) {
             return settingTypes.count
         }
-        
         return 1
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         return settingTypes[section]
     }
     
@@ -135,7 +147,6 @@ class SettingsViewController: UITableViewController {
 		if section == 0 {
 			return announcementCategories.count
 		}
-        
         return APIManager.sharedManager.unapprovedAnnouncements.count
     }
     
@@ -205,15 +216,13 @@ class SettingsViewController: UITableViewController {
         }
         approve.backgroundColor = UIColor.blueColor()
         
-        return [delete,approve]
+        return [delete, approve]
     }
     
-    @IBAction func changeLoginStatus (sender: UIEvent) {
+    @IBAction func changeLoginStatus(sender: UIBarButtonItem) {
         if APIManager.sharedManager.isLoggedIn {
             APIManager.sharedManager.logout()
-            self.tableView.reloadData()
-            self.navigationItem.rightBarButtonItem!.title = "Login"
-            lastStatus = false
+			lastStatus = APIManager.sharedManager.isLoggedIn
         } else {
             performSegueWithIdentifier("changeLoginStatusSegue", sender: nil)
         }
