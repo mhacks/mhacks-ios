@@ -142,7 +142,7 @@ extension NSCalendar {
 
 private let groupName = "group.com.MPowered.MHacks"
 let defaults = NSUserDefaults(suiteName: groupName)!
-let container = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(groupName)!.absoluteString
+let container = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(groupName)!.URLByAppendingPathComponent("Library", isDirectory: true).URLByAppendingPathComponent("Application Support", isDirectory: true)
 
 // MARK: - Keys
 

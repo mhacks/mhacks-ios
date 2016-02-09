@@ -18,9 +18,15 @@ enum HTTPMethod : String
 	case DELETE
 }
 
-private let manager = APIManager()
+private let manager = { () -> APIManager in
+	let m = APIManager()
+	// Try constructing the APIManager using the cache.
+	// If that fails initialize to empty, i.e. no cache exists.
+	m.initialize()
+	return m
+}()
 
-private let archiveLocation = container + "/manager.plist"
+private let archiveLocation = container.URLByAppendingPathComponent("manager.plist")
 
 final class APIManager : NSObject
 {
@@ -29,20 +35,13 @@ final class APIManager : NSObject
 	
 	// MARK: - Initializers
 	
-	private var initialized = false
-	
 	// Private so that nobody else can access this.
 	private override init() {
 		super.init()
-		// Try constructing the APIManager using the cache.
-		// If that fails initialize to empty, i.e. no cache exists.
+		locationForID = { ID in self.locations.filter { $0.ID == ID }.first }
+
 	}
 	static var sharedManager: APIManager {
-		if !manager.initialized
-		{
-			manager.initialize()
-			locationForID = { ID in manager.locations.filter { $0.ID == ID }.first }
-		}
 		return manager
 	}
 	
@@ -549,8 +548,12 @@ extension APIManager
 extension APIManager : NSCoding
 {
 	private func initialize() {
-		initialized = true
-		if let obj = NSKeyedUnarchiver.unarchiveObjectWithFile(archiveLocation) as? APIManager
+		guard let data = NSData(contentsOfURL: archiveLocation)
+		else
+		{
+			return
+		}
+		if let obj = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? APIManager
 		{
 			// Move everything over
 			self.countdown = obj.countdown
@@ -558,11 +561,22 @@ extension APIManager : NSCoding
 			self.locations = obj.locations
 			self.eventsOrganizer = obj.eventsOrganizer
 			self.authenticator = obj.authenticator
+			locationForID = { ID in self.locations.filter { $0.ID == ID }.first }
 		}
 	}
 	
 	func archive() {
-		NSKeyedArchiver.archiveRootObject(self, toFile: archiveLocation)
+		do
+		{
+			if !archiveLocation.checkResourceIsReachableAndReturnError(nil)
+			{
+				try NSFileManager.defaultManager().createDirectoryAtURL(container, withIntermediateDirectories: true, attributes: nil)
+			}
+			let data = NSKeyedArchiver.archivedDataWithRootObject(self)
+			try data.writeToURL(archiveLocation, options: [])
+		}
+		catch {
+		}
 	}
 	
 	@objc func encodeWithCoder(aCoder: NSCoder)

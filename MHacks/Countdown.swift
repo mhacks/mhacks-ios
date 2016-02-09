@@ -119,7 +119,7 @@ import UIKit
 	private static let countdownStartDateKey = "start_time"
 	private static let countdownDurationKey = "countdown_duration"
 	
-	init(startDate: NSDate = NSDate(timeIntervalSince1970: 1455926400), duration: NSTimeInterval = 129600000) {
+	init(startDate: NSDate = NSDate(timeIntervalSince1970: 1455944400), duration: NSTimeInterval = 129600000) {
         self.startDate = startDate
 		self.duration = duration / 1000.0
     }
