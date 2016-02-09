@@ -186,6 +186,13 @@ final class APIManager : NSObject
 		})
 	}
 	
+	private(set) var unapprovedAnnouncements : [Announcement] {
+		get { return unapprovedAnnouncementBuffer._array }
+		set {
+			unapprovedAnnouncementBuffer = MyArray(newValue)
+		}
+	}
+
 	private var unapprovedAnnouncementBuffer = MyArray<Announcement>()
 	
 	private let unapprovedAnnouncementsSemaphore = dispatch_semaphore_create(1)
