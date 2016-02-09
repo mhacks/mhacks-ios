@@ -56,6 +56,7 @@ import UIKit
     let endDate: NSDate
     let information: String
 	
+	
 	init(ID: String, name: String, category: Category, locations: [Location], startDate: NSDate, endDate: NSDate, info: String) {
 		self.ID = ID
 		self.name = name

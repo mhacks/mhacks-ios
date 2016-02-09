@@ -11,6 +11,7 @@
 		820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BEF1C29325500CD9F09 /* SSKeychain.m */; };
 		820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */; };
 		820C5BF71C29327900CD9F09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C5BF61C29327900CD9F09 /* Security.framework */; };
+		8216C6021C69CC3B00D42B13 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8216C6011C69CC3B00D42B13 /* MobileCoreServices.framework */; };
 		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
 		82287A501C66C3D8001A0F38 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
@@ -130,6 +131,7 @@
 		820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychainQuery.m; path = MHacks/SSKeychainQuery.m; sourceTree = "<group>"; };
 		820C5BF41C29326600CD9F09 /* MHacks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MHacks-Bridging-Header.h"; sourceTree = "<group>"; };
 		820C5BF61C29327900CD9F09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8216C6011C69CC3B00D42B13 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		82287A441C66C3D8001A0F38 /* MHacks.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MHacks.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82287A451C66C3D8001A0F38 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		82287A551C66C3EC001A0F38 /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8216C6021C69CC3B00D42B13 /* MobileCoreServices.framework in Frameworks */,
 				82E9C4AD1C4F0CE200ED2EBF /* libz.tbd in Frameworks */,
 				82E9C4AB1C4F0CD000ED2EBF /* libicucore.tbd in Frameworks */,
 				82E9C4A91C4F0CC400ED2EBF /* libc++.tbd in Frameworks */,
@@ -258,6 +261,7 @@
 		820C5BF51C29326900CD9F09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8216C6011C69CC3B00D42B13 /* MobileCoreServices.framework */,
 				82E9C4B11C4F0DD100ED2EBF /* GoogleMaps.bundle */,
 				82E9C4AC1C4F0CE200ED2EBF /* libz.tbd */,
 				82E9C4AA1C4F0CD000ED2EBF /* libicucore.tbd */,
@@ -815,6 +819,7 @@
 				82287A521C66C3D8001A0F38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82473F9D1C1F7A170061FFFB /* Build configuration list for PBXProject "MHacks" */ = {
 			isa = XCConfigurationList;

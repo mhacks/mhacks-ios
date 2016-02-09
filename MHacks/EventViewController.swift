@@ -158,6 +158,6 @@ class EventViewController: UIViewController {
 		} else {
 		    // Fallback on earlier versions
 		}
-		
+		UIApplication.sharedApplication().scheduleLocalNotification(notification)
 	}
 }

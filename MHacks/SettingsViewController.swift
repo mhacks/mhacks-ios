@@ -65,10 +65,28 @@ class SettingsViewController: UITableViewController {
 		{
 			return
 		}
+		if let preference = defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber
+		{
+			guard currentPreference != Announcement.Category(rawValue: preference.integerValue)
+			else
+			{
+				return
+			}
+		}
+		
 		APIManager.sharedManager.updateAPNSToken(token, preference: currentPreference.rawValue, method: .PUT, completion: { updated in
 			if !updated
 			{
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+			}
+			else
+			{
+				guard self.currentPreference.rawValue != (defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber)?.integerValue
+				else
+				{
+					return
+				}
+				defaults.setInteger(self.currentPreference.rawValue, forKey: remoteNotificationPreferencesKey)
 			}
 		})
 	}

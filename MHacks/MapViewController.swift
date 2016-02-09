@@ -8,12 +8,14 @@
 
 import UIKit
 import GoogleMaps
+import CoreLocation
 
 class MapViewController: UIViewController
 {	
 	@IBOutlet var mapView: GMSMapView!
 	@IBOutlet var buttonView: UIView!
 	var blurView: UIVisualEffectView!
+	let manager = CLLocationManager()
 	
 	var locations = [Location]()
 	{
@@ -33,7 +35,6 @@ class MapViewController: UIViewController
             longitude: -83.7158780, zoom: 17.0)
 		mapView.camera = camera
         mapView.setMinZoom(16.0, maxZoom: 20.0)
-		mapView.myLocationEnabled = true
 		blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
 		blurView.frame = UIApplication.sharedApplication().statusBarFrame
 		self.view.addSubview(blurView)
@@ -42,6 +43,10 @@ class MapViewController: UIViewController
 	override func viewDidAppear(animated: Bool)
 	{
 		super.viewDidAppear(animated)
+		if CLLocationManager.authorizationStatus() == .NotDetermined
+		{
+			manager.requestWhenInUseAuthorization()
+		}
 		blurView.frame = UIApplication.sharedApplication().statusBarFrame
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
@@ -63,6 +68,16 @@ class MapViewController: UIViewController
 	func mapUpdated(_: NSNotification? = nil)
 	{
 		dispatch_async(dispatch_get_main_queue(), {
+			defer {
+				if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == .AuthorizedAlways
+				{
+					self.mapView.myLocationEnabled = true
+				}
+				else
+				{
+					self.mapView.myLocationEnabled = false
+				}
+			}
 			defer
 			{
 				if self.locations.count > 0
@@ -106,3 +121,4 @@ class MapViewController: UIViewController
 		})
 	}
 }
+

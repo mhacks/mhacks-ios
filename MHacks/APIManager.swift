@@ -63,8 +63,12 @@ final class APIManager : NSObject
 		authenticator?.addAuthorizationHeader(mutableRequest)
 		do
 		{
-			if method == .POST
+			if method == .POST || method == .PUT || method == .PATCH
 			{
+				if method == .PATCH || method == .PUT
+				{
+					mutableRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+				}
 				let formData = parameters.reduce("", combine: { $0 + "\($1.0)=\($1.1)&" })
 				mutableRequest.HTTPBody = formData.substringToIndex(formData.endIndex.predecessor()).dataUsingEncoding(NSUTF8StringEncoding)
 			}
@@ -91,7 +95,7 @@ final class APIManager : NSObject
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
 			defer { self.hideNetworkIndicator() }
 			guard error == nil
-				else
+			else
 			{
 				// The fetch failed because of a networking error
 				completion(.NetworkingError(error!))
@@ -264,7 +268,7 @@ final class APIManager : NSObject
 	
 	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
 	{
-		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: method, completion: { (result: Either<JSONWrapper>) in
+		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .POST, completion: { (result: Either<JSONWrapper>) in
 			switch result
 			{
 			case .Value(_):

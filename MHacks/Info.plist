@@ -40,6 +40,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is displayed on our interactive map to help you navigate the hackathon.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

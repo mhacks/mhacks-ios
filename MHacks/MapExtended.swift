@@ -17,3 +17,10 @@ extension Map {
 		return overlay
 	}
 }
+extension Event {
+	
+	var notification : UILocalNotification?
+	{
+		return UIApplication.sharedApplication().scheduledLocalNotifications?.filter { $0.userInfo?["id"] as? String == ID }.first
+	}
+}
