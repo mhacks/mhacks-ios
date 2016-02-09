@@ -14,12 +14,6 @@ class SettingsViewController: UITableViewController {
     
     var settingTypes = ["Push Notifications","Announcements Pending Approval"]
     
-    // TODO: CHANGE FROM HARDCODED PENGING APPROVAL TO APIMANAGER DATA
-    var pendingApproval:[Announcement] = [Announcement(ID: "2", title: "h0w 2 spell", message: "dickshunayyrees?", date: NSDate(timeIntervalSince1970: NSTimeInterval(35655333)), category: Announcement.Category.Sponsor, owner: "apl", approved: false),
-    Announcement(ID: "3", title: "Perfect Grammar", message: "There is an idiot above me and I'm intentionally making this announcement message very long so that it takes up multiple lines.", date: NSDate(timeIntervalSince1970: NSTimeInterval(356554)), category: Announcement.Category.Swag, owner: "MHacks: Refactor", approved: false)]
-    //var pendingApproval:[Announcement] = []
-    // END TODO
-    
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
@@ -51,7 +45,17 @@ class SettingsViewController: UITableViewController {
             lastStatus = true
         }
         
-        tableView.reloadData()
+        if APIManager.sharedManager.canEditAnnouncements() {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "unapprovedAnnouncementsUpdated:", name: APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
+            
+            APIManager.sharedManager.updateUnapprovedAnnouncements()
+        }
+    }
+    
+    func unapprovedAnnouncementsUpdated (notification: NSNotification? = nil) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableView.reloadData()
+        })
     }
     
 	override func viewDidDisappear(animated: Bool) {
@@ -114,7 +118,7 @@ class SettingsViewController: UITableViewController {
 			return announcementCategories.count
 		}
         
-        return pendingApproval.count
+        return APIManager.sharedManager.unapprovedAnnouncements.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -136,12 +140,14 @@ class SettingsViewController: UITableViewController {
 			return cell
 		}
         
+        let announcement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
-        cell.titleLabel.text = pendingApproval[indexPath.row].title
-        cell.dateLabel.text = pendingApproval[indexPath.row].localizedDate
+        cell.titleLabel.text = announcement.title
+        cell.dateLabel.text = announcement.localizedDate
         cell.dateLabel.font = Announcement.dateFont
-        cell.messageLabel.text = pendingApproval[indexPath.row].message
-        cell.colorView.layer.borderColor = pendingApproval[indexPath.row].category.color.CGColor
+        cell.messageLabel.text = announcement.message
+        cell.colorView.layer.borderColor = announcement.category.color.CGColor
         cell.colorView.layer.borderWidth = cell.colorView.frame.width
         return cell
     }
@@ -156,14 +162,11 @@ class SettingsViewController: UITableViewController {
             confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
             confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
                 
-                // TODO: REMOVE FROM PENDING USING API MANAGER
-                print("I'm trying to delete this announcement")
-                
-                // REMOVE THIS CELL FROM TABLE VIEW
-                self.pendingApproval.removeAtIndex(indexPath.row)
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                
-                // END TODO
+                APIManager.sharedManager.deleteUnapprovedAnnouncement(indexPath.row, completion: {deleted in
+                    if deleted {
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                })
             }))
             self.presentViewController(confirm, animated: true, completion: nil)
         }
@@ -174,14 +177,11 @@ class SettingsViewController: UITableViewController {
             confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
             confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
                 
-                // TODO: REMOVE FROM PENDING AND ACCEPT USING API MANAGER
-                print("I'm trying to approve this announcement")
-                
-                // REMOVE THIS CELL FROM TABLE VIEW
-                self.pendingApproval.removeAtIndex(indexPath.row)
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                
-                // END TODO
+                APIManager.sharedManager.approveAnnouncement(indexPath.row, completion: {approved in
+                    if approved {
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                })
             }))
             self.presentViewController(confirm, animated: true, completion: nil)
         }
