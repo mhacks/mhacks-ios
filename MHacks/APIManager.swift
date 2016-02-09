@@ -203,6 +203,16 @@ final class APIManager : NSObject
 			}, notificationName: APIManager.unapprovedAnnouncementsUpdatedNotification, semaphoreGuard: unapprovedAnnouncementsSemaphore)
 	}
 	
+	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
+	{
+		
+	}
+	
+	func approveAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
+	{
+		
+	}
+	
 	
 	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
 	{
