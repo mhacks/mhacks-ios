@@ -144,4 +144,28 @@ class AnnouncementsViewController: UITableViewController {
 			tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		}
 	}
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return APIManager.sharedManager.canEditAnnouncements()
+    }
+    
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?
+    {
+        let delete = UITableViewRowAction(style: .Normal, title: "✕") { action, index in
+            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .Alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+                
+                APIManager.sharedManager.deleteAnnouncement(indexPath.row, completion: {deleted in
+                    if deleted {
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                })
+            }))
+            self.presentViewController(confirm, animated: true, completion: nil)
+        }
+        delete.backgroundColor = UIColor.redColor()
+        
+        return [delete]
+    }
 }

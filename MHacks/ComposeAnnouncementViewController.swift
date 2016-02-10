@@ -62,6 +62,7 @@ class ComposeAnnouncementViewController: UIViewController {
 		tableView.dataSource = self
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShown:", name: UIKeyboardWillShowNotification, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardWillHideNotification, object: nil)
+        navigationItem.title = editingAnnouncement == nil ? "New Announcement" : "Edit Announcement"
 		buildCells()
 	}
 	
@@ -101,14 +102,19 @@ class ComposeAnnouncementViewController: UIViewController {
 		super.viewDidAppear(animated)
 		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate
 		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate
-		if editingAnnouncement == nil
+		
+        if editingAnnouncement == nil
 		{
 			announceAt.setDate(NSDate(timeIntervalSinceNow: 60 * 60), animated: true)
 			announceAt.sendActionsForControlEvents(.ValueChanged)
 		}
 	}
 	
-	
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        titleField.resignFirstResponder()
+        messageField.resignFirstResponder()
+    }
 	func post(_: UIBarButtonItem)
 	{
 		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PATCH
