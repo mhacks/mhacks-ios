@@ -78,6 +78,7 @@ class ComposeAnnouncementViewController: UIViewController {
 		
 		let dateCell = tableView.dequeueReusableCellWithIdentifier("broadcastCell") as! DatePickerCell
 		dateCell.delegate = self
+        dateCell.selectionStyle = UITableViewCellSelectionStyle.None
 		self.announceAt = dateCell.datePicker
 		cells.append(dateCell)
 		
@@ -116,7 +117,7 @@ class ComposeAnnouncementViewController: UIViewController {
 		APIManager.sharedManager.updateAnnouncement(announcement, usingMethod: method) { finished in
 			guard finished
 			else { return }
-			self.navigationController?.popViewControllerAnimated(true)
+			self.dismissViewControllerAnimated(true, completion: nil)
 		}
 	}
 	func cancel(_: UIBarButtonItem)
@@ -146,12 +147,10 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 		guard indexPath.section == 0, let reuse = cells[indexPath.row].reuseIdentifier
 		else
 		{
-			return 55.0
+			return 44.0
 		}
 		switch reuse
 		{
-			case "titleCell":
-				return 76.5
 			case "broadcastCell":
 				return (cells[indexPath.row] as! DatePickerCell).rowHeight
 			case "infoCell":
