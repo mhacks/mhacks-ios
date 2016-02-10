@@ -117,7 +117,7 @@ extension String {
 		let range = Range(start: startIndex, end: endIndex)
 		enumerateSubstringsInRange(range, options: NSStringEnumerationOptions.BySentences, { sentence, sentenceRange, enclosingRange, stop in
 			guard let sentence = sentence
-				else
+			else
 			{
 				return
 			}

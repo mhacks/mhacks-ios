@@ -94,63 +94,24 @@ class SettingsViewController: UITableViewController {
 			}
 		})
 	}
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-		if indexPath.section == 0
-		{
-			let category = announcementCategories[indexPath.row]
-			guard !category.contains(Announcement.Category.Emergency)
-			else
-			{
-				let alertController = UIAlertController(title: "Denied", message: "Emergency notifications must stay active during the entire hackathon.", preferredStyle: .Alert)
-				alertController.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-				presentViewController(alertController, animated: true, completion: nil)
-				return
-			}
-			if currentPreference.remove(category) == nil
-			{
-				currentPreference.insert(category)
-				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
-			}
-			else
-			{
-				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
-			}
-		}
-        else
-		{
-			guard APIManager.sharedManager.canEditAnnouncements()
-			else
-			{
-				lastStatus = APIManager.sharedManager.isLoggedIn
-				return
-			}
-			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
-			compose.editingAnnouncement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
-			presentViewController(compose, animated: true, completion: nil)
-		}
-    }
-    
+	
+	// MARK: - Table View Data Source
+	
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if (APIManager.sharedManager.canEditAnnouncements()) {
             return settingTypes.count
         }
         return 1
     }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return settingTypes[section]
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 0 {
 			return announcementCategories.count
 		}
-        return APIManager.sharedManager.unapprovedAnnouncements.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		return APIManager.sharedManager.unapprovedAnnouncements.count
+	}
+	
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		if indexPath.section == 0
 		{
 			let cell = tableView.dequeueReusableCellWithIdentifier("notificationCell") as! CategoryCell
@@ -168,19 +129,25 @@ class SettingsViewController: UITableViewController {
 			}
 			return cell
 		}
-        
-        let announcement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
-        cell.titleLabel.text = announcement.title
-        cell.dateLabel.text = announcement.localizedDate
-        cell.dateLabel.font = Announcement.dateFont
-        cell.messageLabel.text = announcement.message
-        cell.colorView.layer.borderColor = announcement.category.color.CGColor
-        cell.colorView.layer.borderWidth = cell.colorView.frame.width
-        return cell
+		
+		let announcement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
+		
+		let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
+		cell.titleLabel.text = announcement.title
+		cell.dateLabel.text = announcement.localizedDate
+		cell.dateLabel.font = Announcement.dateFont
+		cell.messageLabel.text = announcement.message
+		cell.colorView.layer.borderColor = announcement.category.color.CGColor
+		cell.colorView.layer.borderWidth = cell.colorView.frame.width
+		return cell
+	}
+	
+	// MARK: - Table View Delegate
+	
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return settingTypes[section]
     }
-    
+	
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return indexPath.section != 0
     }
@@ -218,7 +185,44 @@ class SettingsViewController: UITableViewController {
         
         return [delete, approve]
     }
-    
+	
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		tableView.deselectRowAtIndexPath(indexPath, animated: true)
+		if indexPath.section == 0
+		{
+			let category = announcementCategories[indexPath.row]
+			guard !category.contains(Announcement.Category.Emergency)
+				else
+			{
+				let alertController = UIAlertController(title: "Denied", message: "Emergency notifications must stay active during the entire hackathon.", preferredStyle: .Alert)
+				alertController.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
+				presentViewController(alertController, animated: true, completion: nil)
+				return
+			}
+			if currentPreference.remove(category) == nil
+			{
+				currentPreference.insert(category)
+				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+			}
+			else
+			{
+				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+			}
+		}
+		else
+		{
+			guard APIManager.sharedManager.canEditAnnouncements()
+				else
+			{
+				lastStatus = APIManager.sharedManager.isLoggedIn
+				return
+			}
+			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
+			presentViewController(compose, animated: true, completion: nil)
+		}
+	}
+	
     @IBAction func changeLoginStatus(sender: UIBarButtonItem) {
         if APIManager.sharedManager.isLoggedIn {
             APIManager.sharedManager.logout()

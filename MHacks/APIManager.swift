@@ -127,7 +127,7 @@ final class APIManager : NSObject
 			{
 			case .Value(let newValue):
 				guard updater(newValue)
-					else
+				else
 				{
 					return
 				}
@@ -139,8 +139,6 @@ final class APIManager : NSObject
 			}
 		})
 	}
-	
-	
 	
 	
 	// MARK: - Announcements
@@ -189,6 +187,8 @@ final class APIManager : NSObject
 		})
 	}
 	
+	// MARK: - Unapproved Announcements
+	
 	private(set) var unapprovedAnnouncements : [Announcement] {
 		get { return unapprovedAnnouncementBuffer._array }
 		set {
@@ -203,8 +203,9 @@ final class APIManager : NSObject
 	func updateUnapprovedAnnouncements()
 	{
 		updateGenerically("/v1/all_announcements", objectToUpdate: { (result: MyArray<Announcement>) in
+			print("Updating unapproved announcements \(result._array)")
 			guard result._array != self.unapprovedAnnouncementBuffer._array
-				else
+			else
 			{
 				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
 				return false
@@ -217,7 +218,7 @@ final class APIManager : NSObject
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
 	{
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<Announcement>) in
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<JSONWrapper>) in
 			switch deletedAnnouncement
 			{
 			case .Value(_):

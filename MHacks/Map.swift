@@ -70,7 +70,7 @@ import CoreLocation
 		guard let file = serialized[Map.fileLocationKey] as? String
 		else
 		{
-			self.init(fileLocation: "", imageURL: "", southWestLatitude: 42.291597, southWestLongitude: -83.716529, northEastLatitude: 42.294240, northEastLongitude: -83.712727)
+			self.init(fileLocation: "", imageURL: "", southWestLatitude: 42.291200, southWestLongitude: -83.716611, northEastLatitude: 42.294380, northEastLongitude: -83.712562)
 			return
 		}
 		self.init(fileLocation: file, imageURL: imageURLString, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)

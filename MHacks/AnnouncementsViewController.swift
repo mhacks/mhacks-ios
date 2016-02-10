@@ -99,7 +99,7 @@ class AnnouncementsViewController: UITableViewController {
 			navigationItem.rightBarButtonItem = nil
 			return
 		}
-		let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
+		let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
 		presentViewController(compose, animated: true, completion: nil)
 	}
 	
@@ -126,8 +126,8 @@ class AnnouncementsViewController: UITableViewController {
 	{
 		if APIManager.sharedManager.canEditAnnouncements()
 		{
-			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
-			compose.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
+			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
 			presentViewController(compose, animated: true, completion: nil)
 		}
 		else
