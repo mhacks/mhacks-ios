@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -692,7 +691,7 @@
             </objects>
             <point key="canvasLocation" x="1781" y="756"/>
         </scene>
-        <!--Login-->
+        <!--Hacker Portal-->
         <scene sceneID="n6z-y1-OtI">
             <objects>
                 <viewController id="s6b-gL-H5G" customClass="LoginViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -704,44 +703,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
-                                <rect key="frame" x="20" y="182" width="560" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="9zC-sf-9Qq">
+                                <rect key="frame" x="20" y="272" width="560" height="27"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="s6b-gL-H5G" id="XDf-nz-mFt"/>
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbd-GB-CKO">
-                                <rect key="frame" x="20" y="220" width="560" height="30"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
+                                <rect key="frame" x="20" y="307" width="560" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="s6b-gL-H5G" id="iXY-Gc-Dso"/>
                                 </connections>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Fhj-0i-AOe">
-                                <rect key="frame" x="175" y="300" width="251" height="251"/>
+                                <rect key="frame" x="200" y="72" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Fhj-0i-AOe" secondAttribute="height" multiplier="1:1" id="Aew-C9-RIQ"/>
+                                    <constraint firstAttribute="width" constant="200" id="Eyg-Os-4uu"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.90196078430000004" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="5Lb-1G-tHf"/>
-                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="top" secondItem="C4f-9I-J07" secondAttribute="centerY" id="Bpa-45-qEd"/>
+                            <constraint firstItem="9zC-sf-9Qq" firstAttribute="top" secondItem="Fhj-0i-AOe" secondAttribute="bottom" id="Ipk-v1-zBk"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="top" secondItem="9zC-sf-9Qq" secondAttribute="bottom" constant="8" id="LWH-cl-Ppo"/>
-                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="top" secondItem="bbd-GB-CKO" secondAttribute="bottom" constant="50" id="Wqh-Ig-ZR5"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="evg-ns-MUf"/>
+                            <constraint firstItem="Fhj-0i-AOe" firstAttribute="top" secondItem="CVh-ze-hO3" secondAttribute="bottom" constant="8" id="j1N-Nz-SJf"/>
                             <constraint firstItem="9zC-sf-9Qq" firstAttribute="trailing" secondItem="C4f-9I-J07" secondAttribute="trailingMargin" id="njF-dU-JLo"/>
-                            <constraint firstItem="Cow-mq-kj8" firstAttribute="top" secondItem="Fhj-0i-AOe" secondAttribute="bottom" id="ns4-eV-xxO"/>
                             <constraint firstItem="bbd-GB-CKO" firstAttribute="leading" secondItem="C4f-9I-J07" secondAttribute="leadingMargin" id="r0P-g1-39L"/>
                             <constraint firstItem="Fhj-0i-AOe" firstAttribute="centerX" secondItem="C4f-9I-J07" secondAttribute="centerX" id="yvv-9U-jhR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Login" id="MXX-2V-acF">
+                    <navigationItem key="navigationItem" title="Hacker Portal" id="MXX-2V-acF">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="C3t-UF-ji2">
                             <connections>
                                 <action selector="cancelLogin:" destination="s6b-gL-H5G" id="suW-q0-yNa"/>
