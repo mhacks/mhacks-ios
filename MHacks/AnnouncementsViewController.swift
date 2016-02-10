@@ -27,14 +27,23 @@ class AnnouncementsViewController: UITableViewController {
 		tableView.estimatedRowHeight = 100.0
 		
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if APIManager.sharedManager.canPostAnnouncements()
+        {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "compose:")
+        }
+        else
+        {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+    
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "announcementsUpdated:", name: APIManager.announcementsUpdatedNotification, object: nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
-		if APIManager.sharedManager.canPostAnnouncements()
-		{
-			navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "compose:")
-		}
 		if APIManager.sharedManager.canEditAnnouncements()
 		{
 			tableView.allowsSelection = true

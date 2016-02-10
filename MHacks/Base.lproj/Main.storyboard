@@ -392,7 +392,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="gpC-KV-UoH">
-                        <barButtonItem key="rightBarButtonItem" title="Login" style="done" id="cX2-SQ-8Qo">
+                        <barButtonItem key="rightBarButtonItem" title="Login" id="cX2-SQ-8Qo">
                             <connections>
                                 <action selector="changeLoginStatus:" destination="sal-Fe-WoM" id="BgD-z4-ASQ"/>
                             </connections>
@@ -405,6 +405,28 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VHR-lr-D33" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1065" y="756"/>
+        </scene>
+        <!--New Create Announcement-->
+        <scene sceneID="lG4-h2-nPk">
+            <objects>
+                <viewController title="New Create Announcement" id="uub-7p-Xvb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u2j-CJ-0dY"/>
+                        <viewControllerLayoutGuide type="bottom" id="9La-GB-WG6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MaE-QG-MIU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Announcement" id="FL9-5A-sTy">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="1jX-LZ-d4w"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="DIm-4e-Ysf"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WbV-G8-zgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4118" y="1679"/>
         </scene>
         <!--Create Announcement-->
         <scene sceneID="mPl-Xw-zup">
@@ -746,7 +768,7 @@
                                 <action selector="cancelLogin:" destination="s6b-gL-H5G" id="suW-q0-yNa"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Login" style="done" id="tNH-2G-yJ7">
+                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="tNH-2G-yJ7">
                             <connections>
                                 <action selector="login:" destination="s6b-gL-H5G" id="MET-k2-YAJ"/>
                             </connections>
@@ -991,6 +1013,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qSI-Kn-3rf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1906" y="2095"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Z2A-hd-kRb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ykb-Yv-m4u" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5VL-Ar-8gq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uub-7p-Xvb" kind="relationship" relationship="rootViewController" id="Yx9-zN-FYZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Yw-OM-7IZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3306" y="1679"/>
         </scene>
     </scenes>
     <resources>
