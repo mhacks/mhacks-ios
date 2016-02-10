@@ -51,6 +51,14 @@ class EventViewController: UIViewController {
 	
     override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
+		if event?.endDate < NSDate(timeIntervalSinceNow: 0)
+		{
+			notifButton.enabled = false
+		}
+		else
+		{
+			notifButton.enabled = true
+		}
         updateNotifyButton(event?.notification != nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()

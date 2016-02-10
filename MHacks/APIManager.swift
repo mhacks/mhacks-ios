@@ -30,8 +30,7 @@ private let archiveLocation = container.URLByAppendingPathComponent("manager.pli
 
 final class APIManager : NSObject
 {
-	// TODO: Put actual base URL here
-	private static let baseURL = NSURL(string: "http://ec2-52-5-127-162.compute-1.amazonaws.com")!
+	private static let baseURL = NSURL(string: "http://ec2-52-70-71-221.compute-1.amazonaws.com")!
 	
 	// MARK: - Initializers
 	
@@ -191,7 +190,6 @@ final class APIManager : NSObject
 	///	- parameter completion:	The completion block, true on success, false on failure.
 	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
 	{
-		
 		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: announcement.encodeForCreation(), usingHTTPMethod: method, completion: { (updatedAnnouncement: Either<Announcement>) in
 			switch updatedAnnouncement
 			{
@@ -205,6 +203,26 @@ final class APIManager : NSObject
 				completion(false)
 			}
 		})
+	}
+	
+	func deleteAnnouncement(announcementIndex: Int, completion: (Bool) -> Void)
+	{
+		let announcement = announcementBuffer._array[announcementIndex]
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<JSONWrapper>) in
+			switch deletedAnnouncement
+			{
+			case .Value(_):
+				self.announcementBuffer._array.removeAtIndex(announcementIndex)
+				completion(true)
+			case .NetworkingError(let error):
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				completion(false)
+			case .UnknownError:
+				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				completion(false)
+			}
+		}
+
 	}
 	
 	// MARK: - Unapproved Announcements
