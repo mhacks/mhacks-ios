@@ -40,7 +40,7 @@ import CoreLocation
 		self.northEastLatitude = northEastLatitude
 		self.northEastLongitude = northEastLongitude
 		
-		guard let image = UIImage(contentsOfFile: fileLocation)
+		guard let URL = NSURL(string: fileLocation), let data = NSData(contentsOfURL: URL), let image = UIImage(data: data)
 		else
 		{
 			let image = UIImage(named: "Map")

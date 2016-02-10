@@ -413,9 +413,10 @@ final class APIManager : NSObject
 					return
 				}
 				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
-				let fileURL = directoryURL.URLByAppendingPathComponent("map")
+				let fileURL = directoryURL.URLByAppendingPathComponent("map.png")
 				do
 				{
+					let _ = try? NSFileManager.defaultManager().removeItemAtURL(fileURL)
 					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
 					newJSON[Map.fileLocationKey] = fileURL.absoluteString
 					guard completion()
