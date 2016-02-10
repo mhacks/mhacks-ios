@@ -126,7 +126,7 @@ class SettingsViewController: UITableViewController {
 				lastStatus = APIManager.sharedManager.isLoggedIn
 				return
 			}
-			let compose = storyboard!.instantiateViewControllerWithIdentifier("") as! ComposeAnnouncementViewController
+			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! ComposeAnnouncementViewController
 			compose.editingAnnouncement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
 			presentViewController(compose, animated: true, completion: nil)
 		}
