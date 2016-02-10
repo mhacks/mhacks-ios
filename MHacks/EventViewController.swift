@@ -44,16 +44,14 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		notifButton.layer.borderWidth = 1.0
         notifButton.layer.borderColor = UIColor.grayColor().colorWithAlphaComponent(0.5).CGColor
-        notifButton.backgroundColor = UIColor(red: 200.0 / 255.0, green: 200.0 / 255.0, blue: 200.0 / 255.0, alpha: 0.15)
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
     }
 	
     override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-        updateNotifyButton(event?.notification == nil)
+        updateNotifyButton(event?.notification != nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
 		mapModelDidUpdate()
