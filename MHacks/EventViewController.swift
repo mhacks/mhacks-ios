@@ -40,16 +40,20 @@ class EventViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var notifButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+		notifButton.layer.borderWidth = 1.0
+        notifButton.layer.borderColor = UIColor.grayColor().colorWithAlphaComponent(0.5).CGColor
+        notifButton.backgroundColor = UIColor(red: 200.0 / 255.0, green: 200.0 / 255.0, blue: 200.0 / 255.0, alpha: 0.15)
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
     }
 	
     override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
+        updateNotifyButton(event?.notification == nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
 		mapModelDidUpdate()
@@ -141,23 +145,48 @@ class EventViewController: UIViewController {
         CATransaction.commit()
     }
 	
-	func notifyMe()
+    func updateNotifyButton(hasNotification: Bool)
+    {   
+        if hasNotification
+        {
+            notifButton.setTitle("Cancel Reminder", forState: UIControlState.Normal)
+            notifButton.tintColor = UIColor.redColor()
+
+        }
+        else
+        {
+            notifButton.setTitle("Add Reminder", forState: .Normal)
+            notifButton.tintColor = self.view.tintColor
+        }
+    }
+    
+    
+    @IBAction func notifyMe (sender: UIButton)
 	{
 		guard let event = event
 		else
 		{
 			return
 		}
-		let notification = UILocalNotification()
-		notification.userInfo = ["id": event.ID]
-		notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
-		notification.fireDate = event.startDate.dateByAddingTimeInterval(-3600)
-		
-		if #available(iOS 8.2, *) {
-		    notification.alertTitle = "\(event.name)"
-		} else {
-		    // Fallback on earlier versions
-		}
-		UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        if let notif = event.notification
+        {
+            updateNotifyButton(true)
+            UIApplication.sharedApplication().cancelLocalNotification(notif)
+        }
+        else
+        {
+            updateNotifyButton(false)
+            let notification = UILocalNotification()
+            notification.userInfo = ["id": event.ID]
+            notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
+            notification.fireDate = event.startDate.dateByAddingTimeInterval(-3600)
+            
+            if #available(iOS 8.2, *) {
+                notification.alertTitle = "\(event.name)"
+            } else {
+                // Fallback on earlier versions
+            }
+            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        }
 	}
 }
