@@ -309,8 +309,8 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP8-q3-5Kx">
-                                            <rect key="frame" x="13" y="6.5" width="49" height="40"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <rect key="frame" x="13" y="6.5" width="39.5" height="40"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -455,17 +455,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" bounces="NO" bouncesZoom="NO" text="Message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tdI-IP-yrV">
-                                                    <rect key="frame" x="8" y="8" width="584" height="63.5"/>
+                                                    <rect key="frame" x="8" y="8" width="588" height="63.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="trailing" secondItem="xf9-Dn-Q2h" secondAttribute="trailingMargin" id="CnN-Il-uMz"/>
+                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="trailing" secondItem="xf9-Dn-Q2h" secondAttribute="trailing" constant="-4" id="CnN-Il-uMz"/>
                                                 <constraint firstItem="tdI-IP-yrV" firstAttribute="bottom" secondItem="xf9-Dn-Q2h" secondAttribute="bottomMargin" id="ENC-T7-t4a"/>
                                                 <constraint firstItem="tdI-IP-yrV" firstAttribute="top" secondItem="xf9-Dn-Q2h" secondAttribute="topMargin" id="MGs-Wq-USv"/>
-                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="leading" secondItem="xf9-Dn-Q2h" secondAttribute="leadingMargin" id="eeu-TX-zXZ"/>
+                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="leading" secondItem="xf9-Dn-Q2h" secondAttribute="leading" constant="8" id="eeu-TX-zXZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -486,13 +486,13 @@
                                                     </date>
                                                 </datePicker>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUg-6H-ayd">
-                                                    <rect key="frame" x="556" y="8" width="35.5" height="17"/>
+                                                    <rect key="frame" x="552.5" y="8" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broadcast Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="969-Ju-Orx">
-                                                    <rect key="frame" x="8" y="8" width="114" height="19.5"/>
+                                                    <rect key="frame" x="12" y="8" width="114" height="19.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -503,9 +503,9 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="zJt-HU-Gga" secondAttribute="trailing" id="6YP-9u-So6"/>
                                                 <constraint firstItem="969-Ju-Orx" firstAttribute="top" secondItem="qR7-tw-q4H" secondAttribute="topMargin" id="6eo-MJ-Mi9"/>
                                                 <constraint firstItem="zJt-HU-Gga" firstAttribute="top" secondItem="mUg-6H-ayd" secondAttribute="bottom" constant="8" id="QVR-fx-pV6"/>
-                                                <constraint firstItem="mUg-6H-ayd" firstAttribute="trailing" secondItem="qR7-tw-q4H" secondAttribute="trailingMargin" id="mOc-r4-7oO"/>
+                                                <constraint firstItem="mUg-6H-ayd" firstAttribute="trailing" secondItem="qR7-tw-q4H" secondAttribute="trailingMargin" constant="-4" id="mOc-r4-7oO"/>
                                                 <constraint firstItem="mUg-6H-ayd" firstAttribute="top" secondItem="qR7-tw-q4H" secondAttribute="topMargin" id="qaV-Mc-csJ"/>
-                                                <constraint firstItem="969-Ju-Orx" firstAttribute="leading" secondItem="qR7-tw-q4H" secondAttribute="leadingMargin" id="wij-8y-wEq"/>
+                                                <constraint firstItem="969-Ju-Orx" firstAttribute="leading" secondItem="qR7-tw-q4H" secondAttribute="leadingMargin" constant="4" id="wij-8y-wEq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -528,8 +528,8 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvd-0Y-VLa">
-                                                    <rect key="frame" x="18" y="10" width="49" height="24"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <rect key="frame" x="18" y="12.5" width="39.5" height="19.5"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

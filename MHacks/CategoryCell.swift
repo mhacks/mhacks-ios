@@ -12,7 +12,4 @@ class CategoryCell : UITableViewCell
 {
 	@IBOutlet var colorView: UIView!
 	@IBOutlet var categoryLabel: UILabel!
-	override func awakeFromNib() {
-		
-	}
 }

@@ -147,7 +147,7 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 		guard indexPath.section == 0, let reuse = cells[indexPath.row].reuseIdentifier
 		else
 		{
-			return 44.0
+			return 37.0
 		}
 		switch reuse
 		{
