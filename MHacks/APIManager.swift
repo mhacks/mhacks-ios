@@ -93,6 +93,19 @@ final class APIManager : NSObject
 		showNetworkIndicator()
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
 			defer { self.hideNetworkIndicator() }
+			guard (response as? NSHTTPURLResponse)?.statusCode != 403
+			else
+			{
+				let myError = NSError(domain: error?.domain ?? "", code: 403, userInfo: [NSLocalizedDescriptionKey : "Authentication failed. Please login again."])
+				completion(.NetworkingError(myError))
+				return
+			}
+			if let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields, let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let expiry = responseHeaders["expiry"] as? String
+			{
+				self.authenticator.authToken = authToken
+				self.authenticator.client = client
+				self.authenticator.expiry = expiry
+			}
 			guard error == nil
 			else
 			{
@@ -103,8 +116,15 @@ final class APIManager : NSObject
 			guard let obj = Object(data: data)
 			else
 			{
+				guard let jsonData = data, let errorMessage = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: []))?["message"] as? String
+				else
+				{
+					completion(.UnknownError)
+					return
+				}
+				let myError = NSError(domain: error?.domain ?? "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorMessage])
 				// Couldn't create the object out of the data we recieved
-				completion(.UnknownError)
+				completion(.NetworkingError(myError))
 				return
 			}
 			completion(.Value(obj))
@@ -203,7 +223,6 @@ final class APIManager : NSObject
 	func updateUnapprovedAnnouncements()
 	{
 		updateGenerically("/v1/all_announcements", objectToUpdate: { (result: MyArray<Announcement>) in
-			print("Updating unapproved announcements \(result._array)")
 			guard result._array != self.unapprovedAnnouncementBuffer._array
 			else
 			{
@@ -482,10 +501,10 @@ extension APIManager
 		}
 		
 		private let username: String
-		private let authToken : String
-		private let expiry : String
+		private var authToken : String
+		private var expiry : String
 		private let tokenType: String
-		private let client: String
+		private var client: String
 		private let privilege: Privilege
 
 		private static let authTokenKey = "MHacksAuthenticationToken"
