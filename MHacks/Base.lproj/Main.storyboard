@@ -455,7 +455,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" bounces="NO" bouncesZoom="NO" text="Message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tdI-IP-yrV">
-                                                    <rect key="frame" x="8" y="8" width="588" height="27.5"/>
+                                                    <rect key="frame" x="8" y="0.0" width="588" height="43.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -463,8 +463,8 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="tdI-IP-yrV" firstAttribute="trailing" secondItem="xf9-Dn-Q2h" secondAttribute="trailing" constant="-4" id="CnN-Il-uMz"/>
-                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="bottom" secondItem="xf9-Dn-Q2h" secondAttribute="bottomMargin" id="ENC-T7-t4a"/>
-                                                <constraint firstItem="tdI-IP-yrV" firstAttribute="top" secondItem="xf9-Dn-Q2h" secondAttribute="topMargin" id="MGs-Wq-USv"/>
+                                                <constraint firstAttribute="bottom" secondItem="tdI-IP-yrV" secondAttribute="bottom" id="ENC-T7-t4a"/>
+                                                <constraint firstAttribute="top" secondItem="tdI-IP-yrV" secondAttribute="top" id="MGs-Wq-USv"/>
                                                 <constraint firstItem="tdI-IP-yrV" firstAttribute="leading" secondItem="xf9-Dn-Q2h" secondAttribute="leading" constant="8" id="eeu-TX-zXZ"/>
                                             </constraints>
                                         </tableViewCellContentView>

@@ -52,6 +52,7 @@ class ComposeAnnouncementViewController: UIViewController {
 			}
 			messageField?.resignFirstResponder()
 		}
+        
 	}
 	
 	override func viewDidLoad() {
@@ -73,7 +74,6 @@ class ComposeAnnouncementViewController: UIViewController {
 		cells.append(titleCell)
 		
 		let messageCell = tableView.dequeueReusableCellWithIdentifier("infoCell") as! TextViewCell
-		messageCell.delegate = self
 		self.messageField = messageCell.textView
 		cells.append(messageCell)
 		
@@ -160,7 +160,7 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 			case "broadcastCell":
 				return (cells[indexPath.row] as! DatePickerCell).rowHeight
 			case "infoCell":
-				return (cells[indexPath.row] as! TextViewCell).rowHeight
+                return 105
 		default:
 			return 44.0
 		}
