@@ -190,7 +190,8 @@ final class APIManager : NSObject
 	///	- parameter completion:	The completion block, true on success, false on failure.
 	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
 	{
-		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: announcement.encodeForCreation(), usingHTTPMethod: method, completion: { (updatedAnnouncement: Either<Announcement>) in
+		let route = method == .PUT ? "/v1/update_announcement/\(announcement.ID)" : "/v1/announcements/"
+		taskWithRoute(route, parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (updatedAnnouncement: Either<Announcement>) in
 			switch updatedAnnouncement
 			{
 			case .Value(_):
@@ -276,7 +277,7 @@ final class APIManager : NSObject
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
 		var jsonToSend = announcement.encodeForCreation()
 		jsonToSend["is_approved"] = true
-		taskWithRoute("/v1/announcements/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .PUT) { (approvedAnnouncement: Either<Announcement>) in
+		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .PUT) { (approvedAnnouncement: Either<Announcement>) in
 			switch approvedAnnouncement
 			{
 			case .Value(announcement):
