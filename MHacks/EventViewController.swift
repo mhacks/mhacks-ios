@@ -47,6 +47,7 @@ class EventViewController: UIViewController {
         notifButton.layer.borderColor = UIColor.grayColor().colorWithAlphaComponent(0.5).CGColor
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
+		updateNotifyButton(event?.notification != nil)
     }
 	
     override func viewDidAppear(animated: Bool) {
@@ -59,7 +60,6 @@ class EventViewController: UIViewController {
 		{
 			notifButton.enabled = true
 		}
-        updateNotifyButton(event?.notification != nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
 		var frame = contentView.frame.size

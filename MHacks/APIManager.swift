@@ -92,18 +92,18 @@ final class APIManager : NSObject
 		showNetworkIndicator()
 		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
 			defer { self.hideNetworkIndicator() }
+			if let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields, let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let expiry = responseHeaders["expiry"] as? String
+			{
+				self.authenticator.authToken = authToken
+				self.authenticator.client = client
+				self.authenticator.expiry = expiry
+			}
 			guard (response as? NSHTTPURLResponse)?.statusCode != 403
 			else
 			{
 				let myError = NSError(domain: error?.domain ?? "", code: 403, userInfo: [NSLocalizedDescriptionKey : "Authentication failed. Please login again."])
 				completion(.NetworkingError(myError))
 				return
-			}
-			if let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields, let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let expiry = responseHeaders["expiry"] as? String
-			{
-				self.authenticator.authToken = authToken
-				self.authenticator.client = client
-				self.authenticator.expiry = expiry
 			}
 			guard error == nil
 			else
