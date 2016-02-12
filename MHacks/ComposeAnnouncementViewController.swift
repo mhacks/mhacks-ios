@@ -100,9 +100,8 @@ class ComposeAnnouncementViewController: UIViewController {
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate
-		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate
-		
+		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate.dateByAddingTimeInterval(-36000)
+		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate.dateByAddingTimeInterval(36000)
         if editingAnnouncement == nil
 		{
 			announceAt.setDate(NSDate(timeIntervalSinceNow: 60 * 60), animated: true)

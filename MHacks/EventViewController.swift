@@ -179,22 +179,25 @@ class EventViewController: UIViewController {
 		}
         if let notif = event.notification
         {
-            updateNotifyButton(true)
+            updateNotifyButton(false)
             UIApplication.sharedApplication().cancelLocalNotification(notif)
         }
         else
         {
-            updateNotifyButton(false)
+            updateNotifyButton(true)
             let notification = UILocalNotification()
             notification.userInfo = ["id": event.ID]
             notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
-            notification.fireDate = event.startDate.dateByAddingTimeInterval(-3600)
-            
+            notification.fireDate = event.startDate.dateByAddingTimeInterval(-600)
+            notification.soundName = UILocalNotificationDefaultSoundName
+			
             if #available(iOS 8.2, *) {
                 notification.alertTitle = "\(event.name)"
             } else {
                 // Fallback on earlier versions
             }
+			notification.repeatInterval = NSCalendarUnit(rawValue: 0)
+			notification.category = ""
             UIApplication.sharedApplication().scheduleLocalNotification(notification)
         }
 	}
