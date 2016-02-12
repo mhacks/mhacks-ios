@@ -43,15 +43,6 @@ import CoreLocation
 		guard let URL = NSURL(string: fileLocation), let data = NSData(contentsOfURL: URL), let image = UIImage(data: data)
 		else
 		{
-			let image = UIImage(named: "Map")
-			guard !fileLocation.isEmpty && image != nil
-			else
-			{
-				// Debugging
-				self.image = image!
-				super.init()
-				return
-			}
 			self.image = UIImage()
 			super.init()
 			return nil
@@ -70,8 +61,7 @@ import CoreLocation
 		guard let file = serialized[Map.fileLocationKey] as? String
 		else
 		{
-			self.init(fileLocation: "", imageURL: "", southWestLatitude: 42.291200, southWestLongitude: -83.716611, northEastLatitude: 42.294380, northEastLongitude: -83.712562)
-			return
+			return nil
 		}
 		self.init(fileLocation: file, imageURL: imageURLString, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)
 	}
