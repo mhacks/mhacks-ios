@@ -62,6 +62,9 @@ class EventViewController: UIViewController {
         updateNotifyButton(event?.notification != nil)
 		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
 		APIManager.sharedManager.updateMap()
+		var frame = contentView.frame.size
+		frame.height += Geometry.Insets.bottom
+		(contentView.superview as! UIScrollView).contentSize = frame
 		mapModelDidUpdate()
     }
 	

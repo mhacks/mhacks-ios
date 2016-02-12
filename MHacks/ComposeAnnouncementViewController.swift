@@ -160,10 +160,6 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 			case "broadcastCell":
 				return (cells[indexPath.row] as! DatePickerCell).rowHeight
 			case "infoCell":
-				defer {
-					(cells[indexPath.row] as! TextViewCell).textView.setContentOffset(CGPointZero, animated: true)
-					(cells[indexPath.row] as! TextViewCell).textView.setNeedsLayout()
-				}
 				return (cells[indexPath.row] as! TextViewCell).rowHeight
 		default:
 			return 44.0

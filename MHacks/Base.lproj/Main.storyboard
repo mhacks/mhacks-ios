@@ -447,15 +447,15 @@
                                             <outlet property="textField" destination="lfJ-27-9qq" id="QCi-Dv-DTS"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="infoCell" rowHeight="80" id="nWt-zF-gWJ" customClass="TextViewCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="157.5" width="600" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="infoCell" id="nWt-zF-gWJ" customClass="TextViewCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="157.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nWt-zF-gWJ" id="xf9-Dn-Q2h">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" bounces="NO" bouncesZoom="NO" text="Message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tdI-IP-yrV">
-                                                    <rect key="frame" x="8" y="8" width="588" height="63.5"/>
+                                                    <rect key="frame" x="8" y="8" width="588" height="27.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -473,7 +473,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="broadcastCell" rowHeight="261" id="krp-vj-YAu" customClass="DatePickerCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="237.5" width="600" height="261"/>
+                                        <rect key="frame" x="0.0" y="201.5" width="600" height="261"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="krp-vj-YAu" id="qR7-tw-q4H">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="260.5"/>
@@ -486,13 +486,13 @@
                                                     </date>
                                                 </datePicker>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mUg-6H-ayd">
-                                                    <rect key="frame" x="552.5" y="8" width="35.5" height="17"/>
+                                                    <rect key="frame" x="550.5" y="8" width="35.5" height="17"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broadcast Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="969-Ju-Orx">
-                                                    <rect key="frame" x="12" y="8" width="114" height="19.5"/>
+                                                    <rect key="frame" x="14" y="8" width="114" height="19.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -503,9 +503,9 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="zJt-HU-Gga" secondAttribute="trailing" id="6YP-9u-So6"/>
                                                 <constraint firstItem="969-Ju-Orx" firstAttribute="top" secondItem="qR7-tw-q4H" secondAttribute="topMargin" id="6eo-MJ-Mi9"/>
                                                 <constraint firstItem="zJt-HU-Gga" firstAttribute="top" secondItem="mUg-6H-ayd" secondAttribute="bottom" constant="8" id="QVR-fx-pV6"/>
-                                                <constraint firstItem="mUg-6H-ayd" firstAttribute="trailing" secondItem="qR7-tw-q4H" secondAttribute="trailingMargin" constant="-4" id="mOc-r4-7oO"/>
+                                                <constraint firstItem="mUg-6H-ayd" firstAttribute="trailing" secondItem="qR7-tw-q4H" secondAttribute="trailingMargin" constant="-6" id="mOc-r4-7oO"/>
                                                 <constraint firstItem="mUg-6H-ayd" firstAttribute="top" secondItem="qR7-tw-q4H" secondAttribute="topMargin" id="qaV-Mc-csJ"/>
-                                                <constraint firstItem="969-Ju-Orx" firstAttribute="leading" secondItem="qR7-tw-q4H" secondAttribute="leadingMargin" constant="4" id="wij-8y-wEq"/>
+                                                <constraint firstItem="969-Ju-Orx" firstAttribute="leading" secondItem="qR7-tw-q4H" secondAttribute="leadingMargin" constant="6" id="wij-8y-wEq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -514,7 +514,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="categoryCell" id="PQf-ar-4px" customClass="CategoryCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="498.5" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="462.5" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PQf-ar-4px" id="Hos-rt-lpB">
                                             <rect key="frame" x="0.0" y="0.0" width="561" height="43.5"/>
@@ -980,6 +980,7 @@
                     </scrollView>
                     <navigationItem key="navigationItem" title="Event" id="wuY-ho-eQO"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="colorView" destination="iAN-lx-7xS" id="1BN-aA-WQB"/>
                         <outlet property="contentView" destination="iHU-Sy-pSz" id="ujp-iy-Glz"/>

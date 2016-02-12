@@ -20,12 +20,13 @@ class TextViewCell: UITableViewCell, UITextViewDelegate
 	weak var delegate : ChangingHeightCellDelegate?
 	
 	var rowHeight : CGFloat = 60.0
-	
     override func awakeFromNib() {
         super.awakeFromNib()
 		rowHeight = textView.contentSize.height + 16.0
         // Initialization code
 		textView.delegate = self
+		let container = textView.textContainer
+		container.widthTracksTextView = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
