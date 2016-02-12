@@ -116,7 +116,7 @@ class ComposeAnnouncementViewController: UIViewController {
     }
 	func post(_: UIBarButtonItem)
 	{
-		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PATCH
+		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PUT
 		
 		let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: titleField.text ?? editingAnnouncement?.title ?? "", message: messageField.text ?? editingAnnouncement?.message ?? "", date: announceAt?.date ?? editingAnnouncement?.date ?? NSDate(timeIntervalSinceNow: 0), category: currentSelectedCategory, owner: editingAnnouncement?.owner ?? "", approved: editingAnnouncement?.approved ?? false)
 		APIManager.sharedManager.updateAnnouncement(announcement, usingMethod: method) { finished in
