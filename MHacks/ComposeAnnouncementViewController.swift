@@ -33,6 +33,7 @@ class ComposeAnnouncementViewController: UIViewController {
 			messageField?.delegate?.textViewDidChange?(messageField!)
 			announceAt?.setDate(announce.date, animated: true)
 			announceAt?.sendActionsForControlEvents(.ValueChanged)
+			
 			currentSelectedCategory = announce.category
 			guard !categoryCells.isEmpty
 			else
@@ -87,6 +88,7 @@ class ComposeAnnouncementViewController: UIViewController {
 		{
 			let cell = tableView.dequeueReusableCellWithIdentifier("categoryCell") as! CategoryCell
 			let category = Announcement.Category(rawValue: 1 << categoryRaw)
+			cell.accessoryType = .None
 			cell.categoryLabel.text = category.description
 			cell.colorView.layer.borderColor = category.color.CGColor
 			cell.colorView.layer.borderWidth = cell.colorView.frame.width
@@ -104,7 +106,19 @@ class ComposeAnnouncementViewController: UIViewController {
 		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate.dateByAddingTimeInterval(36000)
         if editingAnnouncement == nil
 		{
-			announceAt.setDate(NSDate(timeIntervalSinceNow: 60 * 60), animated: true)
+			let dateToSet = NSDate(timeIntervalSinceNow: 60 * 60)
+			if (dateToSet > announceAt.maximumDate)
+			{
+				announceAt.setDate(announceAt.maximumDate!, animated: true)
+			}
+			else if (dateToSet < announceAt.minimumDate)
+			{
+				announceAt.setDate(announceAt.minimumDate!, animated: true)
+			}
+			else
+			{
+				announceAt.setDate(dateToSet, animated: true)
+			}
 			announceAt.sendActionsForControlEvents(.ValueChanged)
 		}
 	}
@@ -116,6 +130,15 @@ class ComposeAnnouncementViewController: UIViewController {
     }
 	func post(_: UIBarButtonItem)
 	{
+		guard currentSelectedCategory != Announcement.Category.None
+		else
+		{
+			let alertController = UIAlertController(title: "Missing Category", message: "You must select at least one category", preferredStyle: UIAlertControllerStyle.Alert)
+			alertController.addAction(UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil))
+			presentViewController(alertController, animated: true, completion: nil)
+			return
+		}
+		
 		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PUT
 		
 		let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: titleField.text ?? editingAnnouncement?.title ?? "", message: messageField.text ?? editingAnnouncement?.message ?? "", date: announceAt?.date ?? editingAnnouncement?.date ?? NSDate(timeIntervalSinceNow: 0), category: currentSelectedCategory, owner: editingAnnouncement?.owner ?? "", approved: editingAnnouncement?.approved ?? false)

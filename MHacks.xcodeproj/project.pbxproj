@@ -13,7 +13,6 @@
 		820C5BF71C29327900CD9F09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C5BF61C29327900CD9F09 /* Security.framework */; };
 		8216C6021C69CC3B00D42B13 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8216C6011C69CC3B00D42B13 /* MobileCoreServices.framework */; };
 		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
-		82287A501C66C3D8001A0F38 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
 		82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82287A591C66C419001A0F38 /* MainInterface.storyboard */; };
 		82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
@@ -116,7 +115,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				82287A501C66C3D8001A0F38 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
