@@ -306,7 +306,7 @@ final class APIManager : NSObject
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
 		var jsonToSend = announcement.encodeForCreation()
 		jsonToSend["is_approved"] = true
-		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .PUT) { (approvedAnnouncement: Either<Announcement>) in
+		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .POST) { (approvedAnnouncement: Either<Announcement>) in
 			switch approvedAnnouncement
 			{
 			case .Value(announcement):
