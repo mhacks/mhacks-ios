@@ -54,7 +54,7 @@ import UIKit
 			}
 		}()
 		
-		let dateText = Countdown.dateFormatter.stringFromDate(endDate)
+		let dateText = Countdown.dateFormatter.stringFromDate(endDate.dateByAddingTimeInterval(-3 * 3600))
 		
 		return NSString(format: message, dateText) as String
 	}
