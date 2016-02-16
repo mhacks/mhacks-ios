@@ -228,13 +228,10 @@ struct Hour: TimeInterval {
             var columns = Array(count: partialHoursCount, repeatedValue: 0)
             
             for index in 0..<partialHoursCount {
-                
-                let partialHourStart = partialHoursByDay[day][index].start
-                let nextPartialHourStart: Double? = (index+1 < partialHoursCount) ? partialHoursByDay[day][index+1].start : nil
-                
+				
                 columns[index] = column
                 
-                if partialHourStart == nextPartialHourStart {
+                if (index + 1 < partialHoursCount) && partialHoursByDay[day][index].overlaps(partialHoursByDay[day][index+1]) {
                     
                     column++
                     

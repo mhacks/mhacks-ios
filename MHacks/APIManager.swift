@@ -86,7 +86,7 @@ final class APIManager : NSObject
 		return mutableRequest.copy() as! NSURLRequest
 	}
 	
-	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, completion: (Either<Object>) -> Void)
+	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, didRecurse: Bool = false, completion: (Either<Object>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
 		showNetworkIndicator()
@@ -121,7 +121,11 @@ final class APIManager : NSObject
 							errorOccurred()
 							return
 						}
-						return self.taskWithRoute(route, parameters: parameters, usingHTTPMethod: method, completion: completion)
+						if didRecurse
+						{
+							return
+						}
+						return self.taskWithRoute(route, parameters: parameters, usingHTTPMethod: method, didRecurse: true, completion: completion)
 					case .NetworkingError(let error):
 						completion(.NetworkingError(error))
 					case .UnknownError:
