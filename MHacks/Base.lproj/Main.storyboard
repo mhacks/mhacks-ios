@@ -918,6 +918,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iAN-lx-7xS" secondAttribute="height" multiplier="1:1" id="454-Zs-JCg"/>
+                                            <constraint firstAttribute="height" constant="20" id="AAR-Un-ffj"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dg0-Mb-HdI">
@@ -941,7 +942,6 @@
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="top" secondItem="yYr-Hx-Oiw" secondAttribute="bottom" constant="15" id="3j5-Gw-CDj"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="top" secondItem="6oU-Kv-kdK" secondAttribute="bottom" constant="15" id="8dc-ex-Q0X"/>
                                     <constraint firstItem="Wth-FJ-wu9" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="GKC-jp-Ksg"/>
-                                    <constraint firstItem="dPa-wF-91S" firstAttribute="bottom" secondItem="iAN-lx-7xS" secondAttribute="bottom" id="I2b-DH-slt"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="M7p-wo-1Ul"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iAN-lx-7xS" secondAttribute="top" id="Nh8-IW-xJl"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="PWw-k5-50H"/>

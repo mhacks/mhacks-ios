@@ -101,8 +101,33 @@ final class APIManager : NSObject
 			guard (response as? NSHTTPURLResponse)?.statusCode != 403
 			else
 			{
-				let myError = NSError(domain: error?.domain ?? "", code: 403, userInfo: [NSLocalizedDescriptionKey : "Authentication failed. Please login again."])
-				completion(.NetworkingError(myError))
+				let errorOccurred = {
+					let myError = NSError(domain: error?.domain ?? "", code: 403, userInfo: [NSLocalizedDescriptionKey : "Authentication failed. Please login again."])
+					completion(.NetworkingError(myError))
+				}
+				guard let auth = self.authenticator
+				else
+				{
+					errorOccurred()
+					return
+				}
+				self.loginWithUsername(auth.username, password: auth.password, completion: {
+					switch $0
+					{
+					case .Value(let authenticated):
+						guard authenticated
+						else
+						{
+							errorOccurred()
+							return
+						}
+						return self.taskWithRoute(route, parameters: parameters, usingHTTPMethod: method, completion: completion)
+					case .NetworkingError(let error):
+						completion(.NetworkingError(error))
+					case .UnknownError:
+						errorOccurred()
+					}
+				})
 				return
 			}
 			guard error == nil
@@ -500,7 +525,7 @@ extension APIManager
 			}
 			let JSON = try? NSJSONSerialization.JSONObjectWithData(data ?? NSData(), options: [])
 			let privilege = (JSON?["data"] as? [String: AnyObject])?["roles"] as? Int ?? 0
-			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, expiry: expiry, tokenType: tokenType, privilege: privilege)
+			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, password: password, expiry: expiry, tokenType: tokenType, privilege: privilege)
 			completion(.Value(true))
 		}
 		task.resume()
@@ -521,26 +546,29 @@ extension APIManager
 		}
 		
 		private let username: String
+		private let password: String
 		private var authToken : String
 		private var expiry : String
 		private let tokenType: String
 		private var client: String
 		private let privilege: Privilege
-
+		
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let clientKey = "MHacksClientKey"
 		private static let expiryKey = "expiry"
 		private static let usernameKey = "username"
 		private static let tokenTypeKey = "token-type"
 		private static let privilegeKey = "privilege"
+		private static let passwordKey = "password"
 		
-		private init(authToken: String, client: String, username: String, expiry: String, tokenType: String, privilege: Int) {
+		private init(authToken: String, client: String, username: String, password: String, expiry: String, tokenType: String, privilege: Int) {
 			self.authToken = authToken
 			self.client = client
 			self.username = username
 			self.expiry = expiry
 			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
 			self.tokenType = tokenType
+			self.password = password
 			super.init()
 		}
 		
@@ -565,6 +593,7 @@ extension APIManager
 			aCoder.encodeObject(tokenType, forKey: Authenticator.tokenTypeKey)
 			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
 			SSKeychain.setPassword(client, forService: Authenticator.clientKey, account: username)
+			SSKeychain.setPassword(password, forService: Authenticator.passwordKey, account: username)
 		}
 		
 		@objc convenience init?(coder aDecoder: NSCoder) {
@@ -574,11 +603,11 @@ extension APIManager
 			else {
 				return nil
 			}
-			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username), let client = SSKeychain.passwordForService(Authenticator.clientKey, account: username)
+			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username), let client = SSKeychain.passwordForService(Authenticator.clientKey, account: username), let password = SSKeychain.passwordForService(Authenticator.passwordKey, account: username)
 			else {
 				return nil
 			}
-			self.init(authToken: authToken, client: client, username: username, expiry: expiry, tokenType: tokenType, privilege: privilege)
+			self.init(authToken: authToken, client: client, username: username, password: password, expiry: expiry, tokenType: tokenType, privilege: privilege)
 		}
 	}
 }
