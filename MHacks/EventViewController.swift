@@ -61,7 +61,7 @@ class EventViewController: UIViewController {
 			notifButton.enabled = true
 		}
 		colorView.layer.cornerRadius = colorView.frame.width / 2
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapModelDidUpdate:", name: APIManager.mapUpdatedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.MapUpdated, observer: self, selector: #selector(EventViewController.mapModelDidUpdate(_:)))
 		APIManager.sharedManager.updateMap()
 		var frame = contentView.frame.size
 		frame.height += Geometry.Insets.bottom

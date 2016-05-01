@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 enum HTTPMethod : String
 {
@@ -161,7 +160,7 @@ final class APIManager : NSObject
 	}
 	
 	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notificationName: String, semaphoreGuard: dispatch_semaphore_t)
+	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t)
 	{
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
 		else
@@ -179,11 +178,11 @@ final class APIManager : NSObject
 				{
 					return
 				}
-				NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self)
+				NSNotificationCenter.defaultCenter().post(notification, object: self)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 			}
 		})
 	}
@@ -206,12 +205,12 @@ final class APIManager : NSObject
 			guard result._array != self.announcementBuffer._array
 			else
 			{
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.announcementsUpdatedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated)
 				return false
 			}
 			self.announcementBuffer = result
 			return true
-			}, notificationName: APIManager.announcementsUpdatedNotification, semaphoreGuard: announcementsSemaphore)
+			}, notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore)
 	}
 	
 	///	Posts a new announcment from a sponsor or admin
@@ -226,10 +225,10 @@ final class APIManager : NSObject
 			case .Value(_):
 				completion(true)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 				completion(false)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 				completion(false)
 			}
 		})
@@ -245,10 +244,10 @@ final class APIManager : NSObject
 				self.announcementBuffer._array.removeAtIndex(announcementIndex)
 				completion(true)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 				completion(false)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: nil)
 				completion(false)
 			}
 		}
@@ -274,12 +273,12 @@ final class APIManager : NSObject
 			guard result._array != self.unapprovedAnnouncementBuffer._array
 			else
 			{
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.UnapprovedAnnouncementsUpdated)
 				return false
 			}
 			self.unapprovedAnnouncementBuffer = result
 			return true
-			}, notificationName: APIManager.unapprovedAnnouncementsUpdatedNotification, semaphoreGuard: unapprovedAnnouncementsSemaphore)
+			}, notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore)
 	}
 	
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
@@ -292,10 +291,10 @@ final class APIManager : NSObject
 				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
 				completion(true)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 				completion(false)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 				completion(false)
 			}
 		}
@@ -313,17 +312,17 @@ final class APIManager : NSObject
 				guard announcement.approved
 				else
 				{
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+					NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 					completion(false)
 					break
 				}
 				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
 				completion(true)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 				completion(false)
 			case .UnknownError:
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 				completion(false)
 			default:
 				completion(false)
@@ -343,7 +342,7 @@ final class APIManager : NSObject
 				defaults.setObject(token, forKey: remoteNotificationTokenKey)
 				completion?(true)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 			case .UnknownError:
 				completion?(false)
 			}
@@ -363,7 +362,7 @@ final class APIManager : NSObject
 			}
 			self.countdown = result
 			return true
-		}, notificationName: APIManager.countdownUpdateNotification, semaphoreGuard: countdownSemaphore)
+		}, notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore)
 	}
 	
 	// MARK: - Events
@@ -373,6 +372,7 @@ final class APIManager : NSObject
 	func updateEvents() {
 		updateLocations()
 		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+			// Wait on a background thread for 
 			dispatch_semaphore_wait(self.locationSemaphore, DISPATCH_TIME_FOREVER)
 			dispatch_semaphore_signal(self.locationSemaphore)
 			self.updateGenerically("/v1/events", objectToUpdate: { (result: EventOrganizer) in
@@ -383,7 +383,7 @@ final class APIManager : NSObject
 				}
 				self.eventsOrganizer = result
 				return true
-			}, notificationName: APIManager.eventsUpdatedNotification, semaphoreGuard: self.eventsSemaphore)
+			}, notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore)
 		})
 	}
 	
@@ -400,7 +400,7 @@ final class APIManager : NSObject
 		updateGenerically("/v1/locations", objectToUpdate: { (result: MyArray<Location>) in
 			self.locationBuffer = result
 			return true
-		}, notificationName: APIManager.locationsUpdatedNotification, semaphoreGuard: locationSemaphore)
+		}, notification: .LocationsUpdated, semaphoreGuard: locationSemaphore)
 	}
 	
 	
@@ -454,10 +454,10 @@ final class APIManager : NSObject
 					guard completion()
 					else
 					{
-						NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+						NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 						return
 					}
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: error)
+					NSNotificationCenter.defaultCenter().post(.MapUpdated, object: error)
 					return
 				}
 				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
@@ -472,26 +472,29 @@ final class APIManager : NSObject
 					{
 						return
 					}
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.mapUpdatedNotification, object: self)
+					NSNotificationCenter.defaultCenter().post(.MapUpdated, object: self)
 				}
 				catch
 				{
-					NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error as NSError)
+					NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error as NSError)
 				}
 			})
 			downloadTask.resume()
 			return false
-		}, notificationName: APIManager.mapUpdatedNotification, semaphoreGuard: mapSemaphore)
+		}, notification: .MapUpdated, semaphoreGuard: mapSemaphore)
 	}
 	
 	// MARK: - Notification Keys
-	static let announcementsUpdatedNotification = "AnnouncmentsUpdatedNotification"
-	static let unapprovedAnnouncementsUpdatedNotification = "UnapprovedAnnouncmentsUpdatedNotification"
-	static let countdownUpdateNotification = "CountdownUpdatedNotification"
-	static let eventsUpdatedNotification = "EventsUpdatedNotification"
-	static let locationsUpdatedNotification = "LocationsUpdatedNotification"
-	static let mapUpdatedNotification = "MapUpdatedNotification"
-	static let connectionFailedNotification = "ConnectionFailure"
+	enum NotificationKey : String
+	{
+		case AnnouncementsUpdated
+		case UnapprovedAnnouncementsUpdated
+		case CountdownUpdated
+		case EventsUpdated
+		case LocationsUpdated
+		case MapUpdated
+		case ConnectionFailure
+	}
 }
 
 // MARK: - Authentication and User Stuff
@@ -680,4 +683,7 @@ extension APIManager : NSCoding
 		self.eventsOrganizer = eventsOrganizer
 	}
 }
+// FIXME: Hack, we create this callback so that events can be updated without 
+// a race condition. We need to figure out a way to do this better without 
+// causing problems during the initialization of the APIManager
 var locationForID : ((Int?) -> Location?)!

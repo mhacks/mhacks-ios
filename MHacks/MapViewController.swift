@@ -48,7 +48,7 @@ class MapViewController: UIViewController
 			manager.requestWhenInUseAuthorization()
 		}
 		blurView.frame = UIApplication.sharedApplication().statusBarFrame
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "mapUpdated:", name: APIManager.mapUpdatedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.MapUpdated, observer: self, selector: #selector(MapViewController.mapUpdated(_:)))
 		APIManager.sharedManager.updateMap()
 		mapUpdated()
 	}

@@ -33,7 +33,7 @@ class CountdownViewController: UIViewController {
 	
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCountdownViews:", name: APIManager.countdownUpdateNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.CountdownUpdated, observer: self, selector: #selector(CountdownViewController.updateCountdownViews(_:)))
 		APIManager.sharedManager.updateCountdown()
 	}
 	
@@ -48,7 +48,7 @@ class CountdownViewController: UIViewController {
 		
 		let nextSecond = NSCalendar.sharedCalendar.nextDateAfterDate(NSDate(), matchingUnit: .Nanosecond, value: 0, options: .MatchNextTime)!
 		
-		timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: "timerFire:", userInfo: nil, repeats: true)
+		timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
 		NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
 	}

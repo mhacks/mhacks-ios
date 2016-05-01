@@ -233,7 +233,7 @@ struct Hour: TimeInterval {
                 
                 if (index + 1 < partialHoursCount) && partialHoursByDay[day][index].overlaps(partialHoursByDay[day][index+1]) {
                     
-                    column++
+                    column += 1
                     
                 } else {
                     

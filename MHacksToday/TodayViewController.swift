@@ -40,15 +40,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 		let layout = collectionView.collectionViewLayout as! CalendarLayout
 		layout.rowInsets = UIEdgeInsets(top: 0.0, left: 52.0, bottom: 0.0, right: 0.0)
 
-		segmentedControl.addTarget(self, action: "changeView:", forControlEvents: .ValueChanged)
+		segmentedControl.addTarget(self, action: #selector(TodayViewController.changeView(_:)), forControlEvents: .ValueChanged)
     }
 	override func viewWillAppear(animated: Bool)
 	{
 		super.viewWillAppear(animated)
 		eventsUpdated()
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "announcementsUpdated:", name: APIManager.announcementsUpdatedNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "eventsUpdated:", name: APIManager.eventsUpdatedNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "failed:", name: APIManager.connectionFailedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(TodayViewController.announcementsUpdated(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(TodayViewController.eventsUpdated(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(TodayViewController.failed(_:)))
+		
 		APIManager.sharedManager.updateAnnouncements()
 		APIManager.sharedManager.updateEvents()
 		tableView.reloadData()

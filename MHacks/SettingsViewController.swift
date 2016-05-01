@@ -48,7 +48,7 @@ class SettingsViewController: UITableViewController {
 		lastStatus = APIManager.sharedManager.isLoggedIn
 		
         if APIManager.sharedManager.canEditAnnouncements() {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "unapprovedAnnouncementsUpdated:", name: APIManager.unapprovedAnnouncementsUpdatedNotification, object: nil)
+            NSNotificationCenter.defaultCenter().listenFor(.UnapprovedAnnouncementsUpdated, observer: self, selector: #selector(SettingsViewController.unapprovedAnnouncementsUpdated(_:)))
             
             APIManager.sharedManager.updateUnapprovedAnnouncements()
         }
@@ -81,7 +81,7 @@ class SettingsViewController: UITableViewController {
 		APIManager.sharedManager.updateAPNSToken(token, preference: currentPreference.rawValue, method: .PUT, completion: { updated in
 			if !updated
 			{
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: nil)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
 			}
 			else
 			{

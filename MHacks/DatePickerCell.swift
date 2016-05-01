@@ -33,7 +33,7 @@ class DatePickerCell: UITableViewCell
 	}
 	override func awakeFromNib() {
 		super.awakeFromNib()
-		datePicker.addTarget(self, action: "dateChanged:", forControlEvents: .ValueChanged)
+		datePicker.addTarget(self, action: #selector(DatePickerCell.dateChanged(_:)), forControlEvents: .ValueChanged)
 	}
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(false, animated: animated)

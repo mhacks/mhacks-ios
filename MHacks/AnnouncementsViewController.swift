@@ -22,7 +22,7 @@ class AnnouncementsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-		refreshControl!.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 100.0
 		
@@ -32,7 +32,7 @@ class AnnouncementsViewController: UITableViewController {
         super.viewWillAppear(animated)
         if APIManager.sharedManager.canPostAnnouncements()
         {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: "compose:")
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
         }
         else
         {
@@ -42,8 +42,8 @@ class AnnouncementsViewController: UITableViewController {
     
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "announcementsUpdated:", name: APIManager.announcementsUpdatedNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(AnnouncementsViewController.connectionError(_:)))
 		if APIManager.sharedManager.canEditAnnouncements()
 		{
 			tableView.allowsSelection = true

@@ -51,7 +51,7 @@ import UIKit
     let ID: String
     let name: String
 	let category: Category
-    var locations: [Location]
+    let locations: [Location]
     let startDate: NSDate
     let endDate: NSDate
     let information: String

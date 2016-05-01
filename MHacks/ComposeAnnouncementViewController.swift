@@ -58,12 +58,12 @@ class ComposeAnnouncementViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: "cancel:")
-		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "post:")
+		navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(ComposeAnnouncementViewController.cancel(_:)))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(ComposeAnnouncementViewController.post(_:)))
 		tableView.delegate = self
 		tableView.dataSource = self
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShown:", name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardWillHideNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardShown(_:)), name: UIKeyboardWillShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
         navigationItem.title = editingAnnouncement == nil ? "New Announcement" : "Edit Announcement"
 		buildCells()
 	}

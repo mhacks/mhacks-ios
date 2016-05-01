@@ -8,6 +8,10 @@
 
 import UIKit
 
+// These are separated into their own file so that we don't have a UIKit dependency
+// on APIManager.swift, and we can reuse APIManager.swift for a TodayExtension,
+// Watch App, Mac App or anything else you might imagine. On the other apps,
+// the implementation of these functions can be just empty.
 extension APIManager
 {
 	// MARK: - Helpers

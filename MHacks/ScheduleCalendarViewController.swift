@@ -65,7 +65,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 			emptyEvents.broadcast()
 		}
         APIManager.sharedManager.updateEvents()
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "eventsUpdated:", name: APIManager.eventsUpdatedNotification, object: nil)
+		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)))
     }
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)

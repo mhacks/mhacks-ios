@@ -20,7 +20,7 @@ class TabBarController: UITabBarController
 		{
 			willLaunchTo()
 		}
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "willLaunchTo:", name: launchToNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.willLaunchTo(_:)), name: launchToNotification, object: nil)
 	}
 	func willLaunchTo(_: NSNotification? = nil)
 	{

@@ -35,8 +35,8 @@ class LoginViewController: UIViewController
 	{
 		super.viewDidAppear(animated)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShown:", name: UIKeyboardDidShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHidden:", name: UIKeyboardDidHideNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardShown(_:)), name: UIKeyboardDidShowNotification, object: nil)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardHidden(_:)), name: UIKeyboardDidHideNotification, object: nil)
 		
 		guard !APIManager.sharedManager.isLoggedIn
 		else
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController
 				}
 				self.dismissViewControllerAnimated(true, completion: nil)
 			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 			case .UnknownError:
 				self.incorrectPassword()
 			}

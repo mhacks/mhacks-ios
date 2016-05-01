@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		application.registerForRemoteNotifications()
 		let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil)
 		application.registerUserNotificationSettings(settings)
-
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionError:", name: APIManager.connectionFailedNotification, object: nil)
+		
+		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(AppDelegate.connectionError(_:)))
 		
 		if let notif = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
 		{
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-		NSNotificationCenter.defaultCenter().postNotificationName(APIManager.connectionFailedNotification, object: error)
+		NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
 	}
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 		APIManager.sharedManager.updateAnnouncements()
@@ -126,7 +126,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		{
 			label!.text = (notification.object as? NSError)?.localizedDescription.sentenceCapitalizedString ?? label!.text
 			// There already exists an error message
-			// so we discard this one. Maybe we could queue the errors up?
+			// so we discard this one. Maybe we could queue the errors up and have timeouts of some sort?
+			// FIXME: Hack to prevent multiple errors from colliding with each other
 			return
 		}
 		dispatch_async(dispatch_get_main_queue(), {
@@ -158,6 +159,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 }
 
+// FIXME: Global hack. We should get rid of this from polluting the global namespace
+// and allow for launching to a specific page in a better way
 let launchToNotification = "LaunchToUpdatedNotification"
 enum LaunchTo
 {

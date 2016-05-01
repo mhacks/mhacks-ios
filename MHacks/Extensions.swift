@@ -114,14 +114,13 @@ extension String {
 	public var sentenceCapitalizedString : String
 	{
 		var formatted = ""
-		let range = Range(start: startIndex, end: endIndex)
-		enumerateSubstringsInRange(range, options: NSStringEnumerationOptions.BySentences, { sentence, sentenceRange, enclosingRange, stop in
+		enumerateSubstringsInRange(startIndex..<endIndex, options: NSStringEnumerationOptions.BySentences, { sentence, sentenceRange, enclosingRange, stop in
 			guard let sentence = sentence
 			else
 			{
 				return
 			}
-			formatted += sentence.stringByReplacingCharactersInRange(Range(start: self.startIndex, end: self.startIndex.advancedBy(1)), withString: sentence.substringToIndex(sentence.startIndex.successor()).capitalizedString)
+			formatted += sentence.stringByReplacingCharactersInRange(self.startIndex..<self.startIndex.advancedBy(1), withString: sentence.substringToIndex(sentence.startIndex.successor()).capitalizedString)
 		})
 		// Add trailing full stop.
 		if (formatted[formatted.endIndex.predecessor()] != ".")
@@ -148,3 +147,16 @@ let container = NSFileManager.defaultManager().containerURLForSecurityApplicatio
 
 let remoteNotificationTokenKey = "remote_notification_token"
 let remoteNotificationPreferencesKey = "remote_notification_preferences"
+
+
+extension NSNotificationCenter
+{
+	func listenFor(notification: APIManager.NotificationKey, observer: AnyObject, selector: Selector)
+	{
+		addObserver(observer, selector: selector, name: notification.rawValue, object: nil)
+	}
+	func post(notification: APIManager.NotificationKey, object: AnyObject? = nil)
+	{
+		postNotificationName(notification.rawValue, object: object)
+	}
+}
