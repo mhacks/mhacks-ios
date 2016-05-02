@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil)
 		application.registerUserNotificationSettings(settings)
 		
-		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(AppDelegate.connectionError(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(AppDelegate.error(_:)))
 		
 		if let notif = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
 		{
@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-		NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
+		NSNotificationCenter.defaultCenter().post(.Failure, object: error.localizedDescription)
 	}
 	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 		APIManager.sharedManager.updateAnnouncements()
@@ -109,22 +109,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var statusWindow : UIWindow?
 	var label : UILabel?
 	
-	func makeLabel(error: NSError?)
+	private func makeLabel(text: String?)
 	{
 		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRectZero)
 		self.label?.textAlignment = .Center
 		self.label?.backgroundColor = UIColor.redColor()
 		self.label?.textColor = UIColor.whiteColor()
 		self.label?.font = UIFont.boldSystemFontOfSize(12)
-		self.label?.text = error?.localizedDescription.sentenceCapitalizedString ?? "Unknown Error"
+		self.label?.text = text ?? "Unknown Error"
 	}
 	
-	func connectionError(notification: NSNotification)
+	func error(notification: NSNotification)
 	{
 		guard statusWindow == nil && label == nil
 		else
 		{
-			label!.text = (notification.object as? NSError)?.localizedDescription.sentenceCapitalizedString ?? label!.text
+			label!.text = (notification.object as? String)?.sentenceCapitalizedString ?? label!.text
 			// There already exists an error message
 			// so we discard this one. Maybe we could queue the errors up and have timeouts of some sort?
 			// FIXME: Hack to prevent multiple errors from colliding with each other
@@ -134,7 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			self.statusWindow = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
 			self.statusWindow?.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
 			
-			self.makeLabel(notification.object as? NSError)
+			self.makeLabel(notification.object as? String)
 			
 			self.statusWindow?.addSubview(self.label!)
 			self.statusWindow?.makeKeyAndVisible()

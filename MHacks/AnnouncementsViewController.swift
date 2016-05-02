@@ -43,7 +43,7 @@ class AnnouncementsViewController: UITableViewController {
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)))
-		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(AnnouncementsViewController.connectionError(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(AnnouncementsViewController.connectionError(_:)))
 		if APIManager.sharedManager.canEditAnnouncements()
 		{
 			tableView.allowsSelection = true

@@ -17,7 +17,6 @@
 		82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82287A591C66C419001A0F38 /* MainInterface.storyboard */; };
 		82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		82287A5D1C66C570001A0F38 /* JSONCreateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */; };
-		82287A5E1C66C570001A0F38 /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCE1C1F925D0061FFFB /* Either.swift */; };
 		82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
 		82287A601C66C570001A0F38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
 		82287A611C66C570001A0F38 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
@@ -53,7 +52,6 @@
 		82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
-		82473FCF1C1F925D0061FFFB /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCE1C1F925D0061FFFB /* Either.swift */; };
 		8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */; };
 		827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
 		8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01D1C606A5700B6EFEE /* TabBarController.swift */; };
@@ -160,7 +158,6 @@
 		82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCell.swift; sourceTree = "<group>"; };
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		82473FCE1C1F925D0061FFFB /* Either.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementViewController.swift; sourceTree = "<group>"; };
 		827F59AD1C6532DE00FF2D15 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		8286A01D1C606A5700B6EFEE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -400,7 +397,6 @@
 				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FCC1C1F91D70061FFFB /* APIManager.swift */,
 				82287A6C1C66D575001A0F38 /* SharedAPIManager.swift */,
-				82473FCE1C1F925D0061FFFB /* Either.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 				82942B9A1C2A2B850084880C /* Location.swift */,
@@ -538,7 +534,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82287A5E1C66C570001A0F38 /* Either.swift in Sources */,
 				82287A5D1C66C570001A0F38 /* JSONCreateable.swift in Sources */,
 				82287A741C66D8A4001A0F38 /* Map.swift in Sources */,
 				82287A811C66DDE7001A0F38 /* CalendarLayout.swift in Sources */,
@@ -578,7 +573,6 @@
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
-				82473FCF1C1F925D0061FFFB /* Either.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,

@@ -97,10 +97,8 @@ class LoginViewController: UIViewController
 					return
 				}
 				self.dismissViewControllerAnimated(true, completion: nil)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-			case .UnknownError:
-				self.incorrectPassword()
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 			}
 		}
 	}

@@ -17,6 +17,12 @@ enum HTTPMethod : String
 	case DELETE
 }
 
+enum Response<T>
+{
+	case Value(T)
+	case Error(String)
+}
+
 private let manager = { () -> APIManager in
 	let m = APIManager()
 	// Try constructing the APIManager using the cache.
@@ -85,7 +91,7 @@ final class APIManager : NSObject
 		return mutableRequest.copy() as! NSURLRequest
 	}
 	
-	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, didRecurse: Bool = false, completion: (Either<Object>) -> Void)
+	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, didRecurse: Bool = false, completion: (Response<Object>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
 		showNetworkIndicator()
@@ -100,14 +106,11 @@ final class APIManager : NSObject
 			guard (response as? NSHTTPURLResponse)?.statusCode != 403
 			else
 			{
-				let errorOccurred = {
-					let myError = NSError(domain: error?.domain ?? "", code: 403, userInfo: [NSLocalizedDescriptionKey : "Authentication failed. Please login again."])
-					completion(.NetworkingError(myError))
-				}
+				let error = Response<Object>.Error("Authentication failed. Please login again.")
 				guard let auth = self.authenticator
 				else
 				{
-					errorOccurred()
+					completion(error)
 					return
 				}
 				self.loginWithUsername(auth.username, password: auth.password, completion: {
@@ -117,7 +120,7 @@ final class APIManager : NSObject
 						guard authenticated
 						else
 						{
-							errorOccurred()
+							completion(error)
 							return
 						}
 						if didRecurse
@@ -125,10 +128,8 @@ final class APIManager : NSObject
 							return
 						}
 						return self.taskWithRoute(route, parameters: parameters, usingHTTPMethod: method, didRecurse: true, completion: completion)
-					case .NetworkingError(let error):
-						completion(.NetworkingError(error))
-					case .UnknownError:
-						errorOccurred()
+					case .Error(let errorMessage):
+						completion(.Error(errorMessage))
 					}
 				})
 				return
@@ -137,7 +138,7 @@ final class APIManager : NSObject
 			else
 			{
 				// The fetch failed because of a networking error
-				completion(.NetworkingError(error!))
+				completion(.Error(error!.localizedDescription))
 				return
 			}
 			guard let obj = Object(data: data)
@@ -146,12 +147,12 @@ final class APIManager : NSObject
 				guard let jsonData = data, let errorMessage = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: []))?["message"] as? String
 				else
 				{
-					completion(.UnknownError)
+					assertionFailure("Deserialization should never fail. We recover silently in production builds")
+					completion(.Error("Deserialization failed"))
 					return
 				}
-				let myError = NSError(domain: error?.domain ?? "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorMessage])
 				// Couldn't create the object out of the data we recieved
-				completion(.NetworkingError(myError))
+				completion(.Error(errorMessage))
 				return
 			}
 			completion(.Value(obj))
@@ -168,7 +169,7 @@ final class APIManager : NSObject
 			// A timeout occurred on the semaphore guard.
 			return
 		}
-		taskWithRoute(route, completion: {(result: Either<T>) in
+		taskWithRoute(route, completion: {(result: Response<T>) in
 			defer { dispatch_semaphore_signal(semaphoreGuard) }
 			switch result
 			{
@@ -179,10 +180,8 @@ final class APIManager : NSObject
 					return
 				}
 				NSNotificationCenter.defaultCenter().post(notification, object: self)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 			}
 		})
 	}
@@ -219,16 +218,13 @@ final class APIManager : NSObject
 	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
 	{
 		let route = method == .PUT ? "/v1/update_announcement/\(announcement.ID)" : "/v1/announcements/"
-		taskWithRoute(route, parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (updatedAnnouncement: Either<Announcement>) in
+		taskWithRoute(route, parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (updatedAnnouncement: Response<Announcement>) in
 			switch updatedAnnouncement
 			{
 			case .Value(_):
 				completion(true)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-				completion(false)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 				completion(false)
 			}
 		})
@@ -237,21 +233,17 @@ final class APIManager : NSObject
 	func deleteAnnouncement(announcementIndex: Int, completion: (Bool) -> Void)
 	{
 		let announcement = announcementBuffer._array[announcementIndex]
-		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<JSONWrapper>) in
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Response<JSONWrapper>) in
 			switch deletedAnnouncement
 			{
 			case .Value(_):
 				self.announcementBuffer._array.removeAtIndex(announcementIndex)
 				completion(true)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-				completion(false)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: nil)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 				completion(false)
 			}
 		}
-
 	}
 	
 	// MARK: - Unapproved Announcements
@@ -284,17 +276,14 @@ final class APIManager : NSObject
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
 	{
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Either<JSONWrapper>) in
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Response<JSONWrapper>) in
 			switch deletedAnnouncement
 			{
 			case .Value(_):
 				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
 				completion(true)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-				completion(false)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 				completion(false)
 			}
 		}
@@ -305,24 +294,22 @@ final class APIManager : NSObject
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
 		var jsonToSend = announcement.encodeForCreation()
 		jsonToSend["is_approved"] = true
-		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .POST) { (approvedAnnouncement: Either<Announcement>) in
+		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .POST) { (approvedAnnouncement: Response<Announcement>) in
 			switch approvedAnnouncement
 			{
 			case .Value(announcement):
 				guard announcement.approved
 				else
 				{
-					NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
+					assertionFailure("The server said the announcement was approved but in reality it wasn't")
+					NSNotificationCenter.defaultCenter().post(.Failure, object: "Failed to approve announcement")
 					completion(false)
 					break
 				}
 				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
 				completion(true)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-				completion(false)
-			case .UnknownError:
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 				completion(false)
 			default:
 				completion(false)
@@ -334,17 +321,15 @@ final class APIManager : NSObject
 	
 	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
 	{
-		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .POST, completion: { (result: Either<JSONWrapper>) in
+		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .POST, completion: { (result: Response<JSONWrapper>) in
 			switch result
 			{
 			case .Value(_):
 				defaults.setInteger(preference, forKey: remoteNotificationPreferencesKey)
 				defaults.setObject(token, forKey: remoteNotificationTokenKey)
 				completion?(true)
-			case .NetworkingError(let error):
-				NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
-			case .UnknownError:
-				completion?(false)
+			case .Error(let errorMessage):
+				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 			}
 		})
 	}
@@ -448,16 +433,16 @@ final class APIManager : NSObject
 				return false
 			}
 			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(URL, completionHandler: { downloadedImage, response, error in
-				guard let downloaded = downloadedImage, let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first where error == nil
+				guard error == nil, let downloaded = downloadedImage, let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first
 				else
 				{
 					guard completion()
 					else
 					{
-						NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error)
+						NSNotificationCenter.defaultCenter().post(.Failure, object: error?.localizedDescription ?? "Could not save map")
 						return
 					}
-					NSNotificationCenter.defaultCenter().post(.MapUpdated, object: error)
+					NSNotificationCenter.defaultCenter().post(.MapUpdated)
 					return
 				}
 				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
@@ -476,7 +461,7 @@ final class APIManager : NSObject
 				}
 				catch
 				{
-					NSNotificationCenter.defaultCenter().post(.ConnectionFailure, object: error as NSError)
+					NSNotificationCenter.defaultCenter().post(.Failure, object: (error as NSError).localizedDescription)
 				}
 			})
 			downloadTask.resume()
@@ -493,14 +478,14 @@ final class APIManager : NSObject
 		case EventsUpdated
 		case LocationsUpdated
 		case MapUpdated
-		case ConnectionFailure
+		case Failure
 	}
 }
 
 // MARK: - Authentication and User Stuff
 extension APIManager
 {
-	func loginWithUsername(username: String, password: String, completion: (Either<Bool>) -> Void)
+	func loginWithUsername(username: String, password: String, completion: (Response<Bool>) -> Void)
 	{
 		guard !isLoggedIn
 		else {
@@ -515,12 +500,13 @@ extension APIManager
 			else
 			{
 				// The fetch failed because of a networking error
-				completion(.NetworkingError(error!))
+				completion(.Error(error!.localizedDescription))
 				return
 			}
 			guard let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields
 			else {
-				completion(.UnknownError)
+				assertionFailure("Could not deserialize the response and its header fields? What is going on!?! If this wasn't an HTTP request what was it?")
+				completion(.Error("Server did not respond"))
 				return
 			}
 			
@@ -531,6 +517,7 @@ extension APIManager
 				return
 			}
 			let JSON = try? NSJSONSerialization.JSONObjectWithData(data ?? NSData(), options: [])
+			// FIXME: Make privilege more robust
 			let privilege = (JSON?["data"] as? [String: AnyObject])?["roles"] as? Int ?? 0
 			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, password: password, expiry: expiry, tokenType: tokenType, privilege: privilege)
 			completion(.Value(true))

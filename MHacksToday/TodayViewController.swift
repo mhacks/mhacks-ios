@@ -48,7 +48,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 		eventsUpdated()
 		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(TodayViewController.announcementsUpdated(_:)))
 		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(TodayViewController.eventsUpdated(_:)))
-		NSNotificationCenter.defaultCenter().listenFor(.ConnectionFailure, observer: self, selector: #selector(TodayViewController.failed(_:)))
+		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(TodayViewController.failed(_:)))
 		
 		APIManager.sharedManager.updateAnnouncements()
 		APIManager.sharedManager.updateEvents()
