@@ -55,6 +55,10 @@ import UIKit
     let startDate: NSDate
     let endDate: NSDate
     let information: String
+    
+    var timeInterval: HalfOpenInterval<NSTimeInterval> {
+        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    }
 	
 	
 	init(ID: String, name: String, category: Category, locations: [Location], startDate: NSDate, endDate: NSDate, info: String) {

@@ -8,23 +8,18 @@
 
 import Foundation
 
-protocol TimeInterval {
+extension HalfOpenInterval {
     
-    var timeInterval: HalfOpenInterval<NSTimeInterval> { get }
-}
-
-func conflicts(timeInterval1: TimeInterval, timeInterval2: TimeInterval) -> Bool {
-    return !timeInterval1.timeInterval.clamp(timeInterval2.timeInterval).isEmpty
-}
-
-extension Event: TimeInterval {
+    func containingInterval(other: HalfOpenInterval) -> HalfOpenInterval {
+        return min(start, other.start)..<max(end, other.end)
+    }
     
-    var timeInterval: HalfOpenInterval<NSTimeInterval> {
-        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    mutating func formContainingInterval(other: HalfOpenInterval) {
+        self = containingInterval(other)
     }
 }
 
-struct Day: TimeInterval {
+struct Day {
     
     // Creates a day containing firstDate
     // Clamps hours to firstDate and lastDate
@@ -99,7 +94,7 @@ struct Day: TimeInterval {
     }
 }
 
-struct Hour: TimeInterval {
+struct Hour {
     
     let startDate: NSDate
     
@@ -197,7 +192,7 @@ struct Hour: TimeInterval {
         
         self.eventsByDay = days.map { day in
             return events.filter { event in
-                return conflicts(day, timeInterval2: event)
+                return day.timeInterval.overlaps(event.timeInterval)
             }
         }
         
@@ -213,35 +208,77 @@ struct Hour: TimeInterval {
         
         self.partialHoursByDay = partialHoursByDay
         
-        // Conflicts
+        // Overlaps
         
         var numberOfColumnsByDay: [[Int]] = []
         var columnsByDay: [[Int]] = []
         
-        for day in 0..<partialHoursByDay.count {
+        for (day, partialHours) in partialHoursByDay.enumerate() {
             
-            let partialHoursCount = partialHoursByDay[day].count
+            var numberOfColumns = Array(count: partialHours.count, repeatedValue: 1)
+            var columns = Array(count: partialHours.count, repeatedValue: 0)
             
-            var column = 0
+            var currentOverlapGroup = 0..<0
+            var currentOverlapInterval = 0.0..<0.0
             
-            var numberOfColumns = Array(count: partialHoursCount, repeatedValue: 1)
-            var columns = Array(count: partialHoursCount, repeatedValue: 0)
-            
-            for index in 0..<partialHoursCount {
-				
-                columns[index] = column
+            // This function breaks a conflicting group of events into columns
+            // Uses the "meeting room" algorithm with an unlimited number of rooms (rooms = columns)
+            func commitCurrentGroup() {
                 
-                if (index + 1 < partialHoursCount) && partialHoursByDay[day][index].overlaps(partialHoursByDay[day][index+1]) {
-                    
-                    column += 1
-                    
-                } else {
-                    
-                    numberOfColumns[(index-column)...index] = ArraySlice(count: column+1, repeatedValue: column+1)
-                    
-                    column = 0
+                guard !currentOverlapGroup.isEmpty else {
+                    return
                 }
+                
+                let partialHoursSlice = partialHours[currentOverlapGroup]
+                
+                var partialHourColumns = [[HalfOpenInterval<NSTimeInterval>]]()
+                
+                for (partialHourIndex, partialHour) in zip(partialHoursSlice.indices, partialHoursSlice) {
+                    
+                    var placed = false
+                    
+                    for (columnIndex, partialHourColumn) in partialHourColumns.enumerate() {
+                        
+                        if !partialHourColumn.last!.overlaps(partialHour) {
+                            
+                            partialHourColumns[columnIndex].append(partialHour)
+                            placed = true
+                            
+                            columns[partialHourIndex] = columnIndex
+                            
+                            break
+                        }
+                    }
+                    
+                    if (!placed) {
+                        partialHourColumns.append([partialHour])
+                        
+                        columns[partialHourIndex] = partialHourColumns.count - 1
+                    }
+                }
+                
+                // All events in a group share the same number of columns
+                numberOfColumns.replaceRange(currentOverlapGroup, with: Array(count: currentOverlapGroup.count, repeatedValue: partialHourColumns.count))
             }
+            
+            // Detect and commit one group of conflicting events at a time
+            for index in 0..<partialHours.count {
+                
+                let partialHour = partialHours[index]
+                
+                if !partialHour.overlaps(currentOverlapInterval) {
+                    
+                    commitCurrentGroup()
+                    
+                    currentOverlapGroup.startIndex = currentOverlapGroup.endIndex
+                    currentOverlapInterval = partialHour
+                }
+                
+                currentOverlapGroup.endIndex += 1
+                currentOverlapInterval.formContainingInterval(partialHour)
+            }
+            
+            commitCurrentGroup()
             
             numberOfColumnsByDay += [numberOfColumns]
             columnsByDay += [columns]
@@ -311,6 +348,7 @@ struct Hour: TimeInterval {
 	}
 	private static let eventsKey = "events"
 }
+
 extension EventOrganizer: JSONCreateable, NSCoding  {
 	
 	var allEvents : [Event] {
