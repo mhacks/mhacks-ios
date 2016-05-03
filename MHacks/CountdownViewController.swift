@@ -15,8 +15,6 @@ class CountdownViewController: UIViewController {
 	@IBOutlet weak var startLabel: UILabel!
 	@IBOutlet weak var endLabel: UILabel!
 	
-	var timer: NSTimer!
-	
 	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
@@ -28,7 +26,7 @@ class CountdownViewController: UIViewController {
 
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		startTimer()
+		beginUpdatingCountdownViews()
 	}
 	
 	override func viewDidAppear(animated: Bool) {
@@ -39,26 +37,33 @@ class CountdownViewController: UIViewController {
 	
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
-		stopTimer()
+		stopUpdatingCountdownViews()
 		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 
 	// MARK: - Model Update
-	func startTimer() {
+	
+	var timer: NSTimer?
+	
+	func beginUpdatingCountdownViews() {
+		
+		updateCountdownViews()
 		
 		let nextSecond = NSCalendar.sharedCalendar.nextDateAfterDate(NSDate(), matchingUnit: .Nanosecond, value: 0, options: .MatchNextTime)!
 		
-		timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
+		let timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
 		NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+		
+		self.timer = timer
 	}
 	
 	func timerFire(timer: NSTimer) {
 		updateCountdownViews()
 	}
 	
-	func stopTimer() {
-		timer.invalidate()
+	func stopUpdatingCountdownViews() {
+		timer?.invalidate()
 		timer = nil
 	}
 	

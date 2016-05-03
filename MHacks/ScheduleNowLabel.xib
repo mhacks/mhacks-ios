@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NowLabel" id="39t-vd-0or" customClass="ScheduleNowLabel" customModule="MHacks" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2y-4R-tcf">
+                    <rect key="frame" x="0.0" y="19" width="54" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="54" id="ISW-zx-9dL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="t2y-4R-tcf" firstAttribute="leading" secondItem="39t-vd-0or" secondAttribute="leading" id="TYZ-zf-AKh"/>
+                <constraint firstAttribute="centerY" secondItem="t2y-4R-tcf" secondAttribute="centerY" id="mIf-sZ-h5F"/>
+            </constraints>
+            <connections>
+                <outlet property="label" destination="t2y-4R-tcf" id="c58-El-ude"/>
+            </connections>
+            <point key="canvasLocation" x="428" y="336"/>
+        </collectionReusableView>
+    </objects>
+</document>

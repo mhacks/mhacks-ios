@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */; };
+		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
+		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
+		46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */; };
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		820C5BF21C29325500CD9F09 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BEF1C29325500CD9F09 /* SSKeychain.m */; };
 		820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */; };
@@ -118,6 +122,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowIndicator.xib; sourceTree = "<group>"; };
+		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
+		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
+		46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowLabel.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		820C5BEE1C29325500CD9F09 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = MHacks/SSKeychain.h; sourceTree = "<group>"; };
 		820C5BEF1C29325500CD9F09 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = MHacks/SSKeychain.m; sourceTree = "<group>"; };
@@ -336,6 +344,8 @@
 				82473FB01C1F7A170061FFFB /* LaunchScreen.storyboard */,
 				82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */,
 				82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */,
+				46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */,
+				46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -372,6 +382,8 @@
 				82942BA41C2A36BC0084880C /* CalendarLayout.swift */,
 				82942BA61C2A36F70084880C /* ScheduleDayHeader.swift */,
 				82942BA81C2A37000084880C /* ScheduleHourSeparator.swift */,
+				46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */,
+				46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */,
 				82942BA91C2A37000084880C /* ScheduleEventCell.swift */,
 				82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */,
 				82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */,
@@ -513,9 +525,11 @@
 			files = (
 				82473FB21C1F7A170061FFFB /* LaunchScreen.storyboard in Resources */,
 				82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */,
+				46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */,
 				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
 				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
 				82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */,
+				46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */,
 				82E9C4B21C4F0DD100ED2EBF /* GoogleMaps.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,10 +598,12 @@
 				8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
+				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
 				8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
+				46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

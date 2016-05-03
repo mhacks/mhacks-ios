@@ -26,6 +26,8 @@ class CalendarLayout: UICollectionViewLayout {
     enum SupplementaryViewKind: String {
         case Header = "Header"
         case Separator = "Separator"
+		case NowIndicator = "NowIndicator"
+		case NowLabel = "NowLabel"
     }
     
     // MARK: Delegate
@@ -65,7 +67,13 @@ class CalendarLayout: UICollectionViewLayout {
             invalidateLayout()
         }
     }
-    
+	
+	var nowIndicatorPosition: (section: Int, row: Double)? = nil {
+		didSet {
+			invalidateLayout()
+		}
+	}
+	
     // MARK: Layout calculations
     
     private func heightForSection(section: Int) -> CGFloat {
@@ -146,27 +154,33 @@ class CalendarLayout: UICollectionViewLayout {
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        return sectionRange().reduce([UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
+		var layoutAttributes = sectionRange().reduce([UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
             
-            let headerLayoutAttributes = self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))
+            let headerLayoutAttributes = [self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!]
             
             let separatorLayoutAttributes: [UICollectionViewLayoutAttributes] = (1..<self.numberOfRowsBySection[section]).map { row in
-                return self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Separator.rawValue, atIndexPath: NSIndexPath(forItem: row, inSection: section))
+                return self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Separator.rawValue, atIndexPath: NSIndexPath(forItem: row, inSection: section))!
             }
             
             let cellLayoutAttributes: [UICollectionViewLayoutAttributes] = self.itemRangeForSection(section).map { item in
                 return self.layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: item, inSection: section))!
             }
             
-            return layoutAttributes + [headerLayoutAttributes] + separatorLayoutAttributes + cellLayoutAttributes
+            return layoutAttributes + headerLayoutAttributes + separatorLayoutAttributes + cellLayoutAttributes
         }
+		
+		if nowIndicatorPosition != nil {
+			layoutAttributes += [layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!, layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!]
+		}
+		
+		return layoutAttributes
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return cellLayoutAttributes[indexPath.section][indexPath.item]
     }
     
-    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes {
+    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         
         let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
         
@@ -181,9 +195,32 @@ class CalendarLayout: UICollectionViewLayout {
             
         case .Separator:
             layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(indexPath.item) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
-            layoutAttributes.zIndex = -1
+            layoutAttributes.zIndex = -2
+			
+		case .NowIndicator:
+			
+			guard let nowIndicatorPosition = nowIndicatorPosition else {
+				return nil
+			}
+			
+			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
+			
+			layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
+			layoutAttributes.zIndex = -1
+			
+		case .NowLabel:
+			
+			guard let nowIndicatorPosition = nowIndicatorPosition else {
+				return nil
+			}
+			
+			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
+			
+			layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
+			layoutAttributes.zIndex = 1
+
         }
-        
+		
         return layoutAttributes
     }
     

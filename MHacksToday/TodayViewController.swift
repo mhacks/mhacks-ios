@@ -234,6 +234,12 @@ extension TodayViewController : UICollectionViewDataSource, CalendarLayoutDelega
 			let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as! ScheduleHourSeparator
 			hourSeparator.label.text = myEventOrganizer.days[indexPath.section].hours[indexPath.item].title
 			return hourSeparator
+            
+        case .NowIndicator:
+            fatalError()
+            
+        case .NowLabel:
+            fatalError()
 		}
 	}
 	

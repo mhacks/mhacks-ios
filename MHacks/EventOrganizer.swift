@@ -126,14 +126,20 @@ struct Hour {
         return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
     }
     
-    static let Formatter: NSDateFormatter = {
+    static let hourFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         formatter.dateFormat = NSDateFormatter.dateFormatFromTemplate("hh a", options: 0, locale: NSLocale.autoupdatingCurrentLocale())
         return formatter
     }()
-    
+	
+	static let minuteFormatter: NSDateFormatter = {
+		let formatter = NSDateFormatter()
+		formatter.setLocalizedDateFormatFromTemplate("hhmm")
+		return formatter
+	}()
+	
     var title: String {
-        return Hour.Formatter.stringFromDate(startDate)
+        return Hour.hourFormatter.stringFromDate(startDate)
     }
 }
 
@@ -141,12 +147,11 @@ struct Hour {
     
     // MARK: Initialization
     
-    init(events theEvents: [Event]) {
+    init(events unsortedEvents: [Event]) {
         
         // Return if no events
-        guard !theEvents.isEmpty
-		else
-		{
+        guard !unsortedEvents.isEmpty else {
+			
 			self.days = []
 			self.eventsByDay = []
 			
@@ -154,9 +159,11 @@ struct Hour {
 			
 			self.numberOfColumnsByDay = []
 			self.columnsByDay = []
+			
 			return
 		}
-		let events = theEvents.sort { $0.0.startDate < $0.1.startDate }
+		
+		let events = unsortedEvents.sort { $0.0.startDate < $0.1.startDate }
 		
         // First and last date
         let firstDate = events.first!.startDate
@@ -174,11 +181,11 @@ struct Hour {
         var days = [Day(firstDate: firstDate, lastDate: lastDate)]
         
         calendar.enumerateDatesStartingAfterDate(firstDate, matchingComponents: Day.Components, options: .MatchNextTime) { date, exactMatch, stop in
-			guard let date = date
-			else
-			{
+			
+			guard let date = date else {
 				return
 			}
+			
             if date < lastDate {
                 days += [Day(firstDate: date, lastDate: lastDate)]
             } else {
@@ -251,6 +258,7 @@ struct Hour {
                     }
                     
                     if (!placed) {
+						
                         partialHourColumns.append([partialHour])
                         
                         columns[partialHourIndex] = partialHourColumns.count - 1
@@ -347,6 +355,21 @@ struct Hour {
 		self.init(events: eventsJSON.flatMap { Event(JSON: $0) })
 	}
 	private static let eventsKey = "events"
+	
+	// MARK: Helper
+	
+	func dayAndPartialHourForDate(date: NSDate) -> (day: Int, partialHour: Double)? {
+		
+		let possibleDay = days.indexOf {
+			return $0.timeInterval.contains(date.timeIntervalSinceReferenceDate)
+		}
+		
+		guard let day = possibleDay else {
+			return nil
+		}
+		
+		return (day, days[day].partialHourForDate(date))
+	}
 }
 
 extension EventOrganizer: JSONCreateable, NSCoding  {
