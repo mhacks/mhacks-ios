@@ -192,11 +192,7 @@ class EventViewController: UIViewController {
             notification.fireDate = event.startDate.dateByAddingTimeInterval(-600)
             notification.soundName = UILocalNotificationDefaultSoundName
 			
-            if #available(iOS 8.2, *) {
-                notification.alertTitle = "\(event.name)"
-            } else {
-                // Fallback on earlier versions
-            }
+			notification.alertTitle = "\(event.name)"
 			notification.repeatInterval = NSCalendarUnit(rawValue: 0)
 			notification.category = ""
             UIApplication.sharedApplication().scheduleLocalNotification(notification)

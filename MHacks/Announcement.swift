@@ -128,16 +128,8 @@ import UIKit
 	private static let approvedKey = "is_approved"
 	
 	static let dateFont: UIFont = {
-		if #available(iOS 9.0, *) {
-			// Use SF font with monospaced digit for iOS 9+
-			return UIFont.monospacedDigitSystemFontOfSize(14.0, weight: UIFontWeightThin)
-		} else {
-			// Use helvetica neue for iOS 8.0
-			let timeSeparatorValue = 1
-			let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
-			let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 14.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
-			return UIFont(descriptor: descriptor, size: 0.0)
-		}
+		// Use SF font with monospaced digit for iOS 9+
+		return UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
 	}()
 
 	@objc convenience init?(serialized: Serialized) {

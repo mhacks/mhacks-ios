@@ -84,16 +84,8 @@ import UIKit
 	}
 	
 	static let font: UIFont = {
-		if #available(iOS 9.0, *) {
-			// Use SF font with monospaced digit for iOS 9+
-			return UIFont.monospacedDigitSystemFontOfSize(120.0, weight: UIFontWeightThin)
-		} else {
-			// Use helvetica neue for iOS 8.0
-			let timeSeparatorValue = 1
-			let featureSettings = [[UIFontFeatureTypeIdentifierKey: kCharacterAlternativesType, UIFontFeatureSelectorIdentifierKey: timeSeparatorValue]]
-			let descriptor = UIFont(name: "HelveticaNeue-Thin", size: 120.0)!.fontDescriptor().fontDescriptorByAddingAttributes([UIFontDescriptorFeatureSettingsAttribute: featureSettings])
-			return UIFont(descriptor: descriptor, size: 0.0)
-		}
+		// Use SF font with monospaced digit for iOS 9+
+		return UIFont.monospacedDigitSystemFontOfSize(120.0, weight: UIFontWeightThin)
 	}()
 	
 	var progress: Double {

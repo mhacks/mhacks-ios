@@ -109,7 +109,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 			calendarLayout.nowIndicatorPosition = nil
 		}
 		
-		if #available(iOS 9.0, *), let nowLabel = collectionView.supplementaryViewForElementKind(CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0)) as? ScheduleNowLabel {
+		if let nowLabel = collectionView.supplementaryViewForElementKind(CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0)) as? ScheduleNowLabel {
 			nowLabel.label.text = Hour.minuteFormatter.stringFromDate(NSDate())
 		}
 	}
@@ -193,6 +193,6 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		let eventViewController = storyboard!.instantiateViewControllerWithIdentifier("EventViewController") as! EventViewController
 		eventViewController.event = event
-		showDetailViewController(eventViewController, sender: nil)
+		showViewController(eventViewController, sender: nil)
 	}
 }
