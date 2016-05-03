@@ -49,7 +49,7 @@ final class APIManager : NSObject
 		return manager
 	}
 	
-	private var authenticator : Authenticator! // Must be set before using this class for authenticated purposes
+	private var authenticator : Authenticator? // Must be set before using this class for authenticated purposes
 	
 	var isLoggedIn: Bool { return authenticator != nil }
 	
@@ -99,9 +99,9 @@ final class APIManager : NSObject
 			defer { self.hideNetworkIndicator() }
 			if let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields, let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let expiry = responseHeaders["expiry"] as? String
 			{
-				self.authenticator.authToken = authToken
-				self.authenticator.client = client
-				self.authenticator.expiry = expiry
+				self.authenticator!.authToken = authToken
+				self.authenticator!.client = client
+				self.authenticator!.expiry = expiry
 			}
 			guard (response as? NSHTTPURLResponse)?.statusCode != 403
 			else
@@ -161,8 +161,11 @@ final class APIManager : NSObject
 	}
 	
 	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t)
+	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t, coalecser: CoalescedCallbacks, callback: CoalescedCallbacks.Callback?)
 	{
+		if let call = callback {
+			coalecser.registerCallback(call)
+		}
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
 		else
 		{
@@ -170,7 +173,11 @@ final class APIManager : NSObject
 			return
 		}
 		taskWithRoute(route, completion: {(result: Response<T>) in
-			defer { dispatch_semaphore_signal(semaphoreGuard) }
+			var succeeded = false
+			defer {
+				dispatch_semaphore_signal(semaphoreGuard)
+				coalecser.fire(succeeded)
+			}
 			switch result
 			{
 			case .Value(let newValue):
@@ -179,13 +186,13 @@ final class APIManager : NSObject
 				{
 					return
 				}
+				succeeded = true
 				NSNotificationCenter.defaultCenter().post(notification, object: self)
 			case .Error(let errorMessage):
 				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
 			}
 		})
 	}
-	
 	
 	// MARK: - Announcements
 	private(set) var announcements : [Announcement] {
@@ -195,10 +202,11 @@ final class APIManager : NSObject
 		}
 	}
 	private var announcementBuffer = MyArray<Announcement>()
-	
+	private let announcementCallbacks = CoalescedCallbacks()
 	private let announcementsSemaphore = dispatch_semaphore_create(1)
+	
 	///	Updates the announcements and posts a notification on completion.
-	func updateAnnouncements()
+	func updateAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
 	{
 		updateGenerically("/v1/announcements", objectToUpdate: { (result: MyArray<Announcement>) in
 			guard result._array != self.announcementBuffer._array
@@ -209,7 +217,7 @@ final class APIManager : NSObject
 			}
 			self.announcementBuffer = result
 			return true
-			}, notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore)
+			}, notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore, coalecser: announcementCallbacks, callback: callback)
 	}
 	
 	///	Posts a new announcment from a sponsor or admin
@@ -258,8 +266,9 @@ final class APIManager : NSObject
 	private var unapprovedAnnouncementBuffer = MyArray<Announcement>()
 	
 	private let unapprovedAnnouncementsSemaphore = dispatch_semaphore_create(1)
-
-	func updateUnapprovedAnnouncements()
+	private let unapprovedCallbacks = CoalescedCallbacks()
+	
+	func updateUnapprovedAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
 	{
 		updateGenerically("/v1/all_announcements", objectToUpdate: { (result: MyArray<Announcement>) in
 			guard result._array != self.unapprovedAnnouncementBuffer._array
@@ -270,7 +279,7 @@ final class APIManager : NSObject
 			}
 			self.unapprovedAnnouncementBuffer = result
 			return true
-			}, notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore)
+			}, notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback)
 	}
 	
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
@@ -337,7 +346,9 @@ final class APIManager : NSObject
 	// MARK: - Countdown
 	private(set) var countdown = Countdown()
 	private let countdownSemaphore = dispatch_semaphore_create(1)
-	func updateCountdown()
+	private let countdownCallbacks = CoalescedCallbacks()
+
+	func updateCountdown(callback: CoalescedCallbacks.Callback? = nil)
 	{
 		updateGenerically("/v1/countdown", objectToUpdate: { (result: Countdown) in
 			guard result != self.countdown
@@ -347,19 +358,18 @@ final class APIManager : NSObject
 			}
 			self.countdown = result
 			return true
-		}, notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore)
+		}, notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore, coalecser: countdownCallbacks, callback: callback)
 	}
 	
 	// MARK: - Events
 	private(set) var eventsOrganizer = EventOrganizer(events: [])
 	private let eventsSemaphore = dispatch_semaphore_create(1)
+	private let eventsCallbacks = CoalescedCallbacks()
 
-	func updateEvents() {
-		updateLocations()
-		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-			// Wait on a background thread for 
-			dispatch_semaphore_wait(self.locationSemaphore, DISPATCH_TIME_FOREVER)
-			dispatch_semaphore_signal(self.locationSemaphore)
+	func updateEvents(callback: CoalescedCallbacks.Callback? = nil) {
+		updateLocations { succeeded in
+			guard succeeded
+			else { return }
 			self.updateGenerically("/v1/events", objectToUpdate: { (result: EventOrganizer) in
 				guard self.eventsOrganizer.allEvents != result.allEvents
 				else
@@ -368,8 +378,8 @@ final class APIManager : NSObject
 				}
 				self.eventsOrganizer = result
 				return true
-			}, notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore)
-		})
+				}, notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore, coalecser: self.eventsCallbacks, callback: callback)
+		}
 	}
 	
 	// MARK: - Location
@@ -380,12 +390,13 @@ final class APIManager : NSObject
 	}
 	private var locationBuffer = MyArray<Location>()
 	private let locationSemaphore = dispatch_semaphore_create(1)
-	
-	func updateLocations() {
+	private let locationCallbacks = CoalescedCallbacks()
+
+	func updateLocations(callback: CoalescedCallbacks.Callback? = nil) {
 		updateGenerically("/v1/locations", objectToUpdate: { (result: MyArray<Location>) in
 			self.locationBuffer = result
 			return true
-		}, notification: .LocationsUpdated, semaphoreGuard: locationSemaphore)
+		}, notification: .LocationsUpdated, semaphoreGuard: locationSemaphore, coalecser: locationCallbacks, callback: callback)
 	}
 	
 	
@@ -402,8 +413,9 @@ final class APIManager : NSObject
 	// MARK: - Map
 	private(set) var map: Map? = nil
 	private let mapSemaphore = dispatch_semaphore_create(1)
-	
-	func updateMap() {
+	private let mapCallbacks = CoalescedCallbacks()
+
+	func updateMap(callback: CoalescedCallbacks.Callback? = nil) {
 		
 		updateGenerically("/v1/map", objectToUpdate: {(result: JSONWrapper) in
 			var newJSON = result.JSON
@@ -466,7 +478,7 @@ final class APIManager : NSObject
 			})
 			downloadTask.resume()
 			return false
-		}, notification: .MapUpdated, semaphoreGuard: mapSemaphore)
+		}, notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback)
 	}
 	
 	// MARK: - Notification Keys

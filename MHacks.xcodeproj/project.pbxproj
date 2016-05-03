@@ -73,6 +73,8 @@
 		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
 		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
+		82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
+		82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		82E9C4891C4F09B100ED2EBF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C4881C4F09B100ED2EBF /* MapViewController.swift */; };
 		82E9C4911C4F0C5100ED2EBF /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C48A1C4F0C5100ED2EBF /* CoreBluetooth.framework */; };
 		82E9C4921C4F0C5100ED2EBF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C48B1C4F0C5100ED2EBF /* CoreData.framework */; };
@@ -181,6 +183,7 @@
 		82942BAC1C2A37670084880C /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
 		82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
+		82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoalescedCallbacks.swift; sourceTree = "<group>"; };
 		82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		82E9C4881C4F09B100ED2EBF /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82E9C48A1C4F0C5100ED2EBF /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -311,7 +314,9 @@
 				820C5BF51C29326900CD9F09 /* Frameworks */,
 				82473FA31C1F7A170061FFFB /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		82473FA31C1F7A170061FFFB /* Products */ = {
 			isa = PBXGroup;
@@ -402,6 +407,7 @@
 			children = (
 				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FCC1C1F91D70061FFFB /* APIManager.swift */,
+				82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */,
 				82287A6C1C66D575001A0F38 /* SharedAPIManager.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
@@ -551,6 +557,7 @@
 				82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */,
 				82287A821C66DFF1001A0F38 /* Geometry.swift in Sources */,
 				82287A601C66C570001A0F38 /* Location.swift in Sources */,
+				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				82287A611C66C570001A0F38 /* Event.swift in Sources */,
 				82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */,
 				82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */,
@@ -577,6 +584,7 @@
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
+				82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,

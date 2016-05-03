@@ -9,7 +9,11 @@
 import Foundation
 
 // This file is to make Foundation more Swifty
-
+// Its unfortunate that we need this MyArray class, it would be way better
+// if we could have an extension on Array directly that conforms to JSONCreateable
+// if and only if its elements were JSONCreateable. But Swift's generic system
+// isn't powerful enough yet. Maybe in Swift 3? Also there's the problem that NSCoding
+// requires a class but Array is a struct. Objc attacking our Swift codebase again!
 final class MyArray<Element: JSONCreateable> : NSObject, JSONCreateable {
 	
 	var _array : [Element]
