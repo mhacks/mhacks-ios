@@ -58,7 +58,6 @@
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */; };
 		827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
-		8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01D1C606A5700B6EFEE /* TabBarController.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
 		828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D498C1C65F3FD0090313C /* CategoryCell.swift */; };
@@ -168,7 +167,6 @@
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		827F59AD1C6532DE00FF2D15 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		8286A01D1C606A5700B6EFEE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A0211C6074D100B6EFEE /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		828D498C1C65F3FD0090313C /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -369,7 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
-				8286A01D1C606A5700B6EFEE /* TabBarController.swift */,
 				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
 				82EFDE8A1C32ED060074AB99 /* EventViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
@@ -607,7 +604,6 @@
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
-				8286A01E1C606A5700B6EFEE /* TabBarController.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,

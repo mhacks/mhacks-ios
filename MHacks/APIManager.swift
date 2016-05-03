@@ -161,7 +161,7 @@ final class APIManager : NSObject
 	}
 	
 	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, objectToUpdate updater: (T) -> Bool, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t, coalecser: CoalescedCallbacks, callback: CoalescedCallbacks.Callback?)
+	private func updateGenerically<T: JSONCreateable>(route: String, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t, coalecser: CoalescedCallbacks, callback: CoalescedCallbacks.Callback?, objectToUpdate updater: (T) -> Bool)
 	{
 		if let call = callback {
 			coalecser.registerCallback(call)
@@ -208,16 +208,16 @@ final class APIManager : NSObject
 	///	Updates the announcements and posts a notification on completion.
 	func updateAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateGenerically("/v1/announcements", objectToUpdate: { (result: MyArray<Announcement>) in
+		updateGenerically("/v1/announcements", notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore, coalecser: announcementCallbacks, callback: callback) { (result: MyArray<Announcement>) in
 			guard result._array != self.announcementBuffer._array
-			else
+				else
 			{
 				NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated)
 				return false
 			}
 			self.announcementBuffer = result
 			return true
-			}, notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore, coalecser: announcementCallbacks, callback: callback)
+		}
 	}
 	
 	///	Posts a new announcment from a sponsor or admin
@@ -270,16 +270,16 @@ final class APIManager : NSObject
 	
 	func updateUnapprovedAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateGenerically("/v1/all_announcements", objectToUpdate: { (result: MyArray<Announcement>) in
+		updateGenerically("/v1/all_announcements", notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback) { (result: MyArray<Announcement>) in
 			guard result._array != self.unapprovedAnnouncementBuffer._array
-			else
+				else
 			{
 				NSNotificationCenter.defaultCenter().post(.UnapprovedAnnouncementsUpdated)
 				return false
 			}
 			self.unapprovedAnnouncementBuffer = result
 			return true
-			}, notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback)
+		}
 	}
 	
 	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
@@ -350,15 +350,15 @@ final class APIManager : NSObject
 
 	func updateCountdown(callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateGenerically("/v1/countdown", objectToUpdate: { (result: Countdown) in
+		updateGenerically("/v1/countdown", notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore, coalecser: countdownCallbacks, callback: callback) { (result: Countdown) in
 			guard result != self.countdown
-			else
+				else
 			{
 				return false
 			}
 			self.countdown = result
 			return true
-		}, notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore, coalecser: countdownCallbacks, callback: callback)
+		}
 	}
 	
 	// MARK: - Events
@@ -370,15 +370,15 @@ final class APIManager : NSObject
 		updateLocations { succeeded in
 			guard succeeded
 			else { return }
-			self.updateGenerically("/v1/events", objectToUpdate: { (result: EventOrganizer) in
+			self.updateGenerically("/v1/events", notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore, coalecser: self.eventsCallbacks, callback: callback) { (result: EventOrganizer) in
 				guard self.eventsOrganizer.allEvents != result.allEvents
-				else
+					else
 				{
 					return false
 				}
 				self.eventsOrganizer = result
 				return true
-				}, notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore, coalecser: self.eventsCallbacks, callback: callback)
+			}
 		}
 	}
 	
@@ -393,10 +393,10 @@ final class APIManager : NSObject
 	private let locationCallbacks = CoalescedCallbacks()
 
 	func updateLocations(callback: CoalescedCallbacks.Callback? = nil) {
-		updateGenerically("/v1/locations", objectToUpdate: { (result: MyArray<Location>) in
+		updateGenerically("/v1/locations", notification: .LocationsUpdated, semaphoreGuard: locationSemaphore, coalecser: locationCallbacks, callback: callback) { (result: MyArray<Location>) in
 			self.locationBuffer = result
 			return true
-		}, notification: .LocationsUpdated, semaphoreGuard: locationSemaphore, coalecser: locationCallbacks, callback: callback)
+		}
 	}
 	
 	
@@ -417,11 +417,12 @@ final class APIManager : NSObject
 
 	func updateMap(callback: CoalescedCallbacks.Callback? = nil) {
 		
-		updateGenerically("/v1/map", objectToUpdate: {(result: JSONWrapper) in
+		updateGenerically("/v1/map", notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback) {(result: JSONWrapper) in
+			// FIXME: This is a redundancy mess, cleanup once backend works better
 			var newJSON = result.JSON
 			let completion = { () -> Bool in
 				guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
-				else
+					else
 				{
 					return false
 				}
@@ -429,27 +430,27 @@ final class APIManager : NSObject
 				return true
 			}
 			guard let URLString = result[Map.imageURLKey] as? String
-			else
+				else
 			{
 				return false
 			}
 			guard self.map?.imageURL != URLString
-			else
+				else
 			{
 				newJSON[Map.fileLocationKey] = self.map?.fileLocation
 				return completion()
 			}
 			guard let URL = NSURL(string: URLString)
-			else
+				else
 			{
 				return false
 			}
 			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(URL, completionHandler: { downloadedImage, response, error in
 				guard error == nil, let downloaded = downloadedImage, let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first
-				else
+					else
 				{
 					guard completion()
-					else
+						else
 					{
 						NSNotificationCenter.defaultCenter().post(.Failure, object: error?.localizedDescription ?? "Could not save map")
 						return
@@ -465,7 +466,7 @@ final class APIManager : NSObject
 					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
 					newJSON[Map.fileLocationKey] = fileURL.absoluteString
 					guard completion()
-					else
+						else
 					{
 						return
 					}
@@ -478,7 +479,7 @@ final class APIManager : NSObject
 			})
 			downloadTask.resume()
 			return false
-		}, notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback)
+		}
 	}
 	
 	// MARK: - Notification Keys

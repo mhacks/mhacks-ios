@@ -375,7 +375,7 @@ struct Hour {
 extension EventOrganizer: JSONCreateable, NSCoding  {
 	
 	var allEvents : [Event] {
-		return eventsByDay.flatten().map { $0 }
+		return eventsByDay.lazy.flatten().map { $0 }
 	}
 	
 	var next5Events : [Event] {

@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-		window?.backgroundColor = UIColor(red: 255.0 / 255.0, green: 230.0 / 255.0, blue: 65.0 / 255.0, alpha: 1.0)
 		// Override point for customization after application launch.
 		GMSServices.provideAPIKey("AIzaSyDZwjHS79q4iV2_ZWWYvcNDRYzhdYKGoFQ")
 		application.registerForRemoteNotifications()
@@ -25,20 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(AppDelegate.error(_:)))
 		
-		if let notif = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification
-		{
-			if let eventID = notif.userInfo?["id"] as? String
-			{
-				launchTo = .Event(eventID)
-			}
-			else
-			{
-				launchTo = .Announcement
-			}
+		
+		if let notif = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
+			handleLaunch(notif.userInfo?["id"] as? String)
 		}
-		if let _ = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject]
-		{
-			launchTo = .Announcement
+		if let _ = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [String: AnyObject] {
+			handleLaunch(nil) // Must be an announcement
 		}
 		
 		return true
@@ -87,30 +78,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
 		guard url.absoluteString.hasPrefix("mhacks://")
-		else
-		{
+		else {
 			return false
 		}
 		let eventID = url.absoluteString.stringByReplacingOccurrencesOfString("mhacks://", withString: "")
-		if !eventID.isEmpty
-		{
-			launchTo = .Event(eventID)
-		}
-		else
-		{
-			launchTo = .Announcement
-		}
-		NSNotificationCenter.defaultCenter().postNotificationName(launchToNotification, object: nil)
+		handleLaunch(eventID.isEmpty ? nil : eventID)
 		return true
 	}
 	
-	
+	func handleLaunch(eventID: String?) {
+		guard let tabBar = window?.rootViewController as? UITabBarController, let eventController = tabBar.viewControllers?[0] as? ScheduleCalendarViewController
+		else {
+			assertionFailure("You changed the structure of the app but not thoroughly enough! We depend on a particular structure to be able to handle push notifications. You must consider restructuring this as part of your change")
+			return
+		}
+		assert(tabBar.viewControllers?[3] is AnnouncementsViewController, "You changed the structure of the app but not thoroughly enough! We depend on a particular structure to be able to handle push notifications. You must consider restructuring this as part of your change")
+		if let eventID = eventID {
+			tabBar.selectedIndex = 0
+			let displayEvent = { () -> Bool in
+				if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
+					eventController.showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
+					return true
+				}
+				return false
+			}
+			guard !displayEvent()
+			else { return }
+			APIManager.sharedManager.updateEvents { succeeded in
+				guard displayEvent()
+				else {
+					NSNotificationCenter.defaultCenter().post(.Failure, object: "Could not find the associated event")
+					return
+				}
+			}
+		}
+		else {
+			tabBar.selectedIndex = 3
+		}
+	}
 	
 	var statusWindow : UIWindow?
 	var label : UILabel?
 	
-	private func makeLabel(text: String?)
-	{
+	private func makeLabel(text: String?) {
 		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRectZero)
 		self.label?.textAlignment = .Center
 		self.label?.backgroundColor = UIColor.redColor()
@@ -119,8 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.label?.text = text ?? "Unknown Error"
 	}
 	
-	func error(notification: NSNotification)
-	{
+	func error(notification: NSNotification) {
 		guard statusWindow == nil && label == nil
 		else
 		{
@@ -158,14 +167,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		})
 	}
 }
-
-// FIXME: Global hack. We should get rid of this from polluting the global namespace
-// and allow for launching to a specific page in a better way
-let launchToNotification = "LaunchToUpdatedNotification"
-enum LaunchTo
-{
-	case Announcement
-	case Event(String)
-}
-
-var launchTo: LaunchTo?

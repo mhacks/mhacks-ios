@@ -9,7 +9,7 @@
 import Foundation
 
 final class CoalescedCallbacks {
-	typealias Callback = (Bool) -> Void
+	typealias Callback = Bool -> Void
 	private var callbacks = [Callback]()
 	
 	func registerCallback(callback: Callback) {
