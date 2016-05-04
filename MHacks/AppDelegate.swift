@@ -10,17 +10,32 @@ import UIKit
 import GoogleMaps
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
 	var window: UIWindow?
 	
 	var tabBarController: UITabBarController!
+	
+	var scheduleNavigationController: UINavigationController!
+	var scheduleViewController: ScheduleCalendarViewController!
+	
+	var countdownViewController: CountdownViewController!
+	
+	var announcementsNavigationController: UINavigationController!
 	
 	// MARK: Application life cycle
 	
 	func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
 		
 		tabBarController = window!.rootViewController as! UITabBarController
+		tabBarController.delegate = self
+		
+		scheduleNavigationController = tabBarController.viewControllers![0] as! UINavigationController
+		scheduleViewController = scheduleNavigationController.viewControllers[0] as! ScheduleCalendarViewController
+		
+		countdownViewController = tabBarController.viewControllers![2] as! CountdownViewController
+		
+		announcementsNavigationController = tabBarController.viewControllers![3] as! UINavigationController
 		
 		return true
 	}
@@ -42,12 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			}
 			
 		case _ as [String: AnyObject]:
-			// Show announcements
-			tabBarController.selectedIndex = 3
+			tabBarController.selectedViewController = announcementsNavigationController
+			updateTabBarAppearance()
 			
 		default:
-			// Show countdown
-			tabBarController.selectedIndex = 2
+			tabBarController.selectedViewController = countdownViewController
+			updateTabBarAppearance()
 		}
 		
 		return true
@@ -97,18 +112,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func showEventWithID(eventID: String) {
 		
-		guard let eventController = tabBarController.viewControllers?[0] as? ScheduleCalendarViewController else {
-			assertionFailure("You changed the structure of the app but not thoroughly enough! We depend on a particular structure to be able to handle push notifications. You must consider restructuring this as part of your change")
-			return
-		}
-		
-		assert(tabBarController.viewControllers?[3] is AnnouncementsViewController, "You changed the structure of the app but not thoroughly enough! We depend on a particular structure to be able to handle push notifications. You must consider restructuring this as part of your change")
-		
-		tabBarController.selectedIndex = 0
+		tabBarController.selectedViewController = scheduleNavigationController
+		updateTabBarAppearance()
 		
 		let displayEvent = { () -> Bool in
 			if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
-				eventController.showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
+				self.scheduleViewController.showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
 				return true
 			}
 			return false
@@ -124,6 +133,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				return
 			}
 		}
+	}
+	
+	// MARK: Tab bar controller delegate
+	
+	func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+		
+		updateTabBarAppearance()
+	}
+	
+	func updateTabBarAppearance() {
+		
+		let minimalist = (tabBarController.selectedViewController == countdownViewController)
+		
+		tabBarController.tabBar.backgroundImage = minimalist ? UIImage() : nil
+		tabBarController.tabBar.shadowImage = minimalist ? UIImage() : nil
 	}
 	
 	// MARK: Status window

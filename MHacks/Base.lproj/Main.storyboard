@@ -124,61 +124,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79P-Nl-WkD" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="125" y="124" width="351" height="351"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="MpM-7V-w9r">
+                                <rect key="frame" x="30" y="20" width="540" height="531"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="ezO-Le-VfB">
-                                        <rect key="frame" x="36" y="104" width="279" height="144"/>
-                                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="120"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N3I-X9-39K">
+                                        <rect key="frame" x="270" y="0.0" width="0.0" height="0.0"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="Opn-rm-5yi"/>
+                                            <constraint firstAttribute="width" id="QmY-c9-el6"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smb-j5-wMc">
+                                        <rect key="frame" x="223" y="30" width="94" height="36"/>
+                                        <string key="text">Hacking starts
+… </string>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79P-Nl-WkD" customClass="CircularProgressIndicator" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="101" y="96" width="339" height="339"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="36:00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="ezO-Le-VfB">
+                                                <rect key="frame" x="40" y="98" width="259" height="144"/>
+                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="120"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="ezO-Le-VfB" firstAttribute="width" secondItem="79P-Nl-WkD" secondAttribute="width" constant="-80" id="8s5-lQ-tSC"/>
+                                            <constraint firstItem="ezO-Le-VfB" firstAttribute="centerY" secondItem="79P-Nl-WkD" secondAttribute="centerY" id="Tp9-4C-qcR"/>
+                                            <constraint firstItem="ezO-Le-VfB" firstAttribute="centerX" secondItem="79P-Nl-WkD" secondAttribute="centerX" id="gE7-1q-tXg"/>
+                                            <constraint firstAttribute="width" secondItem="79P-Nl-WkD" secondAttribute="height" multiplier="1:1" id="yge-oj-Fig"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="progress">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                <real key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-eT-boK">
+                                        <rect key="frame" x="178" y="465" width="185" height="36"/>
+                                        <string key="text">Hacks must be submitted by
+… </string>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                        <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D5z-uE-AKF">
+                                        <rect key="frame" x="270" y="531" width="0.0" height="0.0"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="1Pu-Bd-lN0"/>
+                                            <constraint firstAttribute="width" id="jdu-aD-wa2"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="ezO-Le-VfB" secondAttribute="trailing" constant="36" id="WSr-fu-lGB"/>
-                                    <constraint firstAttribute="centerY" secondItem="ezO-Le-VfB" secondAttribute="centerY" id="tM3-j2-DzW"/>
-                                    <constraint firstItem="ezO-Le-VfB" firstAttribute="leading" secondItem="79P-Nl-WkD" secondAttribute="leading" constant="36" id="uTq-mi-69s"/>
-                                    <constraint firstAttribute="width" secondItem="79P-Nl-WkD" secondAttribute="height" multiplier="1:1" id="yge-oj-Fig"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="progress">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smb-j5-wMc">
-                                <rect key="frame" x="8" y="28" width="584" height="36"/>
-                                <string key="text">Hacking starts
-… </string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-eT-boK">
-                                <rect key="frame" x="8" y="483" width="584" height="36"/>
-                                <string key="text">Hacks must be submitted by
-… </string>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="m3P-eT-boK" secondAttribute="bottom" constant="32" id="QNG-Lk-25k"/>
-                            <constraint firstItem="m3P-eT-boK" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="QUP-Co-ecI"/>
-                            <constraint firstItem="79P-Nl-WkD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="8" id="WC2-SK-Hon"/>
-                            <constraint firstItem="m3P-eT-boK" firstAttribute="top" secondItem="79P-Nl-WkD" secondAttribute="bottom" constant="8" id="dKS-q9-1Sb"/>
-                            <constraint firstItem="79P-Nl-WkD" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="ft6-AQ-MMK"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="79P-Nl-WkD" secondAttribute="trailing" constant="8" id="p98-HY-bEE"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Smb-j5-wMc" secondAttribute="trailing" constant="-12" id="qaN-b8-yWb"/>
-                            <constraint firstItem="Smb-j5-wMc" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-12" id="slG-xt-djW"/>
-                            <constraint firstItem="Smb-j5-wMc" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="topMargin" constant="28" id="x63-zd-0Me"/>
-                            <constraint firstItem="79P-Nl-WkD" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="yDf-oI-sH0"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="m3P-eT-boK" secondAttribute="trailing" constant="-12" id="ydV-Uu-dtQ"/>
+                            <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="MpM-7V-w9r" secondAttribute="bottom" id="HeK-qq-vxu"/>
+                            <constraint firstItem="MpM-7V-w9r" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" id="U0C-wX-JTv"/>
+                            <constraint firstAttribute="trailing" secondItem="MpM-7V-w9r" secondAttribute="trailing" constant="30" id="cua-av-jkr"/>
+                            <constraint firstItem="MpM-7V-w9r" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" constant="30" id="sxF-Gt-bg5"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Countdown" image="Countdown" selectedImage="Countdown Selected" id="cPa-gy-q4n"/>
