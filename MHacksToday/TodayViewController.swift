@@ -172,7 +172,6 @@ extension TodayViewController: UITableViewDelegate, UITableViewDataSource
 		let announcement = APIManager.sharedManager.announcements[indexPath.row]
 		cell.titleLabel.text = announcement.title
 		cell.dateLabel.text = announcement.localizedDate
-		cell.dateLabel.font = Announcement.dateFont
 		cell.colorView.layer.borderColor = announcement.category.color.CGColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
 		

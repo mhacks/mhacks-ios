@@ -22,7 +22,7 @@ class AnnouncementCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 		
-		dateLabel.font = UIFont.systemFontOfSize(12.0, weight: UIFontWeightThin)
+		dateLabel.font = Announcement.dateFont
         contentView.layoutMargins = UIEdgeInsetsMake(8.0, 15.0, 8.0, 15.0)
     }
 

@@ -57,12 +57,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 			}
 			
 		case _ as [String: AnyObject]:
-			tabBarController.selectedViewController = announcementsNavigationController
-			updateTabBarAppearance()
+			selectViewController(announcementsNavigationController)
 			
 		default:
-			tabBarController.selectedViewController = countdownViewController
-			updateTabBarAppearance()
+			selectViewController(countdownViewController)
 		}
 		
 		return true
@@ -99,12 +97,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	}
 
 	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-		guard url.absoluteString.hasPrefix("mhacks://")
-		else {
+		
+		guard url.absoluteString.hasPrefix("mhacks://") else {
 			return false
 		}
+		
 		let eventID = url.absoluteString.stringByReplacingOccurrencesOfString("mhacks://", withString: "")
-		showEventWithID(eventID)
+		
+		switch eventID {
+		case "announcements":
+			selectViewController(announcementsNavigationController)
+		default:
+			showEventWithID(eventID)
+		}
+		
 		return true
 	}
 	
@@ -112,8 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func showEventWithID(eventID: String) {
 		
-		tabBarController.selectedViewController = scheduleNavigationController
-		updateTabBarAppearance()
+		selectViewController(scheduleNavigationController)
 		
 		let displayEvent = { () -> Bool in
 			if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
@@ -139,6 +144,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 		
+		updateTabBarAppearance()
+	}
+	
+	func selectViewController(viewController: UIViewController) {
+		
+		tabBarController.selectedViewController = viewController
 		updateTabBarAppearance()
 	}
 	

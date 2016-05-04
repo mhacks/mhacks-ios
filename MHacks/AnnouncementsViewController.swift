@@ -125,7 +125,6 @@ class AnnouncementsViewController: UITableViewController {
         
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
-		cell.dateLabel.font = Announcement.dateFont
         cell.messageLabel.text = announcement.message
 		cell.colorView.layer.borderColor = announcement.category.color.CGColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
