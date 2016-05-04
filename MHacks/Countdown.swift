@@ -27,11 +27,11 @@ import UIKit
 		let message: String = {
 			if self.roundedCurrentDate > self.startDate
 			{
-				return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
+				return NSLocalizedString("Hacking started on\n%@.", comment: "Countdown hacking did start")
 			}
 			else
 			{
-				return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
+				return NSLocalizedString("Hacking starts on\n%@.", comment: "Countdown hacking will start")
 			}
 		}()
 		
@@ -44,17 +44,17 @@ import UIKit
 		
 		let message: String = {
 			
-			if self.roundedCurrentDate <= self.endDate
+			if self.roundedCurrentDate < self.endDate
 			{
-				return NSLocalizedString("Hacks must be submitted by\n%@.", comment: "Countdown hacking will end")
+				return NSLocalizedString("Hacking finishes on\n%@.", comment: "Countdown hacking will end")
 			}
 			else
 			{
-				return NSLocalizedString("Hacks were submitted\n%@.", comment: "Countdown hacking did end")
+				return NSLocalizedString("Hacking finished on\n%@.", comment: "Countdown hacking did end")
 			}
 		}()
 		
-		let dateText = Countdown.dateFormatter.stringFromDate(endDate.dateByAddingTimeInterval(-3 * 3600))
+		let dateText = Countdown.dateFormatter.stringFromDate(endDate)
 		
 		return NSString(format: message, dateText) as String
 	}
@@ -89,7 +89,7 @@ import UIKit
 	}()
 	
 	var progress: Double {
-		return timeRemaining / duration
+		return 1.0 - timeRemaining / duration
 	}
 	
 	// MARK: - Helpers

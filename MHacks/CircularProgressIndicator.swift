@@ -66,8 +66,26 @@ class CircularProgressIndicator: UIView {
             progress = min(max(0.000001, progress), 1.0)
             
             progressLayer.strokeEnd = CGFloat(progress)
-        }
+		}
     }
+	
+	func setProgress(progress: Double, animated: Bool) {
+		
+		let oldProgress = self.progress
+		
+		self.progress = progress
+		
+		if animated {
+			
+			let animation = CABasicAnimation(keyPath: "strokeEnd")
+			animation.fromValue = oldProgress
+			animation.toValue = min(max(0.000001, progress), 1.0)
+			animation.duration = 1.0
+			animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
+			
+			progressLayer.addAnimation(animation, forKey: "strokeEnd")
+		}
+	}
     
     var lineWidth: CGFloat = 30.0 {
         didSet {
@@ -116,5 +134,5 @@ class CircularProgressIndicator: UIView {
         let progressPath = UIBezierPath(arcCenter: circleCenter, radius: (bounds.width - lineWidth) / 2.0, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
         progressLayer.path = progressPath.CGPath
-    }
+	}
 }

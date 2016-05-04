@@ -15,6 +15,9 @@ class CountdownViewController: UIViewController {
 	@IBOutlet weak var startLabel: UILabel!
 	@IBOutlet weak var endLabel: UILabel!
 	
+	// Delays the initial filling animation by second
+	var firstAppearanceDate: NSDate?
+	
 	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
@@ -26,13 +29,15 @@ class CountdownViewController: UIViewController {
 
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
-		beginUpdatingCountdownViews()
-	}
-	
-	override func viewDidAppear(animated: Bool) {
-		super.viewDidAppear(animated)
+		
 		NSNotificationCenter.defaultCenter().listenFor(.CountdownUpdated, observer: self, selector: #selector(CountdownViewController.updateCountdownViews(_:)))
 		APIManager.sharedManager.updateCountdown()
+		
+		if firstAppearanceDate == nil {
+			firstAppearanceDate = NSDate()
+		}
+		
+		beginUpdatingCountdownViews()
 	}
 	
 	override func viewDidDisappear(animated: Bool) {
@@ -68,9 +73,15 @@ class CountdownViewController: UIViewController {
 	}
 	
 	// MARK: - UI Update
+	
 	func updateCountdownViews(_: NSNotification? = nil) {
+		
 		dispatch_async(dispatch_get_main_queue(), {
-			self.progressIndicator.progress = APIManager.sharedManager.countdown.progress
+			
+			if let firstAppearanceDate = self.firstAppearanceDate where firstAppearanceDate.timeIntervalSinceNow < -0.5 {
+				self.progressIndicator.setProgress(APIManager.sharedManager.countdown.progress, animated: true)
+			}
+			
 			self.countdownLabel.text = APIManager.sharedManager.countdown.timeRemainingDescription
 			
 			self.startLabel.text = APIManager.sharedManager.countdown.startDateDescription

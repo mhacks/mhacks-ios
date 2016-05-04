@@ -32,6 +32,9 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 		
+		APIManager.sharedManager.updateEvents()
+		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)))
+		
 		if let indexPath = collectionView.indexPathsForSelectedItems()?.first {
 			
 			transitionCoordinator()?.animateAlongsideTransition({ context in
@@ -45,12 +48,6 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		beginUpdatingNowIndicatorPosition()
 		scrollToNowIfNeeded()
-    }
-	
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-		APIManager.sharedManager.updateEvents()
-		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)))
     }
 	
 	override func viewDidDisappear(animated: Bool) {
