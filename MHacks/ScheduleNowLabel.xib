@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NowLabel" id="39t-vd-0or" customClass="ScheduleNowLabel" customModule="MHacks" customModuleProvider="target">
+        <collectionReusableView opaque="NO" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="NowLabel" id="39t-vd-0or" customClass="ScheduleNowLabel" customModule="MHacks" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NowLabelShadow" translatesAutoresizingMaskIntoConstraints="NO" id="AG5-To-eNp">
+                    <rect key="frame" x="2" y="14" width="54" height="24"/>
+                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t2y-4R-tcf">
-                    <rect key="frame" x="0.0" y="19" width="54" height="14"/>
+                    <rect key="frame" x="2" y="19" width="54" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="54" id="ISW-zx-9dL"/>
                     </constraints>
@@ -22,7 +24,10 @@
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="t2y-4R-tcf" firstAttribute="leading" secondItem="39t-vd-0or" secondAttribute="leading" id="TYZ-zf-AKh"/>
+                <constraint firstItem="t2y-4R-tcf" firstAttribute="trailing" secondItem="AG5-To-eNp" secondAttribute="trailing" id="QlM-Qw-Pxy"/>
+                <constraint firstItem="t2y-4R-tcf" firstAttribute="leading" secondItem="39t-vd-0or" secondAttribute="leading" constant="2" id="TYZ-zf-AKh"/>
+                <constraint firstItem="t2y-4R-tcf" firstAttribute="centerY" secondItem="AG5-To-eNp" secondAttribute="centerY" id="YYg-Qn-CI6"/>
+                <constraint firstItem="t2y-4R-tcf" firstAttribute="leading" secondItem="AG5-To-eNp" secondAttribute="leading" id="kFj-3C-NoQ"/>
                 <constraint firstAttribute="centerY" secondItem="t2y-4R-tcf" secondAttribute="centerY" id="mIf-sZ-h5F"/>
             </constraints>
             <connections>
@@ -31,4 +36,7 @@
             <point key="canvasLocation" x="428" y="336"/>
         </collectionReusableView>
     </objects>
+    <resources>
+        <image name="NowLabelShadow" width="1" height="24"/>
+    </resources>
 </document>

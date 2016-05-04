@@ -44,6 +44,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		}
 		
 		beginUpdatingNowIndicatorPosition()
+		scrollToNowIfNeeded()
     }
 	
     override func viewDidAppear(animated: Bool) {
@@ -60,11 +61,19 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		stopUpdatingNowIndicatorPosition()
 	}
 	
+	// MARK: Model
+	
 	func eventsUpdated(notification: NSNotification) {
-		dispatch_async(dispatch_get_main_queue(), {
-			self.collectionView?.reloadData()
-			self.updateNowIndicator()
-		})
+		
+		dispatch_async(dispatch_get_main_queue()) {
+			
+			if self.isViewLoaded() {
+				
+				self.collectionView.reloadData()
+				self.updateNowIndicator()
+				self.scrollToNowIfNeeded()
+			}
+		}
 	}
 	
 	// MARK: Now indicator
@@ -111,6 +120,30 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		if let nowLabel = collectionView.supplementaryViewForElementKind(CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0)) as? ScheduleNowLabel {
 			nowLabel.label.text = Hour.minuteFormatter.stringFromDate(NSDate())
+		}
+	}
+	
+	var shouldScrollToNow = true
+	
+	func scrollToNowIfNeeded() {
+		
+		if shouldScrollToNow && collectionView.numberOfSections() != 0 {
+			
+			collectionView.layoutIfNeeded()
+			
+			let midY = collectionView.layoutAttributesForSupplementaryElementOfKind(CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!.frame.midY
+			
+			let visibleHeight = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).height
+			
+			let y = midY - (visibleHeight / 2.0)
+			
+			let contentRect = CGRect(origin: CGPointZero, size: collectionView.contentSize)
+			
+			let rect = CGRect(x: 0.0, y: y, width: collectionView.bounds.width, height: visibleHeight).intersect(contentRect)
+			
+			collectionView.scrollRectToVisible(rect, animated: false)
+			
+			shouldScrollToNow = false
 		}
 	}
 	

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46427FBD1CD97CC300B06D0D /* CircleView.swift */; };
 		46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */; };
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
 		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
@@ -123,6 +124,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		46427FBD1CD97CC300B06D0D /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowIndicator.xib; sourceTree = "<group>"; };
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
 		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */,
 				82942BA91C2A37000084880C /* ScheduleEventCell.swift */,
 				82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */,
+				46427FBD1CD97CC300B06D0D /* CircleView.swift */,
 				82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */,
 				82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */,
 				82942BAC1C2A37670084880C /* Geometry.swift */,
@@ -573,6 +576,7 @@
 			files = (
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				82942BA31C2A369D0084880C /* ScheduleCalendarViewController.swift in Sources */,
+				46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */,
 				9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */,
 				827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,

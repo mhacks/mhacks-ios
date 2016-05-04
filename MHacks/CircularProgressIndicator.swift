@@ -34,7 +34,8 @@ class CircularProgressIndicator: UIView {
         
         layer.addSublayer(trackLayer)
         layer.addSublayer(progressLayer)
-        
+		
+		updateTrackLayerColor()
         updateProgressLayerColor()
     }
     

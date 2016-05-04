@@ -38,7 +38,7 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Layout metrics
     
-    var rowHeight: CGFloat = 44.0 {
+    var rowHeight: CGFloat = 55.0 {
         didSet {
             invalidateLayout()
         }
@@ -217,7 +217,7 @@ class CalendarLayout: UICollectionViewLayout {
 			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
 			
 			layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
-			layoutAttributes.zIndex = 1
+			layoutAttributes.zIndex = Int.max - 1
 
         }
 		
