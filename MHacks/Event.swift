@@ -91,12 +91,11 @@ import UIKit
 	private static let categoryKey = "category"
 	
 	@objc convenience init?(serialized: Serialized) {
-		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized.intValueForKey(Event.categoryKey), let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as?  [String], let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String where startDate <= endDate
-		else
-		{
+		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized.intValueForKey(Event.categoryKey), let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as? [String], let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String where startDate <= endDate
+		else {
 			return nil
 		}
-		if let isApproved = serialized["is_approved"] as? Bool
+		if let isApproved = serialized.boolValueForKey("is_approved")
 		{
 			guard isApproved
 			else
@@ -104,13 +103,7 @@ import UIKit
 				return nil
 			}
 		}
-		let locations = locationIDs.flatMap { locationForID(Int($0)) }
-		guard locations.count > 0
-		else
-		{
-			return nil
-		}
-		self.init(ID: ID, name: name, category: category, locations: locations, startDate: startDate, endDate: endDate, info: description)
+		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: startDate, endDate: endDate, info: description)
 	}
 
 }
@@ -118,12 +111,13 @@ import UIKit
 extension Event : JSONCreateable {
 	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeObject(ID, forKey: Event.idKey)
-		aCoder.encodeObject(name, forKey: Event.nameKey)
-		aCoder.encodeObject(information, forKey: Event.infoKey)
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(startDate), forKey: Event.startDateKey)
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(endDate), forKey: Event.endDateKey)
-		aCoder.encodeObject(locations.map { $0.ID }, forKey: Event.locationIDsKey)
+		aCoder.encode(ID, forKey: Event.idKey)
+		aCoder.encode(name, forKey: Event.nameKey)
+		aCoder.encode(category.rawValue, forKey: Event.categoryKey)
+		aCoder.encode(information, forKey: Event.infoKey)
+		aCoder.encode(JSONDateFormatter.stringFromDate(startDate), forKey: Event.startDateKey)
+		aCoder.encode(JSONDateFormatter.stringFromDate(endDate), forKey: Event.endDateKey)
+		aCoder.encode(locations.map { "\($0.ID)" as NSString }, forKey: Event.locationIDsKey)
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {

@@ -9,6 +9,7 @@
 import Foundation
 
 // This file is to make Foundation more Swifty
+
 // Its unfortunate that we need this MyArray class, it would be way better
 // if we could have an extension on Array directly that conforms to JSONCreateable
 // if and only if its elements were JSONCreateable. But Swift's generic system
@@ -40,32 +41,6 @@ final class MyArray<Element: JSONCreateable> : NSObject, JSONCreateable {
 	}
 }
 
-/// A nice little wrapper to allow for interested parties to get to the JSON directly
-final class JSONWrapper: JSONCreateable
-{
-	let JSON : [String: AnyObject]
-	
-	@objc init?(serialized: Serialized) {
-		// Just set and always succeed.
-		// This is in case a request is made and we don't need to cast to any
-		// particular type and just want the JSON back.
-		self.JSON = serialized._JSON ?? [String: AnyObject]()
-	}
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-	}
-	@objc convenience init?(coder aDecoder: NSCoder) {
-		return nil
-	}
-	subscript(key: String) -> AnyObject?
-	{
-		return JSON[key]
-	}
-}
-func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
-	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }
-}
-
-
 extension NSDate: Comparable {}
 public func <(lhs: NSDate, rhs: NSDate) -> Bool
 {
@@ -96,24 +71,48 @@ let JSONDateFormatter : NSDateFormatter = {
 	return dateFormat
 }()
 
-extension NSDate
-{
-	convenience init?(JSONValue: AnyObject?)
-	{
+extension NSDate {
+	convenience init?(JSONValue: AnyObject?) {
 		guard let dateString = JSONValue as? String
-		else
-		{
+		else {
 			return nil
 		}
 		guard let date = JSONDateFormatter.dateFromString(dateString)
-		else
-		{
+		else {
 			return nil
 		}
 		self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
 	}
 }
 
+extension NSCoder {
+	// Prefer to use these encode methods from Swift, because it takes care of the nuances of
+	// encoding it properly in an ObjC typesafe manner. It also cleans up the callsite nicely
+	@nonobjc
+	func encode(obj: NSObject?, forKey key: String) {
+		self.encodeObject(obj, forKey: key)
+	}
+	
+	@nonobjc
+	func encode(objs: [NSObject], forKey key: String) {
+		self.encodeObject(objs as NSArray, forKey: key)
+	}
+	
+	@nonobjc
+	func encode(val: Double, forKey key: String) {
+		self.encodeObject(NSNumber(double: val), forKey: key)
+	}
+	
+	@nonobjc
+	func encode(val: Int, forKey key: String) {
+		self.encodeObject(NSNumber(integer: val), forKey: key)
+	}
+	
+	@nonobjc
+	func encode(val: Bool, forKey key: String) {
+		self.encodeObject(NSNumber(bool: val), forKey: key)
+	}
+}
 extension String {
 	public var sentenceCapitalizedString : String
 	{
@@ -153,14 +152,11 @@ let remoteNotificationTokenKey = "remote_notification_token"
 let remoteNotificationPreferencesKey = "remote_notification_preferences"
 
 
-extension NSNotificationCenter
-{
-	func listenFor(notification: APIManager.NotificationKey, observer: AnyObject, selector: Selector)
-	{
+extension NSNotificationCenter {
+	func listenFor(notification: APIManager.NotificationKey, observer: AnyObject, selector: Selector) {
 		addObserver(observer, selector: selector, name: notification.rawValue, object: nil)
 	}
-	func post(notification: APIManager.NotificationKey, object: AnyObject? = nil)
-	{
+	func post(notification: APIManager.NotificationKey, object: AnyObject? = nil) {
 		postNotificationName(notification.rawValue, object: object)
 	}
 }

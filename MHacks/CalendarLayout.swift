@@ -200,7 +200,8 @@ class CalendarLayout: UICollectionViewLayout {
 		case .NowIndicator:
 			
 			guard let nowIndicatorPosition = nowIndicatorPosition else {
-				return nil
+				layoutAttributes.hidden = true
+				break
 			}
 			
 			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)

@@ -14,32 +14,51 @@ import Foundation
 /// want doesn't have it feel free to define it. This isn't a preferred way of
 /// doing things but we have no choice since bridiging doesn't work properly.
 @objc final class Serialized : NSObject {
-	let _JSON : [String: AnyObject]?
-	let _coder : NSCoder?
+	private let JSON : [String: AnyObject]?
+	private let coder : NSCoder?
 	
 	init(JSON: [String: AnyObject]) {
-		self._JSON = JSON
-		self._coder = nil
+		self.JSON = JSON
+		self.coder = nil
 		super.init()
 	}
 	init(coder: NSCoder) {
-		self._coder = coder
-		self._JSON = nil
+		self.coder = coder
+		self.JSON = nil
 		super.init()
 	}
 	
 	subscript(key: String) -> AnyObject? {
-		return _JSON?[key] ?? _coder?.decodeObjectForKey(key)
+		let value = JSON?[key] ?? coder?.decodeObjectForKey(key)
+		if value == nil {
+			print("Failed to decode for key: \(key)")
+		}
+		return value
 	}
 	
 	func doubleValueForKey(key: String) -> Double? {
-		return _JSON?[key] as? Double ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.doubleValue
+		let value = JSON?[key] as? Double ?? (coder?.decodeObjectForKey(key) as? NSNumber)?.doubleValue
+		if value == nil
+		{
+			print("Failed to decode for key: \(key)")
+		}
+		return value
 	}
 	func intValueForKey(key: String) -> Int? {
-		return _JSON?[key] as? Int ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.integerValue
+		let value = JSON?[key] as? Int ?? (coder?.decodeObjectForKey(key) as? NSNumber)?.integerValue
+		if value == nil
+		{
+			print("Failed to decode for key: \(key)")
+		}
+		return value
 	}
 	func boolValueForKey(key: String) -> Bool? {
-		return _JSON?[key] as? Bool ?? (_coder?.decodeObjectForKey(key) as? NSNumber)?.boolValue
+		let value = JSON?[key] as? Bool ?? (coder?.decodeObjectForKey(key) as? NSNumber)?.boolValue
+		if value == nil
+		{
+			print("Failed to decode for key: \(key)")
+		}
+		return value
 	}
 }
 
@@ -82,6 +101,30 @@ extension JSONCreateable
 	// in all classes that conform to JSONCreateable!
 	//
 	// However, this is purely because of a limitation on Swift's typesystem and Objective-C interoperatbility and has
-	// nothing to do with the how our code is organized.
+	// nothing to do with how our code is organized.
+}
+
+/// A nice little wrapper to allow for interested parties to get to the JSON directly
+final class JSONWrapper: JSONCreateable {
+	let JSON : [String: AnyObject]
+	
+	@objc init?(serialized: Serialized) {
+		// Just set and always succeed.
+		// This is in case a request is made and we don't need to cast to any
+		// particular type and just want the JSON back.
+		self.JSON = serialized.JSON ?? [String: AnyObject]()
+	}
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+	}
+	@objc convenience init?(coder aDecoder: NSCoder) {
+		return nil
+	}
+	subscript(key: String) -> AnyObject? {
+		return JSON[key]
+	}
+}
+
+func ==(lhs: JSONWrapper, rhs: JSONWrapper) -> Bool {
+	return lhs.JSON.map { $0.0 } == rhs.JSON.map { $0.0 }
 }
 

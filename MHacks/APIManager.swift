@@ -22,14 +22,8 @@ enum Response<T>
 	case Value(T)
 	case Error(String)
 }
-
-private let manager = { () -> APIManager in
-	let m = APIManager()
-	// Try constructing the APIManager using the cache.
-	// If that fails initialize to empty, i.e. no cache exists.
-	m.initialize()
-	return m
-}()
+private let manager = APIManager()
+private var initializeManagerOnce = dispatch_once_t(0)
 
 private let archiveLocation = container.URLByAppendingPathComponent("manager.plist")
 
@@ -39,13 +33,15 @@ final class APIManager : NSObject
 	
 	// MARK: - Initializers
 	
-	// Private so that nobody else can access this.
+	// Private so that nobody else can access this, and sharedManager is the only hook into the 
+	// APIManager
 	private override init() {
 		super.init()
-		locationForID = { ID in self.locations.filter { $0.ID == ID }.first }
-
 	}
 	static var sharedManager: APIManager {
+		dispatch_once(&initializeManagerOnce, {
+			manager.initialize()
+		})
 		return manager
 	}
 	
@@ -64,8 +60,7 @@ final class APIManager : NSObject
 		let mutableRequest = NSMutableURLRequest(URL: URL)
 		mutableRequest.HTTPMethod = method.rawValue
 		authenticator?.addAuthorizationHeader(mutableRequest)
-		do
-		{
+		do {
 			if method == .POST || method == .PUT || method == .PATCH
 			{
 				if method == .PATCH || method == .PUT
@@ -82,9 +77,7 @@ final class APIManager : NSObject
 					mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
 				}
 			}
-		}
-		catch
-		{
+		} catch {
 			print(error)
 			mutableRequest.HTTPBody = nil
 		}
@@ -135,18 +128,15 @@ final class APIManager : NSObject
 				return
 			}
 			guard error == nil
-			else
-			{
+			else {
 				// The fetch failed because of a networking error
 				completion(.Error(error!.localizedDescription))
 				return
 			}
 			guard let obj = Object(data: data)
-			else
-			{
+			else {
 				guard let jsonData = data, let errorMessage = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: []))?["message"] as? String
-				else
-				{
+				else {
 					assertionFailure("Deserialization should never fail. We recover silently in production builds")
 					completion(.Error("Deserialization failed"))
 					return
@@ -167,8 +157,7 @@ final class APIManager : NSObject
 			coalecser.registerCallback(call)
 		}
 		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
-		else
-		{
+		else {
 			// A timeout occurred on the semaphore guard.
 			return
 		}
@@ -206,11 +195,10 @@ final class APIManager : NSObject
 	private let announcementsSemaphore = dispatch_semaphore_create(1)
 	
 	///	Updates the announcements and posts a notification on completion.
-	func updateAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
-	{
+	func updateAnnouncements(callback: CoalescedCallbacks.Callback? = nil) {
 		updateGenerically("/v1/announcements", notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore, coalecser: announcementCallbacks, callback: callback) { (result: MyArray<Announcement>) in
 			guard result._array != self.announcementBuffer._array
-				else
+			else
 			{
 				NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated)
 				return false
@@ -298,8 +286,7 @@ final class APIManager : NSObject
 		}
 	}
 	
-	func approveAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
-	{
+	func approveAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void) {
 		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
 		var jsonToSend = announcement.encodeForCreation()
 		jsonToSend["is_approved"] = true
@@ -422,58 +409,48 @@ final class APIManager : NSObject
 			var newJSON = result.JSON
 			let completion = { () -> Bool in
 				guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
-					else
-				{
+				else {
 					return false
 				}
 				self.map = map
 				return true
 			}
 			guard let URLString = result[Map.imageURLKey] as? String
-				else
-			{
+			else {
 				return false
 			}
 			guard self.map?.imageURL != URLString
-				else
-			{
+			else {
 				newJSON[Map.fileLocationKey] = self.map?.fileLocation
 				return completion()
 			}
 			guard let URL = NSURL(string: URLString)
-				else
-			{
+			else {
 				return false
 			}
 			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(URL, completionHandler: { downloadedImage, response, error in
-				guard error == nil, let downloaded = downloadedImage, let directory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.ApplicationSupportDirectory, .UserDomainMask, true).first
-					else
-				{
+				guard error == nil, let downloaded = downloadedImage
+				else {
 					guard completion()
-						else
-					{
+					else {
 						NSNotificationCenter.defaultCenter().post(.Failure, object: error?.localizedDescription ?? "Could not save map")
 						return
 					}
 					NSNotificationCenter.defaultCenter().post(.MapUpdated)
 					return
 				}
-				let directoryURL = NSURL(fileURLWithPath: directory, isDirectory: true)
-				let fileURL = directoryURL.URLByAppendingPathComponent("map.png")
-				do
-				{
+				let fileURL = container.URLByAppendingPathComponent("map.png")
+				do {
 					let _ = try? NSFileManager.defaultManager().removeItemAtURL(fileURL)
 					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
 					newJSON[Map.fileLocationKey] = fileURL.absoluteString
 					guard completion()
-						else
-					{
+					else {
 						return
 					}
 					NSNotificationCenter.defaultCenter().post(.MapUpdated, object: self)
 				}
-				catch
-				{
+				catch {
 					NSNotificationCenter.defaultCenter().post(.Failure, object: (error as NSError).localizedDescription)
 				}
 			})
@@ -483,10 +460,9 @@ final class APIManager : NSObject
 	}
 	
 	// MARK: - Notification Keys
-	enum NotificationKey : String
-	{
+	enum NotificationKey : String {
 		case AnnouncementsUpdated
-		case UnapprovedAnnouncementsUpdated
+		case UnapprovedAnnouncementsUpdated // FIXME: Refactor and remove this case once backend is stabilized
 		case CountdownUpdated
 		case EventsUpdated
 		case LocationsUpdated
@@ -496,10 +472,8 @@ final class APIManager : NSObject
 }
 
 // MARK: - Authentication and User Stuff
-extension APIManager
-{
-	func loginWithUsername(username: String, password: String, completion: (Response<Bool>) -> Void)
-	{
+extension APIManager {
+	func loginWithUsername(username: String, password: String, completion: (Response<Bool>) -> Void) {
 		guard !isLoggedIn
 		else {
 			completion(.Value(true))
@@ -537,10 +511,10 @@ extension APIManager
 		}
 		task.resume()
 	}
-	func logout()
-	{
+	func logout() {
 		self.authenticator = nil
 	}
+	
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
 	@objc final private class Authenticator: NSObject, JSONCreateable
@@ -554,8 +528,8 @@ extension APIManager
 		
 		private let username: String
 		private let password: String
-		private var authToken : String
-		private var expiry : String
+		private var authToken: String
+		private var expiry: String
 		private let tokenType: String
 		private var client: String
 		private let privilege: Privilege
@@ -594,10 +568,10 @@ extension APIManager
 		
 		// MARK: Authenticator Archiving
 		@objc func encodeWithCoder(aCoder: NSCoder) {
-			aCoder.encodeInteger(privilege.rawValue, forKey: Authenticator.privilegeKey)
-			aCoder.encodeObject(username, forKey: Authenticator.usernameKey)
-			aCoder.encodeObject(expiry, forKey: Authenticator.expiryKey)
-			aCoder.encodeObject(tokenType, forKey: Authenticator.tokenTypeKey)
+			aCoder.encode(privilege.rawValue, forKey: Authenticator.privilegeKey)
+			aCoder.encode(username, forKey: Authenticator.usernameKey)
+			aCoder.encode(expiry, forKey: Authenticator.expiryKey)
+			aCoder.encode(tokenType, forKey: Authenticator.tokenTypeKey)
 			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
 			SSKeychain.setPassword(client, forService: Authenticator.clientKey, account: username)
 			SSKeychain.setPassword(password, forService: Authenticator.passwordKey, account: username)
@@ -633,11 +607,21 @@ extension APIManager : NSCoding
 		{
 			// Move everything over
 			self.countdown = obj.countdown
+			NSNotificationCenter.defaultCenter().post(.CountdownUpdated, object: self)
+			
 			self.announcements = obj.announcements
+			NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated, object: self)
+			
 			self.locations = obj.locations
+			NSNotificationCenter.defaultCenter().post(.LocationsUpdated, object: self)
+			
 			self.eventsOrganizer = obj.eventsOrganizer
+			NSNotificationCenter.defaultCenter().post(.EventsUpdated, object: self)
+			
+			self.map = obj.map
+			NSNotificationCenter.defaultCenter().post(.MapUpdated, object: self)
+			
 			self.authenticator = obj.authenticator
-			locationForID = { ID in self.locations.filter { $0.ID == ID }.first }
 		}
 	}
 	
@@ -654,36 +638,50 @@ extension APIManager : NSCoding
 		catch {
 		}
 	}
+	private static let authenticatorKey = "authenticator"
+	private static let locationsKey = "locations"
+	private static let eventsOrganizerKey = "eventsOrganizer"
+	private static let announcementsKey = "announcements"
+	private static let countdownKey = "countdown"
+	private static let mapKey = "map"
 	
-	@objc func encodeWithCoder(aCoder: NSCoder)
-    {
-		aCoder.encodeObject(authenticator, forKey: "authenticator")
-		aCoder.encodeObject(locations as NSArray, forKey: "locations")
-		aCoder.encodeObject(eventsOrganizer, forKey: "eventsOrganizer")
-		aCoder.encodeObject(announcements as NSArray, forKey: "announcements")
-		aCoder.encodeObject(countdown, forKey: "countdown")
-		aCoder.encodeObject(map, forKey: "map")
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encode(authenticator, forKey: APIManager.authenticatorKey)
+		aCoder.encode(locations, forKey: APIManager.locationsKey)
+		aCoder.encode(eventsOrganizer, forKey: APIManager.eventsOrganizerKey)
+		aCoder.encode(announcements, forKey: APIManager.announcementsKey)
+		aCoder.encode(countdown, forKey: APIManager.countdownKey)
+		aCoder.encode(map, forKey: APIManager.mapKey)
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder)
     {
 		self.init()
-		self.authenticator = aDecoder.decodeObjectForKey("authenticator") as? Authenticator
-		self.map = aDecoder.decodeObjectForKey("map") as? Map
-		self.locations = aDecoder.decodeObjectForKey("locations") as? [Location] ?? []
-		self.announcements = aDecoder.decodeObjectForKey("announcements") as? [Announcement] ?? []
-		self.countdown = aDecoder.decodeObjectForKey("countdown") as? Countdown ?? Countdown()
-		locationForID = { ID in self.locations.filter { loc in loc.ID == ID }.first }
-		guard let eventsOrganizer = aDecoder.decodeObjectForKey("eventsOrganizer") as? EventOrganizer
-		else
-		{
-			self.eventsOrganizer = EventOrganizer(events: [])
-			return
+		self.authenticator = aDecoder.decodeObjectForKey(APIManager.authenticatorKey) as? Authenticator
+		self.map = aDecoder.decodeObjectForKey(APIManager.mapKey) as? Map
+		self.locations = aDecoder.decodeObjectForKey(APIManager.locationsKey) as? [Location] ?? []
+		manager.locations = locations
+		self.announcements = aDecoder.decodeObjectForKey(APIManager.announcementsKey) as? [Announcement] ?? []
+		self.countdown = aDecoder.decodeObjectForKey(APIManager.countdownKey) as? Countdown ?? Countdown()
+		if let eventsOrganizer = aDecoder.decodeObjectForKey(APIManager.eventsOrganizerKey) as? EventOrganizer {
+			self.eventsOrganizer = eventsOrganizer
 		}
-		self.eventsOrganizer = eventsOrganizer
+		else {
+			self.eventsOrganizer = EventOrganizer(events: [])
+		}
 	}
 }
-// FIXME: Hack, we create this callback so that events can be updated without 
-// a race condition. We need to figure out a way to do this better without 
-// causing problems during the initialization of the APIManager
-var locationForID : ((Int?) -> Location?)!
+
+extension Event {
+	// Although this is a hack to resolve the dependency between Event and APIManager.sharedManager, we can improve the hackiness of this once Swift 3's new accessors come into effect (i.e. using fileprivate and private)
+	convenience init?(ID: String, name: String, category: Category, locationIDs: [String], startDate: NSDate, endDate: NSDate, info: String) {
+		let locations = locationIDs.flatMap { locID in
+			manager.locations.filter { location in
+				location.ID == Int(locID)
+				// The conversion to Int here is stupid, but its the backend's fault that we need to do this!
+			}
+		}
+		guard locations.count > 0 else { return nil }
+		self.init(ID: ID, name: name, category: category, locations: locations, startDate: startDate, endDate: endDate, info: info)
+	}
+}

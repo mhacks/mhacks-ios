@@ -138,7 +138,7 @@ import UIKit
 		{
 			return nil
 		}
-		self.init(ID: id, title: title, message: message, date: date, category: Category(rawValue: categoryRaw), owner: owner, approved: Bool(approved))
+		self.init(ID: id, title: title, message: message, date: date, category: Category(rawValue: categoryRaw), owner: owner, approved: approved)
 	}
 	func encodeForCreation() -> [String: AnyObject]
 	{
@@ -149,13 +149,13 @@ import UIKit
 extension Announcement: JSONCreateable, NSCoding {
 		
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeObject(ID, forKey: Announcement.idKey)
-		aCoder.encodeObject(title, forKey: Announcement.titleKey)
-		aCoder.encodeObject(message, forKey: Announcement.infoKey)
-		aCoder.encodeObject(JSONDateFormatter.stringFromDate(date), forKey: Announcement.dateKey)
-		aCoder.encodeBool(approved, forKey: Announcement.approvedKey)
-		aCoder.encodeObject(owner, forKey: Announcement.ownerKey)
-		aCoder.encodeInteger(category.rawValue, forKey: Announcement.categoryKey)
+		aCoder.encode(ID, forKey: Announcement.idKey)
+		aCoder.encode(title, forKey: Announcement.titleKey)
+		aCoder.encode(message, forKey: Announcement.infoKey)
+		aCoder.encode(JSONDateFormatter.stringFromDate(date), forKey: Announcement.dateKey)
+		aCoder.encode(approved, forKey: Announcement.approvedKey)
+		aCoder.encode(owner, forKey: Announcement.ownerKey)
+		aCoder.encode(category.rawValue, forKey: Announcement.categoryKey)
 	}
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		self.init(serialized: Serialized(coder: aDecoder))

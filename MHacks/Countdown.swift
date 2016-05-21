@@ -131,8 +131,8 @@ import UIKit
 extension Countdown : JSONCreateable, NSCoding
 {
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeDouble(startDate.timeIntervalSince1970, forKey: Countdown.countdownStartDateKey)
-		aCoder.encodeDouble(duration, forKey: Countdown.countdownDurationKey)
+		aCoder.encode(startDate.timeIntervalSince1970, forKey: Countdown.countdownStartDateKey)
+		aCoder.encode(duration, forKey: Countdown.countdownDurationKey)
 	}
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		self.init(serialized: Serialized(coder: aDecoder))
