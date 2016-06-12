@@ -47,7 +47,6 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		}
 		
 		beginUpdatingNowIndicatorPosition()
-		scrollToNowIfNeeded()
     }
 	
 	override func viewDidDisappear(animated: Bool) {
@@ -58,6 +57,18 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		stopUpdatingNowIndicatorPosition()
 	}
 	
+	override func viewWillLayoutSubviews() {
+		super.viewWillLayoutSubviews()
+		
+		updateNowIndicator()
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		
+		scrollToNowIfNeeded()
+	}
+	
 	// MARK: Model
 	
 	func eventsUpdated(notification: NSNotification) {
@@ -65,7 +76,6 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		dispatch_async(dispatch_get_main_queue()) {
 			
 			if self.isViewLoaded() {
-				
 				self.collectionView.reloadData()
 				self.updateNowIndicator()
 				self.scrollToNowIfNeeded()
@@ -124,24 +134,42 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	func scrollToNowIfNeeded() {
 		
-		if shouldScrollToNow && collectionView.numberOfSections() != 0 {
-			
-			collectionView.layoutIfNeeded()
-			
-			let midY = collectionView.layoutAttributesForSupplementaryElementOfKind(CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!.frame.midY
-			
-			let visibleHeight = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).height
-			
-			let y = midY - (visibleHeight / 2.0)
-			
-			let contentRect = CGRect(origin: CGPointZero, size: collectionView.contentSize)
-			
-			let rect = CGRect(x: 0.0, y: y, width: collectionView.bounds.width, height: visibleHeight).intersect(contentRect)
-			
-			collectionView.scrollRectToVisible(rect, animated: false)
-			
+		guard shouldScrollToNow else {
+			return
+		}
+	
+		updateNowIndicator()
+		collectionView.layoutIfNeeded()
+	
+		if canScrollToNow {
+
+			scrollToNow()
+	
 			shouldScrollToNow = false
 		}
+	}
+	
+	var canScrollToNow: Bool {
+		return collectionView.numberOfSections() != 0
+	}
+	
+	func scrollToNow() {
+		
+		guard canScrollToNow else {
+			return
+		}
+		
+		let midY = collectionView.layoutAttributesForSupplementaryElementOfKind(CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!.frame.midY
+		
+		let visibleHeight = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).height
+		
+		let y = midY - (visibleHeight / 2.0)
+		
+		let contentRect = CGRect(origin: CGPointZero, size: collectionView.contentSize)
+		
+		let rect = CGRect(x: 0.0, y: y, width: collectionView.bounds.width, height: visibleHeight).intersect(contentRect)
+			
+		collectionView.scrollRectToVisible(rect, animated: false)
 	}
 	
     // MARK: Collection view data source

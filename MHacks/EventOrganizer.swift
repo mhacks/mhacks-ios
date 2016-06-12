@@ -397,13 +397,12 @@ extension EventOrganizer: JSONCreateable, NSCoding  {
 	}
 	
 	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encodeObject(allEvents as NSArray, forKey: EventOrganizer.eventsKey)
+		aCoder.encode(allEvents, forKey: EventOrganizer.eventsKey)
 	}
 	
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		guard let events = aDecoder.decodeObjectForKey(EventOrganizer.eventsKey) as? [Event]
-		else
-		{
+		else {
 			return nil
 		}
 		self.init(events: events)

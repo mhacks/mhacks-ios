@@ -14,7 +14,11 @@ class AnnouncementsViewController: UITableViewController {
 	
 	private func fetch() {
 		refreshControl?.beginRefreshing()
-		APIManager.sharedManager.updateAnnouncements()
+		APIManager.sharedManager.updateAnnouncements { _ in
+			dispatch_async(dispatch_get_main_queue(), {
+				self.refreshControl?.endRefreshing()
+			})
+		}
 	}
 	
     // MARK: ViewController Lifecycle
@@ -30,27 +34,18 @@ class AnnouncementsViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if APIManager.sharedManager.canPostAnnouncements()
-        {
+        if APIManager.sharedManager.canPostAnnouncements() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
         }
-        else
-        {
+        else {
             navigationItem.rightBarButtonItem = nil
         }
-    }
-    
-	override func viewDidAppear(animated: Bool) {
-		super.viewDidAppear(animated)
 		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)))
-		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(AnnouncementsViewController.connectionError(_:)))
-		if APIManager.sharedManager.canEditAnnouncements()
-		{
+		if APIManager.sharedManager.canEditAnnouncements() {
 			tableView.allowsSelection = true
 			tableView.allowsMultipleSelection = false
 		}
-		else
-		{
+		else {
 			tableView.allowsSelection = false
 			tableView.allowsMultipleSelection = false
 		}
@@ -66,7 +61,7 @@ class AnnouncementsViewController: UITableViewController {
 		}
 		tableView.reloadData()
 		fetch()
-	}
+    }
 	
 	override func viewDidDisappear(animated: Bool) {
 		super.viewDidDisappear(animated)
@@ -74,37 +69,20 @@ class AnnouncementsViewController: UITableViewController {
 	}
 	
 	// MARK: - Actions/Notifications
-	func refresh(sender: UIRefreshControl)
-	{
+	func refresh(sender: UIRefreshControl) {
 		fetch()
 	}
-	func announcementsUpdated(notification: NSNotification? = nil)
-	{
+	func announcementsUpdated(notification: NSNotification? = nil) {
 		dispatch_async(dispatch_get_main_queue(), {
-			guard notification?.object != nil
-			else
-			{
-				self.refreshControl?.endRefreshing()
-				return
-			}
 			CATransaction.begin()
-			CATransaction.setCompletionBlock({
-				self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-			})
-			self.refreshControl?.endRefreshing()
+			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
 			CATransaction.commit()
 		})
 	}
-	func connectionError(notification: NSNotification)
-	{
-		refreshControl?.endRefreshing()
-	}
 	
-	func compose(sender: UIBarButtonItem)
-	{
+	func compose(sender: UIBarButtonItem) {
 		guard APIManager.sharedManager.canPostAnnouncements()
-		else
-		{
+		else {
 			navigationItem.rightBarButtonItem = nil
 			return
 		}
@@ -130,16 +108,13 @@ class AnnouncementsViewController: UITableViewController {
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
         return cell
     }
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-	{
-		if APIManager.sharedManager.canEditAnnouncements()
-		{
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		if APIManager.sharedManager.canEditAnnouncements() {
 			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
 			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
 			presentViewController(compose, animated: true, completion: nil)
 		}
-		else
-		{
+		else {
 			tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		}
 	}
@@ -148,8 +123,7 @@ class AnnouncementsViewController: UITableViewController {
         return APIManager.sharedManager.canEditAnnouncements()
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?
-    {
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let delete = UITableViewRowAction(style: .Normal, title: "✕") { action, index in
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .Alert)
             confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))

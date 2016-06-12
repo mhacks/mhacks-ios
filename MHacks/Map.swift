@@ -51,16 +51,13 @@ import CoreLocation
 		super.init()
 	}
 	
-	convenience init?(serialized: Serialized)
-	{
+	convenience init?(serialized: Serialized) {
 		guard let southWestLat = serialized.doubleValueForKey(Map.southWestLatitudeKey), let southWestLong = serialized.doubleValueForKey(Map.southWestLongitudeKey), let northEastLat = serialized.doubleValueForKey(Map.northEastLatitudeKey), let northEastLong = serialized.doubleValueForKey(Map.northEastLongitudeKey), let imageURLString = serialized[Map.imageURLKey] as? String
-		else
-		{
+		else {
 			return nil
 		}
 		guard let file = serialized[Map.fileLocationKey] as? String
-		else
-		{
+		else {
 			return nil
 		}
 		self.init(fileLocation: file, imageURL: imageURLString, southWestLatitude: southWestLat, southWestLongitude: southWestLong, northEastLatitude: northEastLat, northEastLongitude: northEastLong)
@@ -75,16 +72,15 @@ import CoreLocation
 }
 extension Map : JSONCreateable {
 	
-	@objc func encodeWithCoder(aCoder: NSCoder)
-	{
-		aCoder.encodeObject(fileLocation, forKey: Map.fileLocationKey)
-		aCoder.encodeObject(imageURL, forKey: Map.imageURLKey)
-		aCoder.encodeDouble(southWestLatitude, forKey: Map.southWestLatitudeKey)
-		aCoder.encodeDouble(southWestLongitude, forKey: Map.southWestLongitudeKey)
-		aCoder.encodeDouble(northEastLatitude, forKey: Map.northEastLatitudeKey)
-		aCoder.encodeDouble(northEastLongitude, forKey: Map.northEastLongitudeKey)
-
+	@objc func encodeWithCoder(aCoder: NSCoder) {
+		aCoder.encode(fileLocation, forKey: Map.fileLocationKey)
+		aCoder.encode(imageURL, forKey: Map.imageURLKey)
+		aCoder.encode(southWestLatitude, forKey: Map.southWestLatitudeKey)
+		aCoder.encode(southWestLongitude, forKey: Map.southWestLongitudeKey)
+		aCoder.encode(northEastLatitude, forKey: Map.northEastLatitudeKey)
+		aCoder.encode(northEastLongitude, forKey: Map.northEastLongitudeKey)
 	}
+	
 	@objc convenience init?(coder aDecoder: NSCoder) {
 		self.init(serialized: Serialized(coder: aDecoder))
 	}
