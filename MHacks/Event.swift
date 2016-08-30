@@ -21,17 +21,18 @@ import UIKit
 		var color: UIColor {
 			switch self {
 			case .Logisitics:
-				return UIColor(red: 056.0/255.0, green: 093.0/255.0, blue: 214.0/255.0, alpha: 1.0)
+				return ColorPalette.Category.Logistics
 			case .Social:
-				return UIColor(red: 226.0/255.0, green: 048.0/255.0, blue: 082.0/255.0, alpha: 1.0)
+				return ColorPalette.Category.Social
 			case .Food:
-				return UIColor(red: 255.0/255.0, green: 202.0/255.0, blue: 011.0/255.0, alpha: 1.0)
+				return ColorPalette.Category.Food
 			case .TechTalk:
-				return UIColor(red: 168.0/255.0, green: 110.0/255.0, blue: 219.0/255.0, alpha: 1.0)
+				return ColorPalette.Category.TechTalk
 			case .Other:
-				return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
+				return ColorPalette.Category.Other
 			}
 		}
+		
 		var description : String {
 			switch self {
 			case .Logisitics:

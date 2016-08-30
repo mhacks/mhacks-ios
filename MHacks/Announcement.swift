@@ -65,17 +65,17 @@ import UIKit
 				switch i
 				{
 				case 0:
-					return UIColor(red: 255.0/255.0, green: 050.0/255.0, blue: 050.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Emergency
 				case 1:
-					return UIColor(red: 030.0/255.0, green: 103.0/255.0, blue: 254.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Logistics
 				case 2:
-					return UIColor(red: 255.0/255.0, green: 200.0/255.0, blue: 008.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Food
 				case 3:
-					return  UIColor(red: 057.0/255.0, green: 203.0/255.0, blue: 085.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Swag
 				case 4:
-					return UIColor(red: 158.0/255.0, green: 030.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Sponsor
 				case 5:
-					return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
+					return ColorPalette.Category.Other
 				default:
 					fatalError("Unrecognized category \(i)")
 				}
