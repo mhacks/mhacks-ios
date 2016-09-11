@@ -19,7 +19,7 @@ extension APIManager
 	}
 }
 
-func bodyColorForColor(color: UIColor, desaturated: Bool) -> UIColor {
+func bodyColorForColor(_ color: UIColor, desaturated: Bool) -> UIColor {
 	
 	var hue: CGFloat = 0.0
 	var saturation: CGFloat = 0.0

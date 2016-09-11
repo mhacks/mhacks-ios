@@ -8,18 +8,23 @@
 
 import UIKit
 
-@objc final class Countdown : NSObject {
+final class Countdown : Serializable, Equatable {
 	
 	// MARK : - Properties
-    let startDate: NSDate
-    let duration: NSTimeInterval
+    private(set) var startDate: Date
+    private(set) var duration: TimeInterval
 	
-    var endDate: NSDate {
-        return startDate.dateByAddingTimeInterval(duration)
+	let semaphoreGuard = DispatchSemaphore(value: 1)
+	let coalescer = CoalescedCallbacks()
+	private(set) var lastUpdated: Int?
+
+	
+    var endDate: Date {
+        return startDate.addingTimeInterval(duration)
     }
     
-    var roundedCurrentDate: NSDate? {
-        return startDate.dateByAddingTimeInterval(duration - roundedTimeRemaining)
+    var roundedCurrentDate: Date {
+        return startDate.addingTimeInterval(duration - roundedTimeRemaining)
     }
 	
 	var startDateDescription: String {
@@ -35,7 +40,7 @@ import UIKit
 			}
 		}()
 		
-		let dateText = Countdown.dateFormatter.stringFromDate(startDate)
+		let dateText = Countdown.dateFormatter.string(from: startDate)
 		
 		return String(format: message, dateText)
 	}
@@ -54,21 +59,21 @@ import UIKit
 			}
 		}()
 		
-		let dateText = Countdown.dateFormatter.stringFromDate(endDate)
+		let dateText = Countdown.dateFormatter.string(from: endDate)
 		
-		return NSString(format: message, dateText) as String
+		return NSString(format: message as NSString, dateText) as String
 	}
 	
 	// The current date clipped to the start and end of the event
-	var progressDate: NSDate {
-		return min(max(NSDate(), startDate), endDate)
+	var progressDate: Date {
+		return min(max(Date(), startDate), endDate)
 	}
 	
-	var timeRemaining: NSTimeInterval {
-		return endDate.timeIntervalSinceDate(progressDate)
+	var timeRemaining: TimeInterval {
+		return endDate.timeIntervalSince(progressDate)
 	}
 	
-	var roundedTimeRemaining: NSTimeInterval {
+	var roundedTimeRemaining: TimeInterval {
 		return round(timeRemaining)
 	}
 	
@@ -76,16 +81,16 @@ import UIKit
 		
 		let total = Int(roundedTimeRemaining)
 		
-		let hours = Countdown.timeRemainingFormatter.stringFromNumber(total / 3600)!
-		let minutes = Countdown.timeRemainingFormatter.stringFromNumber((total % 3600) / 60)!
-		let seconds = Countdown.timeRemainingFormatter.stringFromNumber(total % 60)!
+		let hours = Countdown.timeRemainingFormatter.string(for: total / 3600)!
+		let minutes = Countdown.timeRemainingFormatter.string(for: (total % 3600) / 60)!
+		let seconds = Countdown.timeRemainingFormatter.string(for: total % 60)!
 		
 		return "\(hours):\(minutes):\(seconds)"
 	}
 	
 	static let font: UIFont = {
 		// Use SF font with monospaced digit for iOS 9+
-		return UIFont.monospacedDigitSystemFontOfSize(120.0, weight: UIFontWeightThin)
+		return UIFont.monospacedDigitSystemFont(ofSize: 120.0, weight: UIFontWeightThin)
 	}()
 	
 	var progress: Double {
@@ -93,17 +98,17 @@ import UIKit
 	}
 	
 	// MARK: - Helpers
-    private static var dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.formattingContext = .MiddleOfSentence
-        formatter.dateStyle = .FullStyle
-        formatter.timeStyle = .ShortStyle
+    private static var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.formattingContext = .middleOfSentence
+        formatter.dateStyle = .full
+        formatter.timeStyle = .short
         formatter.doesRelativeDateFormatting = true
         return formatter
     }()
 	
-    private static var timeRemainingFormatter: NSNumberFormatter = {
-        let formatter = NSNumberFormatter()
+    private static var timeRemainingFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
         formatter.minimumIntegerDigits = 2
         return formatter
     }()
@@ -111,32 +116,38 @@ import UIKit
 	private static let countdownStartDateKey = "start_time"
 	private static let countdownDurationKey = "countdown_duration"
 	
-	init(startDate: NSDate = NSDate(timeIntervalSince1970: 1455944400), duration: NSTimeInterval = 129600000) {
+	init(startDate: Date = Date(timeIntervalSince1970: 1455944400), duration: TimeInterval = 129600000) {
         self.startDate = startDate
 		self.duration = duration / 1000.0
     }
 	
-	convenience init?(serialized: Serialized)
-	{
-		guard let startDateTimeStamp = serialized.doubleValueForKey(Countdown.countdownStartDateKey), let duration = serialized.doubleValueForKey(Countdown.countdownDurationKey)
-		else
-		{
-			return nil
+	convenience init?(_ serializedRepresentation: SerializedRepresentation) {
+		self.init()
+		_ = updateWith(serializedRepresentation)
+	}
+	
+	func toSerializedRepresentation() -> NSDictionary {
+		return [Countdown.countdownStartDateKey: startDate.timeIntervalSince1970, Countdown.countdownDurationKey: duration, Countdown.lastUpdatedKey: lastUpdated ?? 0]
+	}
+	
+	func updateWith(_ serialized: SerializedRepresentation) -> Bool {
+		guard let lastUpdated = serialized[Countdown.lastUpdatedKey] as? Int
+		else {
+			return false
 		}
-		self.init(startDate: NSDate(timeIntervalSince1970: startDateTimeStamp), duration: duration)
-	}
-}
+		self.lastUpdated = lastUpdated
 
-// MARK: - NSCoding
-extension Countdown : JSONCreateable, NSCoding
-{
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encode(startDate.timeIntervalSince1970, forKey: Countdown.countdownStartDateKey)
-		aCoder.encode(duration, forKey: Countdown.countdownDurationKey)
+		guard let startDateTimeStamp = serialized[Countdown.countdownStartDateKey] as? Double, let duration = serialized[Countdown.countdownDurationKey] as? Double
+		else {
+			return false
+		}
+		
+		self.startDate = Date(timeIntervalSince1970: startDateTimeStamp)
+		self.duration = duration
+		
+		return true
 	}
-	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(serialized: Serialized(coder: aDecoder))
-	}
+
 }
 
 func ==(lhs: Countdown, rhs: Countdown) -> Bool {

@@ -10,17 +10,12 @@ import Foundation
 import CoreLocation
 import GoogleMaps
 
+// This file is for the GoogleMaps dependency only!
 extension Map {
 	var overlay: GMSGroundOverlay {
+		// FIXME: This should be optional not forced unwrapped
 		let overlayBounds = GMSCoordinateBounds(coordinate: southWestCoordinate, coordinate: northEastCoordinate)
 		let overlay = GMSGroundOverlay(bounds: overlayBounds, icon: image)
-		return overlay
-	}
-}
-extension Event {
-	
-	var notification : UILocalNotification?
-	{
-		return UIApplication.sharedApplication().scheduledLocalNotifications?.filter { $0.userInfo?["id"] as? String == ID }.first
+		return overlay!
 	}
 }

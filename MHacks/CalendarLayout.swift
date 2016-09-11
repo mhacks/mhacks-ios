@@ -10,13 +10,13 @@ import UIKit
 
 @objc protocol CalendarLayoutDelegate: UICollectionViewDelegate {
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: IndexPath) -> Double
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: IndexPath) -> Double
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: NSIndexPath) -> Int
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: NSIndexPath) -> Int
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: IndexPath) -> Int
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: IndexPath) -> Int
 }
 
 class CalendarLayout: UICollectionViewLayout {
@@ -32,7 +32,7 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Delegate
     
-    private var delegate: CalendarLayoutDelegate? {
+    fileprivate var delegate: CalendarLayoutDelegate? {
         return collectionView?.delegate as? CalendarLayoutDelegate
     }
     
@@ -44,7 +44,7 @@ class CalendarLayout: UICollectionViewLayout {
         }
     }
     
-    var rowInsets: UIEdgeInsets = UIEdgeInsetsZero {
+    var rowInsets: UIEdgeInsets = .zero {
         didSet {
             invalidateLayout()
         }
@@ -76,11 +76,11 @@ class CalendarLayout: UICollectionViewLayout {
 	
     // MARK: Layout calculations
     
-    private func heightForSection(section: Int) -> CGFloat {
+    private func heightForSection(_ section: Int) -> CGFloat {
         return headerHeight + CGFloat(numberOfRowsBySection[section]) * rowHeight
     }
     
-    private func heightForSections(sections: Range<Int>) -> CGFloat {
+    private func heightForSections(_ sections: CountableRange<Int>) -> CGFloat {
         return sections.reduce(0.0) { offset, section in
             return offset + self.heightForSection(section)
         }
@@ -88,36 +88,36 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Cache
     
-    func sectionRange() -> Range<Int> {
-        return 0..<collectionView!.numberOfSections()
+    func sectionRange() -> CountableRange<Int> {
+        return 0..<collectionView!.numberOfSections
     }
     
-    func itemRangeForSection(section: Int) -> Range<Int> {
-        return 0..<collectionView!.numberOfItemsInSection(section)
+    func itemRangeForSection(_ section: Int) -> CountableRange<Int> {
+        return 0..<collectionView!.numberOfItems(inSection: section)
     }
     
     var numberOfRowsBySection = [Int]()
     
-    var contentSize = CGSizeZero
+    var contentSize = CGSize.zero
     
     var cellLayoutAttributes = [[UICollectionViewLayoutAttributes]]()
     
     // MARK: Layout
     
-    override func prepareLayout() {
+    override func prepare() {
         
         numberOfRowsBySection = sectionRange().map { section in
             return self.delegate!.collectionView(self.collectionView!, layout: self, numberOfRowsInSection: section)
         }
         
-        contentSize = CGSizeMake(collectionView!.bounds.size.width, heightForSections(sectionRange()))
+        contentSize = CGSize(width: collectionView!.bounds.size.width, height: heightForSections(sectionRange()))
         
         cellLayoutAttributes = sectionRange().map { section in
             return self.itemRangeForSection(section).map { item in
                 
-                let indexPath = NSIndexPath(forItem: item, inSection: section)
+                let indexPath = IndexPath(item: item, section: section)
                 
-                let layoutAttributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+                let layoutAttributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 
                 let startRow = self.delegate!.collectionView(self.collectionView!, layout: self, startRowForItemAtIndexPath: indexPath)
                 let endRow = self.delegate!.collectionView(self.collectionView!, layout: self, endRowForItemAtIndexPath: indexPath)
@@ -141,72 +141,72 @@ class CalendarLayout: UICollectionViewLayout {
                 let cellRect = UIEdgeInsetsInsetRect(columnRect, self.cellInsets)
                 
                 layoutAttributes.frame = cellRect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
-                layoutAttributes.zIndex = indexPath.item
+                layoutAttributes.zIndex = (indexPath as NSIndexPath).item
                 
                 return layoutAttributes
             }
         }
     }
-    
-    override func collectionViewContentSize() -> CGSize {
-        return contentSize
-    }
-    
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+	
+	override var collectionViewContentSize: CGSize {
+		return contentSize
+	}
+	
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
 		var layoutAttributes = sectionRange().reduce([UICollectionViewLayoutAttributes]()) { layoutAttributes, section in
             
-            let headerLayoutAttributes = [self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Header.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: section))!]
+            let headerLayoutAttributes = [self.layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.Header.rawValue, at: IndexPath(item: 0, section: section))!]
             
             let separatorLayoutAttributes: [UICollectionViewLayoutAttributes] = (1..<self.numberOfRowsBySection[section]).map { row in
-                return self.layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.Separator.rawValue, atIndexPath: NSIndexPath(forItem: row, inSection: section))!
+                return self.layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.Separator.rawValue, at: IndexPath(item: row, section: section))!
             }
             
             let cellLayoutAttributes: [UICollectionViewLayoutAttributes] = self.itemRangeForSection(section).map { item in
-                return self.layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: item, inSection: section))!
+                return self.layoutAttributesForItem(at: IndexPath(item: item, section: section))!
             }
             
             return layoutAttributes + headerLayoutAttributes + separatorLayoutAttributes + cellLayoutAttributes
         }
 		
 		if nowIndicatorPosition != nil {
-			layoutAttributes += [layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!, layoutAttributesForSupplementaryViewOfKind(SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!]
+			layoutAttributes += [layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.NowIndicator.rawValue, at: IndexPath(item: 0, section: 0))!, layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.NowLabel.rawValue, at: IndexPath(item: 0, section: 0))!]
 		}
 		
 		return layoutAttributes
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return cellLayoutAttributes[indexPath.section][indexPath.item]
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return cellLayoutAttributes[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
     }
     
-    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         
-        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
+        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
         
-        let sectionOffset = heightForSections(0..<indexPath.section)
+        let sectionOffset = heightForSections(0..<(indexPath as NSIndexPath).section)
         
         switch SupplementaryViewKind(rawValue: elementKind)! {
             
         case .Header:
-            let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<indexPath.section)), heightForSections(0..<indexPath.section + 1) - headerHeight)
-            layoutAttributes.frame = CGRectMake(0.0, headerOffset, contentSize.width, headerHeight)
+            let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<(indexPath as NSIndexPath).section)), heightForSections(0..<(indexPath as NSIndexPath).section + 1) - headerHeight)
+            layoutAttributes.frame = CGRect(x: 0.0, y: headerOffset, width: contentSize.width, height: headerHeight)
             layoutAttributes.zIndex = Int.max
             
         case .Separator:
-            layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(indexPath.item) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
+            layoutAttributes.frame = CGRect(x: 0.0, y: sectionOffset + headerHeight + CGFloat((indexPath as NSIndexPath).item) * rowHeight - separatorHeight / 2.0, width: contentSize.width, height: separatorHeight)
             layoutAttributes.zIndex = -2
 			
 		case .NowIndicator:
 			
 			guard let nowIndicatorPosition = nowIndicatorPosition else {
-				layoutAttributes.hidden = true
+				layoutAttributes.isHidden = true
 				break
 			}
 			
 			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
 			
-			layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
+			layoutAttributes.frame = CGRect(x: 0.0, y: sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, width: contentSize.width, height: separatorHeight)
 			layoutAttributes.zIndex = -1
 			
 		case .NowLabel:
@@ -217,7 +217,7 @@ class CalendarLayout: UICollectionViewLayout {
 			
 			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
 			
-			layoutAttributes.frame = CGRectMake(0.0, sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, contentSize.width, separatorHeight)
+			layoutAttributes.frame = CGRect(x: 0.0, y: sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, width: contentSize.width, height: separatorHeight)
 			layoutAttributes.zIndex = Int.max - 1
 
         }
@@ -227,19 +227,19 @@ class CalendarLayout: UICollectionViewLayout {
     
     // MARK: Invalidation
     
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
     
-    override func invalidationContextForBoundsChange(newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
         
-        let context = super.invalidationContextForBoundsChange(newBounds)
+        let context = super.invalidationContext(forBoundsChange: newBounds)
         
-        let headerIndexPaths: [NSIndexPath] = sectionRange().map { section in
-            return NSIndexPath(forItem: 0, inSection: section)
+        let headerIndexPaths: [IndexPath] = sectionRange().map { section in
+            return IndexPath(item: 0, section: section)
         }
         
-        context.invalidateSupplementaryElementsOfKind(SupplementaryViewKind.Header.rawValue, atIndexPaths: headerIndexPaths)
+        context.invalidateSupplementaryElements(ofKind: SupplementaryViewKind.Header.rawValue, at: headerIndexPaths)
         
         return context
     }

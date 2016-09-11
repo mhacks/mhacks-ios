@@ -22,8 +22,8 @@ class DatePickerCell: UITableViewCell
 		}
 	}
 	
-	let dateFormatter = { () -> NSDateFormatter in
-		let dF = NSDateFormatter()
+	let dateFormatter = { () -> DateFormatter in
+		let dF = DateFormatter()
 		dF.dateFormat = "MMM dd ' at 'HH:mm"
 		return dF
 	}()
@@ -33,15 +33,15 @@ class DatePickerCell: UITableViewCell
 	}
 	override func awakeFromNib() {
 		super.awakeFromNib()
-		datePicker.addTarget(self, action: #selector(DatePickerCell.dateChanged(_:)), forControlEvents: .ValueChanged)
+		datePicker.addTarget(self, action: #selector(DatePickerCell.dateChanged(_:)), for: .valueChanged)
 	}
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(false, animated: animated)
         // Configure the view for the selected state
     }
-	func dateChanged(sender: UIDatePicker)
+	func dateChanged(_ sender: UIDatePicker)
 	{
-		dateLabel.text = dateFormatter.stringFromDate(datePicker.date)
+		dateLabel.text = dateFormatter.string(from: datePicker.date)
 	}
 }
 

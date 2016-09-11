@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 
 class ComposeAnnouncementViewController: UIViewController {
@@ -32,7 +52,7 @@ class ComposeAnnouncementViewController: UIViewController {
 			messageField?.text = announce.message
 			messageField?.delegate?.textViewDidChange?(messageField!)
 			announceAt?.setDate(announce.date, animated: true)
-			announceAt?.sendActionsForControlEvents(.ValueChanged)
+			announceAt?.sendActions(for: .valueChanged)
 			
 			currentSelectedCategory = announce.category
 			guard !categoryCells.isEmpty
@@ -44,11 +64,11 @@ class ComposeAnnouncementViewController: UIViewController {
 			{
 				if currentSelectedCategory.contains(Announcement.Category(rawValue: 1 << i))
 				{
-					categoryCells[i].accessoryType = .Checkmark
+					categoryCells[i].accessoryType = .checkmark
 				}
 				else
 				{
-					categoryCells[i].accessoryType = .None
+					categoryCells[i].accessoryType = .none
 				}
 			}
 			messageField?.resignFirstResponder()
@@ -58,39 +78,39 @@ class ComposeAnnouncementViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: #selector(ComposeAnnouncementViewController.cancel(_:)))
-		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(ComposeAnnouncementViewController.post(_:)))
+		navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ComposeAnnouncementViewController.cancel(_:)))
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(ComposeAnnouncementViewController.post(_:)))
 		tableView.delegate = self
 		tableView.dataSource = self
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardShown(_:)), name: UIKeyboardWillShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardShown(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(ComposeAnnouncementViewController.keyboardHidden(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         navigationItem.title = editingAnnouncement == nil ? "New Announcement" : "Edit Announcement"
 		buildCells()
 	}
 	
 	func buildCells()
 	{
-		let titleCell = tableView.dequeueReusableCellWithIdentifier("titleCell") as! TextFieldCell
+		let titleCell = tableView.dequeueReusableCell(withIdentifier: "titleCell") as! TextFieldCell
 		self.titleField = titleCell.textField
 		cells.append(titleCell)
 		
-		let messageCell = tableView.dequeueReusableCellWithIdentifier("infoCell") as! TextViewCell
+		let messageCell = tableView.dequeueReusableCell(withIdentifier: "infoCell") as! TextViewCell
 		self.messageField = messageCell.textView
 		cells.append(messageCell)
 		
-		let dateCell = tableView.dequeueReusableCellWithIdentifier("broadcastCell") as! DatePickerCell
+		let dateCell = tableView.dequeueReusableCell(withIdentifier: "broadcastCell") as! DatePickerCell
 		dateCell.delegate = self
-        dateCell.selectionStyle = UITableViewCellSelectionStyle.None
+        dateCell.selectionStyle = UITableViewCellSelectionStyle.none
 		self.announceAt = dateCell.datePicker
 		cells.append(dateCell)
 		
 		for categoryRaw in 0...Announcement.Category.maxBit
 		{
-			let cell = tableView.dequeueReusableCellWithIdentifier("categoryCell") as! CategoryCell
+			let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell") as! CategoryCell
 			let category = Announcement.Category(rawValue: 1 << categoryRaw)
-			cell.accessoryType = .None
+			cell.accessoryType = .none
 			cell.categoryLabel.text = category.description
-			cell.colorView.layer.borderColor = category.color.CGColor
+			cell.colorView.layer.borderColor = category.color.cgColor
 			cell.colorView.layer.borderWidth = cell.colorView.frame.width
 			categoryCells.append(cell)
 		}
@@ -100,13 +120,13 @@ class ComposeAnnouncementViewController: UIViewController {
 		tableView.reloadData()
 	}
 	
-	override func viewDidAppear(animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		announceAt.minimumDate = APIManager.sharedManager.countdown.startDate.dateByAddingTimeInterval(-36000)
-		announceAt.maximumDate = APIManager.sharedManager.countdown.endDate.dateByAddingTimeInterval(36000)
+		announceAt.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
+		announceAt.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
         if editingAnnouncement == nil
 		{
-			let dateToSet = NSDate(timeIntervalSinceNow: 60 * 60)
+			let dateToSet = Date(timeIntervalSinceNow: 60 * 60)
 			if (dateToSet > announceAt.maximumDate)
 			{
 				announceAt.setDate(announceAt.maximumDate!, animated: true)
@@ -119,60 +139,60 @@ class ComposeAnnouncementViewController: UIViewController {
 			{
 				announceAt.setDate(dateToSet, animated: true)
 			}
-			announceAt.sendActionsForControlEvents(.ValueChanged)
+			announceAt.sendActions(for: .valueChanged)
 		}
 	}
 	
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         titleField.resignFirstResponder()
         messageField.resignFirstResponder()
     }
 	func post(_: UIBarButtonItem)
 	{
-		guard currentSelectedCategory != Announcement.Category.None
-		else
-		{
-			let alertController = UIAlertController(title: "Missing Category", message: "You must select at least one category", preferredStyle: UIAlertControllerStyle.Alert)
-			alertController.addAction(UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil))
-			presentViewController(alertController, animated: true, completion: nil)
-			return
-		}
-		
-		let method = editingAnnouncement == nil ? HTTPMethod.POST : .PUT
-		
-		let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: titleField.text ?? editingAnnouncement?.title ?? "", message: messageField.text ?? editingAnnouncement?.message ?? "", date: announceAt?.date ?? editingAnnouncement?.date ?? NSDate(timeIntervalSinceNow: 0), category: currentSelectedCategory, owner: editingAnnouncement?.owner ?? "", approved: editingAnnouncement?.approved ?? false)
-		APIManager.sharedManager.updateAnnouncement(announcement, usingMethod: method) { finished in
-			guard finished
-			else { return }
-			self.dismissViewControllerAnimated(true, completion: nil)
-		}
+//		guard currentSelectedCategory != Announcement.Category.None
+//		else
+//		{
+//			let alertController = UIAlertController(title: "Missing Category", message: "You must select at least one category", preferredStyle: UIAlertControllerStyle.alert)
+//			alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+//			present(alertController, animated: true, completion: nil)
+//			return
+//		}
+//		
+//		let method = editingAnnouncement == nil ? HTTPMethod.post : .put
+//		
+//		let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: titleField.text ?? editingAnnouncement?.title ?? "", message: messageField.text ?? editingAnnouncement?.message ?? "", date: announceAt?.date ?? editingAnnouncement?.date ?? Date(timeIntervalSinceNow: 0), category: currentSelectedCategory, approved: editingAnnouncement?.approved ?? false)
+//		APIManager.shared.updateAnnouncement(announcement, usingMethod: method) { finished in
+//			guard finished
+//			else { return }
+//			self.dismiss(animated: true, completion: nil)
+//		}
 	}
 	func cancel(_: UIBarButtonItem)
 	{
-		dispatch_async(dispatch_get_main_queue(), {
-			self.dismissViewControllerAnimated(true, completion: nil)
+		DispatchQueue.main.async(execute: {
+			self.dismiss(animated: true, completion: nil)
 		})
 	}
 }
 
 extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDataSource
 {
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int
+	func numberOfSections(in tableView: UITableView) -> Int
 	{
 		return 2
 	}
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
 		return section == 0 ? cells.count : categoryCells.count
 	}
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		return indexPath.section == 0 ? cells[indexPath.row] : categoryCells[indexPath.row]
+		return (indexPath as NSIndexPath).section == 0 ? cells[(indexPath as NSIndexPath).row] : categoryCells[(indexPath as NSIndexPath).row]
 	}
-	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
 	{
-		guard indexPath.section == 0, let reuse = cells[indexPath.row].reuseIdentifier
+		guard (indexPath as NSIndexPath).section == 0, let reuse = cells[(indexPath as NSIndexPath).row].reuseIdentifier
 		else
 		{
 			return 37.0
@@ -180,50 +200,50 @@ extension ComposeAnnouncementViewController : UITableViewDelegate, UITableViewDa
 		switch reuse
 		{
 			case "broadcastCell":
-				return (cells[indexPath.row] as! DatePickerCell).rowHeight
+				return (cells[(indexPath as NSIndexPath).row] as! DatePickerCell).rowHeight
 			case "infoCell":
                 return 105
 		default:
 			return 44.0
 		}
 	}
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 	{
-		tableView.deselectRowAtIndexPath(indexPath, animated: true)
-		if indexPath.section == 0 && cells[indexPath.row].reuseIdentifier == "broadcastCell"
+		tableView.deselectRow(at: indexPath, animated: true)
+		if (indexPath as NSIndexPath).section == 0 && cells[(indexPath as NSIndexPath).row].reuseIdentifier == "broadcastCell"
 		{
-			(cells[indexPath.row] as! DatePickerCell).expanded = !(cells[indexPath.row] as! DatePickerCell).expanded
+			(cells[(indexPath as NSIndexPath).row] as! DatePickerCell).expanded = !(cells[(indexPath as NSIndexPath).row] as! DatePickerCell).expanded
 		}
-		guard indexPath.section == 1
+		guard (indexPath as NSIndexPath).section == 1
 		else
 		{
 			return
 		}
-		let selected = Announcement.Category(rawValue: 1 << indexPath.row)
+		let selected = Announcement.Category(rawValue: 1 << (indexPath as NSIndexPath).row)
 		if currentSelectedCategory.contains(selected)
 		{
-			categoryCells[indexPath.row].accessoryType = .None
+			categoryCells[(indexPath as NSIndexPath).row].accessoryType = .none
 			currentSelectedCategory.remove(selected)
 		}
 		else
 		{
-			currentSelectedCategory.unionInPlace(selected)
-			categoryCells[indexPath.row].accessoryType = .Checkmark
+			currentSelectedCategory.formUnion(selected)
+			categoryCells[(indexPath as NSIndexPath).row].accessoryType = .checkmark
 		}
 	}
 }
 
 extension ComposeAnnouncementViewController : ChangingHeightCellDelegate
 {
-	func cell(cell: UITableViewCell, didChangeSize: CGSize)
+	func cell(_ cell: UITableViewCell, didChangeSize: CGSize)
 	{
 		tableView.beginUpdates()
 		tableView.endUpdates()
 	}
 	
-	func keyboardShown (notification: NSNotification)
+	func keyboardShown (_ notification: Notification)
 	{
-		guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+		guard let keyboardSize = ((notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
 		else {
 			return
 		}
@@ -234,9 +254,9 @@ extension ComposeAnnouncementViewController : ChangingHeightCellDelegate
 		var rect = self.view.frame
 		rect.size.height -= keyboardSize.height
 		var activeField : UIView?
-		for textField in [titleField, messageField]
+		for textField in [titleField, messageField] as [UIView]
 		{
-			if textField.isFirstResponder()
+			if textField.isFirstResponder
 			{
 				activeField = textField
 				break
@@ -253,15 +273,15 @@ extension ComposeAnnouncementViewController : ChangingHeightCellDelegate
 		}
 	}
 	
-	func keyboardHidden(notification: NSNotification)
+	func keyboardHidden(_ notification: Notification)
 	{
-		guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+		guard let keyboardSize = ((notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
 			else {
 				return
 		}
-		for textField in [titleField, messageField]
+		for textField in [titleField, messageField] as [UIView]
 		{
-			if textField.isFirstResponder()
+			if textField.isFirstResponder
 			{
 				textField.resignFirstResponder()
 				break

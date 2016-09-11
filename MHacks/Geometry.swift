@@ -15,21 +15,21 @@ struct Geometry {
     static let Insets = UIEdgeInsets(top: Separation, left: Separation, bottom: Separation, right: Separation)
     
     // Returns 1.0 if the trait collection's display scale is undefined
-    static func hairlineWidthInTraitCollection(collection: UITraitCollection) -> CGFloat {
+    static func hairlineWidthInTraitCollection(_ collection: UITraitCollection) -> CGFloat {
         return 1.0 / (collection.displayScale == 0.0 ? 1.0 : collection.displayScale)
     }
 }
 
 extension CGFloat {
     
-    func integratedFloatInTraitCollection(collection: UITraitCollection) -> CGFloat {
-        return round(self * collection.displayScale) / collection.displayScale
+    func integratedFloatInTraitCollection(_ collection: UITraitCollection) -> CGFloat {
+        return (self * collection.displayScale).rounded() / collection.displayScale
     }
 }
 
 extension CGRect {
     
-    func integratedRectInTraitCollection(collection: UITraitCollection) -> CGRect {
+    func integratedRectInTraitCollection(_ collection: UITraitCollection) -> CGRect {
         
         let minX = self.minX.integratedFloatInTraitCollection(collection)
         let maxX = self.maxX.integratedFloatInTraitCollection(collection)

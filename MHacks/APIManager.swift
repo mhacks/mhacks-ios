@@ -8,680 +8,692 @@
 
 import Foundation
 
-enum HTTPMethod : String
-{
-	case GET
-	case POST
-	case PUT
-	case PATCH
-	case DELETE
+enum HTTPMethod : String {
+	case get = "GET"
+	case post = "POST"
+	case put = "PUT"
+	case patch = "PATCH"
+	case delete = "DELETE"
 }
 
-enum Response<T>
-{
-	case Value(T)
-	case Error(String)
+enum Response<T> {
+	case value(T)
+	case error(String)
 }
-private let manager = APIManager()
-private var initializeManagerOnce = dispatch_once_t(0)
 
-private let archiveLocation = container.URLByAppendingPathComponent("manager.plist")
+private let archiveLocation = container.appendingPathComponent("manager.plist")
 
-final class APIManager : NSObject
+final class APIManager
 {
-	private static let baseURL = NSURL(string: "http://ec2-52-70-71-221.compute-1.amazonaws.com")!
+	#if DEBUG
+		private static let baseURL = URL(string: "https://staging.mhacks.com")!
+	#else
+		private static let baseURL = URL(string: "https://mhacks.com")!
+	#endif
 	
 	// MARK: - Initializers
 	
-	// Private so that nobody else can access this, and sharedManager is the only hook into the 
-	// APIManager
-	private override init() {
-		super.init()
-	}
-	static var sharedManager: APIManager {
-		dispatch_once(&initializeManagerOnce, {
-			manager.initialize()
-		})
+	// private so that nobody else can access this, and shared is the only hook into the APIManager
+	private init() { }
+	
+	/// The main hook into the `APIManager` class. Use this singleton to make all requests and fetch the single source of truth about the state of all data.
+	static var shared: APIManager = {
+		let manager = APIManager()
+		manager.initialize()
 		return manager
-	}
+	}()
 	
-	private var authenticator : Authenticator? // Must be set before using this class for authenticated purposes
+	fileprivate var authenticator : Authenticator?
 	
-	var isLoggedIn: Bool { return authenticator != nil }
+	// MARK: - User related readonly attributes
 	
-	var loggedInUsername: String? { return authenticator?.username }
-	
-	// MARK: - Helpers
-	
-	@warn_unused_result private func createRequestForRoute(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET) -> NSURLRequest
+	/// Encapsulates user information
+	struct UserInfo: CustomStringConvertible, CustomDebugStringConvertible
 	{
-		let URL = APIManager.baseURL.URLByAppendingPathComponent(route)
+		/// The ID for the user. Can be used to uniquely identify a user quickly, especially on the backend
+		var userID: String
 		
-		let mutableRequest = NSMutableURLRequest(URL: URL)
-		mutableRequest.HTTPMethod = method.rawValue
-		authenticator?.addAuthorizationHeader(mutableRequest)
-		do {
-			if method == .POST || method == .PUT || method == .PATCH
+		/// The user's email address
+		var email: String
+		
+		/// The user's full name, ready for display!
+		var name: String
+		
+		/// The school the user goes to, this is optional because the backend may not *always* send it over
+		/// recover gently when it is nil (although rare)
+		var school: String?
+		
+		var description: String { return name }
+		var debugDescription: String { return "UserInfo for \(name) with ID: \(userID)" }
+	}
+
+	/// Encapsulates the current state of the user i.e. logged in or not and associates user info with the logged in state
+	///
+	/// - LoggedIn:  When logged in you also have access to the user info struct as the associated data
+	/// - LoggedOut: Just a regular LoggedOut state
+	enum UserState
+	{
+		case LoggedIn(UserInfo)
+		case LoggedOut
+		
+		/// A quick helper if you are only interested in the logged in/logged out state and not the associated data
+		var loggedIn: Bool {
+			switch self
 			{
-				if method == .PATCH || method == .PUT
-				{
-					mutableRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-				}
-				let formData = parameters.reduce("", combine: { $0 + "\($1.0)=\($1.1)&" })
-				mutableRequest.HTTPBody = formData.substringToIndex(formData.endIndex.predecessor()).dataUsingEncoding(NSUTF8StringEncoding)
+				case .LoggedIn(_):
+					return true
+				case .LoggedOut:
+					return false
 			}
-			else
-			{
-				if parameters.count > 0
-				{
-					mutableRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(parameters, options: [])
-				}
-			}
-		} catch {
-			print(error)
-			mutableRequest.HTTPBody = nil
 		}
-		return mutableRequest.copy() as! NSURLRequest
 	}
 	
-	private func taskWithRoute<Object: JSONCreateable>(route: String, parameters: [String: AnyObject] = [String: AnyObject](), usingHTTPMethod method: HTTPMethod = .GET, didRecurse: Bool = false, completion: (Response<Object>) -> Void)
-	{
-		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
-		showNetworkIndicator()
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
-			defer { self.hideNetworkIndicator() }
-			if let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields, let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let expiry = responseHeaders["expiry"] as? String
-			{
-				self.authenticator!.authToken = authToken
-				self.authenticator!.client = client
-				self.authenticator!.expiry = expiry
-			}
-			guard (response as? NSHTTPURLResponse)?.statusCode != 403
-			else
-			{
-				let error = Response<Object>.Error("Authentication failed. Please login again.")
-				guard let auth = self.authenticator
-				else
-				{
-					completion(error)
-					return
-				}
-				self.loginWithUsername(auth.username, password: auth.password, completion: {
-					switch $0
-					{
-					case .Value(let authenticated):
-						guard authenticated
-						else
-						{
-							completion(error)
-							return
-						}
-						if didRecurse
-						{
-							return
-						}
-						return self.taskWithRoute(route, parameters: parameters, usingHTTPMethod: method, didRecurse: true, completion: completion)
-					case .Error(let errorMessage):
-						completion(.Error(errorMessage))
-					}
-				})
-				return
-			}
-			guard error == nil
-			else {
-				// The fetch failed because of a networking error
-				completion(.Error(error!.localizedDescription))
-				return
-			}
-			guard let obj = Object(data: data)
-			else {
-				guard let jsonData = data, let errorMessage = (try? NSJSONSerialization.JSONObjectWithData(jsonData, options: []))?["message"] as? String
-				else {
-					assertionFailure("Deserialization should never fail. We recover silently in production builds")
-					completion(.Error("Deserialization failed"))
-					return
-				}
-				// Couldn't create the object out of the data we recieved
-				completion(.Error(errorMessage))
-				return
-			}
-			completion(.Value(obj))
-		}
-		task.resume()
+	/// This can fetch the current state for the user along with their information if they are logged in.
+	/// - Warning: Querying for the user state is not trivial therefore, do so only when absolutely required and store the result in a variable rather than querying this field every time. That said, it's not **that** expensive, so use it liberally where desired but cache the result instead of querying.
+	var userState: UserState {
+		guard let authenticator = authenticator
+		else { return .LoggedOut }
+		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.username, school: authenticator.username))
 	}
 	
-	// This is only for get requests to update a particular object type
-	private func updateGenerically<T: JSONCreateable>(route: String, notification: NotificationKey, semaphoreGuard: dispatch_semaphore_t, coalecser: CoalescedCallbacks, callback: CoalescedCallbacks.Callback?, objectToUpdate updater: (T) -> Bool)
+	// MARK: - APNS Token
+	
+	/// Create/Update the APNS Token for the user so that they can recieve push notifications
+	///
+	/// - parameter preference: The user's preference. Defaults to 63 which means all. Will be in UserDefaults with the key `remoteNotificationPreferencesKey`
+	/// - parameter completion: An optional completion block if you are interested in the success of the request.
+	func updateAPNSToken(preference: Int = 63, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		if let call = callback {
-			coalecser.registerCallback(call)
-		}
-		guard dispatch_semaphore_wait(semaphoreGuard, DISPATCH_TIME_NOW) == 0
-		else {
-			// A timeout occurred on the semaphore guard.
-			return
-		}
-		taskWithRoute(route, completion: {(result: Response<T>) in
-			var succeeded = false
-			defer {
-				dispatch_semaphore_signal(semaphoreGuard)
-				coalecser.fire(succeeded)
-			}
-			switch result
-			{
-			case .Value(let newValue):
-				guard updater(newValue)
-				else
-				{
-					return
-				}
-				succeeded = true
-				NSNotificationCenter.defaultCenter().post(notification, object: self)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-			}
-		})
+		// TODO: Implement
+		
+		//		taskWithRoute("/v1/push_notif/\(method == .put ? "edit" : "")/", parameters: ["token":  token as AnyObject, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .post, completion: { (result: Response<JSONWrapper>) in
+		//			switch result
+		//			{
+		//			case .value(_):
+		//				defaults.set(preference, forKey: remoteNotificationPreferencesKey)
+		//				defaults.set(token, forKey: remoteNotificationTokenKey)
+		//				completion?(true)
+		//			case .error(let errorMessage):
+		//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
+		//			}
+		//		})
 	}
 	
 	// MARK: - Announcements
-	private(set) var announcements : [Announcement] {
-		get { return announcementBuffer._array }
-		set {
-			announcementBuffer = MyArray(newValue)
-		}
-	}
-	private var announcementBuffer = MyArray<Announcement>()
-	private let announcementCallbacks = CoalescedCallbacks()
-	private let announcementsSemaphore = dispatch_semaphore_create(1)
+	
+	/// The "array" of announcements
+	let announcements = MHacksArray<Announcement>()
 	
 	///	Updates the announcements and posts a notification on completion.
-	func updateAnnouncements(callback: CoalescedCallbacks.Callback? = nil) {
-		updateGenerically("/v1/announcements", notification: .AnnouncementsUpdated, semaphoreGuard: announcementsSemaphore, coalecser: announcementCallbacks, callback: callback) { (result: MyArray<Announcement>) in
-			guard result._array != self.announcementBuffer._array
-			else
-			{
-				NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated)
-				return false
-			}
-			self.announcementBuffer = result
-			return true
-		}
+	///	- parameter callback:	The completion block, true on success, false on failure.
+	func updateAnnouncements(_ callback: CoalescedCallbacks.Callback? = nil) {
+		updateUsing(route: "/v1/announcements/", notificationName: APIManager.AnnouncementsUpdatedNotification, callback: callback, existingObject: announcements)
 	}
 	
-	///	Posts a new announcment from a sponsor or admin
+	/// Update/Posts an announcment.
 	///
-	///	- parameter completion:	The completion block, true on success, false on failure.
-	func updateAnnouncement(announcement: Announcement, usingMethod method: HTTPMethod, completion: Bool -> Void)
+	/// - parameter announcement: The announcement struct with all the fields filled as required
+	/// - parameter method:       .post to create a new announcement, .put to update an existing one
+	/// - parameter completion:   The completion block, true on success, false on failure.
+	///
+	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
+	func updateAnnouncement(_ announcement: Announcement, usingMethod method: HTTPMethod, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		let route = method == .PUT ? "/v1/update_announcement/\(announcement.ID)" : "/v1/announcements/"
-		taskWithRoute(route, parameters: announcement.encodeForCreation(), usingHTTPMethod: .POST, completion: { (updatedAnnouncement: Response<Announcement>) in
-			switch updatedAnnouncement
-			{
-			case .Value(_):
-				completion(true)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-				completion(false)
-			}
-		})
+//		let route = method == .put ? "/v1/update_announcement/\(announcement.ID)/" : "/v1/announcements/"
+//		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as! [String : Any], usingHTTPMethod: .post, completion: { (updatedAnnouncement: Response<[String: Any]>) in
+//			switch updatedAnnouncement
+//			{
+//			case .value(_):
+//				completion(true)
+//			case .error(let errorMessage):
+//				NotificationCenter.default.post(.Failure, object: errorMessage)
+//				completion(false)
+//			}
+//		})
 	}
 	
-	func deleteAnnouncement(announcementIndex: Int, completion: (Bool) -> Void)
+	
+	/// Deletes an announcement
+	///
+	/// - parameter announcementIndex: The announcement to delete
+	/// - parameter completion:        The completion block, true on success, false on failure.
+	///
+	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
+	func deleteAnnouncement(_ announcement: Announcement, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		let announcement = announcementBuffer._array[announcementIndex]
-		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Response<JSONWrapper>) in
-			switch deletedAnnouncement
-			{
-			case .Value(_):
-				self.announcementBuffer._array.removeAtIndex(announcementIndex)
-				completion(true)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-				completion(false)
-			}
-		}
+//		let announcement = announcementBuffer._array[announcementIndex]
+//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
+//			switch deletedAnnouncement
+//			{
+//			case .value(_):
+//				self.announcementBuffer._array.remove(at: announcementIndex)
+//				completion(true)
+//			case .error(let errorMessage):
+//				NotificationCenter.default.post(.Failure, object: errorMessage)
+//				completion(false)
+//			}
+//		}
 	}
 	
 	// MARK: - Unapproved Announcements
 	
-	private(set) var unapprovedAnnouncements : [Announcement] {
-		get { return unapprovedAnnouncementBuffer._array }
-		set {
-			unapprovedAnnouncementBuffer = MyArray(newValue)
-		}
-	}
-
-	private var unapprovedAnnouncementBuffer = MyArray<Announcement>()
+	// FIXME: These methods below are deprecated. Do not use them and start moving away from them 
+	// They will not work as expected and are only here to avoid dealing with all the compiler issues right away.
+	@available(*, deprecated)
+	var unapprovedAnnouncements = [Announcement]()
 	
-	private let unapprovedAnnouncementsSemaphore = dispatch_semaphore_create(1)
-	private let unapprovedCallbacks = CoalescedCallbacks()
-	
-	func updateUnapprovedAnnouncements(callback: CoalescedCallbacks.Callback? = nil)
+	@available(*, deprecated)
+	func updateUnapprovedAnnouncements(_ callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateGenerically("/v1/all_announcements", notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback) { (result: MyArray<Announcement>) in
-			guard result._array != self.unapprovedAnnouncementBuffer._array
-				else
-			{
-				NSNotificationCenter.defaultCenter().post(.UnapprovedAnnouncementsUpdated)
-				return false
-			}
-			self.unapprovedAnnouncementBuffer = result
-			return true
-		}
+//		updateGenerically("/v1/all_announcements/", notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback) { (result: MyArray<Announcement>) in
+//			guard result._array != self.unapprovedAnnouncementBuffer._array
+//				else
+//			{
+//				NotificationCenter.default.post(.UnapprovedAnnouncementsUpdated)
+//				return false
+//			}
+//			self.unapprovedAnnouncementBuffer = result
+//			return true
+//		}
 	}
 	
-	func deleteUnapprovedAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void)
+	@available(*, deprecated)
+	func deleteUnapprovedAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .DELETE) { (deletedAnnouncement: Response<JSONWrapper>) in
-			switch deletedAnnouncement
-			{
-			case .Value(_):
-				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
-				completion(true)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-				completion(false)
-			}
-		}
+//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
+//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
+//			switch deletedAnnouncement
+//			{
+//			case .value(_):
+//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
+//				completion(true)
+//			case .error(let errorMessage):
+//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
+//				completion(false)
+//			}
+//		}
 	}
 	
-	func approveAnnouncement(unapprovedAnnouncementIndex: Int, completion: (Bool) -> Void) {
-		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-		var jsonToSend = announcement.encodeForCreation()
-		jsonToSend["is_approved"] = true
-		taskWithRoute("/v1/update_announcement/\(announcement.ID)", parameters: jsonToSend, usingHTTPMethod: .POST) { (approvedAnnouncement: Response<Announcement>) in
-			switch approvedAnnouncement
-			{
-			case .Value(announcement):
-				guard announcement.approved
-				else
-				{
-					assertionFailure("The server said the announcement was approved but in reality it wasn't")
-					NSNotificationCenter.defaultCenter().post(.Failure, object: "Failed to approve announcement")
-					completion(false)
-					break
-				}
-				self.unapprovedAnnouncementBuffer._array.removeAtIndex(unapprovedAnnouncementIndex)
-				completion(true)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-				completion(false)
-			default:
-				completion(false)
-				break
-			}
-		}
+	@available(*, deprecated)
+	func approveAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil) {
+//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
+//		var jsonToSend = announcement.encodeForCreation()
+//		jsonToSend["is_approved"] = NSNumber(booleanLiteral: true)
+//		taskWithRoute("/v1/update_announcement/\(announcement.ID)/", parameters: jsonToSend, usingHTTPMethod: .post) { (approvedAnnouncement: Response<Announcement>) in
+//			switch approvedAnnouncement
+//			{
+//			case .value(announcement):
+//				guard announcement.approved
+//				else
+//				{
+//					assertionFailure("The server said the announcement was approved but in reality it wasn't")
+//					NotificationCenter.default.post(.Failure, object: "Failed to approve announcement" as NSString)
+//					completion(false)
+//					break
+//				}
+//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
+//				completion(true)
+//			case .error(let errorMessage):
+//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
+//				completion(false)
+//			default:
+//				completion(false)
+//				break
+//			}
+//		}
 	}
 	
 	
-	func updateAPNSToken(token: String, preference: Int = 63, method: HTTPMethod = .POST, completion: (Bool -> Void)?)
-	{
-		taskWithRoute("/v1/push_notif/\(method == .PUT ? "edit" : "")", parameters: ["token":  token, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .POST, completion: { (result: Response<JSONWrapper>) in
-			switch result
-			{
-			case .Value(_):
-				defaults.setInteger(preference, forKey: remoteNotificationPreferencesKey)
-				defaults.setObject(token, forKey: remoteNotificationTokenKey)
-				completion?(true)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
-			}
-		})
-	}
 	
 	// MARK: - Countdown
+	/// The readonly countdown object. This is a reference type
 	private(set) var countdown = Countdown()
-	private let countdownSemaphore = dispatch_semaphore_create(1)
-	private let countdownCallbacks = CoalescedCallbacks()
-
-	func updateCountdown(callback: CoalescedCallbacks.Callback? = nil)
+	
+	/// Updates the countdown, with an optional callback
+	func updateCountdown(_ callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateGenerically("/v1/countdown", notification: .CountdownUpdated, semaphoreGuard: countdownSemaphore, coalecser: countdownCallbacks, callback: callback) { (result: Countdown) in
-			guard result != self.countdown
-				else
-			{
-				return false
-			}
-			self.countdown = result
-			return true
-		}
+		updateUsing(route: "/v1/countdown/", notificationName: APIManager.CountdownUpdatedNotification, callback: callback, existingObject: countdown)
 	}
 	
 	// MARK: - Events
-	private(set) var eventsOrganizer = EventOrganizer(events: [])
-	private let eventsSemaphore = dispatch_semaphore_create(1)
-	private let eventsCallbacks = CoalescedCallbacks()
-
-	func updateEvents(callback: CoalescedCallbacks.Callback? = nil) {
+	private let events = MHacksArray<Event>()
+	private(set) var eventsOrganizer = EventOrganizer(events: MHacksArray<Event>())
+	func updateEvents(_ callback: CoalescedCallbacks.Callback? = nil) {
 		updateLocations { succeeded in
 			guard succeeded
-			else { return }
-			self.updateGenerically("/v1/events", notification: .EventsUpdated, semaphoreGuard: self.eventsSemaphore, coalecser: self.eventsCallbacks, callback: callback) { (result: EventOrganizer) in
-				guard self.eventsOrganizer.allEvents != result.allEvents
-					else
+			else
+			{
+				if let callback = callback
 				{
-					return false
+					self.events.coalescer.registerCallback(callback)
 				}
-				self.eventsOrganizer = result
-				return true
+				self.events.coalescer.fire(false)
+				return
+			}
+			self.updateUsing(route: "/v1/events/", notificationName: APIManager.EventsUpdatedNotification, callback: callback, existingObject: self.events)
+			{ _ in
+				self.eventsOrganizer = EventOrganizer(events: self.events)
 			}
 		}
 	}
 	
 	// MARK: - Location
-	
-	private(set) var locations : [Location] {
-		get { return locationBuffer._array }
-		set { locationBuffer = MyArray(newValue) }
-	}
-	private var locationBuffer = MyArray<Location>()
-	private let locationSemaphore = dispatch_semaphore_create(1)
-	private let locationCallbacks = CoalescedCallbacks()
-
-	func updateLocations(callback: CoalescedCallbacks.Callback? = nil) {
-		updateGenerically("/v1/locations", notification: .LocationsUpdated, semaphoreGuard: locationSemaphore, coalecser: locationCallbacks, callback: callback) { (result: MyArray<Location>) in
-			self.locationBuffer = result
-			return true
-		}
+	let locations = MHacksArray<Location>()
+	func updateLocations(_ callback: CoalescedCallbacks.Callback? = nil) {
+		updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: locations)
 	}
 	
 	
 	// MARK: - Privilege
 	
 	func canPostAnnouncements() -> Bool {
-		return authenticator?.privilege == .Sponsor || authenticator?.privilege == .Organizer || authenticator?.privilege == .Admin
+		// FIXME: This is just for testing, we need to use privileges
+		return true
 	}
 	
 	func canEditAnnouncements() -> Bool {
-		return authenticator?.privilege == .Admin
+		// FIXME: This is just for testing, we need to use privileges
+		return true
+	}
+	
+	func canScanUserCode() -> Bool {
+		// FIXME: This is just for testing, we need to use privileges
+		return true
 	}
 	
 	// MARK: - Map
-	private(set) var map: Map? = nil
-	private let mapSemaphore = dispatch_semaphore_create(1)
-	private let mapCallbacks = CoalescedCallbacks()
-
-	func updateMap(callback: CoalescedCallbacks.Callback? = nil) {
+	private(set) var map = Map()
+	func updateMap(_ callback: CoalescedCallbacks.Callback? = nil) {
+//		updateUsing(route: "/v1/map/", notificationKey: .MapUpdated, callback: callback, existingObject: map)
+		// FIXME: Map needs to be reimplemented to support floors
 		
-		updateGenerically("/v1/map", notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback) {(result: JSONWrapper) in
-			// FIXME: This is a redundancy mess, cleanup once backend works better
-			var newJSON = result.JSON
-			let completion = { () -> Bool in
-				guard let map = Map(serialized: Serialized(JSON: newJSON)) where map != self.map
-				else {
-					return false
+//		updateGenerically("/v1/map/", notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback) {(result: JSONWrapper) in
+//			// FIXME: This is a redundancy mess, cleanup once backend works better
+//			var newJSON = result.JSON
+//			let completion = { () -> Bool in
+//				guard let map = Map(serialized: Serialized(JSON: newJSON)) , map != self.map
+//				else {
+//					return false
+//				}
+//				self.map = map
+//				return true
+//			}
+//			guard let URLString = result[Map.imageURLKey] as? String
+//			else {
+//				return false
+//			}
+//			guard self.map?.imageURL != URLString
+//			else {
+//				newJSON[Map.fileLocationKey] = self.map?.fileLocation
+//				return completion()
+//			}
+//			guard let URL = URL(string: URLString)
+//			else {
+//				return false
+//			}
+//			let downloadTask = URLSession.shared.downloadTask(with: URL, completionHandler: { downloadedImage, response, error in
+//				guard error == nil, let downloaded = downloadedImage
+//				else {
+//					guard completion()
+//					else {
+//						NotificationCenter.default.post(.Failure, object: (error?.localizedDescription ?? "Could not save map") as NSString)
+//						return
+//					}
+//					NotificationCenter.default.post(.MapUpdated)
+//					return
+//				}
+//				do {
+//					let fileURL = container.appendingPathComponent("map.png")
+//					let _ = try? FileManager.default.removeItem(at: fileURL)
+//					try FileManager.default.moveItem(at: downloaded, to: fileURL)
+//					newJSON[Map.fileLocationKey] = fileURL.absoluteString
+//					guard completion()
+//					else {
+//						return
+//					}
+//					NotificationCenter.default.post(.MapUpdated, object: self)
+//				}
+//				catch {
+//					NotificationCenter.default.post(.Failure, object: (error as NSError).localizedDescription)
+//				}
+//			})
+//			downloadTask.resume()
+//			return false
+//		}
+	}
+	
+	
+	// MARK: - Helpers
+	
+	fileprivate func createRequestForRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get) -> URLRequest
+	{
+		let URL = APIManager.baseURL.appendingPathComponent(route)
+		
+		let mutableRequest = NSMutableURLRequest(url: URL)
+		mutableRequest.httpMethod = method.rawValue
+		authenticator?.addAuthorizationHeader(mutableRequest)
+		do {
+			if method == .post || method == .put || method == .patch {
+				if method == .patch || method == .put {
+					// FIXME: Do we still need this?
+					mutableRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 				}
-				self.map = map
-				return true
+				let formData = parameters.reduce("", { $0 + "\($1.0)=\($1.1)&" })
+				mutableRequest.httpBody = formData.substring(to: formData.index(before: formData.endIndex)).data(using: .utf8)
 			}
-			guard let URLString = result[Map.imageURLKey] as? String
 			else {
-				return false
+				if parameters.count > 0 {
+					mutableRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+				}
 			}
-			guard self.map?.imageURL != URLString
+		} catch {
+			#if DEBUG
+				print(error)
+			#endif
+			mutableRequest.httpBody = nil
+		}
+		return (mutableRequest.copy() as! NSURLRequest) as URLRequest
+	}
+	
+	fileprivate func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
+	{
+		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
+		showNetworkIndicator()
+		let task = URLSession.shared.dataTask(with: request) { data, response, error in
+			
+			defer { self.hideNetworkIndicator() }
+			
+			let statusCode = (response as? HTTPURLResponse)?.statusCode
+			assert(statusCode != nil, "Looks fishy, assert for debug builds only")
+			guard statusCode != 403 && statusCode != 401
 			else {
-				newJSON[Map.fileLocationKey] = self.map?.fileLocation
-				return completion()
+				// FIXME: This is no longer the right thing to do!
+				self.authenticator = nil
+				completion(.error("Authentication failed. Please login."))
+				NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
+				// TODO: Go back to login screen here
+				return
 			}
-			guard let URL = NSURL(string: URLString)
+			
+			guard error == nil
 			else {
-				return false
+				// The fetch failed because of a networking error other than authentication
+				completion(.error(error!.localizedDescription))
+				return
 			}
-			let downloadTask = NSURLSession.sharedSession().downloadTaskWithURL(URL, completionHandler: { downloadedImage, response, error in
-				guard error == nil, let downloaded = downloadedImage
-				else {
-					guard completion()
+			
+			guard let data = data, let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []), let json = jsonObject as? [String: Any]
+			else {
+				assertionFailure("Deserialization should never fail. We recover silently in production builds")
+				completion(.error("Deserialization failed"))
+				return
+			}
+			
+			guard statusCode == 200 || statusCode == 201
+			else {
+				let errorMessage = json["detail"] as? String ?? "Unknown error"
+				completion(.error(errorMessage))
+				return
+			}
+			
+			completion(.value(json))
+		}
+		task.resume()
+	}
+	
+	private func updateUsing<Object: Serializable>(route: String, notificationName: Notification.Name, callback: CoalescedCallbacks.Callback?, existingObject: Object, completion: CoalescedCallbacks.Callback? = nil) {
+		if let callback = callback {
+			existingObject.coalescer.registerCallback(callback)
+		}
+		
+		guard existingObject.semaphoreGuard.wait(timeout: DispatchTime.now()) != .timedOut
+		else {
+			return
+		}
+		let sinceString : String
+		if let lastUpdated = existingObject.lastUpdated
+		{
+			sinceString = "?since=\(lastUpdated)"
+		}
+		else
+		{
+			sinceString = ""
+		}
+		
+		taskWithRoute(route + sinceString) { result in
+			var errorMessage: String? = nil
+			var updated = false
+			defer {
+				completion?(updated)
+				if updated
+				{
+					NotificationCenter.default.post(name: notificationName, object: self)
+				}
+				if let error = errorMessage
+				{
+					NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				}
+				existingObject.coalescer.fire(errorMessage == nil)
+				existingObject.semaphoreGuard.signal()
+			}
+			switch result
+			{
+			case .value(let json):
+				guard existingObject.updateWith(json)
 					else {
-						NSNotificationCenter.defaultCenter().post(.Failure, object: error?.localizedDescription ?? "Could not save map")
 						return
-					}
-					NSNotificationCenter.defaultCenter().post(.MapUpdated)
-					return
 				}
-				let fileURL = container.URLByAppendingPathComponent("map.png")
-				do {
-					let _ = try? NSFileManager.defaultManager().removeItemAtURL(fileURL)
-					try NSFileManager.defaultManager().moveItemAtURL(downloaded, toURL: fileURL)
-					newJSON[Map.fileLocationKey] = fileURL.absoluteString
-					guard completion()
-					else {
-						return
-					}
-					NSNotificationCenter.defaultCenter().post(.MapUpdated, object: self)
-				}
-				catch {
-					NSNotificationCenter.defaultCenter().post(.Failure, object: (error as NSError).localizedDescription)
-				}
-			})
-			downloadTask.resume()
-			return false
+				updated = true
+			case .error(let errorString):
+				errorMessage = errorString
+			}
 		}
 	}
 	
-	// MARK: - Notification Keys
-	enum NotificationKey : String {
-		case AnnouncementsUpdated
-		case UnapprovedAnnouncementsUpdated // FIXME: Refactor and remove this case once backend is stabilized
-		case CountdownUpdated
-		case EventsUpdated
-		case LocationsUpdated
-		case MapUpdated
-		case Failure
+	// MARK: - Archiving
+
+	final private class APIManagerSerializer: NSObject, NSCoding {
+		let authenticator: NSDictionary
+		let countdown: NSDictionary
+		let announcements: NSDictionary
+		let locations: NSDictionary
+		let events: NSDictionary
+		let map: NSDictionary
+		
+		private static let authenticatorKey = "authenticator"
+		private static let countdownKey = "countdown"
+		private static let announcementsKey = "announcements"
+		private static let locationsKey = "locations"
+		private static let eventsKey = "events"
+		private static let mapKey = "map"
+
+		
+		init?(coder aDecoder: NSCoder) {
+			guard let authenticator = aDecoder.value(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let countdown = aDecoder.value(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.value(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.value(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.value(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.value(forKey: APIManagerSerializer.mapKey) as? NSDictionary
+			else { return nil }
+			
+			self.authenticator = authenticator
+			self.countdown = countdown
+			self.announcements = announcements
+			self.locations = locations
+			self.events = events
+			self.map = map
+		}
+		
+		init?(manager: APIManager) {
+			guard let authenticator = manager.authenticator
+			else {
+				return nil
+			}
+			self.authenticator = authenticator.toSerializedRepresentation()
+			self.countdown = manager.countdown.toSerializedRepresentation()
+			self.announcements = manager.announcements.toSerializedRepresentation()
+			self.locations = manager.locations.toSerializedRepresentation()
+			self.events = manager.events.toSerializedRepresentation()
+			self.map = manager.map.toSerializedRepresentation()
+		}
+		
+		func encode(with aCoder: NSCoder) {
+			aCoder.encode(authenticator, forKey: APIManagerSerializer.authenticatorKey)
+			aCoder.encode(countdown, forKey: APIManagerSerializer.countdownKey)
+			aCoder.encode(announcements, forKey: APIManagerSerializer.announcementsKey)
+			aCoder.encode(locations, forKey: APIManagerSerializer.locationsKey)
+			aCoder.encode(events, forKey: APIManagerSerializer.eventsKey)
+			aCoder.encode(map, forKey: APIManagerSerializer.mapKey)
+		}
+	}
+	
+	private func initialize() {
+		DispatchQueue.global(qos: .userInitiated).async {
+			guard let data = try? Data(contentsOf: archiveLocation)
+			else {
+				return
+			}
+			
+			func updateSerialized(_ serializedObject: Serializable, using representation: NSDictionary, notificationName: Notification.Name, successfulUpdate: (() -> Void)? = nil) {
+				serializedObject.semaphoreGuard.wait()
+				defer { serializedObject.semaphoreGuard.signal() }
+				if serializedObject.updateWith(representation as! SerializedRepresentation) {
+					successfulUpdate?()
+					NotificationCenter.default.post(name: notificationName, object: self)
+				}
+			}
+			
+			if let obj = NSKeyedUnarchiver.unarchiveObject(with: data) as? APIManagerSerializer {
+				// Move everything over
+				self.authenticator = Authenticator(obj.authenticator as! SerializedRepresentation)
+				
+				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
+				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
+				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
+				updateSerialized(self.map, using: obj.map, notificationName: APIManager.MapUpdatedNotification)
+				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification) {
+					self.eventsOrganizer = EventOrganizer(events: self.events)
+				}
+			}
+		}
+	}
+	func archive() {
+		guard let serializer = APIManagerSerializer(manager: self)
+		else { return }
+		
+		do {
+			let reachable = try? archiveLocation.checkResourceIsReachable()
+			if reachable == nil || !(reachable!) {
+				try FileManager.default.createDirectory(at: container, withIntermediateDirectories: true, attributes: nil)
+			}
+			let data = NSKeyedArchiver.archivedData(withRootObject: serializer)
+			try data.write(to: archiveLocation)
+		}
+		catch {
+			#if DEBUG
+				print("Cache write failed: \(error)")
+			#endif
+			// Even though the cache write failed, we don't want to do anything that will disrupt
+			// the user's workflow here. Even though its slightly more expensive we can always redownload the content.
+		}
 	}
 }
 
 // MARK: - Authentication and User Stuff
 extension APIManager {
-	func loginWithUsername(username: String, password: String, completion: (Response<Bool>) -> Void) {
-		guard !isLoggedIn
+	func loginWithUsername(_ username: String, password: String, completion: @escaping (Response<Bool>) -> Void) {
+		guard !userState.loggedIn
 		else {
-			completion(.Value(true))
+			completion(.value(true))
 			return
 		}
-		let request = createRequestForRoute("/v1/auth/sign_in", parameters: ["email": username, "password": password], usingHTTPMethod: .POST)
+		
+		let token = defaults.string(forKey: remoteNotificationTokenKey) ?? ""
+		
+		let request = createRequestForRoute("/v1/login/", parameters: ["username": username, "password": password, "is_gcm": false, "token": token], usingHTTPMethod: .post)
 		showNetworkIndicator()
-		let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+		
+		let task = URLSession.shared.dataTask(with: request) { data, response, error in
 			defer { self.hideNetworkIndicator() }
 			guard error == nil
-			else
-			{
+			else {
 				// The fetch failed because of a networking error
-				completion(.Error(error!.localizedDescription))
+				completion(.error(error!.localizedDescription))
 				return
 			}
-			guard let responseHeaders = (response as? NSHTTPURLResponse)?.allHeaderFields
+			guard let unwrappedJSON = try? JSONSerialization.jsonObject(with: data ?? Data(), options: []), let JSON = unwrappedJSON as? [String: Any]
 			else {
-				assertionFailure("Could not deserialize the response and its header fields? What is going on!?! If this wasn't an HTTP request what was it?")
-				completion(.Error("Server did not respond"))
+				assertionFailure("Deserialization should never fail. We recover silently in production builds")
+				completion(.error("Deserialization failed"))
+				return
+			}
+
+			guard let authToken = JSON["token"] as? String
+			else
+			{
+				completion(.value(false))
 				return
 			}
 			
-			guard let authToken = responseHeaders["access-token"] as? String, let client = responseHeaders["client"] as? String, let username = responseHeaders["uid"] as? String, let expiry = responseHeaders["expiry"] as? String, let tokenType = responseHeaders["token-type"] as? String
-			else
-			{
-				completion(.Value(false))
-				return
-			}
-			let JSON = try? NSJSONSerialization.JSONObjectWithData(data ?? NSData(), options: [])
-			// FIXME: Make privilege more robust
-			let privilege = (JSON?["data"] as? [String: AnyObject])?["roles"] as? Int ?? 0
-			self.authenticator = Authenticator(authToken: authToken, client: client, username: username, password: password, expiry: expiry, tokenType: tokenType, privilege: privilege)
-			completion(.Value(true))
+			self.authenticator = Authenticator(authToken: authToken, username: username)
+			completion(.value(true))
+			NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 		}
 		task.resume()
 	}
 	func logout() {
 		self.authenticator = nil
+		NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 	}
 	
+// MARK: - Private implmentation details of user auth
+
 	/// This class should encapsulate everything about the user and save all of it
 	/// The implementation used here is pretty secure so there's noting to worry about
-	@objc final private class Authenticator: NSObject, JSONCreateable
-	{
-		private enum Privilege: Int {
-			case Hacker = 0
-			case Sponsor =  1
-			case Organizer = 2
-			case Admin = 3
-		}
+	fileprivate struct Authenticator: SerializableElement {
 		
-		private let username: String
-		private let password: String
-		private var authToken: String
-		private var expiry: String
-		private let tokenType: String
-		private var client: String
-		private let privilege: Privilege
+		// FIXME: We need to add lots of other information here!
+		
+		let username: String
+		private let authenticationToken: String
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
-		private static let clientKey = "MHacksClientKey"
-		private static let expiryKey = "expiry"
 		private static let usernameKey = "username"
-		private static let tokenTypeKey = "token-type"
-		private static let privilegeKey = "privilege"
-		private static let passwordKey = "password"
 		
-		private init(authToken: String, client: String, username: String, password: String, expiry: String, tokenType: String, privilege: Int) {
-			self.authToken = authToken
-			self.client = client
+		init(authToken: String, username: String) {
+			self.authenticationToken = authToken
 			self.username = username
-			self.expiry = expiry
-			self.privilege = Privilege(rawValue: privilege) ?? .Hacker
-			self.tokenType = tokenType
-			self.password = password
-			super.init()
 		}
 		
-		@objc convenience init?(serialized: Serialized)
-		{
-			return nil
-		}
-		
-		private func addAuthorizationHeader(request: NSMutableURLRequest) {
-			request.addValue("\(tokenType)", forHTTPHeaderField: "token-type")
-			request.addValue("\(authToken)", forHTTPHeaderField: "access-token")
-			request.addValue("\(expiry)", forHTTPHeaderField: "expiry")
-			request.addValue("\(client)", forHTTPHeaderField: "client")
-			request.addValue("\(username)", forHTTPHeaderField: "uid")
+		func addAuthorizationHeader(_ request: NSMutableURLRequest) {
+			request.addValue("Token \(authenticationToken)", forHTTPHeaderField: "Authorization")
 		}
 		
 		// MARK: Authenticator Archiving
-		@objc func encodeWithCoder(aCoder: NSCoder) {
-			aCoder.encode(privilege.rawValue, forKey: Authenticator.privilegeKey)
-			aCoder.encode(username, forKey: Authenticator.usernameKey)
-			aCoder.encode(expiry, forKey: Authenticator.expiryKey)
-			aCoder.encode(tokenType, forKey: Authenticator.tokenTypeKey)
-			SSKeychain.setPassword(authToken, forService: Authenticator.authTokenKey, account: username)
-			SSKeychain.setPassword(client, forService: Authenticator.clientKey, account: username)
-			SSKeychain.setPassword(password, forService: Authenticator.passwordKey, account: username)
+		
+		init?(_ serializedRepresentation: SerializedRepresentation) {
+			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String
+			else {
+				return nil
+			}
+			guard let authToken = SSKeychain.password(forService: Authenticator.authTokenKey, account: username)
+			else {
+				return nil
+			}
+			self.init(authToken: authToken, username: username)
 		}
 		
-		@objc convenience init?(coder aDecoder: NSCoder) {
-			// Override default implementation to use keychain here.
-			let privilege = aDecoder.decodeIntegerForKey(Authenticator.privilegeKey)
-			guard let username = aDecoder.decodeObjectForKey(Authenticator.usernameKey) as? String, let expiry = aDecoder.decodeObjectForKey(Authenticator.expiryKey) as? String, let tokenType = aDecoder.decodeObjectForKey(Authenticator.tokenTypeKey) as? String
-			else {
-				return nil
-			}
-			guard let authToken = SSKeychain.passwordForService(Authenticator.authTokenKey, account: username), let client = SSKeychain.passwordForService(Authenticator.clientKey, account: username), let password = SSKeychain.passwordForService(Authenticator.passwordKey, account: username)
-			else {
-				return nil
-			}
-			self.init(authToken: authToken, client: client, username: username, password: password, expiry: expiry, tokenType: tokenType, privilege: privilege)
+		func toSerializedRepresentation() -> NSDictionary {
+			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
+			return [Authenticator.usernameKey: username]
 		}
 	}
 }
 
-
-// MARK: - Archiving
-extension APIManager : NSCoding
+// MARK: - Notification Keys
+extension APIManager
 {
-	private func initialize() {
-		guard let data = NSData(contentsOfURL: archiveLocation)
-		else
-		{
-			return
-		}
-		if let obj = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? APIManager
-		{
-			// Move everything over
-			self.countdown = obj.countdown
-			NSNotificationCenter.defaultCenter().post(.CountdownUpdated, object: self)
-			
-			self.announcements = obj.announcements
-			NSNotificationCenter.defaultCenter().post(.AnnouncementsUpdated, object: self)
-			
-			self.locations = obj.locations
-			NSNotificationCenter.defaultCenter().post(.LocationsUpdated, object: self)
-			
-			self.eventsOrganizer = obj.eventsOrganizer
-			NSNotificationCenter.defaultCenter().post(.EventsUpdated, object: self)
-			
-			self.map = obj.map
-			NSNotificationCenter.defaultCenter().post(.MapUpdated, object: self)
-			
-			self.authenticator = obj.authenticator
-		}
-	}
-	
-	func archive() {
-		do
-		{
-			if !archiveLocation.checkResourceIsReachableAndReturnError(nil)
-			{
-				try NSFileManager.defaultManager().createDirectoryAtURL(container, withIntermediateDirectories: true, attributes: nil)
-			}
-			let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-			try data.writeToURL(archiveLocation, options: [])
-		}
-		catch {
-		}
-	}
-	private static let authenticatorKey = "authenticator"
-	private static let locationsKey = "locations"
-	private static let eventsOrganizerKey = "eventsOrganizer"
-	private static let announcementsKey = "announcements"
-	private static let countdownKey = "countdown"
-	private static let mapKey = "map"
-	
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encode(authenticator, forKey: APIManager.authenticatorKey)
-		aCoder.encode(locations, forKey: APIManager.locationsKey)
-		aCoder.encode(eventsOrganizer, forKey: APIManager.eventsOrganizerKey)
-		aCoder.encode(announcements, forKey: APIManager.announcementsKey)
-		aCoder.encode(countdown, forKey: APIManager.countdownKey)
-		aCoder.encode(map, forKey: APIManager.mapKey)
-	}
-	
-	@objc convenience init?(coder aDecoder: NSCoder)
-    {
-		self.init()
-		self.authenticator = aDecoder.decodeObjectForKey(APIManager.authenticatorKey) as? Authenticator
-		self.map = aDecoder.decodeObjectForKey(APIManager.mapKey) as? Map
-		self.locations = aDecoder.decodeObjectForKey(APIManager.locationsKey) as? [Location] ?? []
-		manager.locations = locations
-		self.announcements = aDecoder.decodeObjectForKey(APIManager.announcementsKey) as? [Announcement] ?? []
-		self.countdown = aDecoder.decodeObjectForKey(APIManager.countdownKey) as? Countdown ?? Countdown()
-		if let eventsOrganizer = aDecoder.decodeObjectForKey(APIManager.eventsOrganizerKey) as? EventOrganizer {
-			self.eventsOrganizer = eventsOrganizer
-		}
-		else {
-			self.eventsOrganizer = EventOrganizer(events: [])
-		}
-	}
-}
-
-extension Event {
-	// Although this is a hack to resolve the dependency between Event and APIManager.sharedManager, we can improve the hackiness of this once Swift 3's new accessors come into effect (i.e. using fileprivate and private)
-	convenience init?(ID: String, name: String, category: Category, locationIDs: [String], startDate: NSDate, endDate: NSDate, info: String) {
-		let locations = locationIDs.flatMap { locID in
-			manager.locations.filter { location in
-				location.ID == Int(locID)
-				// The conversion to Int here is stupid, but its the backend's fault that we need to do this!
-			}
-		}
-		guard locations.count > 0 else { return nil }
-		self.init(ID: ID, name: name, category: category, locations: locations, startDate: startDate, endDate: endDate, info: info)
-	}
+	static let LoginStateChangedNotification = Notification.Name("LoginStateChanged")
+	static let AnnouncementsUpdatedNotification = Notification.Name("AnnouncementsUpdated")
+	static let CountdownUpdatedNotification = Notification.Name("CountdownUpdated")
+	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
+	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
+	static let MapUpdatedNotification = Notification.Name("MapUpdated")
+	static let FailureNotification = Notification.Name("Failure")
 }

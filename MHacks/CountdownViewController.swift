@@ -16,7 +16,7 @@ class CountdownViewController: UIViewController {
 	@IBOutlet weak var endLabel: UILabel!
 	
 	// Delays the initial filling animation by second
-	var firstAppearanceDate: NSDate?
+	var firstAppearanceDate: Date?
 	
 	// MARK: - Lifecycle
 	
@@ -24,46 +24,45 @@ class CountdownViewController: UIViewController {
 		super.viewDidLoad()
 		
 		countdownLabel.font = Countdown.font
-		APIManager.sharedManager.updateCountdown()
+		APIManager.shared.updateCountdown()
 	}
 
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		NSNotificationCenter.defaultCenter().listenFor(.CountdownUpdated, observer: self, selector: #selector(CountdownViewController.updateCountdownViews(_:)))
-		APIManager.sharedManager.updateCountdown()
+		NotificationCenter.default.addObserver(self, selector: #selector(CountdownViewController.updateCountdownViews(_:)), name: APIManager.CountdownUpdatedNotification, object: nil)
+		APIManager.shared.updateCountdown()
 		
 		if firstAppearanceDate == nil {
-			firstAppearanceDate = NSDate()
+			firstAppearanceDate = Date()
 		}
 		
 		beginUpdatingCountdownViews()
 	}
 	
-	override func viewDidDisappear(animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 		stopUpdatingCountdownViews()
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 
 	// MARK: - Model Update
 	
-	var timer: NSTimer?
+	var timer: Timer?
 	
 	func beginUpdatingCountdownViews() {
 		
 		updateCountdownViews()
+		// FIXME: Use swift method instead?
+		let nextSecond = (Calendar.shared as NSCalendar).nextDate(after: Date(), matching: .nanosecond, value: 0, options: .matchNextTime)!
 		
-		let nextSecond = NSCalendar.sharedCalendar.nextDateAfterDate(NSDate(), matchingUnit: .Nanosecond, value: 0, options: .MatchNextTime)!
+		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
-		let timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
-		
-		NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+		RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
 		
 		self.timer = timer
 	}
 	
-	func timerFire(timer: NSTimer) {
+	func timerFire(_ timer: Timer) {
 		updateCountdownViews()
 	}
 	
@@ -74,18 +73,18 @@ class CountdownViewController: UIViewController {
 	
 	// MARK: - UI Update
 	
-	func updateCountdownViews(_: NSNotification? = nil) {
+	func updateCountdownViews(_: Notification? = nil) {
 		
-		dispatch_async(dispatch_get_main_queue(), {
+		DispatchQueue.main.async(execute: {
 			
-			if let firstAppearanceDate = self.firstAppearanceDate where firstAppearanceDate.timeIntervalSinceNow < -0.5 {
-				self.progressIndicator.setProgress(APIManager.sharedManager.countdown.progress, animated: true)
+			if let firstAppearanceDate = self.firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
+				self.progressIndicator.setProgress(APIManager.shared.countdown.progress, animated: true)
 			}
 			
-			self.countdownLabel.text = APIManager.sharedManager.countdown.timeRemainingDescription
+			self.countdownLabel.text = APIManager.shared.countdown.timeRemainingDescription
 			
-			self.startLabel.text = APIManager.sharedManager.countdown.startDateDescription
-			self.endLabel.text = APIManager.sharedManager.countdown.endDateDescription
+			self.startLabel.text = APIManager.shared.countdown.startDateDescription
+			self.endLabel.text = APIManager.shared.countdown.endDateDescription
 		})
 	}
 }

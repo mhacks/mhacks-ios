@@ -10,58 +10,53 @@ import Foundation
 import UIKit
 
 
-@objc final class Event: NSObject {
+final class Event: SerializableElementWithIdentifier {
  
 	enum Category: Int, CustomStringConvertible {
-		case Logisitics = 0
-		case Social = 1
-		case Food = 2
-		case TechTalk = 3
-		case Other = 4
+		case logisitics = 0
+		case social = 1
+		case food = 2
+		case techTalk = 3
+		case other = 4
 		var color: UIColor {
 			switch self {
-			case .Logisitics:
+			case .logisitics:
 				return UIColor(red: 056.0/255.0, green: 093.0/255.0, blue: 214.0/255.0, alpha: 1.0)
-			case .Social:
+			case .social:
 				return UIColor(red: 226.0/255.0, green: 048.0/255.0, blue: 082.0/255.0, alpha: 1.0)
-			case .Food:
+			case .food:
 				return UIColor(red: 255.0/255.0, green: 202.0/255.0, blue: 011.0/255.0, alpha: 1.0)
-			case .TechTalk:
+			case .techTalk:
 				return UIColor(red: 168.0/255.0, green: 110.0/255.0, blue: 219.0/255.0, alpha: 1.0)
-			case .Other:
+			case .other:
 				return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
 			}
 		}
 		var description : String {
 			switch self {
-			case .Logisitics:
+			case .logisitics:
 				return "Logisitics"
-			case .Social:
+			case .social:
 				return "Social"
-			case .Food:
+			case .food:
 				return "Food"
-			case .TechTalk:
+			case .techTalk:
 				return "Tech Talk"
-			case .Other:
+			case .other:
 				return "Other"
 			}
 		}
 	}
 	
-    let ID: String
+	let ID: String
     let name: String
 	let category: Category
     let locations: [Location]
-    let startDate: NSDate
-    let endDate: NSDate
+    let startDate: Date
+    let endDate: Date
     let information: String
-    
-    var timeInterval: HalfOpenInterval<NSTimeInterval> {
-        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
-    }
 	
-	
-	init(ID: String, name: String, category: Category, locations: [Location], startDate: NSDate, endDate: NSDate, info: String) {
+	init(ID: String, name: String, category: Category, locations: [Location], startDate: Date, endDate: Date, info: String) {
 		self.ID = ID
 		self.name = name
 		self.category = category
@@ -70,6 +65,12 @@ import UIKit
 		self.endDate = endDate
 		self.information = info
 	}
+
+	
+    var timeInterval: Range<TimeInterval> {
+        return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
+    }
+	
 	
     var locationsDescription: String {
         switch locations.count {
@@ -82,56 +83,38 @@ import UIKit
         }
     }
 	
+	convenience init?(ID: String, name: String, category: Category, locationIDs: [String], startDate: Date, endDate: Date, info: String) {
+		let locations = locationIDs.flatMap { locationID in
+			APIManager.shared.locations.filter { $0.ID == locationID
+			}
+		}
+		guard locations.count > 0 else { return nil }
+		self.init(ID: ID, name: name, category: category, locations: locations, startDate: startDate, endDate: endDate, info: info)
+	}
+
+}
+
+extension Event {
+	private static let idKey = "id"
 	private static let nameKey = "name"
 	private static let locationIDsKey = "location_ids"
 	private static let startDateKey = "start_time"
 	private static let endDateKey = "end_time"
 	private static let infoKey = "info"
-	private static let idKey = "id"
 	private static let categoryKey = "category"
 	
-	@objc convenience init?(serialized: Serialized) {
-		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized.intValueForKey(Event.categoryKey), let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as? [String], let startDate = NSDate(JSONValue: serialized[Event.startDateKey]), let endDate = NSDate(JSONValue: serialized[Event.endDateKey]), let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String where startDate <= endDate
+	convenience init?(_ serialized: SerializedRepresentation) {
+		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized[Event.categoryKey] as? Int, let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as? [String], let startDate = serialized[Event.startDateKey] as? Double, let endDate = serialized[Event.endDateKey] as? Double, let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String, startDate <= endDate
 		else {
 			return nil
 		}
-		if let isApproved = serialized.boolValueForKey("is_approved")
-		{
-			guard isApproved
-			else
-			{
-				return nil
-			}
-		}
-		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: startDate, endDate: endDate, info: description)
+		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: Date(timeIntervalSince1970: startDate), endDate: Date(timeIntervalSince1970: endDate), info: description)
 	}
-
-}
-
-extension Event : JSONCreateable {
-	
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encode(ID, forKey: Event.idKey)
-		aCoder.encode(name, forKey: Event.nameKey)
-		aCoder.encode(category.rawValue, forKey: Event.categoryKey)
-		aCoder.encode(information, forKey: Event.infoKey)
-		aCoder.encode(JSONDateFormatter.stringFromDate(startDate), forKey: Event.startDateKey)
-		aCoder.encode(JSONDateFormatter.stringFromDate(endDate), forKey: Event.endDateKey)
-		aCoder.encode(locations.map { "\($0.ID)" as NSString }, forKey: Event.locationIDsKey)
-	}
-	
-	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(serialized: Serialized(coder: aDecoder))
+	func toSerializedRepresentation() -> NSDictionary {
+		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locations.map { $0.ID } as NSArray, Event.startDateKey: startDate.timeIntervalSince1970, Event.endDateKey: endDate.timeIntervalSince1970, Event.infoKey: information, Event.categoryKey: category.rawValue]
 	}
 }
-
-func ==(lhs: Event, rhs: Event) -> Bool {
-    
-    return (lhs.ID == rhs.ID &&
-        lhs.name == rhs.name &&
-		lhs.category == rhs.category &&
-        lhs.locations == rhs.locations &&
-        lhs.startDate == rhs.startDate &&
-        lhs.endDate == rhs.endDate &&
-        lhs.information == rhs.information)
+func < (lhs: Event, rhs: Event) -> Bool {
+	return lhs.startDate < rhs.startDate
 }
+

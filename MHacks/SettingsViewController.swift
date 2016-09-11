@@ -32,197 +32,199 @@ class SettingsViewController: UITableViewController {
 		self.tableView.rowHeight = UITableViewAutomaticDimension
 		self.tableView.estimatedRowHeight = 100.0
 		
-		lastStatus = APIManager.sharedManager.isLoggedIn
-		guard let preference = defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber
+		lastStatus = APIManager.shared.userState.loggedIn
+		guard let preference = defaults.object(forKey: remoteNotificationPreferencesKey) as? NSNumber
 		else
 		{
 			// We shouldn't ever reach here though...
 			currentPreference = Announcement.Category(rawValue: 63)
 			return
 		}
-		let categories = Announcement.Category(rawValue: preference.integerValue)
-		currentPreference = categories.contains(Announcement.Category.Emergency) ? categories : categories.intersect(Announcement.Category.Emergency)
+		let categories = Announcement.Category(rawValue: preference.intValue)
+		currentPreference = categories.contains(Announcement.Category.Emergency) ? categories : categories.intersection(Announcement.Category.Emergency)
     }
     
-    override func viewDidAppear(animated: Bool) {
-		lastStatus = APIManager.sharedManager.isLoggedIn
+    override func viewDidAppear(_ animated: Bool) {
+		lastStatus = APIManager.shared.userState.loggedIn
 		
-        if APIManager.sharedManager.canEditAnnouncements() {
-            NSNotificationCenter.defaultCenter().listenFor(.UnapprovedAnnouncementsUpdated, observer: self, selector: #selector(SettingsViewController.unapprovedAnnouncementsUpdated(_:)))
-            
-            APIManager.sharedManager.updateUnapprovedAnnouncements()
+        if APIManager.shared.canEditAnnouncements() {
+			// FIXME: No longer need this!
+//            NotificationCenter.default.listenFor(.UnapprovedAnnouncementsUpdated, observer: self, selector: #selector(SettingsViewController.unapprovedAnnouncementsUpdated(_:)))
+			
+            APIManager.shared.updateUnapprovedAnnouncements()
         }
     }
     
-    func unapprovedAnnouncementsUpdated (notification: NSNotification? = nil) {
-        dispatch_async(dispatch_get_main_queue(), {
-            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
+    func unapprovedAnnouncementsUpdated (_ notification: Notification? = nil) {
+        DispatchQueue.main.async(execute: {
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         })
     }
     
-	override func viewDidDisappear(animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 		
-		guard let token = defaults.objectForKey(remoteNotificationTokenKey) as? String
-		else
-		{
-			return
-		}
-		if let preference = defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber
-		{
-			guard currentPreference != Announcement.Category(rawValue: preference.integerValue)
-			else
-			{
-				// There was no change in preference return
-				return
-			}
-		}
-		APIManager.sharedManager.updateAPNSToken(token, preference: currentPreference.rawValue, method: .PUT, completion: {
-			updated in
-			guard updated else { return }
-			guard self.currentPreference.rawValue != (defaults.objectForKey(remoteNotificationPreferencesKey) as? NSNumber)?.integerValue
-			else
-			{
-				return
-			}
-			defaults.setInteger(self.currentPreference.rawValue, forKey: remoteNotificationPreferencesKey)
-		})
+//		guard let token = defaults.object(forKey: remoteNotificationTokenKey) as? String
+//		else
+//		{
+//			return
+//		}
+//		if let preference = defaults.object(forKey: remoteNotificationPreferencesKey) as? NSNumber
+//		{
+//			guard currentPreference != Announcement.Category(rawValue: preference.intValue)
+//			else
+//			{
+//				// There was no change in preference return
+//				return
+//			}
+//		}
+		// TODO: Use new update APNS token API
+//		APIManager.shared.updateAPNSToken(token, preference: currentPreference.rawValue, method: .put, completion: {
+//			updated in
+//			guard updated else { return }
+//			guard self.currentPreference.rawValue != (defaults.object(forKey: remoteNotificationPreferencesKey) as? NSNumber)?.intValue
+//			else
+//			{
+//				return
+//			}
+//			defaults.set(self.currentPreference.rawValue, forKey: remoteNotificationPreferencesKey)
+//		})
 	}
 	
 	// MARK: - Table View Data Source
 	
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if (APIManager.sharedManager.canEditAnnouncements()) {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if (APIManager.shared.canEditAnnouncements()) {
             return settingTypes.count
         }
         return 1
     }
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 0 {
 			return announcementCategories.count
 		}
-		return APIManager.sharedManager.unapprovedAnnouncements.count
+		return APIManager.shared.unapprovedAnnouncements.count
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		if indexPath.section == 0
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if (indexPath as NSIndexPath).section == 0
 		{
-			let cell = tableView.dequeueReusableCellWithIdentifier("notificationCell") as! CategoryCell
-			let category = announcementCategories[indexPath.row]
+			let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell") as! CategoryCell
+			let category = announcementCategories[(indexPath as NSIndexPath).row]
 			cell.categoryLabel.text = category.description
-			cell.colorView.layer.borderColor = category.color.CGColor
+			cell.colorView.layer.borderColor = category.color.cgColor
 			cell.colorView.layer.borderWidth = cell.colorView.frame.width
 			if currentPreference.contains(category)
 			{
-				cell.accessoryType = .Checkmark
+				cell.accessoryType = .checkmark
 			}
 			else
 			{
-				cell.accessoryType = .None
+				cell.accessoryType = .none
 			}
 			return cell
 		}
 		
-		let announcement = APIManager.sharedManager.unapprovedAnnouncements[indexPath.row]
+		let announcement = APIManager.shared.unapprovedAnnouncements[(indexPath as NSIndexPath).row]
 		
-		let cell = tableView.dequeueReusableCellWithIdentifier("announcementCell") as! AnnouncementCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "announcementCell") as! AnnouncementCell
 		cell.titleLabel.text = announcement.title
 		cell.dateLabel.text = announcement.localizedDate
 		cell.messageLabel.text = announcement.message
-		cell.colorView.layer.borderColor = announcement.category.color.CGColor
+		cell.colorView.layer.borderColor = announcement.category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
 		return cell
 	}
 	
 	// MARK: - Table View Delegate
 	
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return settingTypes[section]
     }
 	
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return indexPath.section != 0
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return (indexPath as NSIndexPath).section != 0
     }
 	
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Normal, title: "✕") { action, index in
-            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .Alert)
-            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .normal, title: "✕") { action, index in
+            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
                 
-                APIManager.sharedManager.deleteUnapprovedAnnouncement(indexPath.row, completion: {deleted in
+                APIManager.shared.deleteUnapprovedAnnouncement((indexPath as NSIndexPath).row, completion: {deleted in
                     if deleted {
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
                     }
                 })
             }))
-            self.presentViewController(confirm, animated: true, completion: nil)
+            self.present(confirm, animated: true, completion: nil)
         }
-        delete.backgroundColor = UIColor.redColor()
+        delete.backgroundColor = UIColor.red
         
-        let approve = UITableViewRowAction(style: .Normal, title: "✓") { action, index in
-            let confirm = UIAlertController(title: "Announcement Approval", message: "This announcement will be pushed to all MHacks participants, sponsors, and organizers.",preferredStyle: .Alert)
-            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+        let approve = UITableViewRowAction(style: .normal, title: "✓") { action, index in
+            let confirm = UIAlertController(title: "Announcement Approval", message: "This announcement will be pushed to all MHacks participants, sponsors, and organizers.",preferredStyle: .alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
                 
-                APIManager.sharedManager.approveAnnouncement(indexPath.row, completion: {approved in
+                APIManager.shared.approveAnnouncement((indexPath as NSIndexPath).row, completion: {approved in
                     if approved {
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
                     }
                 })
             }))
-            self.presentViewController(confirm, animated: true, completion: nil)
+            self.present(confirm, animated: true, completion: nil)
         }
-        approve.backgroundColor = UIColor.blueColor()
+        approve.backgroundColor = UIColor.blue
         
         return [delete, approve]
     }
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		tableView.deselectRowAtIndexPath(indexPath, animated: true)
-		if indexPath.section == 0
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		if (indexPath as NSIndexPath).section == 0
 		{
-			let category = announcementCategories[indexPath.row]
+			let category = announcementCategories[(indexPath as NSIndexPath).row]
 			guard !category.contains(Announcement.Category.Emergency)
 				else
 			{
-				let alertController = UIAlertController(title: "Denied", message: "Emergency notifications must stay active during the entire hackathon.", preferredStyle: .Alert)
-				alertController.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-				presentViewController(alertController, animated: true, completion: nil)
+				let alertController = UIAlertController(title: "Denied", message: "Emergency notifications must stay active during the entire hackathon.", preferredStyle: .alert)
+				alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+				present(alertController, animated: true, completion: nil)
 				return
 			}
 			if currentPreference.remove(category) == nil
 			{
 				currentPreference.insert(category)
-				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .Checkmark
+				tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
 			}
 			else
 			{
-				tableView.cellForRowAtIndexPath(indexPath)?.accessoryType = .None
+				tableView.cellForRow(at: indexPath)?.accessoryType = .none
 			}
 		}
 		else
 		{
-			guard APIManager.sharedManager.canEditAnnouncements()
+			guard APIManager.shared.canEditAnnouncements()
 				else
 			{
-				lastStatus = APIManager.sharedManager.isLoggedIn
+				lastStatus = APIManager.shared.userState.loggedIn
 				return
 			}
-			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
-			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
-			presentViewController(compose, animated: true, completion: nil)
+			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
+			present(compose, animated: true, completion: nil)
 		}
 	}
 	
-    @IBAction func changeLoginStatus(sender: UIBarButtonItem) {
-        if APIManager.sharedManager.isLoggedIn {
-            APIManager.sharedManager.logout()
-			lastStatus = APIManager.sharedManager.isLoggedIn
+    @IBAction func changeLoginStatus(_ sender: UIBarButtonItem) {
+        if APIManager.shared.userState.loggedIn {
+            APIManager.shared.logout()
+			lastStatus = APIManager.shared.userState.loggedIn
         } else {
-            performSegueWithIdentifier("changeLoginStatusSegue", sender: nil)
+            performSegue(withIdentifier: "changeLoginStatusSegue", sender: nil)
         }
     }
 }

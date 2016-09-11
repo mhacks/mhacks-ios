@@ -1,5 +1,5 @@
 //
-//  SharedAPIManager.swift
+//  APIManager+UIKit.swift
 //  MHacks
 //
 //  Created by Manav Gabhawala on 2/6/16.
@@ -12,20 +12,25 @@ import UIKit
 // on APIManager.swift, and we can reuse APIManager.swift for a TodayExtension,
 // Watch App, Mac App or anything else you might imagine. On the other apps,
 // the implementation of these functions can be just empty.
-extension APIManager
-{
+extension APIManager {
 	// MARK: - Helpers
-	func showNetworkIndicator()
-	{
-		UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+	func showNetworkIndicator() {
+		UIApplication.shared.isNetworkActivityIndicatorVisible = true
 	}
-	func hideNetworkIndicator()
-	{
-		UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+	func hideNetworkIndicator() {
+		UIApplication.shared.isNetworkActivityIndicatorVisible = false
 	}
 }
 
-func bodyColorForColor(color: UIColor, desaturated: Bool) -> UIColor {
+extension Event {
+	
+	var notification : UILocalNotification?
+	{
+		return UIApplication.shared.scheduledLocalNotifications?.filter { $0.userInfo?["id"] as? String == ID }.first
+	}
+}
+
+func bodyColorForColor(_ color: UIColor, desaturated: Bool) -> UIColor {
 	
 	var hue: CGFloat = 0.0
 	var saturation: CGFloat = 0.0
@@ -40,3 +45,5 @@ func bodyColorForColor(color: UIColor, desaturated: Bool) -> UIColor {
 	
 	return UIColor(hue: hue, saturation: saturation * desaturationFactor, brightness: brightness * brightnessFactor, alpha: alpha * alphaFactor)
 }
+
+

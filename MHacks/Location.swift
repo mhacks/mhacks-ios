@@ -9,47 +9,38 @@
 import Foundation
 import CoreLocation
 
-// This is intentionally a class, we don't duplicate copies of this everywhere, just immutable references.
-@objc final class Location : NSObject {
+// We have a class here since we don't want to pay the performance overhead of copies however, the correct thing to do
+// would be to implement this as a struct with copy-on-write semantics but its a bit tedious and we don't 
+// "really" need it so we just stick with immutable references.
+final class Location : SerializableElementWithIdentifier {
 	
-	let ID: Int
+	let ID: String
 	let name: String
 	let coreLocation: CLLocation
-	init(ID: Int, name: String, coreLocation: CLLocation) {
+	
+	init(ID: String, name: String, coreLocation: CLLocation) {
 		self.ID = ID
 		self.name = name
 		self.coreLocation = coreLocation
 	}
+	
+	private static let idKey = "id"
+	private static let nameKey = "name"
 	private static let latitudeKey = "latitude"
 	private static let longitudeKey = "longitude"
-	private static let nameKey = "name"
-	private static let idKey = "id"
 	
-	convenience init?(serialized: Serialized) {
-		guard let latitudeStr = serialized[Location.latitudeKey] as? String, let latitude = Double(latitudeStr), let longitudeStr = serialized[Location.longitudeKey] as? String, let longitude = Double(longitudeStr), let id = serialized.intValueForKey(Location.idKey), let locationName = serialized[Location.nameKey] as? String
+	convenience init?(_ serializedRepresentation: SerializedRepresentation) {
+		guard let id = serializedRepresentation[Location.idKey] as? String, let locationName = serializedRepresentation[Location.nameKey] as? String, let latitude = serializedRepresentation[Location.latitudeKey] as? Double, let longitude = serializedRepresentation[Location.longitudeKey] as? Double
 		else {
 			return nil
 		}
 		self.init(ID: id, name: locationName, coreLocation: CLLocation(latitude: latitude, longitude: longitude))
+
 	}
-}
-extension Location : JSONCreateable {
-		
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encode(ID, forKey: Location.idKey)
-		aCoder.encode("\(coreLocation.coordinate.latitude)", forKey: Location.latitudeKey)
-		aCoder.encode("\(coreLocation.coordinate.longitude)", forKey: Location.longitudeKey)
-		aCoder.encode(name, forKey: Location.nameKey)
-	}
-	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(serialized: Serialized(coder: aDecoder))
+	
+	func toSerializedRepresentation() -> NSDictionary {
+		return [Location.idKey: ID, Location.nameKey: name, Location.latitudeKey: coreLocation.coordinate.latitude, Location.longitudeKey: coreLocation.coordinate.longitude]
 	}
 }
 
-func ==(lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-	return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
-}
 
-func ==(lhs: Location, rhs: Location) -> Bool {
-	return lhs.ID == rhs.ID && lhs.name == rhs.name && lhs.coreLocation.coordinate == rhs.coreLocation.coordinate
-}

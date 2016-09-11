@@ -21,7 +21,6 @@
 		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
 		82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82287A591C66C419001A0F38 /* MainInterface.storyboard */; };
 		82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
-		82287A5D1C66C570001A0F38 /* JSONCreateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */; };
 		82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
 		82287A601C66C570001A0F38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
 		82287A611C66C570001A0F38 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
@@ -31,7 +30,7 @@
 		82287A711C66D81D001A0F38 /* MapExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A701C66D81D001A0F38 /* MapExtended.swift */; };
 		82287A731C66D89A001A0F38 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
 		82287A741C66D8A4001A0F38 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
-		82287A751C66D8F7001A0F38 /* SharedAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* SharedAPIManager.swift */; };
+		82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */; };
 		82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A671C66D46F001A0F38 /* APIManagerExtended.swift */; };
 		82287A771C66D975001A0F38 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BEF1C29325500CD9F09 /* SSKeychain.m */; };
 		82287A781C66D975001A0F38 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C5BF11C29325500CD9F09 /* SSKeychainQuery.m */; };
@@ -50,7 +49,6 @@
 		82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82473FAE1C1F7A170061FFFB /* Assets.xcassets */; };
 		82473FB21C1F7A170061FFFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82473FB01C1F7A170061FFFB /* LaunchScreen.storyboard */; };
 		82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */; };
-		82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */; };
 		82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
 		82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */; };
 		82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
@@ -62,6 +60,7 @@
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
 		828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D498C1C65F3FD0090313C /* CategoryCell.swift */; };
+		82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
 		82942B9B1C2A2B850084880C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
 		82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9C1C2A2EA00084880C /* EventOrganizer.swift */; };
 		82942B9F1C2A2EAE0084880C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
@@ -73,6 +72,9 @@
 		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
 		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
+		82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
+		82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
+		82E188901D7E7D5500608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
 		82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		82E9C4891C4F09B100ED2EBF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E9C4881C4F09B100ED2EBF /* MapViewController.swift */; };
@@ -145,7 +147,7 @@
 		82287A641C66C61D001A0F38 /* MHacksToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MHacksToday.entitlements; sourceTree = "<group>"; };
 		82287A651C66C633001A0F38 /* MHacks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MHacks.entitlements; sourceTree = "<group>"; };
 		82287A671C66D46F001A0F38 /* APIManagerExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManagerExtended.swift; sourceTree = "<group>"; };
-		82287A6C1C66D575001A0F38 /* SharedAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = SharedAPIManager.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+UIKit.swift"; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82287A701C66D81D001A0F38 /* MapExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MapExtended.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82287A7B1C66D995001A0F38 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		82287A831C66E5A5001A0F38 /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
@@ -160,7 +162,7 @@
 		82473FB11C1F7A170061FFFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82473FB31C1F7A170061FFFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = JSONCreateable.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		82473FBF1C1F80EA0061FFFB /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC21C1F83C80061FFFB /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC61C1F8B0F0061FFFB /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -172,6 +174,7 @@
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A0211C6074D100B6EFEE /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		828D498C1C65F3FD0090313C /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		82905E7E1D7CAB0E00744820 /* MHacksArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MHacksArray.swift; sourceTree = "<group>"; };
 		82942B9A1C2A2B850084880C /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82942B9C1C2A2EA00084880C /* EventOrganizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = EventOrganizer.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82942B9E1C2A2EAE0084880C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -405,19 +408,36 @@
 		82473FC11C1F80EF0061FFFB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				82473FBF1C1F80EA0061FFFB /* JSONCreateable.swift */,
 				82473FCC1C1F91D70061FFFB /* APIManager.swift */,
+				82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */,
+				82E38A1E1D8133FA007D36DF /* Model Internals */,
+				82E38A1F1D81343A007D36DF /* Public Models */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		82E38A1E1D8133FA007D36DF /* Model Internals */ = {
+			isa = PBXGroup;
+			children = (
+				82473FBF1C1F80EA0061FFFB /* Serializable.swift */,
+				82905E7E1D7CAB0E00744820 /* MHacksArray.swift */,
 				82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */,
-				82287A6C1C66D575001A0F38 /* SharedAPIManager.swift */,
+			);
+			name = "Model Internals";
+			sourceTree = "<group>";
+		};
+		82E38A1F1D81343A007D36DF /* Public Models */ = {
+			isa = PBXGroup;
+			children = (
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 				82942B9A1C2A2B850084880C /* Location.swift */,
-				82942B9E1C2A2EAE0084880C /* Event.swift */,
 				82942B9C1C2A2EA00084880C /* EventOrganizer.swift */,
+				82942B9E1C2A2EAE0084880C /* Event.swift */,
 				827F59AD1C6532DE00FF2D15 /* Map.swift */,
 				82287A701C66D81D001A0F38 /* MapExtended.swift */,
 			);
-			name = Model;
+			name = "Public Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -466,12 +486,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
 					82287A431C66C3D8001A0F38 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 478C74MJ7T;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -481,6 +502,7 @@
 					82473FA11C1F7A170061FFFB = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 478C74MJ7T;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -547,7 +569,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82287A5D1C66C570001A0F38 /* JSONCreateable.swift in Sources */,
+				82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */,
 				82287A741C66D8A4001A0F38 /* Map.swift in Sources */,
 				82287A811C66DDE7001A0F38 /* CalendarLayout.swift in Sources */,
 				82287A621C66C570001A0F38 /* EventOrganizer.swift in Sources */,
@@ -557,6 +579,7 @@
 				82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */,
 				82287A821C66DFF1001A0F38 /* Geometry.swift in Sources */,
 				82287A601C66C570001A0F38 /* Location.swift in Sources */,
+				82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */,
 				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				82287A611C66C570001A0F38 /* Event.swift in Sources */,
 				82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */,
@@ -590,7 +613,6 @@
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
-				82473FC01C1F80EA0061FFFB /* JSONCreateable.swift in Sources */,
 				82942BAD1C2A37670084880C /* Geometry.swift in Sources */,
 				82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */,
 				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
@@ -600,7 +622,7 @@
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */,
 				82287A711C66D81D001A0F38 /* MapExtended.swift in Sources */,
-				82287A751C66D8F7001A0F38 /* SharedAPIManager.swift in Sources */,
+				82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */,
 				820C5BF31C29325500CD9F09 /* SSKeychainQuery.m in Sources */,
 				82E9C4891C4F09B100ED2EBF /* MapViewController.swift in Sources */,
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
@@ -608,9 +630,11 @@
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
+				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
+				82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */,
 				46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -662,11 +686,13 @@
 				INFOPLIST_FILE = MHacksToday/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
 				PRODUCT_NAME = MHacks;
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = MHacksToday/BridgingHeader.h;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -679,11 +705,13 @@
 				INFOPLIST_FILE = MHacksToday/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
 				PRODUCT_NAME = MHacks;
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = MHacksToday/BridgingHeader.h;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -700,8 +728,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -723,9 +753,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -745,8 +776,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -762,9 +795,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DRELEASE";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -773,12 +808,13 @@
 		82473FB71C1F7A170061FFFB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -786,23 +822,26 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		82473FB81C1F7A170061FFFB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -810,10 +849,12 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MHacks/MHacks-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

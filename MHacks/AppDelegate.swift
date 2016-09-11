@@ -24,8 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	var announcementsNavigationController: UINavigationController!
 	
 	// MARK: Application life cycle
-	
-	func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
 		
 		tabBarController = window!.rootViewController as! UITabBarController
 		tabBarController.delegate = self
@@ -40,16 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		return true
 	}
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		
 		GMSServices.provideAPIKey("AIzaSyDZwjHS79q4iV2_ZWWYvcNDRYzhdYKGoFQ")
 		application.registerForRemoteNotifications()
-		let settings = UIUserNotificationSettings(forTypes: [.Sound, .Alert], categories: nil)
+		let settings = UIUserNotificationSettings(types: [.sound, .alert], categories: nil)
 		application.registerUserNotificationSettings(settings)
 		
-		NSNotificationCenter.defaultCenter().listenFor(.Failure, observer: self, selector: #selector(AppDelegate.error(_:)))
+		NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.error(_:)), name: APIManager.FailureNotification, object: nil)
 		
-		switch launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] {
+		switch launchOptions?[UIApplicationLaunchOptionsKey.localNotification] {
 			
 		case let notification as UILocalNotification:
 			if let eventID = notification.userInfo?["id"] as? String {
@@ -66,43 +65,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		return true
 	}
 	
-	func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-		
-		if let _ = defaults.objectForKey(remoteNotificationTokenKey) as? String
-		{
-			return
-		}
-		let deviceTokenString = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>")).stringByReplacingOccurrencesOfString(" ", withString: "")
-		APIManager.sharedManager.updateAPNSToken(deviceTokenString, completion: nil)
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		let deviceTokenString = deviceToken.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
+		defaults.set(deviceTokenString, forKey: remoteNotificationTokenKey)
 	}
 	
-	func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-		NSNotificationCenter.defaultCenter().post(.Failure, object: error.localizedDescription)
-	}
-	
-	func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-		APIManager.sharedManager.updateAnnouncements()
-		completionHandler(.NewData)
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		NotificationCenter.default.post(name: APIManager.FailureNotification, object: error.localizedDescription)
 	}
 
-	func applicationDidEnterBackground(application: UIApplication) {
+	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+		APIManager.shared.updateAnnouncements({ completed in
+			if completed {
+				completionHandler(.newData)
+			} else {
+				completionHandler(.failed)
+			}
+		})
+	}
+
+	func applicationDidEnterBackground(_ application: UIApplication) {
 		// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
 		// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-		APIManager.sharedManager.archive()
+		APIManager.shared.archive()
 	}
 
-	func applicationWillTerminate(application: UIApplication) {
+	func applicationWillTerminate(_ application: UIApplication) {
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-		APIManager.sharedManager.archive()
+		// FIXME: Do we really need to archive here again?
+		APIManager.shared.archive()
 	}
-
-	func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-		
+	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		guard url.absoluteString.hasPrefix("mhacks://") else {
 			return false
 		}
 		
-		let eventID = url.absoluteString.stringByReplacingOccurrencesOfString("mhacks://", withString: "")
+		let eventID = url.absoluteString.replacingOccurrences(of: "mhacks://", with: "")
 		
 		switch eventID {
 		case "announcements":
@@ -116,13 +114,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	// MARK: Show event
 	
-	func showEventWithID(eventID: String) {
+	func showEventWithID(_ eventID: String) {
 		
 		selectViewController(scheduleNavigationController)
 		
 		let displayEvent = { () -> Bool in
-			if let (day, index) = APIManager.sharedManager.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
-				self.scheduleViewController.showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(index, inDay: day))
+			if let (day, index) = APIManager.shared.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
+				self.scheduleViewController.showDetailsForEvent(APIManager.shared.eventsOrganizer.eventAtIndex(index, inDay: day))
 				return true
 			}
 			return false
@@ -132,9 +130,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 			return
 		}
 		
-		APIManager.sharedManager.updateEvents { succeeded in
+		APIManager.shared.updateEvents { succeeded in
 			guard displayEvent() else {
-				NSNotificationCenter.defaultCenter().post(.Failure, object: "Could not find the associated event")
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: "Could not find the associated event")
 				return
 			}
 		}
@@ -142,13 +140,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	// MARK: Tab bar controller delegate
 	
-	func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-		
+	func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
 		updateTabBarAppearance()
 	}
 	
-	func selectViewController(viewController: UIViewController) {
-		
+	func selectViewController(_ viewController: UIViewController) {
 		tabBarController.selectedViewController = viewController
 		updateTabBarAppearance()
 	}
@@ -166,16 +162,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	var statusWindow : UIWindow?
 	var label : UILabel?
 	
-	private func makeLabel(text: String?) {
-		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRectZero)
-		self.label?.textAlignment = .Center
-		self.label?.backgroundColor = UIColor.redColor()
-		self.label?.textColor = UIColor.whiteColor()
-		self.label?.font = UIFont.boldSystemFontOfSize(12)
+	fileprivate func makeLabel(_ text: String?) {
+		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRect.zero)
+		self.label?.textAlignment = .center
+		self.label?.backgroundColor = UIColor.red
+		self.label?.textColor = UIColor.white
+		self.label?.font = UIFont.boldSystemFont(ofSize: 12)
 		self.label?.text = text ?? "Unknown Error"
 	}
 	
-	func error(notification: NSNotification) {
+	func error(_ notification: Notification) {
 		guard statusWindow == nil && label == nil
 		else
 		{
@@ -185,8 +181,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 			// FIXME: Hack to prevent multiple errors from colliding with each other
 			return
 		}
-		dispatch_async(dispatch_get_main_queue(), {
-			self.statusWindow = UIWindow(frame: UIApplication.sharedApplication().statusBarFrame)
+		DispatchQueue.main.async(execute: {
+			self.statusWindow = UIWindow(frame: UIApplication.shared.statusBarFrame)
 			self.statusWindow?.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
 			
 			self.makeLabel(notification.object as? String)
@@ -195,13 +191,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 			self.statusWindow?.makeKeyAndVisible()
 			self.statusWindow?.frame.origin.y -= self.statusWindow?.frame.height ?? 0.0
 
-			UIView.animateWithDuration(0.5, animations: {
+			UIView.animate(withDuration: 0.5, animations: {
 				self.statusWindow?.frame.origin.y += self.statusWindow?.frame.height ?? 0.0
 				}, completion: { _ in
 					let delayInSeconds = 3.0 // Hide after time
-					let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-					dispatch_after(popTime, dispatch_get_main_queue(), {
-						UIView.animateWithDuration(0.5, animations: {
+					let popTime = DispatchTime.now() + Double(Int64(delayInSeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+					DispatchQueue.main.asyncAfter(deadline: popTime, execute: {
+						UIView.animate(withDuration: 0.5, animations: {
 							self.statusWindow?.frame.origin.y -= self.statusWindow?.frame.height ?? 0.0
 							}, completion: { _ in
 								self.statusWindow = nil

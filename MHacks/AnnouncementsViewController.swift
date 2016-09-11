@@ -12,10 +12,10 @@ class AnnouncementsViewController: UITableViewController {
 	
     // MARK: Model
 	
-	private func fetch() {
+	fileprivate func fetch() {
 		refreshControl?.beginRefreshing()
-		APIManager.sharedManager.updateAnnouncements { _ in
-			dispatch_async(dispatch_get_main_queue(), {
+		APIManager.shared.updateAnnouncements { _ in
+			DispatchQueue.main.async(execute: {
 				self.refreshControl?.endRefreshing()
 			})
 		}
@@ -26,22 +26,23 @@ class AnnouncementsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), for: UIControlEvents.valueChanged)
         tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 100.0
 		
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if APIManager.sharedManager.canPostAnnouncements() {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
+        if APIManager.shared.canPostAnnouncements() {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
         }
         else {
             navigationItem.rightBarButtonItem = nil
         }
-		NSNotificationCenter.defaultCenter().listenFor(.AnnouncementsUpdated, observer: self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)))
-		if APIManager.sharedManager.canEditAnnouncements() {
+		NotificationCenter.default.addObserver(self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)), name: APIManager.AnnouncementsUpdatedNotification, object: nil)
+		
+		if APIManager.shared.canEditAnnouncements() {
 			tableView.allowsSelection = true
 			tableView.allowsMultipleSelection = false
 		}
@@ -51,11 +52,11 @@ class AnnouncementsViewController: UITableViewController {
 		}
 		if let indexPath = tableView.indexPathForSelectedRow
 		{
-			transitionCoordinator()?.animateAlongsideTransition({ context in
-				self.tableView.deselectRowAtIndexPath(indexPath, animated: animated)
+			transitionCoordinator?.animate(alongsideTransition: { context in
+				self.tableView.deselectRow(at: indexPath, animated: animated)
 				}, completion: { context in
-					if context.isCancelled() {
-						self.tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+					if context.isCancelled {
+						self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
 					}
 			})
 		}
@@ -63,81 +64,81 @@ class AnnouncementsViewController: UITableViewController {
 		fetch()
     }
 	
-	override func viewDidDisappear(animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 	
 	// MARK: - Actions/Notifications
-	func refresh(sender: UIRefreshControl) {
+	func refresh(_ sender: UIRefreshControl) {
 		fetch()
 	}
-	func announcementsUpdated(notification: NSNotification? = nil) {
-		dispatch_async(dispatch_get_main_queue(), {
+	func announcementsUpdated(_ notification: Notification? = nil) {
+		DispatchQueue.main.async(execute: {
 			CATransaction.begin()
-			self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+			self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
 			CATransaction.commit()
 		})
 	}
 	
-	func compose(sender: UIBarButtonItem) {
-		guard APIManager.sharedManager.canPostAnnouncements()
+	func compose(_ sender: UIBarButtonItem) {
+		guard APIManager.shared.canPostAnnouncements()
 		else {
 			navigationItem.rightBarButtonItem = nil
 			return
 		}
-		let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
-		presentViewController(compose, animated: true, completion: nil)
+		let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
+		present(compose, animated: true, completion: nil)
 	}
 	
     // MARK: Table View Data
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return APIManager.sharedManager.announcements.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return APIManager.shared.announcements.count
     }
 	
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("item", forIndexPath: indexPath) as! AnnouncementCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath) as! AnnouncementCell
         
-        let announcement = APIManager.sharedManager.announcements[indexPath.row]
+        let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
         
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
         cell.messageLabel.text = announcement.message
-		cell.colorView.layer.borderColor = announcement.category.color.CGColor
+		cell.colorView.layer.borderColor = announcement.category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
         return cell
     }
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if APIManager.sharedManager.canEditAnnouncements() {
-			let compose = storyboard!.instantiateViewControllerWithIdentifier("ComposeAnnouncementViewController") as! UINavigationController
-			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.sharedManager.announcements[indexPath.row]
-			presentViewController(compose, animated: true, completion: nil)
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if APIManager.shared.canEditAnnouncements() {
+			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
+			present(compose, animated: true, completion: nil)
 		}
 		else {
-			tableView.deselectRowAtIndexPath(indexPath, animated: true)
+			tableView.deselectRow(at: indexPath, animated: true)
 		}
 	}
     
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return APIManager.sharedManager.canEditAnnouncements()
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return APIManager.shared.canEditAnnouncements()
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .Normal, title: "✕") { action, index in
-            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .Alert)
-            confirm.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
-            confirm.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: {(action: UIAlertAction!) in
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .normal, title: "✕") { action, index in
+            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .alert)
+            confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
                 
-                APIManager.sharedManager.deleteAnnouncement(indexPath.row, completion: {deleted in
-                    if deleted {
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                    }
-                })
+//                APIManager.shared.deleteAnnouncement((indexPath as NSIndexPath).row, completion: {deleted in
+//                    if deleted {
+//                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+//                    }
+//                })
             }))
-            self.presentViewController(confirm, animated: true, completion: nil)
+            self.present(confirm, animated: true, completion: nil)
         }
-        delete.backgroundColor = UIColor.redColor()
+        delete.backgroundColor = UIColor.red
         
         return [delete]
     }

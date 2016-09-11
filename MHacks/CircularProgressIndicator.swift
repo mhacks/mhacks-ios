@@ -25,7 +25,7 @@ class CircularProgressIndicator: UIView {
         commonInit()
     }
     
-    private func commonInit() {
+    fileprivate func commonInit() {
         
         trackLayer.fillColor = nil
         
@@ -41,18 +41,18 @@ class CircularProgressIndicator: UIView {
     
     // MARK: Layers
     
-    private let trackLayer = CAShapeLayer()
-    private let progressLayer = CAShapeLayer()
+    fileprivate let trackLayer = CAShapeLayer()
+    fileprivate let progressLayer = CAShapeLayer()
     
-    private func updateTrackLayerColor() {
-        trackLayer.strokeColor = (trackColor ?? tintColor.colorWithAlphaComponent(0.1)).CGColor
+    fileprivate func updateTrackLayerColor() {
+        trackLayer.strokeColor = (trackColor ?? tintColor.withAlphaComponent(0.1)).cgColor
     }
     
-    private func updateProgressLayerColor() {
-        progressLayer.strokeColor = (progressColor ?? tintColor).CGColor
+    fileprivate func updateProgressLayerColor() {
+        progressLayer.strokeColor = (progressColor ?? tintColor).cgColor
     }
     
-    private func updateLayerLineWidths() {
+    fileprivate func updateLayerLineWidths() {
         
         trackLayer.lineWidth = lineWidth
         progressLayer.lineWidth = lineWidth
@@ -69,7 +69,7 @@ class CircularProgressIndicator: UIView {
 		}
     }
 	
-	func setProgress(progress: Double, animated: Bool) {
+	func setProgress(_ progress: Double, animated: Bool) {
 		
 		let oldProgress = self.progress
 		
@@ -83,7 +83,7 @@ class CircularProgressIndicator: UIView {
 			animation.duration = 1.0
 			animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
 			
-			progressLayer.addAnimation(animation, forKey: "strokeEnd")
+			progressLayer.add(animation, forKey: "strokeEnd")
 		}
 	}
     
@@ -116,15 +116,15 @@ class CircularProgressIndicator: UIView {
     
     // MARK: Layout
     
-    override func layoutSublayersOfLayer(layer: CALayer) {
-        super.layoutSublayersOfLayer(layer)
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
         
         trackLayer.frame = bounds
         progressLayer.frame = bounds
         
         let circleRect = bounds.insetBy(dx: lineWidth / 2.0, dy: lineWidth / 2.0)
         
-        trackLayer.path = UIBezierPath(ovalInRect: circleRect).CGPath
+        trackLayer.path = UIBezierPath(ovalIn: circleRect).cgPath
         
         let circleCenter = CGPoint(x: bounds.midX, y: bounds.midY)
         
@@ -133,6 +133,6 @@ class CircularProgressIndicator: UIView {
         
         let progressPath = UIBezierPath(arcCenter: circleCenter, radius: (bounds.width - lineWidth) / 2.0, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
-        progressLayer.path = progressPath.CGPath
+        progressLayer.path = progressPath.cgPath
 	}
 }
