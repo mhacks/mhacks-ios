@@ -278,7 +278,7 @@
             <objects>
                 <navigationController id="xMe-Zs-ypm" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="5vX-ic-ju4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AFJ-aU-FCN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AFJ-aU-FCN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -293,7 +293,7 @@
         <!--My Ticket-->
         <scene sceneID="xWe-hg-BwP">
             <objects>
-                <viewController id="LsR-da-vAa" sceneMemberID="viewController">
+                <viewController id="LsR-da-vAa" customClass="UserViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hNM-Su-eej"/>
                         <viewControllerLayoutGuide type="bottom" id="eAE-Y3-g2d"/>
@@ -314,7 +314,7 @@
             <objects>
                 <navigationController id="6X2-Rl-zZC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="Settings" selectedImage="Settings Selected" id="pAB-hQ-aV2"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ojF-sI-WQf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ojF-sI-WQf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -593,7 +593,7 @@
             <objects>
                 <navigationController id="ODI-Mf-0FL" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Announcements" image="News" selectedImage="News Selected" id="rZV-ev-d7s"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ZJR-ji-OoQ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZJR-ji-OoQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -718,7 +718,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mKN-3u-sIs" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Schedule" image="Schedule" selectedImage="Schedule Selected" id="acW-dT-cKf"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="q5f-QQ-SOo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="q5f-QQ-SOo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -867,7 +867,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ComposeAnnouncementViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="p3x-81-qD1" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="hvF-87-mgB">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hvF-87-mgB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
