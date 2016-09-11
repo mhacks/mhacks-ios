@@ -26,9 +26,9 @@ private let archiveLocation = container.appendingPathComponent("manager.plist")
 final class APIManager
 {
 	#if DEBUG
-		private static let baseURL = URL(string: "https://staging.mhacks.com")!
+		private static let baseURL = URL(string: "https://staging.mhacks.org")!
 	#else
-		private static let baseURL = URL(string: "https://mhacks.com")!
+		private static let baseURL = URL(string: "https://mhacks.org")!
 	#endif
 	
 	// MARK: - Initializers
