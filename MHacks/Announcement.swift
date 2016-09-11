@@ -8,9 +8,9 @@
 
 import UIKit
 
-@objc final class Announcement: NSObject {
+struct Announcement: SerializableElementWithIdentifier {
 	
-	struct Category : OptionSetType, CustomStringConvertible {
+	struct Category : OptionSet, CustomStringConvertible {
 		let rawValue : Int
 		static let None = Category(rawValue: 0 << 0)
 		static let Emergency = Category(rawValue: 1 << 0)
@@ -53,7 +53,7 @@ import UIKit
 			else {
 				return "None"
 			}
-			return categories.joinWithSeparator(", ")
+			return categories.joined(separator: ", ")
 		}
 		var color: UIColor {
 			for i in 0...Category.maxBit
@@ -80,91 +80,63 @@ import UIKit
 					fatalError("Unrecognized category \(i)")
 				}
 			}
-			return UIColor.blueColor()
+			return UIColor.blue
 		}
 	}
 	
-	let ID: String
-	let title: String
-	let message: String
-	let date: NSDate
-	let category: Category
-	let owner: String
-	let approved: Bool
-	
-	init(ID: String, title: String, message: String, date: NSDate, category: Category, owner: String, approved: Bool) {
-		self.ID = ID
-		self.title = title
-		self.message = message
-		self.date = date
-		self.category = category
-		self.owner = owner
-		self.approved = approved
-	}
-	
-	static private let todayDateFormatter: NSDateFormatter = {
-		let formatter = NSDateFormatter()
-		formatter.timeStyle = .ShortStyle
+	var ID: String
+	var title: String
+	var message: String
+	var date: Date
+	var category: Category
+	var approved: Bool
+		
+	static private let todayDateFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.timeStyle = .short
 		return formatter;
 	}()
 	
-	static private let otherDayDateFormatter: NSDateFormatter = {
-		let formatter = NSDateFormatter()
-		formatter.dateStyle = .ShortStyle
+	static private let otherDayDateFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .short
 		formatter.doesRelativeDateFormatting = true;
 		return formatter;
 	}()
 	
 	var localizedDate: String {
-		let formatter = NSCalendar.sharedCalendar.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
-		return formatter.stringFromDate(date)
+		let formatter = Calendar.shared.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
+		return formatter.string(from: date)
 	}
+	
+	
+	static let dateFont: UIFont = {
+		return UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
+	}()
+}
+extension Announcement
+{
 	private static let idKey = "id"
 	private static let infoKey = "info"
 	private static let titleKey = "name"
 	private static let dateKey = "broadcast_time"
 	private static let categoryKey = "category"
-	private static let ownerKey = "user_id"
 	private static let approvedKey = "is_approved"
-	
-	static let dateFont: UIFont = {
-		// Use SF font with monospaced digit for iOS 9+
-		return UIFont.systemFontOfSize(14.0, weight: UIFontWeightThin)
-	}()
 
-	@objc convenience init?(serialized: Serialized) {
-		guard let id = serialized[Announcement.idKey] as? String, let title = serialized[Announcement.titleKey] as? String, let message = serialized[Announcement.infoKey] as? String, let date = NSDate(JSONValue: serialized[Announcement.dateKey]), let categoryRaw = serialized.intValueForKey(Announcement.categoryKey), let owner = serialized[Announcement.ownerKey] as? String, let approved = serialized.boolValueForKey(Announcement.approvedKey)
-		else
-		{
-			return nil
+	init?(_ serializedRepresentation: SerializedRepresentation) {
+		guard let id = serializedRepresentation[Announcement.idKey] as? String, let title = serializedRepresentation[Announcement.titleKey] as? String, let message = serializedRepresentation[Announcement.infoKey] as? String, let date = serializedRepresentation[Announcement.dateKey] as? Double, let categoryRaw = serializedRepresentation[Announcement.categoryKey] as? Int, let approved = serializedRepresentation[Announcement.approvedKey] as? Bool
+			else {
+				return nil
 		}
-		self.init(ID: id, title: title, message: message, date: date, category: Category(rawValue: categoryRaw), owner: owner, approved: approved)
+		self.init(ID: id, title: title, message: message, date: Date(timeIntervalSince1970: date), category: Category(rawValue: categoryRaw), approved: approved)
 	}
-	func encodeForCreation() -> [String: AnyObject]
-	{
-		return [Announcement.titleKey: title, Announcement.dateKey: JSONDateFormatter.stringFromDate(date), Announcement.infoKey: message, Announcement.categoryKey: category.rawValue]
-	}
-} 
-
-extension Announcement: JSONCreateable, NSCoding {
-		
-	@objc func encodeWithCoder(aCoder: NSCoder) {
-		aCoder.encode(ID, forKey: Announcement.idKey)
-		aCoder.encode(title, forKey: Announcement.titleKey)
-		aCoder.encode(message, forKey: Announcement.infoKey)
-		aCoder.encode(JSONDateFormatter.stringFromDate(date), forKey: Announcement.dateKey)
-		aCoder.encode(approved, forKey: Announcement.approvedKey)
-		aCoder.encode(owner, forKey: Announcement.ownerKey)
-		aCoder.encode(category.rawValue, forKey: Announcement.categoryKey)
-	}
-	@objc convenience init?(coder aDecoder: NSCoder) {
-		self.init(serialized: Serialized(coder: aDecoder))
+	func toSerializedRepresentation() -> NSDictionary {
+		return [Announcement.titleKey: title, Announcement.dateKey: date.timeIntervalSince1970, Announcement.infoKey: message, Announcement.categoryKey: category.rawValue]
 	}
 }
 
-func ==(lhs: Announcement, rhs: Announcement) -> Bool {
-	return (lhs.ID == rhs.ID &&
-		lhs.title == rhs.title &&
-		lhs.date == rhs.date &&
-		lhs.message == rhs.message)
+
+func <(lhs: Announcement, rhs: Announcement) -> Bool {
+	return lhs.date < rhs.date
 }
+

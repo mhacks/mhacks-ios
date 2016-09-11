@@ -8,6 +8,17 @@
 
 import UIKit
 import GoogleMaps
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class EventViewController: UIViewController {
     
@@ -21,9 +32,9 @@ class EventViewController: UIViewController {
     
     // MARK: Date interval formatter
     
-    let dateIntervalFormatter: NSDateIntervalFormatter = {
+    let dateIntervalFormatter: DateIntervalFormatter = {
         
-        let formatter = NSDateIntervalFormatter()
+        let formatter = DateIntervalFormatter()
         
         formatter.dateTemplate = "EEEEdMMMM h:mm a"
         
@@ -44,39 +55,39 @@ class EventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        notifButton.layer.borderColor = UIColor.grayColor().colorWithAlphaComponent(0.5).CGColor
+        notifButton.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
 		updateNotifyButton(event?.notification != nil)
     }
 	
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		if event?.endDate < NSDate(timeIntervalSinceNow: 0)
+		if event?.endDate < Date(timeIntervalSinceNow: 0)
 		{
-			notifButton.enabled = false
+			notifButton.isEnabled = false
 		}
 		else
 		{
-			notifButton.enabled = true
+			notifButton.isEnabled = true
 		}
 		colorView.layer.cornerRadius = colorView.frame.width / 2
-		NSNotificationCenter.defaultCenter().listenFor(.MapUpdated, observer: self, selector: #selector(EventViewController.mapModelDidUpdate(_:)))
-		APIManager.sharedManager.updateMap()
+		NotificationCenter.default.addObserver(self, selector: #selector(EventViewController.mapModelDidUpdate(_:)), name: APIManager.MapUpdatedNotification, object: nil)
+		APIManager.shared.updateMap()
 		var frame = contentView.frame.size
 		frame.height += Geometry.Insets.bottom
 		(contentView.superview as! UIScrollView).contentSize = frame
 		mapModelDidUpdate()
     }
 	
-	override func viewDidDisappear(animated: Bool) {
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+	override func viewDidDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self)
 	}
 	
-	@IBAction func mapWasTapped(sender: UITapGestureRecognizer)
+	@IBAction func mapWasTapped(_ sender: UITapGestureRecognizer)
 	{
 		defer { tabBarController?.selectedIndex = 1 }
-		guard let viewControllers = tabBarController?.viewControllers where viewControllers.count > 2
+		guard let viewControllers = tabBarController?.viewControllers , viewControllers.count > 2
 		else
 		{
 			return
@@ -90,24 +101,19 @@ class EventViewController: UIViewController {
 	}
 	
 	
-	func mapModelDidUpdate(_: NSNotification? = nil)
-	{
-		dispatch_async(dispatch_get_main_queue(), {
-			guard let overlay = APIManager.sharedManager.map?.overlay
-			else
-			{
-				return
-			}
+	func mapModelDidUpdate(_: Notification? = nil) {
+		DispatchQueue.main.async {
+			let overlay = APIManager.shared.map.overlay
 			self.mapView.clear()
 			overlay.bearing = 0
 			overlay.map = self.mapView
 			self.setMarkersAndCamera(self.event?.locations ?? [])
-		})
+		}
 	}
 	
     func updateViews() {
         
-        if !isViewLoaded() {
+        if !isViewLoaded {
             return
         }
         guard let event = event
@@ -119,20 +125,20 @@ class EventViewController: UIViewController {
 		colorView.backgroundColor = event.category.color
 		colorView.layer.cornerRadius = colorView.frame.width / 2
 		descriptionLabel.text = event.information
-		dateLabel.text = dateIntervalFormatter.stringFromDate(event.startDate, toDate: event.endDate)
+		dateLabel.text = dateIntervalFormatter.string(from: event.startDate as Date, to: event.endDate as Date)
 		updateMap()
     }
 	
     func updateMap ()
 	{
-        let camera = GMSCameraPosition.cameraWithLatitude(42.291921, longitude: -83.7158580, zoom: 16)
+        let camera = GMSCameraPosition.camera(withLatitude: 42.291921, longitude: -83.7158580, zoom: 16)
         mapView.camera = camera
-        mapView.myLocationEnabled = true
+        mapView.isMyLocationEnabled = true
         mapView.settings.setAllGesturesEnabled(false)
         mapView.setMinZoom(10.0, maxZoom: 18.0)
     }
     
-    func setMarkersAndCamera(locations: [Location])
+    func setMarkersAndCamera(_ locations: [Location])
 	{
 		guard locations.count > 0
 		else
@@ -144,34 +150,34 @@ class EventViewController: UIViewController {
 		for location in locations
 		{
 			let marker = GMSMarker(position: location.coreLocation.coordinate)
-			marker.tappable = false
-			marker.map = mapView
-			boundBuilder = boundBuilder.includingCoordinate(location.coreLocation.coordinate)
+			marker?.isTappable = false
+			marker?.map = mapView
+			boundBuilder = boundBuilder?.includingCoordinate(location.coreLocation.coordinate)
 		}
 		
         CATransaction.begin()
         CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
-        mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder, withPadding: 20))
+        mapView.animate(with: GMSCameraUpdate.fit(boundBuilder, withPadding: 20))
         CATransaction.commit()
     }
 	
-    func updateNotifyButton(hasNotification: Bool)
+    func updateNotifyButton(_ hasNotification: Bool)
     {   
         if hasNotification
         {
-            notifButton.setTitle("Cancel Reminder", forState: UIControlState.Normal)
-            notifButton.tintColor = UIColor.redColor()
+            notifButton.setTitle("Cancel Reminder", for: UIControlState())
+            notifButton.tintColor = UIColor.red
 
         }
         else
         {
-            notifButton.setTitle("Add Reminder", forState: .Normal)
+            notifButton.setTitle("Add Reminder", for: UIControlState())
             notifButton.tintColor = self.view.tintColor
         }
     }
     
     
-    @IBAction func notifyMe (sender: UIButton)
+    @IBAction func notifyMe (_ sender: UIButton)
 	{
 		guard let event = event
 		else
@@ -181,7 +187,7 @@ class EventViewController: UIViewController {
         if let notif = event.notification
         {
             updateNotifyButton(false)
-            UIApplication.sharedApplication().cancelLocalNotification(notif)
+            UIApplication.shared.cancelLocalNotification(notif)
         }
         else
         {
@@ -189,13 +195,13 @@ class EventViewController: UIViewController {
             let notification = UILocalNotification()
             notification.userInfo = ["id": event.ID]
             notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
-            notification.fireDate = event.startDate.dateByAddingTimeInterval(-600)
+            notification.fireDate = event.startDate.addingTimeInterval(-600) as Date
             notification.soundName = UILocalNotificationDefaultSoundName
 			
 			notification.alertTitle = "\(event.name)"
-			notification.repeatInterval = NSCalendarUnit(rawValue: 0)
+			notification.repeatInterval = NSCalendar.Unit.init(rawValue: 0)
 			notification.category = ""
-            UIApplication.sharedApplication().scheduleLocalNotification(notification)
+            UIApplication.shared.scheduleLocalNotification(notification)
         }
 	}
 }

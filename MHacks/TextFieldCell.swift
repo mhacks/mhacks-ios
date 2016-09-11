@@ -12,7 +12,7 @@ class TextFieldCell: UITableViewCell {
 
 	@IBOutlet var textField: UITextField!
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(false, animated: animated)
     }
 }

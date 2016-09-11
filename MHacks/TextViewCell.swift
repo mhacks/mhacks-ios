@@ -10,7 +10,7 @@ import UIKit
 
 protocol ChangingHeightCellDelegate : class
 {
-	func cell(cell: UITableViewCell, didChangeSize: CGSize)
+	func cell(_ cell: UITableViewCell, didChangeSize: CGSize)
 }
 
 class TextViewCell: UITableViewCell, UITextViewDelegate

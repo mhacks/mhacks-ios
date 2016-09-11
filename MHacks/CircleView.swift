@@ -17,8 +17,8 @@ class CircleView: UIView {
         
         commonInit()
         
-        NSLayoutConstraint.activateConstraints([
-            widthAnchor.constraintEqualToAnchor(heightAnchor)
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalTo: heightAnchor)
         ])
     }
     
@@ -28,7 +28,7 @@ class CircleView: UIView {
         commonInit()
     }
     
-    private func commonInit() {
+    fileprivate func commonInit() {
         
         layer.addSublayer(shapeLayer)
         
@@ -50,7 +50,7 @@ class CircleView: UIView {
         }
     }
     
-    var fillColor: UIColor? = UIColor.blackColor() {
+    var fillColor: UIColor? = UIColor.black {
         didSet {
             updateFillColor()
         }
@@ -70,19 +70,19 @@ class CircleView: UIView {
     
     // MARK: Shape layer
     
-    private func updatePath() {
-        shapeLayer.path = UIBezierPath(ovalInRect: bounds).CGPath
+    fileprivate func updatePath() {
+        shapeLayer.path = UIBezierPath(ovalIn: bounds).cgPath
     }
     
-    private func updateFillColor() {
-        shapeLayer.fillColor = fillColor?.CGColor
+    fileprivate func updateFillColor() {
+        shapeLayer.fillColor = fillColor?.cgColor
     }
     
-    private func updateStrokeColor() {
-        shapeLayer.strokeColor = strokeColor?.CGColor
+    fileprivate func updateStrokeColor() {
+        shapeLayer.strokeColor = strokeColor?.cgColor
     }
     
-    private func updateStrokeWidth() {
+    fileprivate func updateStrokeWidth() {
         shapeLayer.lineWidth = strokeWidth
     }
 }

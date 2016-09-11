@@ -11,9 +11,9 @@ import UIKit
 class ScheduleHourSeparator: UICollectionReusableView {
     
     @IBOutlet weak var label: UILabel!
-    @IBOutlet private weak var separatorHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var separatorHeightConstraint: NSLayoutConstraint!
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
         separatorHeightConstraint.constant = Geometry.hairlineWidthInTraitCollection(traitCollection)

@@ -12,9 +12,9 @@ class ScheduleEventCell: UICollectionViewCell {
     
     // MARK: Outlets
     
-    @IBOutlet private weak var bodyView: UIView!
-    @IBOutlet private weak var leaderBar: UIView!
-    @IBOutlet private weak var bodyViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var bodyView: UIView!
+    @IBOutlet fileprivate weak var leaderBar: UIView!
+    @IBOutlet fileprivate weak var bodyViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var detailTextLabel: UILabel!
     
@@ -28,7 +28,7 @@ class ScheduleEventCell: UICollectionViewCell {
     
     // MARK: Properties
     
-    var color: UIColor = UIColor.clearColor() {
+    var color: UIColor = UIColor.clear {
         didSet {
             updateBodyViewBackgroundColor()
             leaderBar.backgroundColor = bodyColorForColor(color, desaturated: false)
@@ -40,7 +40,7 @@ class ScheduleEventCell: UICollectionViewCell {
         }
     }
         
-    func textColorForColor(color: UIColor) -> UIColor {
+    func textColorForColor(_ color: UIColor) -> UIColor {
         
         var hue: CGFloat = 0.0
         var saturation: CGFloat = 0.0
@@ -54,20 +54,20 @@ class ScheduleEventCell: UICollectionViewCell {
     
     func updateBodyViewBackgroundColor() {
         
-        let bodyViewHighlighted = highlighted || selected
+        let bodyViewHighlighted = isHighlighted || isSelected
         
         bodyView.backgroundColor = bodyColorForColor(color, desaturated: !bodyViewHighlighted)
     }
     
     // MARK: Highlight
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
             updateBodyViewBackgroundColor()
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             updateBodyViewBackgroundColor()
         }
@@ -75,7 +75,7 @@ class ScheduleEventCell: UICollectionViewCell {
     
     // MARK: Dynamic layout
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
         bodyViewTopConstraint.constant = Geometry.hairlineWidthInTraitCollection(traitCollection)
@@ -87,10 +87,10 @@ class ScheduleEventCell: UICollectionViewCell {
 // A more elegant solution would be desirable
 class DisappearingLabel: UILabel {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        if abs(bounds.height - intrinsicContentSize().height) <= 0.000001 {
-            super.drawRect(rect)
+        if abs(bounds.height - intrinsicContentSize.height) <= 0.000001 {
+            super.draw(rect)
         }
     }
 }

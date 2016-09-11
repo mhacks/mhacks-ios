@@ -18,19 +18,19 @@ class ScheduleNowLabel: UICollectionReusableView {
         
         circleView.translatesAutoresizingMaskIntoConstraints = false
         
-        circleView.fillColor = UIColor.redColor()
-        circleView.strokeColor = UIColor.whiteColor()
+        circleView.fillColor = UIColor.red
+        circleView.strokeColor = UIColor.white
         
         addSubview(circleView)
         
-        NSLayoutConstraint.activateConstraints([
-            circleView.heightAnchor.constraintEqualToConstant(8.0),
-            circleView.centerXAnchor.constraintEqualToAnchor(label.trailingAnchor, constant: 8.0),
-            circleView.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
+        NSLayoutConstraint.activate([
+            circleView.heightAnchor.constraint(equalToConstant: 8.0),
+            circleView.centerXAnchor.constraint(equalTo: label.trailingAnchor, constant: 8.0),
+            circleView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
-    override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
         circleView.strokeWidth = Geometry.hairlineWidthInTraitCollection(traitCollection)

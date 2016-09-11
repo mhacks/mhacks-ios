@@ -20,7 +20,7 @@ class MapViewController: UIViewController
 	var locations = [Location]()
 	{
 		didSet {
-			buttonView?.hidden = locations.count == 0
+			buttonView?.isHidden = locations.count == 0
 		}
 	}
 	
@@ -31,51 +31,51 @@ class MapViewController: UIViewController
 		{
 			locations = []
 		}
-		let camera = GMSCameraPosition.cameraWithLatitude(42.291991,
+		let camera = GMSCameraPosition.camera(withLatitude: 42.291991,
             longitude: -83.7158780, zoom: 17.0)
 		mapView.camera = camera
         mapView.setMinZoom(16.0, maxZoom: 20.0)
-		blurView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-		blurView.frame = UIApplication.sharedApplication().statusBarFrame
+		blurView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+		blurView.frame = UIApplication.shared.statusBarFrame
 		self.view.addSubview(blurView)
 	}
 
-	override func viewDidAppear(animated: Bool)
+	override func viewDidAppear(_ animated: Bool)
 	{
 		super.viewDidAppear(animated)
-		if CLLocationManager.authorizationStatus() == .NotDetermined
+		if CLLocationManager.authorizationStatus() == .notDetermined
 		{
 			manager.requestWhenInUseAuthorization()
 		}
-		blurView.frame = UIApplication.sharedApplication().statusBarFrame
-		NSNotificationCenter.defaultCenter().listenFor(.MapUpdated, observer: self, selector: #selector(MapViewController.mapUpdated(_:)))
-		APIManager.sharedManager.updateMap()
+		blurView.frame = UIApplication.shared.statusBarFrame
+		NotificationCenter.default.addObserver(self, selector: #selector(MapViewController.mapUpdated(_:)), name: APIManager.MapUpdatedNotification, object: nil)
+		APIManager.shared.updateMap()
 		mapUpdated()
 	}
 	
-	override func viewDidDisappear(animated: Bool)
+	override func viewDidDisappear(_ animated: Bool)
 	{
 		super.viewDidDisappear(animated)
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 	}
 	
-	@IBAction func clearPins(sender: UIButton)
+	@IBAction func clearPins(_ sender: UIButton)
 	{
 		locations = []
 		mapUpdated()
 	}
 	
-	func mapUpdated(_: NSNotification? = nil)
+	func mapUpdated(_: Notification? = nil)
 	{
-		dispatch_async(dispatch_get_main_queue(), {
+		DispatchQueue.main.async(execute: {
 			defer {
-				if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse || CLLocationManager.authorizationStatus() == .AuthorizedAlways
+				if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways
 				{
-					self.mapView.myLocationEnabled = true
+					self.mapView.isMyLocationEnabled = true
 				}
 				else
 				{
-					self.mapView.myLocationEnabled = false
+					self.mapView.isMyLocationEnabled = false
 				}
 			}
 			defer
@@ -87,15 +87,15 @@ class MapViewController: UIViewController
 					for location in self.locations
 					{
 						let marker = GMSMarker(position: location.coreLocation.coordinate)
-						marker.tappable = false
-						marker.map = self.mapView
-						boundBuilder = boundBuilder.includingCoordinate(location.coreLocation.coordinate)
+						marker?.isTappable = false
+						marker?.map = self.mapView
+						boundBuilder = boundBuilder?.includingCoordinate(location.coreLocation.coordinate)
 					}
                     
                     var camera: GMSCameraPosition?
                     if self.locations.count == 1 {
                         let coor = self.locations.first!.coreLocation.coordinate
-                        camera = GMSCameraPosition.cameraWithLatitude(coor.latitude,
+                        camera = GMSCameraPosition.camera(withLatitude: coor.latitude,
                             longitude: coor.longitude, zoom: 18.0)
                     }
                     
@@ -103,20 +103,16 @@ class MapViewController: UIViewController
                     CATransaction.setValue(0.85, forKeyPath: kCATransactionAnimationDuration)
                     
                     if self.locations.count == 1 {
-                        self.mapView.animateToCameraPosition(camera)
+                        self.mapView.animate(to: camera)
                     } else {
-                        self.mapView.animateWithCameraUpdate(GMSCameraUpdate.fitBounds(boundBuilder,
+                        self.mapView.animate(with: GMSCameraUpdate.fit(boundBuilder,
                             withPadding: 100.0))
                     }
                     CATransaction.commit()
 				}
 			}
 			self.mapView.clear()
-			guard let overlay = APIManager.sharedManager.map?.overlay
-			else
-			{
-				return
-			}
+			let overlay = APIManager.shared.map.overlay
 			overlay.map = self.mapView
 		})
 	}

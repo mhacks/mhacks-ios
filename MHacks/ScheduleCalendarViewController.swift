@@ -12,36 +12,36 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
     // MARK: View
     
-    @IBOutlet private var collectionView: UICollectionView!
-	@IBOutlet private var calendarLayout: CalendarLayout!
+    @IBOutlet fileprivate var collectionView: UICollectionView!
+	@IBOutlet fileprivate var calendarLayout: CalendarLayout!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.registerNib(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
-        collectionView.registerNib(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
-		collectionView.registerNib(UINib(nibName: "ScheduleNowIndicator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, withReuseIdentifier: "NowIndicator")
-		collectionView.registerNib(UINib(nibName: "ScheduleNowLabel", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, withReuseIdentifier: "NowLabel")
+        collectionView.register(UINib(nibName: "ScheduleDayHeader", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Header.rawValue, withReuseIdentifier: "DayHeader")
+        collectionView.register(UINib(nibName: "ScheduleHourSeparator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.Separator.rawValue, withReuseIdentifier: "HourSeparator")
+		collectionView.register(UINib(nibName: "ScheduleNowIndicator", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, withReuseIdentifier: "NowIndicator")
+		collectionView.register(UINib(nibName: "ScheduleNowLabel", bundle: nil), forSupplementaryViewOfKind: CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, withReuseIdentifier: "NowLabel")
 		
         let layout = collectionView.collectionViewLayout as! CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 62.0, bottom: 0.0, right: 0.0)
 		
-		APIManager.sharedManager.updateEvents()
+		APIManager.shared.updateEvents()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 		
-		APIManager.sharedManager.updateEvents()
-		NSNotificationCenter.defaultCenter().listenFor(.EventsUpdated, observer: self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)))
+		NotificationCenter.default.addObserver(self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)), name: APIManager.EventsUpdatedNotification, object: nil)
+		APIManager.shared.updateEvents()
 		
-		if let indexPath = collectionView.indexPathsForSelectedItems()?.first {
+		if let indexPath = collectionView.indexPathsForSelectedItems?.first {
 			
-			transitionCoordinator()?.animateAlongsideTransition({ context in
-				self.collectionView.deselectItemAtIndexPath(indexPath, animated: animated)
+			transitionCoordinator?.animate(alongsideTransition: { context in
+				self.collectionView.deselectItem(at: indexPath, animated: animated)
 			}, completion: { context in
-				if context.isCancelled() {
-					self.collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+				if context.isCancelled {
+					self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
 				}
 			})
 		}
@@ -49,10 +49,10 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		beginUpdatingNowIndicatorPosition()
     }
 	
-	override func viewDidDisappear(animated: Bool) {
+	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 		
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 		
 		stopUpdatingNowIndicatorPosition()
 	}
@@ -71,11 +71,11 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	// MARK: Model
 	
-	func eventsUpdated(notification: NSNotification) {
+	func eventsUpdated(_ notification: Notification) {
 		
-		dispatch_async(dispatch_get_main_queue()) {
+		DispatchQueue.main.async {
 			
-			if self.isViewLoaded() {
+			if self.isViewLoaded {
 				self.collectionView.reloadData()
 				self.updateNowIndicator()
 				self.scrollToNowIfNeeded()
@@ -85,20 +85,20 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	// MARK: Now indicator
 	
-	var timer: NSTimer?
+	var timer: Timer?
 	
 	func beginUpdatingNowIndicatorPosition() {
 		
-		let nextSecond = NSCalendar.sharedCalendar.nextDateAfterDate(NSDate(), matchingUnit: .Second, value: 0, options: .MatchNextTime)!
+		let nextSecond = (Calendar.shared as NSCalendar).nextDate(after: Date(), matching: .second, value: 0, options: .matchNextTime)!
 		
-		let timer = NSTimer(fireDate: nextSecond, interval: 1.0, target: self, selector: #selector(ScheduleCalendarViewController.timerFire(_:)), userInfo: nil, repeats: true)
+		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(ScheduleCalendarViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
-		NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSDefaultRunLoopMode)
+		RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
 		
 		self.timer = timer
 	}
 	
-	func timerFire(timer: NSTimer) {
+	func timerFire(_ timer: Timer) {
 		
 		updateNowIndicator()
 	}
@@ -110,23 +110,25 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	}
 	
 	func updateNowIndicator() {
+		#if DEBUG
+			var components = (Calendar.shared as NSCalendar).components([.hour, .minute, .second], from: Date())
+			components.year = 2016
+			components.month = 10
+			components.day = 8
+			let date = Calendar.shared.date(from: components)!
+		#else
+			let date = Date()
+		#endif
 		
-		// For debugging - change to just NSDate() for release
-		let components = NSCalendar.sharedCalendar.components([.Hour, .Minute, .Second], fromDate: NSDate())
-		components.year = 2016
-		components.month = 2
-		components.day = 20
 		
-		let date = NSCalendar.sharedCalendar.dateFromComponents(components)!
-		
-		if let (day, partialHour) = APIManager.sharedManager.eventsOrganizer.dayAndPartialHourForDate(date) {
+		if let (day, partialHour) = APIManager.shared.eventsOrganizer.dayAndPartialHourForDate(date) {
 			calendarLayout.nowIndicatorPosition = (day, partialHour)
 		} else {
 			calendarLayout.nowIndicatorPosition = nil
 		}
 		
-		if let nowLabel = collectionView.supplementaryViewForElementKind(CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0)) as? ScheduleNowLabel {
-			nowLabel.label.text = Hour.minuteFormatter.stringFromDate(NSDate())
+		if let nowLabel = collectionView.supplementaryView(forElementKind: CalendarLayout.SupplementaryViewKind.NowLabel.rawValue, at: IndexPath(item: 0, section: 0)) as? ScheduleNowLabel {
+			nowLabel.label.text = Hour.minuteFormatter.string(from: Date())
 		}
 	}
 	
@@ -150,7 +152,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	}
 	
 	var canScrollToNow: Bool {
-		return collectionView.numberOfSections() != 0
+		return collectionView.numberOfSections != 0
 	}
 	
 	func scrollToNow() {
@@ -159,34 +161,34 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 			return
 		}
 		
-		let midY = collectionView.layoutAttributesForSupplementaryElementOfKind(CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, atIndexPath: NSIndexPath(forItem: 0, inSection: 0))!.frame.midY
+		let midY = collectionView.layoutAttributesForSupplementaryElement(ofKind: CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, at: IndexPath(item: 0, section: 0))!.frame.midY
 		
 		let visibleHeight = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).height
 		
 		let y = midY - (visibleHeight / 2.0)
 		
-		let contentRect = CGRect(origin: CGPointZero, size: collectionView.contentSize)
+		let contentRect = CGRect(origin: CGPoint.zero, size: collectionView.contentSize)
 		
-		let rect = CGRect(x: 0.0, y: y, width: collectionView.bounds.width, height: visibleHeight).intersect(contentRect)
+		let rect = CGRect(x: 0.0, y: y, width: collectionView.bounds.width, height: visibleHeight).intersection(contentRect)
 			
 		collectionView.scrollRectToVisible(rect, animated: false)
 	}
 	
     // MARK: Collection view data source
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return APIManager.sharedManager.eventsOrganizer.days.count
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return APIManager.shared.eventsOrganizer.days.count
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return APIManager.sharedManager.eventsOrganizer.numberOfEventsInDay(section)
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return APIManager.shared.eventsOrganizer.numberOfEventsInDay(section)
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("EventCell", forIndexPath: indexPath) as! ScheduleEventCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as! ScheduleEventCell
         
-        let event = APIManager.sharedManager.eventsOrganizer.eventAtIndex(indexPath.item, inDay: indexPath.section)
+        let event = APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
 		cell.color = event.category.color
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.locationsDescription
@@ -194,63 +196,63 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch CalendarLayout.SupplementaryViewKind(rawValue: kind)! {
             
         case .Header:
-            let dayHeader = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "DayHeader", forIndexPath: indexPath) as! ScheduleDayHeader
-            dayHeader.textLabel.text = APIManager.sharedManager.eventsOrganizer.days[indexPath.section].weekdayTitle
-            dayHeader.detailTextLabel.text = APIManager.sharedManager.eventsOrganizer.days[indexPath.section].dateTitle
+            let dayHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DayHeader", for: indexPath) as! ScheduleDayHeader
+            dayHeader.textLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].weekdayTitle
+            dayHeader.detailTextLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].dateTitle
             return dayHeader
             
         case .Separator:
-            let hourSeparator = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "HourSeparator", forIndexPath: indexPath) as! ScheduleHourSeparator
-            hourSeparator.label.text = APIManager.sharedManager.eventsOrganizer.days[indexPath.section].hours[indexPath.item].title
+            let hourSeparator = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HourSeparator", for: indexPath) as! ScheduleHourSeparator
+            hourSeparator.label.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].hours[(indexPath as NSIndexPath).item].title
             return hourSeparator
 			
 		case .NowIndicator:
-			return collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "NowIndicator", forIndexPath: indexPath) as! ScheduleNowIndicator
+			return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NowIndicator", for: indexPath) as! ScheduleNowIndicator
 			
 		case .NowLabel:
-			let nowLabel = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "NowLabel", forIndexPath: indexPath) as! ScheduleNowLabel
-			nowLabel.label.text = Hour.minuteFormatter.stringFromDate(NSDate())
+			let nowLabel = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "NowLabel", for: indexPath) as! ScheduleNowLabel
+			nowLabel.label.text = Hour.minuteFormatter.string(from: Date())
 			return nowLabel
         }
     }
 	
     // MARK: Calendar layout delegate
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-        return APIManager.sharedManager.eventsOrganizer.days[section].hours.count
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
+        return APIManager.shared.eventsOrganizer.days[section].hours.count
     }
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return APIManager.sharedManager.eventsOrganizer.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).start
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: IndexPath) -> Double {
+        return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).lowerBound
     }
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: NSIndexPath) -> Double {
-        return APIManager.sharedManager.eventsOrganizer.partialHoursForEventAtIndex(indexPath.item, inDay: indexPath.section).end
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: IndexPath) -> Double {
+        return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).upperBound
     }
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: NSIndexPath) -> Int {
-        return APIManager.sharedManager.eventsOrganizer.numberOfColumnsForEventAtIndex(indexPath.item, inDay: indexPath.section)
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: IndexPath) -> Int {
+        return APIManager.shared.eventsOrganizer.numberOfColumnsForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
     }
     
-    func collectionView(collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: NSIndexPath) -> Int {
-        return APIManager.sharedManager.eventsOrganizer.columnForEventAtIndex(indexPath.item, inDay: indexPath.section)
+    func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: IndexPath) -> Int {
+        return APIManager.shared.eventsOrganizer.columnForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
     }
 	
-	func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-		showDetailsForEvent(APIManager.sharedManager.eventsOrganizer.eventAtIndex(indexPath.row, inDay: indexPath.section))
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		showDetailsForEvent(APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section))
 	}
 	
     // MARK: Segues
 	
-	func showDetailsForEvent(event: Event) {
+	func showDetailsForEvent(_ event: Event) {
 		
-		let eventViewController = storyboard!.instantiateViewControllerWithIdentifier("EventViewController") as! EventViewController
+		let eventViewController = storyboard!.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
 		eventViewController.event = event
-		showViewController(eventViewController, sender: nil)
+		show(eventViewController, sender: nil)
 	}
 }

@@ -14,14 +14,14 @@ class LoginViewController: UIViewController
 	var usernameField: UITextField!
 	{
 		didSet {
-			usernameField?.returnKeyType = .Next
+			usernameField?.returnKeyType = .next
 			usernameField?.delegate = self
 		}
 	}
 	var passwordField: UITextField!
 	{
 		didSet {
-			passwordField?.returnKeyType = .Done
+			passwordField?.returnKeyType = .done
 			passwordField?.delegate = self
 		}
 	}
@@ -31,115 +31,115 @@ class LoginViewController: UIViewController
 		tableView.delegate = self
 		tableView.dataSource = self
 	}
-	override func viewDidAppear(animated: Bool)
+	override func viewDidAppear(_ animated: Bool)
 	{
 		super.viewDidAppear(animated)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardShown(_:)), name: UIKeyboardDidShowNotification, object: nil)
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardHidden(_:)), name: UIKeyboardDidHideNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardShown(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardHidden(_:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
 		
-		guard !APIManager.sharedManager.isLoggedIn
+		guard !APIManager.shared.userState.loggedIn
 		else
 		{
-			self.dismissViewControllerAnimated(true, completion: nil)
+			self.dismiss(animated: true, completion: nil)
 			return
 		}
 	}
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		NSNotificationCenter.defaultCenter().removeObserver(self)
+		NotificationCenter.default.removeObserver(self)
 		usernameField.resignFirstResponder()
 		passwordField.resignFirstResponder()
 	}
-	private func shakePasswordField(iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: NSTimeInterval) {
-		UIView.animateWithDuration(interval, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: [], animations: {() in
-			self.passwordField.transform = CGAffineTransformMakeTranslation(size * CGFloat(direction), 0)
+	fileprivate func shakePasswordField(_ iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: TimeInterval) {
+		UIView.animate(withDuration: interval, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: [], animations: {() in
+			self.passwordField.transform = CGAffineTransform(translationX: size * CGFloat(direction), y: 0)
 			}, completion: {(finished) in
 				if (currentTimes >= iterations)
 				{
-					UIView.animateWithDuration(interval, animations: {() in
-						self.passwordField.transform = CGAffineTransformIdentity
+					UIView.animate(withDuration: interval, animations: {() in
+						self.passwordField.transform = CGAffineTransform.identity
 					})
 					return
 				}
 				self.shakePasswordField(iterations - 1, direction: -direction, currentTimes: currentTimes + 1, size: size, interval: interval)
 		})
 	}
-	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator)
+	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
 	{
 		self.view.frame.size = size
 	}
 	func incorrectPassword()
 	{
-		dispatch_async(dispatch_get_main_queue(), {
+		DispatchQueue.main.async(execute: {
 			self.passwordField.text = ""
 			self.shakePasswordField(7, direction: 1, currentTimes: 0, size: 10, interval: 0.1)
 		})
 	}
 	
-	@IBAction func login(sender: UIBarButtonItem? = nil)
+	@IBAction func login(_ sender: UIBarButtonItem? = nil)
 	{
 		resignFirstResponder()
-		guard let username = usernameField.text, let password = passwordField.text where !username.isEmpty && !password.isEmpty
+		guard let username = usernameField.text, let password = passwordField.text , !username.isEmpty && !password.isEmpty
 		else
 		{
 			incorrectPassword()
 			return
 		}
-		APIManager.sharedManager.loginWithUsername(username, password: password) {
+		APIManager.shared.loginWithUsername(username, password: password) {
 			switch $0
 			{
-			case .Value(let loggedIn):
+			case .value(let loggedIn):
 				guard loggedIn
 				else
 				{
 					self.incorrectPassword()
 					return
 				}
-				self.dismissViewControllerAnimated(true, completion: nil)
-			case .Error(let errorMessage):
-				NSNotificationCenter.defaultCenter().post(.Failure, object: errorMessage)
+				self.dismiss(animated: true, completion: nil)
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
 			}
 		}
 	}
     
-    @IBAction func cancelLogin (sender: UIBarButtonItem)
+    @IBAction func cancelLogin (_ sender: UIBarButtonItem)
 	{
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 extension LoginViewController: UITableViewDelegate, UITableViewDataSource
 {
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 3
 	}
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		guard indexPath.row != 0
+		guard (indexPath as NSIndexPath).row != 0
 		else
 		{
-			return tableView.dequeueReusableCellWithIdentifier("logoCell")!
+			return tableView.dequeueReusableCell(withIdentifier: "logoCell")!
 		}
-		let cell = tableView.dequeueReusableCellWithIdentifier("textFieldCell") as! TextFieldCell
-		if indexPath.row == 1
+		let cell = tableView.dequeueReusableCell(withIdentifier: "textFieldCell") as! TextFieldCell
+		if (indexPath as NSIndexPath).row == 1
 		{
 			cell.textField.placeholder = "Username"
-			cell.textField.keyboardType = .EmailAddress
-			cell.textField.autocorrectionType = .No
+			cell.textField.keyboardType = .emailAddress
+			cell.textField.autocorrectionType = .no
 			usernameField = cell.textField
 		}
 		else
 		{
 			cell.textField.placeholder = "Password"
-			cell.textField.secureTextEntry = true
-			cell.textField.keyboardType = .Default
+			cell.textField.isSecureTextEntry = true
+			cell.textField.keyboardType = .default
 			passwordField = cell.textField
 		}
 		return cell
 	}
-	func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
 	{
-		if indexPath.row == 0
+		if (indexPath as NSIndexPath).row == 0
 		{
 			return 200.0
 		}
@@ -151,7 +151,7 @@ extension LoginViewController: UITableViewDelegate, UITableViewDataSource
 }
 extension LoginViewController : UITextFieldDelegate
 {
-	func textFieldShouldReturn(textField: UITextField) -> Bool
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool
 	{
 		if textField === usernameField
 		{
@@ -165,9 +165,9 @@ extension LoginViewController : UITextFieldDelegate
 		}
 		return true
 	}
-	func keyboardShown(notification: NSNotification)
+	func keyboardShown(_ notification: Notification)
 	{
-		guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().size
+		guard let keyboardSize = ((notification as NSNotification).userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
 		else
 		{
 			return
@@ -176,7 +176,7 @@ extension LoginViewController : UITextFieldDelegate
 		contentInsets.bottom = keyboardSize.height
 		tableView.contentInset = contentInsets
 		tableView.scrollIndicatorInsets = contentInsets
-		guard let field = usernameField.isFirstResponder() ? usernameField : passwordField.isFirstResponder() ? passwordField : nil
+		guard let field = usernameField.isFirstResponder ? usernameField : passwordField.isFirstResponder ? passwordField : nil
 		else
 		{
 			return
@@ -188,7 +188,7 @@ extension LoginViewController : UITextFieldDelegate
 			tableView.scrollRectToVisible(field.frame, animated: true)
 		}
 	}
-	func keyboardHidden(notification: NSNotification)
+	func keyboardHidden(_ notification: Notification)
 	{
 		var contentInsets = tableView.contentInset
 		contentInsets.bottom = 0.0
