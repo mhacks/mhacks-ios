@@ -373,7 +373,6 @@
 		82473FBB1C1F7F2A0061FFFB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				82942BA21C2A369D0084880C /* ScheduleCalendarViewController.swift */,
 				82EFDE8A1C32ED060074AB99 /* EventViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
@@ -382,6 +381,7 @@
 				82E9C4881C4F09B100ED2EBF /* MapViewController.swift */,
 				9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */,
 				463165371D86023D00371D56 /* UserViewController.swift */,
+				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

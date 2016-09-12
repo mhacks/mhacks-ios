@@ -9,7 +9,7 @@
 import UIKit
 import PassKit
 
-final class UserViewController: UIViewController {
+final class UserViewController: UIViewController, LoginViewControllerDelegate {
     
     let signInView = UIStackView()
     let ticketView = UIStackView()
@@ -41,6 +41,7 @@ final class UserViewController: UIViewController {
         signInDescriptionLabel.textAlignment = .center
         
         signInButton.setTitle(NSLocalizedString("Sign In", comment: "Sign in button title"), for: .normal)
+        signInButton.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         
         signInView.translatesAutoresizingMaskIntoConstraints = false
         signInView.axis = .vertical
@@ -82,6 +83,18 @@ final class UserViewController: UIViewController {
             ticketView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
             ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor)
         ])
+        
+        updateViews()
+    }
+    
+    func signIn() {
+        
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = self
+        
+        let loginNavigationController = UINavigationController(rootViewController: loginViewController)
+        
+        present(loginNavigationController, animated: true, completion: nil)
     }
     
     func updateViews() {
@@ -99,5 +112,15 @@ final class UserViewController: UIViewController {
             signInView.isHidden = false
             ticketView.isHidden = true
         }
+    }
+    
+    // MARK: Login view controller delegate
+    
+    func loginViewControllerDidCancel(loginViewController: LoginViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func loginViewControllerDidLogin(loginViewController: LoginViewController) {
+        dismiss(animated: true, completion: nil)
     }
 }
