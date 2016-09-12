@@ -93,7 +93,7 @@ final class APIManager
 	var userState: UserState {
 		guard let authenticator = authenticator
 		else { return .LoggedOut }
-		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.username, school: authenticator.username))
+		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.name, school: authenticator.school))
 	}
 	
 	// MARK: - APNS Token
@@ -367,35 +367,25 @@ final class APIManager
 	
 	fileprivate func createRequestForRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get) -> URLRequest
 	{
-		let URL = APIManager.baseURL.appendingPathComponent(route)
+		assert(!route.isEmpty, "Route should never be empty!")
+		var urlComponents = URLComponents(url: APIManager.baseURL.appendingPathComponent(route), resolvingAgainstBaseURL: false)!
 		
-		let mutableRequest = NSMutableURLRequest(url: URL)
+		let formData = parameters.reduce("", { $0 + "\($1.0)=\($1.1)&" })
+		if (method == .get)
+		{
+			urlComponents.query = formData
+		}
+		
+		let mutableRequest = NSMutableURLRequest(url: urlComponents.url!)
 		mutableRequest.httpMethod = method.rawValue
 		authenticator?.addAuthorizationHeader(mutableRequest)
-		do {
-			if method == .post || method == .put || method == .patch {
-				if method == .patch || method == .put {
-					// FIXME: Do we still need this?
-					mutableRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-				}
-				let formData = parameters.reduce("", { $0 + "\($1.0)=\($1.1)&" })
-				mutableRequest.httpBody = formData.substring(to: formData.index(before: formData.endIndex)).data(using: .utf8)
-			}
-			else {
-				if parameters.count > 0 {
-					mutableRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-				}
-			}
-		} catch {
-			#if DEBUG
-				print(error)
-			#endif
-			mutableRequest.httpBody = nil
+		if method == .post || method == .put || method == .patch {
+			mutableRequest.httpBody = formData.substring(to: formData.index(before: formData.endIndex)).data(using: .utf8)
 		}
 		return (mutableRequest.copy() as! NSURLRequest) as URLRequest
 	}
 	
-	fileprivate func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
+	private func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
 		showNetworkIndicator()
@@ -404,7 +394,6 @@ final class APIManager
 			defer { self.hideNetworkIndicator() }
 			
 			let statusCode = (response as? HTTPURLResponse)?.statusCode
-			assert(statusCode != nil, "Looks fishy, assert for debug builds only")
 			guard statusCode != 403 && statusCode != 401
 			else {
 				// FIXME: This is no longer the right thing to do!
@@ -450,17 +439,8 @@ final class APIManager
 		else {
 			return
 		}
-		let sinceString : String
-		if let lastUpdated = existingObject.lastUpdated
-		{
-			sinceString = "?since=\(lastUpdated)"
-		}
-		else
-		{
-			sinceString = ""
-		}
 		
-		taskWithRoute(route + sinceString) { result in
+		taskWithRoute(route, parameters: ["since": existingObject.lastUpdated]) { result in
 			var errorMessage: String? = nil
 			var updated = false
 			defer {
@@ -624,14 +604,14 @@ extension APIManager {
 				return
 			}
 
-			guard let authToken = JSON["token"] as? String
+			guard let authToken = JSON["token"] as? String, let userInfo = JSON["user"] as? [String: Any], let name = userInfo["name"] as? String
 			else
 			{
 				completion(.value(false))
 				return
 			}
 			
-			self.authenticator = Authenticator(authToken: authToken, username: username)
+			self.authenticator = Authenticator(authToken: authToken, username: username, name: name, school: userInfo["school"] as? String)
 			completion(.value(true))
 			NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 		}
@@ -651,14 +631,20 @@ extension APIManager {
 		// FIXME: We need to add lots of other information here!
 		
 		let username: String
+		let name: String
+		let school: String?
 		private let authenticationToken: String
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let usernameKey = "username"
+		private static let nameKey = "name"
+		private static let schoolKey = "school"
 		
-		init(authToken: String, username: String) {
+		init(authToken: String, username: String, name: String, school: String?) {
 			self.authenticationToken = authToken
 			self.username = username
+			self.name = name
+			self.school = school
 		}
 		
 		func addAuthorizationHeader(_ request: NSMutableURLRequest) {
@@ -668,7 +654,7 @@ extension APIManager {
 		// MARK: Authenticator Archiving
 		
 		init?(_ serializedRepresentation: SerializedRepresentation) {
-			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String
+			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String, let name = serializedRepresentation[Authenticator.nameKey] as? String
 			else {
 				return nil
 			}
@@ -676,12 +662,12 @@ extension APIManager {
 			else {
 				return nil
 			}
-			self.init(authToken: authToken, username: username)
+			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String)
 		}
 		
 		func toSerializedRepresentation() -> NSDictionary {
 			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
-			return [Authenticator.usernameKey: username]
+			return [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.schoolKey: school]
 		}
 	}
 }

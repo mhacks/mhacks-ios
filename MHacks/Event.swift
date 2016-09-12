@@ -95,7 +95,6 @@ final class Event: SerializableElementWithIdentifier {
 }
 
 extension Event {
-	private static let idKey = "id"
 	private static let nameKey = "name"
 	private static let locationIDsKey = "location_ids"
 	private static let startDateKey = "start_time"

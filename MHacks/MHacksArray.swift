@@ -10,7 +10,7 @@ import Foundation
 
 private let resultsKey = "results"
 
-final class MHacksArray<Element>: Serializable, RandomAccessCollection where Element: SerializableElement, Element: Comparable
+final class MHacksArray<Element>: Serializable, RandomAccessCollection where Element: SerializableElementWithIdentifier, Element: Comparable
 {
 	private var items = [String: Element]()
 	private var sortedKeys = [String]()
@@ -21,7 +21,7 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 
 	func updateWith(_ serializedRepresentation: SerializedRepresentation) -> Bool
 	{
-		guard let newItems = serializedRepresentation[resultsKey] as? [String: Any], let updatedAt = serializedRepresentation[MHacksArray.lastUpdatedKey] as? Int
+		guard let newItems = serializedRepresentation[resultsKey] as? [[String: Any]], let updatedAt = serializedRepresentation[MHacksArray.lastUpdatedKey] as? Int
 		else {
 			return false
 		}
@@ -33,7 +33,9 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 		else { return false }
 		
 		newItems.forEach {
-			items[$0.0] = Element($0.1 as? [String: Any])
+			guard let id = $0[Element.self.idKey] as? String
+				else { return }
+			items[id] = Element($0)
 		}
 		
 		updateSortedKeys()

@@ -116,12 +116,11 @@ struct Announcement: SerializableElementWithIdentifier {
 }
 extension Announcement
 {
-	private static let idKey = "id"
 	private static let infoKey = "info"
-	private static let titleKey = "name"
-	private static let dateKey = "broadcast_time"
+	private static let titleKey = "title"
+	private static let dateKey = "broadcast_at"
 	private static let categoryKey = "category"
-	private static let approvedKey = "is_approved"
+	private static let approvedKey = "approved"
 
 	init?(_ serializedRepresentation: SerializedRepresentation) {
 		guard let id = serializedRepresentation[Announcement.idKey] as? String, let title = serializedRepresentation[Announcement.titleKey] as? String, let message = serializedRepresentation[Announcement.infoKey] as? String, let date = serializedRepresentation[Announcement.dateKey] as? Double, let categoryRaw = serializedRepresentation[Announcement.categoryKey] as? Int, let approved = serializedRepresentation[Announcement.approvedKey] as? Bool
