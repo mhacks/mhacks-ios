@@ -197,24 +197,29 @@
         <!--News-->
         <scene sceneID="Efb-xw-Rfz">
             <objects>
-                <tableViewController title="News" automaticallyAdjustsScrollViewInsets="NO" id="NV6-fG-79i" customClass="AnnouncementsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="News" id="NV6-fG-79i" customClass="AnnouncementsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="178" sectionHeaderHeight="28" sectionFooterHeight="28" id="2WC-rc-iEm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" rowHeight="178" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="178"/>
+                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="item" rowHeight="178" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="178"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Pa-B2-ywx" id="OQs-WU-F2p">
                                     <frame key="frameInset" width="375" height="178"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a">
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a" customClass="RoundedView" customModule="MHacks" customModuleProvider="target">
+                                            <color key="backgroundColor" red="0.40000000000000002" green="1" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="2" id="Kfn-Ee-OfF"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </view>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Gub-h2-czG">
                                             <subviews>
@@ -281,8 +286,10 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="colorView" destination="hQ7-2n-g8a" id="2cE-9d-69g"/>
+                                    <outlet property="contentStackView" destination="Gub-h2-czG" id="Y11-Vf-VNG"/>
                                     <outlet property="dateLabel" destination="gVc-xy-de2" id="fIP-nb-SYW"/>
                                     <outlet property="messageLabel" destination="fcW-Nt-J46" id="RLa-sf-Kfj"/>
+                                    <outlet property="sponsoredLabel" destination="q4Z-js-sVN" id="6IT-51-LI9"/>
                                     <outlet property="titleLabel" destination="XYO-bj-4DQ" id="Xni-10-wKA"/>
                                 </connections>
                             </tableViewCell>
@@ -303,6 +310,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jof-wQ-jCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1192.8" y="1324.5877061469266"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eNK-V6-QLr">
+            <objects>
+                <navigationController id="xMe-Zs-ypm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="contacts" id="5vX-ic-ju4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="AFJ-aU-FCN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="LsR-da-vAa" kind="relationship" relationship="rootViewController" id="GqG-Od-M7X"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MQU-zt-HUR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="382" y="2053"/>
         </scene>
         <!--My Ticket-->
         <scene sceneID="xWe-hg-BwP">

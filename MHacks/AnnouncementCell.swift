@@ -16,6 +16,8 @@ class AnnouncementCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
 	@IBOutlet weak var colorView: UIView!
+	@IBOutlet weak var sponsoredLabel: UIView!
+	@IBOutlet weak var contentStackView: UIStackView!
 	
     // MARK: Life cycle
     
