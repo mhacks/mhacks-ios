@@ -8,6 +8,7 @@
 
 import UIKit
 import PassKit
+import CoreImage
 
 final class UserViewController: UIViewController, LoginViewControllerDelegate {
     
@@ -24,7 +25,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
     let emailTitleLabel = UILabel()
     let emailLabel = UILabel()
     
+    let scannableCodeView = UIImageView()
+    
     let addPassButton = PKAddPassButton(style: .black)
+    
+    let userInfo = APIManager.UserInfo(userID: "1234567890", email: "grladd@umich.edu", name: "Russell Ladd", school: "University of Michigan")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,12 +59,28 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         
         // Setup ticket view
         
+        let scannableCodeShadowView = ShadowView()
+        
+        let scannableCodeContainerView = UIView()
+        scannableCodeContainerView.addSubview(scannableCodeShadowView)
+        scannableCodeContainerView.addSubview(scannableCodeView)
+        
+        scannableCodeView.translatesAutoresizingMaskIntoConstraints = false
+        scannableCodeView.clipsToBounds = true
+        scannableCodeView.layer.cornerRadius = 5.0
+        
+        scannableCodeShadowView.translatesAutoresizingMaskIntoConstraints = false
+        scannableCodeShadowView.layer.shadowOffset = CGSize.zero
+        scannableCodeShadowView.layer.shadowRadius = 5.0
+        //scannableCodeShadowView.layer.shadowOpacity = 0.5
+        
         ticketView.translatesAutoresizingMaskIntoConstraints = false
         ticketView.axis = .vertical
         ticketView.distribution = .equalSpacing
         
         ticketView.addArrangedSubview(nameLabel)
         ticketView.addArrangedSubview(emailLabel)
+        ticketView.addArrangedSubview(scannableCodeContainerView)
         ticketView.addArrangedSubview(addPassButton)
         
         // Setup view
@@ -81,7 +102,14 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
             ticketView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
             ticketView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
             ticketView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
-            ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor)
+            ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            scannableCodeView.centerXAnchor.constraint(equalTo: scannableCodeContainerView.centerXAnchor),
+            scannableCodeView.topAnchor.constraint(equalTo: scannableCodeContainerView.topAnchor),
+            scannableCodeView.bottomAnchor.constraint(equalTo: scannableCodeContainerView.bottomAnchor),
+            scannableCodeShadowView.leadingAnchor.constraint(equalTo: scannableCodeView.leadingAnchor),
+            scannableCodeShadowView.trailingAnchor.constraint(equalTo: scannableCodeView.trailingAnchor),
+            scannableCodeShadowView.topAnchor.constraint(equalTo: scannableCodeView.topAnchor),
+            scannableCodeShadowView.bottomAnchor.constraint(equalTo: scannableCodeView.bottomAnchor),
         ])
         
         updateViews()
@@ -112,6 +140,18 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
             signInView.isHidden = false
             ticketView.isHidden = true
         }
+        
+        let userIDData = userInfo.userID.data(using: .isoLatin1)!
+        
+        let qrCodeGenerator = CIFilter(name: "CIQRCodeGenerator")!
+        qrCodeGenerator.setValue(userIDData, forKey: "inputMessage")
+        qrCodeGenerator.setValue("Q", forKey: "inputCorrectionLevel")
+        
+        let scaleFilter = CIFilter(name: "CIAffineTransform")!
+        scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
+        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 10.0, y: 10.0)), forKey: "inputTransform")
+        
+        scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
     
     // MARK: Login view controller delegate

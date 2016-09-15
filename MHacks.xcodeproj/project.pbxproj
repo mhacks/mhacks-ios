@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
+		4631653A1D86607600371D56 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165391D86607600371D56 /* ShadowView.swift */; };
 		46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46427FBD1CD97CC300B06D0D /* CircleView.swift */; };
 		46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */; };
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
@@ -128,6 +129,7 @@
 
 /* Begin PBXFileReference section */
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		463165391D86607600371D56 /* ShadowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 		46427FBD1CD97CC300B06D0D /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowIndicator.xib; sourceTree = "<group>"; };
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				823E4D321C615EE400F37D0B /* TextViewCell.swift */,
 				8286A0211C6074D100B6EFEE /* DatePickerCell.swift */,
 				828D498C1C65F3FD0090313C /* CategoryCell.swift */,
+				463165391D86607600371D56 /* ShadowView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */,
 				9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */,
 				827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */,
+				4631653A1D86607600371D56 /* ShadowView.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
