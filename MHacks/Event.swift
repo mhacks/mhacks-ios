@@ -107,7 +107,7 @@ extension Event {
 		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: Date(timeIntervalSince1970: startDate), duration: duration, info: description)
 	}
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locationIDs, Event.startDateKey: startDate.timeIntervalSince1970, Event.durationKey: duration, Event.infoKey: information, Event.categoryKey: category.rawValue]
+		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locationIDs as NSArray, Event.startDateKey: startDate.timeIntervalSince1970, Event.durationKey: duration, Event.infoKey: information, Event.categoryKey: category.rawValue]
 	}
 }
 func < (lhs: Event, rhs: Event) -> Bool {

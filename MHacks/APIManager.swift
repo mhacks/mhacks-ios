@@ -611,6 +611,9 @@ extension APIManager {
 			
 			self.authenticator = Authenticator(authToken: authToken, username: username, name: name, school: userInfo["school"] as? String)
 			completion(.value(true))
+			DispatchQueue.global(qos: .background).async {
+				self.archive()
+			}
 			NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 		}
 		task.resume()
@@ -665,7 +668,12 @@ extension APIManager {
 		
 		func toSerializedRepresentation() -> NSDictionary {
 			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
-			return [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.schoolKey: school]
+			var dict = [Authenticator.usernameKey: username, Authenticator.nameKey: name]
+			if let school = school
+			{
+				dict[Authenticator.schoolKey] = school
+			}
+			return dict as NSDictionary
 		}
 	}
 }
