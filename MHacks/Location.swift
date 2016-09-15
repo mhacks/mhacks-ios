@@ -24,7 +24,6 @@ final class Location : SerializableElementWithIdentifier {
 		self.coreLocation = coreLocation
 	}
 	
-	private static let idKey = "id"
 	private static let nameKey = "name"
 	private static let latitudeKey = "latitude"
 	private static let longitudeKey = "longitude"

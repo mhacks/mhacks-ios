@@ -31,6 +31,7 @@ protocol SerializableElementWithIdentifier: SerializableElement, Comparable, Has
 extension SerializableElementWithIdentifier
 {
 	var hashValue: Int { return ID.hashValue }
+	static var idKey: String { return "id" }
 }
 func ==<Type: SerializableElementWithIdentifier>(lhs: Type, rhs: Type) -> Bool
 {
