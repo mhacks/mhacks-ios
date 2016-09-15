@@ -32,7 +32,7 @@ class SettingsViewController: UITableViewController {
 		self.tableView.rowHeight = UITableViewAutomaticDimension
 		self.tableView.estimatedRowHeight = 100.0
 		
-		lastStatus = APIManager.shared.userState.loggedIn
+		lastStatus = APIManager.shared.loggedIn
 		guard let preference = defaults.object(forKey: remoteNotificationPreferencesKey) as? NSNumber
 		else
 		{
@@ -45,7 +45,7 @@ class SettingsViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-		lastStatus = APIManager.shared.userState.loggedIn
+		lastStatus = APIManager.shared.loggedIn
 		
         if APIManager.shared.canEditAnnouncements() {
 			// FIXME: No longer need this!
@@ -210,7 +210,7 @@ class SettingsViewController: UITableViewController {
 			guard APIManager.shared.canEditAnnouncements()
 				else
 			{
-				lastStatus = APIManager.shared.userState.loggedIn
+				lastStatus = APIManager.shared.loggedIn
 				return
 			}
 			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
@@ -220,9 +220,9 @@ class SettingsViewController: UITableViewController {
 	}
 	
     @IBAction func changeLoginStatus(_ sender: UIBarButtonItem) {
-        if APIManager.shared.userState.loggedIn {
+        if APIManager.shared.loggedIn {
             APIManager.shared.logout()
-			lastStatus = APIManager.shared.userState.loggedIn
+			lastStatus = APIManager.shared.loggedIn
         } else {
             performSegue(withIdentifier: "changeLoginStatusSegue", sender: nil)
         }

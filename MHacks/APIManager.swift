@@ -75,17 +75,6 @@ final class APIManager
 	{
 		case LoggedIn(UserInfo)
 		case LoggedOut
-		
-		/// A quick helper if you are only interested in the logged in/logged out state and not the associated data
-		var loggedIn: Bool {
-			switch self
-			{
-				case .LoggedIn(_):
-					return true
-				case .LoggedOut:
-					return false
-			}
-		}
 	}
 	
 	/// This can fetch the current state for the user along with their information if they are logged in.
@@ -94,6 +83,10 @@ final class APIManager
 		guard let authenticator = authenticator
 		else { return .LoggedOut }
 		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.name, school: authenticator.school))
+	}
+	/// A quick helper if you are only interested in the logged in/logged out state and not the associated data
+	var loggedIn: Bool {
+		return authenticator != nil
 	}
 	
 	// MARK: - APNS Token
@@ -388,6 +381,7 @@ final class APIManager
 	private func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
+		print(request.url)
 		showNetworkIndicator()
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
 			
@@ -396,11 +390,15 @@ final class APIManager
 			let statusCode = (response as? HTTPURLResponse)?.statusCode
 			guard statusCode != 403 && statusCode != 401
 			else {
-				// FIXME: This is no longer the right thing to do!
-				self.authenticator = nil
-				completion(.error("Authentication failed. Please login."))
+				if self.loggedIn
+				{
+					completion(.error("Permission denied!"))
+				}
+				else
+				{
+					completion(.error("Authentication failed. Please login."))
+				}
 				NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
-				// TODO: Go back to login screen here
 				return
 			}
 			
@@ -440,7 +438,7 @@ final class APIManager
 			return
 		}
 		
-		taskWithRoute(route, parameters: ["since": existingObject.lastUpdated]) { result in
+		taskWithRoute(route, parameters: existingObject.sinceDictionary) { result in
 			var errorMessage: String? = nil
 			var updated = false
 			defer {
@@ -578,7 +576,7 @@ final class APIManager
 // MARK: - Authentication and User Stuff
 extension APIManager {
 	func loginWithUsername(_ username: String, password: String, completion: @escaping (Response<Bool>) -> Void) {
-		guard !userState.loggedIn
+		guard !loggedIn
 		else {
 			completion(.value(true))
 			return

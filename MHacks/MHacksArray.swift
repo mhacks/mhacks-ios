@@ -32,13 +32,17 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 		guard newItems.count > 0
 		else { return false }
 		
-		newItems.forEach {
-			guard let id = $0[Element.self.idKey] as? String
-				else { return }
-			items[id] = Element($0)
+		// We must sync on to the main queue for two reasons:
+		//	- To avoid the UI asking us for updates while we are busy updating the array, if they do it will most definitely crash
+		//  - It must be sync and not async because the APIManager expects true to be returned once everything is truly updated.
+		DispatchQueue.main.sync {
+			newItems.forEach {
+				guard let id = $0[Element.self.idKey] as? String
+					else { return }
+				self.items[id] = Element($0)
+			}
+			self.updateSortedKeys()
 		}
-		
-		updateSortedKeys()
 		
 		return true
 	}
@@ -54,6 +58,10 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 	subscript(index: Int) -> Element
 	{
 		return items[sortedKeys[index]]!
+	}
+	subscript(id: String) -> Element?
+	{
+		return items[id]
 	}
 	convenience init?(_ serializedRepresentation : SerializedRepresentation)
 	{
