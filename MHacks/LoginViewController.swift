@@ -82,7 +82,25 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		super.viewDidAppear(animated)
 		
 		if firstAppearance {
-			usernameCell.textField.becomeFirstResponder()
+			
+			SecRequestSharedWebCredential(nil, nil) { array, error in
+				
+				DispatchQueue.main.async {
+					
+					if let array = array as? [[String: String]], let data = array.first {
+						
+						self.usernameCell.textField.text = data[kSecAttrAccount as String]!
+						self.passwordCell.textField.text = data[kSecSharedPassword as String]!
+						
+						self.login()
+						
+					} else {
+						
+						self.usernameCell.textField.becomeFirstResponder()
+					}
+				}
+			}
+			
 			firstAppearance = false
 		}
 	}

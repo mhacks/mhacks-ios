@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var announcementsNavigationController: UINavigationController!
 	
+	var userViewController: UserViewController!
+	
 	// MARK: Application life cycle
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
 		
@@ -35,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		countdownViewController = tabBarController.viewControllers![2] as! CountdownViewController
 		
 		announcementsNavigationController = tabBarController.viewControllers![3] as! UINavigationController
+		
+		userViewController = tabBarController.viewControllers![4] as! UserViewController
 		
 		return true
 	}
@@ -146,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func updateTabBarAppearance() {
 		
-		let minimalist = (tabBarController.selectedViewController == countdownViewController)
+		let minimalist = (tabBarController.selectedViewController == countdownViewController || tabBarController.selectedViewController == userViewController)
 		
 		tabBarController.tabBar.backgroundImage = minimalist ? UIImage() : nil
 		tabBarController.tabBar.shadowImage = minimalist ? UIImage() : nil

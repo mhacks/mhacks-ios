@@ -21,7 +21,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
     let signInDescriptionLabel = UILabel()
     let signInButton = UIButton(type: .system)
     
-    let ticketBackgroundView = UIView()
+    let ticketBackgroundView = GradientTintView()
     
     let nameTitleLabel = UILabel()
     let nameLabel = UILabel()
@@ -66,23 +66,19 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         signOutBarButtonItem.target = self
         signOutBarButtonItem.action = #selector(signOut)
         
-        ticketBackgroundView.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         ticketBackgroundView.layer.cornerRadius = 15.0
-        
-        let scannableCodeShadowView = ShadowView()
-        
-        let scannableCodeContainerView = UIView()
-        scannableCodeContainerView.addSubview(scannableCodeShadowView)
-        scannableCodeContainerView.addSubview(scannableCodeView)
         
         scannableCodeView.translatesAutoresizingMaskIntoConstraints = false
         scannableCodeView.clipsToBounds = true
-        scannableCodeView.layer.cornerRadius = 5.0
+        scannableCodeView.layer.cornerRadius = 8.0
         
-        scannableCodeShadowView.translatesAutoresizingMaskIntoConstraints = false
-        scannableCodeShadowView.layer.shadowOffset = CGSize.zero
-        scannableCodeShadowView.layer.shadowRadius = 5.0
-        //scannableCodeShadowView.layer.shadowOpacity = 0.5
+        let ticketItemsView = UIStackView(arrangedSubviews: [nameLabel, emailLabel, scannableCodeView])
+        ticketItemsView.translatesAutoresizingMaskIntoConstraints = false
+        ticketItemsView.axis = .vertical
+        ticketItemsView.alignment = .center
+        ticketItemsView.distribution = .equalSpacing
+        
+        ticketBackgroundView.addSubview(ticketItemsView)
         
         ticketView.translatesAutoresizingMaskIntoConstraints = false
         ticketView.axis = .vertical
@@ -111,13 +107,10 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
             ticketView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
             ticketView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
             ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
-            scannableCodeView.centerXAnchor.constraint(equalTo: scannableCodeContainerView.centerXAnchor),
-            scannableCodeView.topAnchor.constraint(equalTo: scannableCodeContainerView.topAnchor),
-            scannableCodeView.bottomAnchor.constraint(equalTo: scannableCodeContainerView.bottomAnchor),
-            scannableCodeShadowView.leadingAnchor.constraint(equalTo: scannableCodeView.leadingAnchor),
-            scannableCodeShadowView.trailingAnchor.constraint(equalTo: scannableCodeView.trailingAnchor),
-            scannableCodeShadowView.topAnchor.constraint(equalTo: scannableCodeView.topAnchor),
-            scannableCodeShadowView.bottomAnchor.constraint(equalTo: scannableCodeView.bottomAnchor),
+            ticketItemsView.leadingAnchor.constraint(equalTo: ticketBackgroundView.leadingAnchor, constant: 15.0),
+            ticketItemsView.trailingAnchor.constraint(equalTo: ticketBackgroundView.trailingAnchor, constant: -15.0),
+            ticketItemsView.topAnchor.constraint(equalTo: ticketBackgroundView.topAnchor, constant: 15.0),
+            ticketItemsView.bottomAnchor.constraint(equalTo: ticketBackgroundView.bottomAnchor, constant: -15.0),
         ])
         
         updateViews()
@@ -162,6 +155,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         if case .LoggedIn(let user) = APIManager.shared.userState {
             
             navigationItem.leftBarButtonItem = signOutBarButtonItem
+            navigationItem.title = "My Ticket"
             
             signInView.isHidden = true
             ticketView.isHidden = false
@@ -172,6 +166,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         } else {
             
             navigationItem.leftBarButtonItem = nil
+            navigationItem.title = nil
             
             signInView.isHidden = false
             ticketView.isHidden = true
