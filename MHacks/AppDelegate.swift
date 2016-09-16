@@ -90,11 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		APIManager.shared.archive()
 	}
 
-	func applicationWillTerminate(_ application: UIApplication) {
-		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-		// FIXME: Do we really need to archive here again?
-		APIManager.shared.archive()
-	}
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		guard url.absoluteString.hasPrefix("mhacks://") else {
 			return false

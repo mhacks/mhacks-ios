@@ -480,7 +480,9 @@ final class APIManager
 			func updateSerialized(_ serializedObject: Serializable, using representation: NSDictionary, notificationName: Notification.Name, successfulUpdate: (() -> Void)? = nil) {
 				serializedObject.semaphoreGuard.wait()
 				defer { serializedObject.semaphoreGuard.signal() }
-				if serializedObject.updateWith(representation as! SerializedRepresentation) {
+				guard let serialzedRepresentation = representation as? SerializedRepresentation
+					else { return }
+				if serializedObject.updateWith(serialzedRepresentation) {
 					successfulUpdate?()
 					NotificationCenter.default.post(name: notificationName, object: self)
 				}
@@ -488,7 +490,7 @@ final class APIManager
 			
 			if let obj = NSKeyedUnarchiver.unarchiveObject(with: data) as? APIManagerSerializer {
 				// Move everything over
-				self.authenticator = Authenticator(obj.authenticator as! SerializedRepresentation)
+				self.authenticator = Authenticator(obj.authenticator as? SerializedRepresentation)
 				
 				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
 				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
@@ -568,7 +570,8 @@ extension APIManager {
 		task.resume()
 	}
 	func logout() {
-		self.authenticator = nil
+		authenticator?.destroyToken()
+		authenticator = nil
 		NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 	}
 	
@@ -624,6 +627,9 @@ extension APIManager {
 			}
 			return dict as NSDictionary
 		}
+		func destroyToken() {
+			_ = SSKeychain.deletePassword(forService: Authenticator.authTokenKey, account: username)
+		}
 	}
 }
 
@@ -668,11 +674,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	}
 	
 	init?(manager: APIManager) {
-		guard let authenticator = manager.authenticator
-			else {
-				return nil
-		}
-		self.authenticator = authenticator.toSerializedRepresentation()
+		self.authenticator = manager.authenticator?.toSerializedRepresentation() ?? NSDictionary()
 		self.countdown = manager.countdown.toSerializedRepresentation()
 		self.announcements = manager.announcements.toSerializedRepresentation()
 		self.locations = manager.locations.toSerializedRepresentation()
