@@ -107,10 +107,7 @@ class AnnouncementsViewController: UITableViewController {
 		cell.colorView.layer.borderColor = announcement.category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
 
-		if !announcement.isSponsored {
-			cell.contentStackView.removeArrangedSubview(cell.sponsoredLabel)
-			cell.sponsoredLabel.removeFromSuperview()
-		}
+		cell.sponsoredLabel.isHidden = !announcement.isSponsored
 
         return cell
     }
