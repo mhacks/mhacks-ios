@@ -53,4 +53,9 @@ protocol Serializable: class, SerializableElement
 extension Serializable
 {
 	static var lastUpdatedKey: String { return "date_updated" }
+	var sinceDictionary: [String: Any] {
+		guard let lastUpdated = lastUpdated
+			else { return [:] }
+		return ["since": lastUpdated]
+	}
 }

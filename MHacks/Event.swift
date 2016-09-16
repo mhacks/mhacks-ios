@@ -51,18 +51,21 @@ final class Event: SerializableElementWithIdentifier {
 	let ID: String
     let name: String
 	let category: Category
-    let locations: [Location]
+	fileprivate let locationIDs: [String]
     let startDate: Date
-    let endDate: Date
+	var endDate: Date {
+		return startDate.addingTimeInterval(duration)
+	}
+    let duration: Double
     let information: String
 	
-	init(ID: String, name: String, category: Category, locations: [Location], startDate: Date, endDate: Date, info: String) {
+	init(ID: String, name: String, category: Category, locationIDs: [String], startDate: Date, duration: Double, info: String) {
 		self.ID = ID
 		self.name = name
 		self.category = category
-		self.locations = locations
+		self.locationIDs = locationIDs
 		self.startDate = startDate
-		self.endDate = endDate
+		self.duration = duration
 		self.information = info
 	}
 
@@ -71,9 +74,13 @@ final class Event: SerializableElementWithIdentifier {
         return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
     }
 	
-	
+	var locations: [Location] {
+		return locationIDs.flatMap { locationID in
+			APIManager.shared.locations[locationID]
+		}
+	}
     var locationsDescription: String {
-        switch locations.count {
+		switch locations.count {
         case 1:
             return locations[0].name
         case 2:
@@ -82,35 +89,25 @@ final class Event: SerializableElementWithIdentifier {
             return locations.reduce("") { $0 + ", " + $1.name }
         }
     }
-	
-	convenience init?(ID: String, name: String, category: Category, locationIDs: [String], startDate: Date, endDate: Date, info: String) {
-		let locations = locationIDs.flatMap { locationID in
-			APIManager.shared.locations.filter { $0.ID == locationID
-			}
-		}
-		guard locations.count > 0 else { return nil }
-		self.init(ID: ID, name: name, category: category, locations: locations, startDate: startDate, endDate: endDate, info: info)
-	}
-
 }
 
 extension Event {
 	private static let nameKey = "name"
-	private static let locationIDsKey = "location_ids"
-	private static let startDateKey = "start_time"
-	private static let endDateKey = "end_time"
+	private static let locationIDsKey = "locations"
+	private static let startDateKey = "start"
+	private static let durationKey = "duration"
 	private static let infoKey = "info"
 	private static let categoryKey = "category"
 	
 	convenience init?(_ serialized: SerializedRepresentation) {
-		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized[Event.categoryKey] as? Int, let category = Category(rawValue: categoryRaw), let locationIDs = serialized[Event.locationIDsKey] as? [String], let startDate = serialized[Event.startDateKey] as? Double, let endDate = serialized[Event.endDateKey] as? Double, let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String, startDate <= endDate
+		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized[Event.categoryKey] as? Int, let locationIDs = serialized[Event.locationIDsKey] as? [String], let category = Category(rawValue: categoryRaw), let startDate = serialized[Event.startDateKey] as? Double, let duration = serialized[Event.durationKey] as? Double, let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String
 		else {
 			return nil
 		}
-		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: Date(timeIntervalSince1970: startDate), endDate: Date(timeIntervalSince1970: endDate), info: description)
+		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: Date(timeIntervalSince1970: startDate), duration: duration, info: description)
 	}
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locations.map { $0.ID } as NSArray, Event.startDateKey: startDate.timeIntervalSince1970, Event.endDateKey: endDate.timeIntervalSince1970, Event.infoKey: information, Event.categoryKey: category.rawValue]
+		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locationIDs as NSArray, Event.startDateKey: startDate.timeIntervalSince1970, Event.durationKey: duration, Event.infoKey: information, Event.categoryKey: category.rawValue]
 	}
 }
 func < (lhs: Event, rhs: Event) -> Bool {

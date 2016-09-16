@@ -170,7 +170,7 @@ final class EventOrganizer {
         // First and last date
         let firstDate = events.first!.startDate
         
-        let lastDate = events.reduce(Date.distantPast ) { lastDate, event in
+        let lastDate = events.reduce(Date.distantPast) { lastDate, event in
 			return lastDate > event.endDate ? lastDate : event.endDate
         }
         
