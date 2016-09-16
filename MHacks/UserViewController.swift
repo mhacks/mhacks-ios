@@ -21,6 +21,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
     let signInDescriptionLabel = UILabel()
     let signInButton = UIButton(type: .system)
     
+    let ticketBackgroundView = UIView()
+    
     let nameTitleLabel = UILabel()
     let nameLabel = UILabel()
     
@@ -64,6 +66,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         signOutBarButtonItem.target = self
         signOutBarButtonItem.action = #selector(signOut)
         
+        ticketBackgroundView.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        ticketBackgroundView.layer.cornerRadius = 15.0
+        
         let scannableCodeShadowView = ShadowView()
         
         let scannableCodeContainerView = UIView()
@@ -81,11 +86,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         
         ticketView.translatesAutoresizingMaskIntoConstraints = false
         ticketView.axis = .vertical
-        ticketView.distribution = .equalSpacing
+        ticketView.spacing = 15.0
         
-        ticketView.addArrangedSubview(nameLabel)
-        ticketView.addArrangedSubview(emailLabel)
-        ticketView.addArrangedSubview(scannableCodeContainerView)
+        ticketView.addArrangedSubview(ticketBackgroundView)
         ticketView.addArrangedSubview(addPassButton)
         
         // Setup view
