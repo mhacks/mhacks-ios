@@ -12,6 +12,8 @@ import CoreImage
 
 final class UserViewController: UIViewController, LoginViewControllerDelegate {
     
+    let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
+    
     let signInView = UIStackView()
     let ticketView = UIStackView()
     
@@ -58,6 +60,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         signInView.addArrangedSubview(signInButton)
         
         // Setup ticket view
+        
+        signOutBarButtonItem.target = self
+        signOutBarButtonItem.action = #selector(signOut)
         
         let scannableCodeShadowView = ShadowView()
         
@@ -115,6 +120,20 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         updateViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(signInDidChange), name: APIManager.LoginStateChangedNotification, object: nil)
+        
+        updateViews()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: APIManager.LoginStateChangedNotification, object: nil)
+    }
+    
     func signIn() {
         
         let loginViewController = LoginViewController()
@@ -125,9 +144,21 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         present(loginNavigationController, animated: true, completion: nil)
     }
     
+    func signOut() {
+        
+        APIManager.shared.logout()
+    }
+    
+    func signInDidChange() {
+        
+        updateViews()
+    }
+    
     func updateViews() {
         
         if case .LoggedIn(let user) = APIManager.shared.userState {
+            
+            navigationItem.leftBarButtonItem = signOutBarButtonItem
             
             signInView.isHidden = true
             ticketView.isHidden = false
@@ -136,6 +167,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
             emailLabel.text = user.email
             
         } else {
+            
+            navigationItem.leftBarButtonItem = nil
             
             signInView.isHidden = false
             ticketView.isHidden = true
@@ -149,7 +182,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         
         let scaleFilter = CIFilter(name: "CIAffineTransform")!
         scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
-        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 10.0, y: 10.0)), forKey: "inputTransform")
+        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 8.0, y: 8.0)), forKey: "inputTransform")
         
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }

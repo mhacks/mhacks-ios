@@ -16,14 +16,21 @@ protocol LoginViewControllerDelegate: class {
 
 final class LoginViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
 	
+	// MARK: Delegate
+	
+	weak var delegate: LoginViewControllerDelegate?
+	
+	// MARK: Views
+	
 	let tableView = UITableView(frame: CGRect.zero, style: .grouped)
 	
 	let usernameCell = TextFieldCell(style: .default, reuseIdentifier: nil)
 	let passwordCell = TextFieldCell(style: .default, reuseIdentifier: nil)
 	
 	let signInBarButtonItem = UIBarButtonItem(title: "Sign In", style: .plain, target: nil, action: nil)
+	let signingInBarButtonItem = UIBarButtonItem(customView: UIActivityIndicatorView(activityIndicatorStyle: .gray))
 	
-	weak var delegate: LoginViewControllerDelegate?
+	// MARK: View life cycle
 	
 	override func loadView() {
 		
@@ -46,6 +53,8 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		signInBarButtonItem.target = self
 		signInBarButtonItem.action = #selector(login)
 		
+		updateSignInBarButtonEnabled()
+		
 		// Cells
 		
 		usernameCell.label.text = "Username"
@@ -56,6 +65,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		usernameCell.textField.autocapitalizationType = .none
 		usernameCell.textField.returnKeyType = .next
 		usernameCell.textField.delegate = self
+		usernameCell.textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
 		
 		passwordCell.label.text = "Password"
 		
@@ -63,6 +73,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		passwordCell.textField.isSecureTextEntry = true
 		passwordCell.textField.returnKeyType = .done
 		passwordCell.textField.delegate = self
+		passwordCell.textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
 	}
 	
 	private var firstAppearance = true
@@ -76,51 +87,85 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		}
 	}
 	
-	/*fileprivate func shakePasswordField(_ iterations: Int, direction: Int, currentTimes: Int, size: CGFloat, interval: TimeInterval) {
-		UIView.animate(withDuration: interval, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: [], animations: {() in
-			self.passwordField.transform = CGAffineTransform(translationX: size * CGFloat(direction), y: 0)
-			}, completion: {(finished) in
-				if (currentTimes >= iterations)
-				{
-					UIView.animate(withDuration: interval, animations: {() in
-						self.passwordField.transform = CGAffineTransform.identity
-					})
-					return
-				}
-				self.shakePasswordField(iterations - 1, direction: -direction, currentTimes: currentTimes + 1, size: size, interval: interval)
-		})
-	}*/
+	// MARK: State
 	
-	func incorrectPassword() {
-		DispatchQueue.main.async(execute: {
-			self.passwordCell.textField.text = nil
-			//self.shakePasswordField(7, direction: 1, currentTimes: 0, size: 10, interval: 0.1)
-		})
+	enum State {
+		case interactive
+		case signingIn
+		case signedIn
+	}
+	
+	var state = State.interactive {
+		didSet {
+			
+			let isInteractive = state == .interactive
+			
+			usernameCell.textField.isEnabled = isInteractive
+			passwordCell.textField.isEnabled = isInteractive
+			
+			let activityIndicator = signingInBarButtonItem.customView as! UIActivityIndicatorView
+			
+			if state == .signingIn {
+				activityIndicator.startAnimating()
+			} else {
+				activityIndicator.stopAnimating()
+			}
+			
+			switch state {
+			case .interactive:
+				navigationItem.rightBarButtonItem = signInBarButtonItem
+			case .signingIn:
+				navigationItem.rightBarButtonItem = signingInBarButtonItem
+			case .signedIn:
+				navigationItem.rightBarButtonItem = nil
+			}
+		}
+	}
+	
+	func updateSignInBarButtonEnabled() {
+		
+		if let username = usernameCell.textField.text, let password = passwordCell.textField.text, !username.isEmpty && !password.isEmpty {
+			signInBarButtonItem.isEnabled = true
+		} else {
+			signInBarButtonItem.isEnabled = false
+		}
 	}
 	
 	// MARK: Actions
 	
 	func login(_ sender: UIBarButtonItem? = nil) {
 		
-		guard let username = usernameCell.textField.text, let password = passwordCell.textField.text, !username.isEmpty && !password.isEmpty else {
-			return
-		}
+		state = .signingIn
+		
+		let username = usernameCell.textField.text!
+		let password = passwordCell.textField.text!
 		
 		APIManager.shared.loginWithUsername(username, password: password) { response in
 			
 			DispatchQueue.main.async {
 				
 				switch response {
-					
+				
 				case .value(let loggedIn):
 					
 					if loggedIn {
+						
+						self.state = .signedIn
 						self.delegate?.loginViewControllerDidLogin(loginViewController: self)
+						
 					} else {
-						self.incorrectPassword()
+						
+						self.state = .interactive
+						
+						self.passwordCell.textField.placeholder = "incorrect password"
+						self.passwordCell.textField.text = nil
+						self.passwordCell.textField.becomeFirstResponder()
 					}
 					
 				case .error(let errorMessage):
+					
+					self.state = .interactive
+					
 					NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
 				}
 			}
@@ -160,8 +205,13 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 	
 	// MARK: Text field delegate
 	
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool
-	{
+	func textFieldEditingChanged() {
+		
+		updateSignInBarButtonEnabled()
+	}
+	
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		
 		switch textField {
 			
 		case usernameCell.textField:
