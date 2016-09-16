@@ -10,7 +10,7 @@ import UIKit
 import PassKit
 import CoreImage
 
-final class UserViewController: UIViewController, LoginViewControllerDelegate {
+final class UserViewController: UIViewController, LoginViewControllerDelegate, PKAddPassesViewControllerDelegate {
     
     let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
     
@@ -86,7 +86,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         
         ticketView.addArrangedSubview(ticketBackgroundView)
         ticketView.addArrangedSubview(addPassButton)
-        
+		
+		addPassButton.addTarget(self, action: #selector(addPass(_:)), for: .touchUpInside)
+		
         // Setup view
         
         let contentLayoutGuide = UILayoutGuide()
@@ -184,7 +186,16 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
         
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
-    
+	
+	func addPass(_ sender: PKAddPassButton)
+	{
+		APIManager.shared.fetchPass { pass in
+			let passesViewController = PKAddPassesViewController(pass: pass)
+			passesViewController.delegate = self
+			self.present(passesViewController, animated: true, completion: nil)
+		}
+	}
+	
     // MARK: Login view controller delegate
     
     func loginViewControllerDidCancel(loginViewController: LoginViewController) {
@@ -194,4 +205,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate {
     func loginViewControllerDidLogin(loginViewController: LoginViewController) {
         dismiss(animated: true, completion: nil)
     }
+	
+	func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+		dismiss(animated: true, completion: nil)
+	}
 }
