@@ -633,6 +633,7 @@
         <!--Maps-->
         <scene sceneID="6md-ve-ikr">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xdx-Qt-Ty3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="4qu-ZM-Kct" customClass="MapViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u3h-cO-Uyd"/>
@@ -711,7 +712,6 @@
                         <outlet property="mapView" destination="RY1-0W-2fc" id="h7y-2s-OIK"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xdx-Qt-Ty3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1065" y="0.0"/>
         </scene>
