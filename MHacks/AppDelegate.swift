@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var announcementsNavigationController: UINavigationController!
 	
+	var userNavigationController: UINavigationController!
 	var userViewController: UserViewController!
 	
 	// MARK: Application life cycle
@@ -38,7 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		
 		announcementsNavigationController = tabBarController.viewControllers![3] as! UINavigationController
 		
-		userViewController = tabBarController.viewControllers![4] as! UserViewController
+		userNavigationController = tabBarController.viewControllers![4] as! UINavigationController
+		userViewController = userNavigationController.viewControllers[0] as! UserViewController
+		
+		userNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		userNavigationController.navigationBar.shadowImage = UIImage()
 		
 		return true
 	}
@@ -150,7 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func updateTabBarAppearance() {
 		
-		let minimalist = (tabBarController.selectedViewController == countdownViewController || tabBarController.selectedViewController == userViewController)
+		let minimalist = (tabBarController.selectedViewController == countdownViewController || tabBarController.selectedViewController == userNavigationController)
 		
 		tabBarController.tabBar.backgroundImage = minimalist ? UIImage() : nil
 		tabBarController.tabBar.shadowImage = minimalist ? UIImage() : nil
