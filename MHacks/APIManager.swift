@@ -355,6 +355,32 @@ final class APIManager
 //		}
 	}
 	
+	// MARK: PKPass
+	
+	/// Do *not* use this method directly. Instead see fetchPass()
+	func fetchPKPassAsData( _ callback: @escaping (Response<Data>) -> Void)
+	{
+		guard loggedIn
+		else {
+			callback(.error("Cannot fetch pass while not logged in"))
+			return
+		}
+		taskWithRoute("/v1/apple_pass/") { response in
+			switch response
+			{
+			case .value(let json):
+				guard let encodedPassInformation = json["apple_pass"] as? String, let passData = Data(base64Encoded: encodedPassInformation, options: .ignoreUnknownCharacters)
+				else {
+					callback(.error("Invalid pass downloaded. Try again"))
+					return
+				}
+				callback(.value(passData))
+			case .error(let message):
+				callback(.error(message))
+			}
+		}
+	}
+	
 	
 	// MARK: - Helpers
 	

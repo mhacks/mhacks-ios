@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PassKit
 
 // These are separated into their own file so that we don't have a UIKit dependency
 // on APIManager.swift, and we can reuse APIManager.swift for a TodayExtension,
@@ -21,6 +22,28 @@ extension APIManager {
 		UIApplication.shared.isNetworkActivityIndicatorVisible = false
 	}
 }
+extension APIManager {
+	func fetchPass(_ callback: @escaping (PKPass) -> Void)
+	{
+		fetchPKPassAsData { response in
+			switch response
+			{
+			case .value(let data):
+				var error: NSError?
+				let pass = PKPass(data: data, error: &error)
+				guard error == nil
+				else {
+					NotificationCenter.default.post(name: APIManager.FailureNotification, object: error!.localizedDescription)
+					return
+				}
+				callback(pass)
+			case .error(let message):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: message)
+			}
+		}
+	}
+}
+
 
 extension Event {
 	
