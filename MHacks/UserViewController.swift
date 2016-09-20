@@ -209,9 +209,13 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
 	
-	func addPass(_ sender: PKAddPassButton)
-	{
+	func addPass(_ sender: PKAddPassButton) {
 		APIManager.shared.fetchPass { pass in
+			guard let pass = pass
+			else {
+				// Request failed
+				return
+			}
 			let passesViewController = PKAddPassesViewController(pass: pass)
 			passesViewController.delegate = self
 			self.present(passesViewController, animated: true, completion: nil)

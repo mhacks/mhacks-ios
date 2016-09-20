@@ -75,8 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	}
 	
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		let deviceTokenString = deviceToken.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
+		let deviceTokenString = deviceToken.reduce("", {
+			$0 + String(format: "%x", $1)
+		})
+		if defaults.object(forKey: remoteNotificationPreferencesKey) == nil
+		{
+			defaults.set(63, forKey: remoteNotificationPreferencesKey)
+		}
 		defaults.set(deviceTokenString, forKey: remoteNotificationTokenKey)
+		APIManager.shared.updateAPNSToken()
 	}
 	
 	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

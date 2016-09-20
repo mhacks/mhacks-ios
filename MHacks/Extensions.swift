@@ -50,4 +50,3 @@ let container = FileManager.default.containerURL(forSecurityApplicationGroupIden
 
 let remoteNotificationTokenKey = "remote_notification_token"
 let remoteNotificationPreferencesKey = "remote_notification_preferences"
-
