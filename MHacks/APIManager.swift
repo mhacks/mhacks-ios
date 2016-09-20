@@ -76,6 +76,40 @@ final class APIManager
 		case LoggedIn(UserInfo)
 		case LoggedOut
 	}
+	func canPostAnnouncements() -> Bool {
+		return authenticator?.canPostAnnouncements ?? false
+	}
+	func canEditAnnouncements() -> Bool {
+		return authenticator?.canEditAnnouncements ?? false
+	}
+	func canScanUserCode() -> Bool {
+		return authenticator?.canPerformScan ?? false
+	}
+	
+	
+	/// Updates the user profile by updating the user's information and their privileges.
+	///
+	/// - parameter completion: If you are interested on being notified of changes.
+	func updateUserProfile(_ completion: CoalescedCallbacks.Callback? = nil)
+	{
+		guard authenticator != nil
+		else {
+			completion?(false)
+			return
+		}
+		
+		taskWithRoute("/v1/profile/") { response in
+			switch response
+			{
+			case .value(let newData):
+				self.authenticator = Authenticator(newData) ?? self.authenticator
+				completion?(true)
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
+	}
 	
 	/// This can fetch the current state for the user along with their information if they are logged in.
 	/// - Warning: Querying for the user state is not trivial therefore, do so only when absolutely required and store the result in a variable rather than querying this field every time. That said, it's not **that** expensive, so use it liberally where desired but cache the result instead of querying.
@@ -242,23 +276,6 @@ final class APIManager
 		updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: locations)
 	}
 	
-	
-	// MARK: - Privilege
-	
-	func canPostAnnouncements() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
-	
-	func canEditAnnouncements() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
-	
-	func canScanUserCode() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
 	
 	// MARK: - Map
 	private(set) var map = Map()
@@ -491,11 +508,11 @@ final class APIManager
 			if let obj = NSKeyedUnarchiver.unarchiveObject(with: data) as? APIManagerSerializer {
 				// Move everything over
 				self.authenticator = Authenticator(obj.authenticator as? SerializedRepresentation)
-				
 				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
 				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
 				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
 				updateSerialized(self.map, using: obj.map, notificationName: APIManager.MapUpdatedNotification)
+				updateSerialized(self.scanEvents, using: obj.scanEvents, notificationName: APIManager.ScanEventsUpdatedNotification)
 				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification) {
 					self.eventsOrganizer = EventOrganizer(events: self.events)
 				}
@@ -558,14 +575,14 @@ extension APIManager {
 				return
 			}
 
-			guard let authToken = JSON["token"] as? String, let userInfo = JSON["user"] as? [String: Any], let name = userInfo["name"] as? String
+			guard let authToken = JSON["token"] as? String, let userInfo = JSON["user"] as? [String: Any], let authenticator = Authenticator(userInfo, authenticationToken: authToken)
 			else
 			{
 				completion(.value(false))
 				return
 			}
 			
-			self.authenticator = Authenticator(authToken: authToken, username: username, name: name, school: userInfo["school"] as? String)
+			self.authenticator = authenticator
 			completion(.value(true))
 			DispatchQueue.global(qos: .background).async {
 				self.archive()
@@ -586,23 +603,33 @@ extension APIManager {
 	/// The implementation used here is pretty secure so there's noting to worry about
 	fileprivate struct Authenticator: SerializableElement {
 		
-		// FIXME: We need to add lots of other information here!
-		
 		let username: String
 		let name: String
 		let school: String?
+		let canPostAnnouncements: Bool
+		let canEditAnnouncements: Bool
+		let canPerformScan: Bool
+		
 		private let authenticationToken: String
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let usernameKey = "username"
 		private static let nameKey = "name"
 		private static let schoolKey = "school"
+		private static let canPostAnnouncementsKey = "can_post_announcements"
+		private static let canEditAnnouncementsKey = "can_edit_announcements"
+		private static let canPerformScanKey = "can_perform_scan"
 		
-		init(authToken: String, username: String, name: String, school: String?) {
+		init(authToken: String, username: String, name: String, school: String?,
+		     canPostAnnouncements: Bool, canEditAnnouncements: Bool, canPerformScan: Bool) {
 			self.authenticationToken = authToken
 			self.username = username
 			self.name = name
 			self.school = school
+			self.canPostAnnouncements = canPostAnnouncements
+			self.canEditAnnouncements = canEditAnnouncements
+			self.canPerformScan = canPerformScan
+			NotificationCenter.default.post(name: APIManager.UserProfileUpdatedNotification, object: self)
 		}
 		
 		func addAuthorizationHeader(_ request: NSMutableURLRequest) {
@@ -620,12 +647,20 @@ extension APIManager {
 			else {
 				return nil
 			}
-			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String)
+			
+			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: serializedRepresentation[Authenticator.canPostAnnouncementsKey] as? Bool ?? false, canEditAnnouncements: serializedRepresentation[Authenticator.canEditAnnouncementsKey] as? Bool ?? false, canPerformScan: serializedRepresentation[Authenticator.canPerformScanKey] as? Bool ?? false)
+		}
+		
+		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
+			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String
+				else { return nil }
+			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
+			self.init(serializedRepresentation)
 		}
 		
 		func toSerializedRepresentation() -> NSDictionary {
 			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
-			var dict = [Authenticator.usernameKey: username, Authenticator.nameKey: name]
+			var dict: [String : Any] = [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.canPostAnnouncementsKey: canPostAnnouncements, Authenticator.canEditAnnouncementsKey: canEditAnnouncements, Authenticator.canPerformScanKey: canPerformScan]
 			if let school = school
 			{
 				dict[Authenticator.schoolKey] = school
@@ -648,6 +683,7 @@ extension APIManager
 	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
 	static let MapUpdatedNotification = Notification.Name("MapUpdated")
 	static let ScanEventsUpdatedNotification = Notification.Name("ScanEventsUpdated")
+	static let UserProfileUpdatedNotification = Notification.Name("UserProfileUpdated")
 	static let FailureNotification = Notification.Name("Failure")
 }
 
