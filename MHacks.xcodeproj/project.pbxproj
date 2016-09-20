@@ -57,6 +57,8 @@
 		82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
+		825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
+		825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
 		8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */; };
 		827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
@@ -163,6 +165,7 @@
 		82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanEvent.swift; sourceTree = "<group>"; };
 		8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		827F59AD1C6532DE00FF2D15 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -432,6 +435,7 @@
 				82942B9E1C2A2EAE0084880C /* Event.swift */,
 				827F59AD1C6532DE00FF2D15 /* Map.swift */,
 				82287A701C66D81D001A0F38 /* MapExtended.swift */,
+				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
 			);
 			name = "Public Models";
 			sourceTree = "<group>";
@@ -580,6 +584,7 @@
 				82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */,
 				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				82287A611C66C570001A0F38 /* Event.swift in Sources */,
+				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */,
 				82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */,
 				82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */,
@@ -606,6 +611,7 @@
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
+				825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,

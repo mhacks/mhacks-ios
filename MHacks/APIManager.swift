@@ -321,10 +321,10 @@ final class APIManager
 //		}
 	}
 	
-	// MARK: PKPass
+	// MARK: - PKPass
 	
 	/// Do *not* use this method directly. Instead see fetchPass()
-	func fetchPKPassAsData( _ callback: @escaping (Response<Data>) -> Void)
+	func fetchPKPassAsData(_ callback: @escaping (Response<Data>) -> Void)
 	{
 		guard loggedIn
 		else {
@@ -347,6 +347,12 @@ final class APIManager
 		}
 	}
 	
+	// MARK: - ScanEvent
+	let scanEvents = MHacksArray<ScanEvent>()
+	func updateScanEvents(_ callback: CoalescedCallbacks.Callback? = nil)
+	{
+		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: callback, existingObject: scanEvents)
+	}
 	
 	// MARK: - Helpers
 	
@@ -641,6 +647,7 @@ extension APIManager
 	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
 	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
 	static let MapUpdatedNotification = Notification.Name("MapUpdated")
+	static let ScanEventsUpdatedNotification = Notification.Name("ScanEventsUpdated")
 	static let FailureNotification = Notification.Name("Failure")
 }
 
@@ -651,6 +658,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	let locations: NSDictionary
 	let events: NSDictionary
 	let map: NSDictionary
+	let scanEvents: NSDictionary
 	
 	private static let authenticatorKey = "authenticator"
 	private static let countdownKey = "countdown"
@@ -658,10 +666,10 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	private static let locationsKey = "locations"
 	private static let eventsKey = "events"
 	private static let mapKey = "map"
-	
+	private static let scanEventsKey = "scan_events"
 	
 	init?(coder aDecoder: NSCoder) {
-		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.decodeObject(forKey: APIManagerSerializer.mapKey) as? NSDictionary
+		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.decodeObject(forKey: APIManagerSerializer.mapKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
 			else { return nil }
 		
 		self.authenticator = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary ?? NSDictionary()
@@ -670,6 +678,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		self.locations = locations
 		self.events = events
 		self.map = map
+		self.scanEvents = scanEvents
 	}
 	
 	init?(manager: APIManager) {
@@ -679,6 +688,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		self.locations = manager.locations.toSerializedRepresentation()
 		self.events = manager.events.toSerializedRepresentation()
 		self.map = manager.map.toSerializedRepresentation()
+		self.scanEvents = manager.scanEvents.toSerializedRepresentation()
 	}
 	
 	func encode(with aCoder: NSCoder) {
@@ -688,5 +698,6 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		aCoder.encode(locations, forKey: APIManagerSerializer.locationsKey)
 		aCoder.encode(events, forKey: APIManagerSerializer.eventsKey)
 		aCoder.encode(map, forKey: APIManagerSerializer.mapKey)
+		aCoder.encode(scanEvents, forKey: APIManagerSerializer.scanEventsKey)
 	}
 }
