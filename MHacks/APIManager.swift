@@ -169,11 +169,18 @@ final class APIManager
 	func updateAnnouncement(_ announcement: Announcement, usingMethod method: HTTPMethod, completion: CoalescedCallbacks.Callback? = nil)
 	{
 		let route = method == .put ? "/v1/announcement/\(announcement.ID)" : "/v1/announcements"
-		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as? [String: Any] ?? [:]) { response in
-			
+		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as? [String: Any] ?? [:], usingHTTPMethod: method) { response in
+			switch response
+			{
+			case .value(_):
+				completion?(true)
+				self.updateAnnouncements()
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
 		}
 	}
-	
 	
 	/// Deletes an announcement
 	///
@@ -183,88 +190,18 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func deleteAnnouncement(_ announcement: Announcement, completion: CoalescedCallbacks.Callback? = nil)
 	{
-//		let announcement = announcementBuffer._array[announcementIndex]
-//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
-//			switch deletedAnnouncement
-//			{
-//			case .value(_):
-//				self.announcementBuffer._array.remove(at: announcementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage)
-//				completion(false)
-//			}
-//		}
+		taskWithRoute("/v1/announcement/\(announcement.ID)", usingHTTPMethod: .delete) { response in
+			switch response
+			{
+			case .value(_):
+				completion?(true)
+				self.updateAnnouncements()
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
 	}
-	
-	// MARK: - Unapproved Announcements
-	
-	// FIXME: These methods below are deprecated. Do not use them and start moving away from them 
-	// They will not work as expected and are only here to avoid dealing with all the compiler issues right away.
-	@available(*, deprecated)
-	var unapprovedAnnouncements = [Announcement]()
-	
-	@available(*, deprecated)
-	func updateUnapprovedAnnouncements(_ callback: CoalescedCallbacks.Callback? = nil)
-	{
-//		updateGenerically("/v1/all_announcements/", notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback) { (result: MyArray<Announcement>) in
-//			guard result._array != self.unapprovedAnnouncementBuffer._array
-//				else
-//			{
-//				NotificationCenter.default.post(.UnapprovedAnnouncementsUpdated)
-//				return false
-//			}
-//			self.unapprovedAnnouncementBuffer = result
-//			return true
-//		}
-	}
-	
-	@available(*, deprecated)
-	func deleteUnapprovedAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil)
-	{
-//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
-//			switch deletedAnnouncement
-//			{
-//			case .value(_):
-//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
-//				completion(false)
-//			}
-//		}
-	}
-	
-	@available(*, deprecated)
-	func approveAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil) {
-//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-//		var jsonToSend = announcement.encodeForCreation()
-//		jsonToSend["is_approved"] = NSNumber(booleanLiteral: true)
-//		taskWithRoute("/v1/update_announcement/\(announcement.ID)/", parameters: jsonToSend, usingHTTPMethod: .post) { (approvedAnnouncement: Response<Announcement>) in
-//			switch approvedAnnouncement
-//			{
-//			case .value(announcement):
-//				guard announcement.approved
-//				else
-//				{
-//					assertionFailure("The server said the announcement was approved but in reality it wasn't")
-//					NotificationCenter.default.post(.Failure, object: "Failed to approve announcement" as NSString)
-//					completion(false)
-//					break
-//				}
-//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
-//				completion(false)
-//			default:
-//				completion(false)
-//				break
-//			}
-//		}
-	}
-	
 	
 	
 	// MARK: - Countdown

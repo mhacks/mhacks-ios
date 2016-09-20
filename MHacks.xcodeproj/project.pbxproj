@@ -104,16 +104,6 @@
 		9D4D0CCD1C669911003DAAF3 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E9C4861C4F094200ED2EBF /* GoogleMaps.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		82287A4E1C66C3D8001A0F38 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82287A431C66C3D8001A0F38;
-			remoteInfo = MHacksToday;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		82287A541C66C3D8001A0F38 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -478,7 +468,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				82287A4F1C66C3D8001A0F38 /* PBXTargetDependency */,
 			);
 			name = MHacks;
 			productName = MHacks;
@@ -651,14 +640,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		82287A4F1C66C3D8001A0F38 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
-			targetProxy = 82287A4E1C66C3D8001A0F38 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		82287A591C66C419001A0F38 /* MainInterface.storyboard */ = {
