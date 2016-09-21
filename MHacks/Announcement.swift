@@ -111,12 +111,8 @@ struct Announcement: SerializableElementWithIdentifier {
 		let formatter = Calendar.shared.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.string(from: date)
 	}
-	
-	
-	static let dateFont: UIFont = {
-		return UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
-	}()
 }
+
 extension Announcement
 {
 	private static let infoKey = "info"
