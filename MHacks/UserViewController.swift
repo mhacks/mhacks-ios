@@ -73,13 +73,16 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         scannableCodeView.layer.cornerRadius = 8.0
         
         nameTitleLabel.text = "HACKER"
-        nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
         schoolTitleLabel.text = "SCHOOL"
-        schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         
         nameLabel.textColor = UIColor.white
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        
         schoolLabel.textColor = UIColor.white
+        schoolLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         
         let schoolView = UIStackView(arrangedSubviews: [nameTitleLabel, nameLabel])
         schoolView.axis = .vertical
@@ -185,7 +188,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.isHidden = false
             
             nameLabel.text = user.name
-            schoolLabel.text = user.school
+            schoolLabel.text = user.school ?? "Unknown"
             
         } else {
             
@@ -210,12 +213,18 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     }
 	
 	func addPass(_ sender: PKAddPassButton) {
+        
+        view.isUserInteractionEnabled = false
+        
 		APIManager.shared.fetchPass { pass in
-			guard let pass = pass
-			else {
+            
+            self.view.isUserInteractionEnabled = true
+            
+			guard let pass = pass else {
 				// Request failed
 				return
 			}
+            
 			let passesViewController = PKAddPassesViewController(pass: pass)
 			passesViewController.delegate = self
 			self.present(passesViewController, animated: true, completion: nil)
@@ -231,6 +240,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     func loginViewControllerDidLogin(loginViewController: LoginViewController) {
         dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: Add passed view controller delegate
 	
 	func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
 		dismiss(animated: true, completion: nil)
