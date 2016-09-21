@@ -81,16 +81,18 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         scannableCodeView.layer.cornerRadius = 8.0
         
         nameTitleLabel.text = "HACKER"
-        nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        nameTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
         
         schoolTitleLabel.text = "SCHOOL"
-        schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
+        schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        schoolTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
         
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textColor = UIColor.white
-        nameLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         
+        schoolLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         schoolLabel.textColor = UIColor.white
-        schoolLabel.font = UIFont.preferredFont(forTextStyle: .title3)
         
         let schoolView = UIStackView(arrangedSubviews: [nameTitleLabel, nameLabel])
         schoolView.axis = .vertical
