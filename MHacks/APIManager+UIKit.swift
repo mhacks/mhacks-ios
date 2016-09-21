@@ -23,22 +23,22 @@ extension APIManager {
 	}
 }
 extension APIManager {
-	func fetchPass(_ callback: @escaping (PKPass) -> Void)
-	{
+	func fetchPass(_ callback: @escaping (PKPass?) -> Void) {
 		fetchPKPassAsData { response in
-			switch response
-			{
+			switch response {
 			case .value(let data):
 				var error: NSError?
 				let pass = PKPass(data: data, error: &error)
 				guard error == nil
 				else {
 					NotificationCenter.default.post(name: APIManager.FailureNotification, object: error!.localizedDescription)
+					callback(nil)
 					return
 				}
 				callback(pass)
 			case .error(let message):
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: message)
+				callback(nil)
 			}
 		}
 	}

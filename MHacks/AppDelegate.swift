@@ -23,10 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var announcementsNavigationController: UINavigationController!
 	
+	var userNavigationController: UINavigationController!
 	var userViewController: UserViewController!
 	
 	// MARK: Application life cycle
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
+		
+		window!.tintColor = UIColor(red: 0.0, green: 169.0 / 255.0, blue: 194.0 / 255.0, alpha: 1.0)
 		
 		tabBarController = window!.rootViewController as! UITabBarController
 		tabBarController.delegate = self
@@ -38,7 +41,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		
 		announcementsNavigationController = tabBarController.viewControllers![3] as! UINavigationController
 		
-		userViewController = tabBarController.viewControllers![4] as! UserViewController
+		userNavigationController = tabBarController.viewControllers![4] as! UINavigationController
+		userViewController = userNavigationController.viewControllers[0] as! UserViewController
+		
+		userNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+		userNavigationController.navigationBar.shadowImage = UIImage()
 		
 		return true
 	}
@@ -70,8 +77,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	}
 	
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		let deviceTokenString = deviceToken.description.trimmingCharacters(in: CharacterSet(charactersIn: "<>")).replacingOccurrences(of: " ", with: "")
+		let deviceTokenString = deviceToken.reduce("", {
+			$0 + String(format: "%x", $1)
+		})
+		if defaults.object(forKey: remoteNotificationPreferencesKey) == nil
+		{
+			defaults.set(63, forKey: remoteNotificationPreferencesKey)
+		}
 		defaults.set(deviceTokenString, forKey: remoteNotificationTokenKey)
+		APIManager.shared.updateAPNSToken()
 	}
 	
 	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -150,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func updateTabBarAppearance() {
 		
-		let minimalist = (tabBarController.selectedViewController == countdownViewController || tabBarController.selectedViewController == userViewController)
+		let minimalist = (tabBarController.selectedViewController == countdownViewController || tabBarController.selectedViewController == userNavigationController)
 		
 		tabBarController.tabBar.backgroundImage = minimalist ? UIImage() : nil
 		tabBarController.tabBar.shadowImage = minimalist ? UIImage() : nil

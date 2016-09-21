@@ -21,7 +21,7 @@ enum Response<T> {
 	case error(String)
 }
 
-private let archiveLocation = container.appendingPathComponent("manager.plist")
+private let archiveLocation = container.appendingPathComponent("archive.plist")
 
 final class APIManager
 {
@@ -76,6 +76,40 @@ final class APIManager
 		case LoggedIn(UserInfo)
 		case LoggedOut
 	}
+	func canPostAnnouncements() -> Bool {
+		return authenticator?.canPostAnnouncements ?? false
+	}
+	func canEditAnnouncements() -> Bool {
+		return authenticator?.canEditAnnouncements ?? false
+	}
+	func canScanUserCode() -> Bool {
+		return authenticator?.canPerformScan ?? false
+	}
+	
+	
+	/// Updates the user profile by updating the user's information and their privileges.
+	///
+	/// - parameter completion: If you are interested on being notified of changes.
+	func updateUserProfile(_ completion: CoalescedCallbacks.Callback? = nil)
+	{
+		guard authenticator != nil
+		else {
+			completion?(false)
+			return
+		}
+		
+		taskWithRoute("/v1/profile/") { response in
+			switch response
+			{
+			case .value(let newData):
+				self.authenticator = Authenticator(newData) ?? self.authenticator
+				completion?(true)
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
+	}
 	
 	/// This can fetch the current state for the user along with their information if they are logged in.
 	/// - Warning: Querying for the user state is not trivial therefore, do so only when absolutely required and store the result in a variable rather than querying this field every time. That said, it's not **that** expensive, so use it liberally where desired but cache the result instead of querying.
@@ -90,26 +124,62 @@ final class APIManager
 	}
 	
 	// MARK: - APNS Token
+	fileprivate static let APNSTokenKey = "registration_id"
+	fileprivate static let APNSPreferenceKey = "name"
+	fileprivate func getTokenAndPreference(newPreference: Int?) -> (String, Int)?
+	{
+		guard let deviceID = defaults.string(forKey: remoteNotificationTokenKey)
+		else {
+			return nil
+		}
+		var preferenceToSend: Int
+		if let preference = newPreference
+		{
+			preferenceToSend = preference
+		}
+		else
+		{
+			preferenceToSend = defaults.integer(forKey: remoteNotificationPreferencesKey)
+			if preferenceToSend == 0
+			{
+				preferenceToSend = 63
+			}
+		}
+		return (deviceID, preferenceToSend)
+	}
 	
 	/// Create/Update the APNS Token for the user so that they can recieve push notifications
 	///
 	/// - parameter preference: The user's preference. Defaults to 63 which means all. Will be in UserDefaults with the key `remoteNotificationPreferencesKey`
 	/// - parameter completion: An optional completion block if you are interested in the success of the request.
-	func updateAPNSToken(preference: Int = 63, completion: CoalescedCallbacks.Callback? = nil)
+	func updateAPNSToken(preference: Int? = nil, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		// TODO: Implement
+		guard let (deviceID, preference) = getTokenAndPreference(newPreference: preference)
+		else {
+			completion?(false)
+			return
+		}
 		
-		//		taskWithRoute("/v1/push_notif/\(method == .put ? "edit" : "")/", parameters: ["token":  token as AnyObject, "preferences": "\(preference)", "is_gcm": false], usingHTTPMethod: .post, completion: { (result: Response<JSONWrapper>) in
-		//			switch result
-		//			{
-		//			case .value(_):
-		//				defaults.set(preference, forKey: remoteNotificationPreferencesKey)
-		//				defaults.set(token, forKey: remoteNotificationTokenKey)
-		//				completion?(true)
-		//			case .error(let errorMessage):
-		//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
-		//			}
-		//		})
+		taskWithRoute("/v1/push_notifications/apns/", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: "\(preference)"], usingHTTPMethod: .post) { response in
+			switch response {
+			case .value(let json):
+				guard let token = json["registration_id"] as? String, token == deviceID
+				else {
+					completion?(false)
+					return
+				}
+				guard let preferenceString = json[APIManager.APNSPreferenceKey] as? String, let preference = Int(preferenceString)
+				else {
+					completion?(false)
+					return
+				}
+				defaults.set(preference, forKey: remoteNotificationPreferencesKey)
+				completion?(true)
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
 	}
 	
 	// MARK: - Announcements
@@ -132,19 +202,19 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func updateAnnouncement(_ announcement: Announcement, usingMethod method: HTTPMethod, completion: CoalescedCallbacks.Callback? = nil)
 	{
-//		let route = method == .put ? "/v1/update_announcement/\(announcement.ID)/" : "/v1/announcements/"
-//		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as! [String : Any], usingHTTPMethod: .post, completion: { (updatedAnnouncement: Response<[String: Any]>) in
-//			switch updatedAnnouncement
-//			{
-//			case .value(_):
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage)
-//				completion(false)
-//			}
-//		})
+		let route = method == .put ? "/v1/announcement/\(announcement.ID)" : "/v1/announcements"
+		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as? [String: Any] ?? [:], usingHTTPMethod: method) { response in
+			switch response
+			{
+			case .value(_):
+				completion?(true)
+				self.updateAnnouncements()
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
 	}
-	
 	
 	/// Deletes an announcement
 	///
@@ -154,88 +224,18 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func deleteAnnouncement(_ announcement: Announcement, completion: CoalescedCallbacks.Callback? = nil)
 	{
-//		let announcement = announcementBuffer._array[announcementIndex]
-//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
-//			switch deletedAnnouncement
-//			{
-//			case .value(_):
-//				self.announcementBuffer._array.remove(at: announcementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage)
-//				completion(false)
-//			}
-//		}
+		taskWithRoute("/v1/announcement/\(announcement.ID)", usingHTTPMethod: .delete) { response in
+			switch response
+			{
+			case .value(_):
+				completion?(true)
+				self.updateAnnouncements()
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				completion?(false)
+			}
+		}
 	}
-	
-	// MARK: - Unapproved Announcements
-	
-	// FIXME: These methods below are deprecated. Do not use them and start moving away from them 
-	// They will not work as expected and are only here to avoid dealing with all the compiler issues right away.
-	@available(*, deprecated)
-	var unapprovedAnnouncements = [Announcement]()
-	
-	@available(*, deprecated)
-	func updateUnapprovedAnnouncements(_ callback: CoalescedCallbacks.Callback? = nil)
-	{
-//		updateGenerically("/v1/all_announcements/", notification: .UnapprovedAnnouncementsUpdated, semaphoreGuard: unapprovedAnnouncementsSemaphore, coalecser: unapprovedCallbacks, callback: callback) { (result: MyArray<Announcement>) in
-//			guard result._array != self.unapprovedAnnouncementBuffer._array
-//				else
-//			{
-//				NotificationCenter.default.post(.UnapprovedAnnouncementsUpdated)
-//				return false
-//			}
-//			self.unapprovedAnnouncementBuffer = result
-//			return true
-//		}
-	}
-	
-	@available(*, deprecated)
-	func deleteUnapprovedAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil)
-	{
-//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-//		taskWithRoute("/v1/announcements/\(announcement.ID)/", usingHTTPMethod: .delete) { (deletedAnnouncement: Response<JSONWrapper>) in
-//			switch deletedAnnouncement
-//			{
-//			case .value(_):
-//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
-//				completion(false)
-//			}
-//		}
-	}
-	
-	@available(*, deprecated)
-	func approveAnnouncement(_ unapprovedAnnouncementIndex: Int, completion: CoalescedCallbacks.Callback? = nil) {
-//		let announcement = unapprovedAnnouncementBuffer._array[unapprovedAnnouncementIndex]
-//		var jsonToSend = announcement.encodeForCreation()
-//		jsonToSend["is_approved"] = NSNumber(booleanLiteral: true)
-//		taskWithRoute("/v1/update_announcement/\(announcement.ID)/", parameters: jsonToSend, usingHTTPMethod: .post) { (approvedAnnouncement: Response<Announcement>) in
-//			switch approvedAnnouncement
-//			{
-//			case .value(announcement):
-//				guard announcement.approved
-//				else
-//				{
-//					assertionFailure("The server said the announcement was approved but in reality it wasn't")
-//					NotificationCenter.default.post(.Failure, object: "Failed to approve announcement" as NSString)
-//					completion(false)
-//					break
-//				}
-//				self.unapprovedAnnouncementBuffer._array.remove(at: unapprovedAnnouncementIndex)
-//				completion(true)
-//			case .error(let errorMessage):
-//				NotificationCenter.default.post(.Failure, object: errorMessage as NSString)
-//				completion(false)
-//			default:
-//				completion(false)
-//				break
-//			}
-//		}
-	}
-	
 	
 	
 	// MARK: - Countdown
@@ -276,23 +276,6 @@ final class APIManager
 		updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: locations)
 	}
 	
-	
-	// MARK: - Privilege
-	
-	func canPostAnnouncements() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
-	
-	func canEditAnnouncements() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
-	
-	func canScanUserCode() -> Bool {
-		// FIXME: This is just for testing, we need to use privileges
-		return true
-	}
 	
 	// MARK: - Map
 	private(set) var map = Map()
@@ -355,10 +338,10 @@ final class APIManager
 //		}
 	}
 	
-	// MARK: PKPass
+	// MARK: - PKPass
 	
 	/// Do *not* use this method directly. Instead see fetchPass()
-	func fetchPKPassAsData( _ callback: @escaping (Response<Data>) -> Void)
+	func fetchPKPassAsData(_ callback: @escaping (Response<Data>) -> Void)
 	{
 		guard loggedIn
 		else {
@@ -381,6 +364,12 @@ final class APIManager
 		}
 	}
 	
+	// MARK: - ScanEvent
+	let scanEvents = MHacksArray<ScanEvent>()
+	func updateScanEvents(_ callback: CoalescedCallbacks.Callback? = nil)
+	{
+		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: callback, existingObject: scanEvents)
+	}
 	
 	// MARK: - Helpers
 	
@@ -407,7 +396,9 @@ final class APIManager
 	private func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
 	{
 		let request = createRequestForRoute(route, parameters: parameters, usingHTTPMethod: method)
-		print(request.url)
+		#if DEBUG
+			print(request.url!)
+		#endif
 		showNetworkIndicator()
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
 			
@@ -517,11 +508,11 @@ final class APIManager
 			if let obj = NSKeyedUnarchiver.unarchiveObject(with: data) as? APIManagerSerializer {
 				// Move everything over
 				self.authenticator = Authenticator(obj.authenticator as? SerializedRepresentation)
-				
 				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
 				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
 				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
 				updateSerialized(self.map, using: obj.map, notificationName: APIManager.MapUpdatedNotification)
+				updateSerialized(self.scanEvents, using: obj.scanEvents, notificationName: APIManager.ScanEventsUpdatedNotification)
 				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification) {
 					self.eventsOrganizer = EventOrganizer(events: self.events)
 				}
@@ -558,10 +549,15 @@ extension APIManager {
 			completion(.value(true))
 			return
 		}
+		var parameters: [String: Any] = ["username": username, "password": password]
+		if let (apnsToken, preference) = getTokenAndPreference(newPreference: nil)
+		{
+			parameters["is_gcm"] = false
+			parameters[APIManager.APNSTokenKey] = apnsToken
+			parameters[APIManager.APNSPreferenceKey] = "\(preference)"
+		}
 		
-		let token = defaults.string(forKey: remoteNotificationTokenKey) ?? ""
-		
-		let request = createRequestForRoute("/v1/login/", parameters: ["username": username, "password": password, "is_gcm": false, "token": token], usingHTTPMethod: .post)
+		let request = createRequestForRoute("/v1/login/", parameters: parameters, usingHTTPMethod: .post)
 		showNetworkIndicator()
 		
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -579,14 +575,14 @@ extension APIManager {
 				return
 			}
 
-			guard let authToken = JSON["token"] as? String, let userInfo = JSON["user"] as? [String: Any], let name = userInfo["name"] as? String
+			guard let authToken = JSON["token"] as? String, let userInfo = JSON["user"] as? [String: Any], let authenticator = Authenticator(userInfo, authenticationToken: authToken)
 			else
 			{
 				completion(.value(false))
 				return
 			}
 			
-			self.authenticator = Authenticator(authToken: authToken, username: username, name: name, school: userInfo["school"] as? String)
+			self.authenticator = authenticator
 			completion(.value(true))
 			DispatchQueue.global(qos: .background).async {
 				self.archive()
@@ -607,23 +603,33 @@ extension APIManager {
 	/// The implementation used here is pretty secure so there's noting to worry about
 	fileprivate struct Authenticator: SerializableElement {
 		
-		// FIXME: We need to add lots of other information here!
-		
 		let username: String
 		let name: String
 		let school: String?
+		let canPostAnnouncements: Bool
+		let canEditAnnouncements: Bool
+		let canPerformScan: Bool
+		
 		private let authenticationToken: String
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let usernameKey = "username"
 		private static let nameKey = "name"
 		private static let schoolKey = "school"
+		private static let canPostAnnouncementsKey = "can_post_announcements"
+		private static let canEditAnnouncementsKey = "can_edit_announcements"
+		private static let canPerformScanKey = "can_perform_scan"
 		
-		init(authToken: String, username: String, name: String, school: String?) {
+		init(authToken: String, username: String, name: String, school: String?,
+		     canPostAnnouncements: Bool, canEditAnnouncements: Bool, canPerformScan: Bool) {
 			self.authenticationToken = authToken
 			self.username = username
 			self.name = name
 			self.school = school
+			self.canPostAnnouncements = canPostAnnouncements
+			self.canEditAnnouncements = canEditAnnouncements
+			self.canPerformScan = canPerformScan
+			NotificationCenter.default.post(name: APIManager.UserProfileUpdatedNotification, object: self)
 		}
 		
 		func addAuthorizationHeader(_ request: NSMutableURLRequest) {
@@ -641,12 +647,20 @@ extension APIManager {
 			else {
 				return nil
 			}
-			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String)
+			
+			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: serializedRepresentation[Authenticator.canPostAnnouncementsKey] as? Bool ?? false, canEditAnnouncements: serializedRepresentation[Authenticator.canEditAnnouncementsKey] as? Bool ?? false, canPerformScan: serializedRepresentation[Authenticator.canPerformScanKey] as? Bool ?? false)
+		}
+		
+		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
+			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String
+				else { return nil }
+			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
+			self.init(serializedRepresentation)
 		}
 		
 		func toSerializedRepresentation() -> NSDictionary {
 			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
-			var dict = [Authenticator.usernameKey: username, Authenticator.nameKey: name]
+			var dict: [String : Any] = [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.canPostAnnouncementsKey: canPostAnnouncements, Authenticator.canEditAnnouncementsKey: canEditAnnouncements, Authenticator.canPerformScanKey: canPerformScan]
 			if let school = school
 			{
 				dict[Authenticator.schoolKey] = school
@@ -668,6 +682,8 @@ extension APIManager
 	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
 	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
 	static let MapUpdatedNotification = Notification.Name("MapUpdated")
+	static let ScanEventsUpdatedNotification = Notification.Name("ScanEventsUpdated")
+	static let UserProfileUpdatedNotification = Notification.Name("UserProfileUpdated")
 	static let FailureNotification = Notification.Name("Failure")
 }
 
@@ -678,6 +694,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	let locations: NSDictionary
 	let events: NSDictionary
 	let map: NSDictionary
+	let scanEvents: NSDictionary
 	
 	private static let authenticatorKey = "authenticator"
 	private static let countdownKey = "countdown"
@@ -685,18 +702,19 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	private static let locationsKey = "locations"
 	private static let eventsKey = "events"
 	private static let mapKey = "map"
-	
+	private static let scanEventsKey = "scan_events"
 	
 	init?(coder aDecoder: NSCoder) {
-		guard let authenticator = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.decodeObject(forKey: APIManagerSerializer.mapKey) as? NSDictionary
+		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.decodeObject(forKey: APIManagerSerializer.mapKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
 			else { return nil }
 		
-		self.authenticator = authenticator
+		self.authenticator = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary ?? NSDictionary()
 		self.countdown = countdown
 		self.announcements = announcements
 		self.locations = locations
 		self.events = events
 		self.map = map
+		self.scanEvents = scanEvents
 	}
 	
 	init?(manager: APIManager) {
@@ -706,6 +724,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		self.locations = manager.locations.toSerializedRepresentation()
 		self.events = manager.events.toSerializedRepresentation()
 		self.map = manager.map.toSerializedRepresentation()
+		self.scanEvents = manager.scanEvents.toSerializedRepresentation()
 	}
 	
 	func encode(with aCoder: NSCoder) {
@@ -715,5 +734,6 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		aCoder.encode(locations, forKey: APIManagerSerializer.locationsKey)
 		aCoder.encode(events, forKey: APIManagerSerializer.eventsKey)
 		aCoder.encode(map, forKey: APIManagerSerializer.mapKey)
+		aCoder.encode(scanEvents, forKey: APIManagerSerializer.scanEventsKey)
 	}
 }

@@ -12,11 +12,10 @@ class AnnouncementsViewController: UITableViewController {
 	
     // MARK: Model
 	
-	fileprivate func fetch() {
-		refreshControl?.beginRefreshing()
+	fileprivate func fetch(completionBlock: (() -> Void)? = nil) {
 		APIManager.shared.updateAnnouncements { _ in
 			DispatchQueue.main.async(execute: {
-				self.refreshControl?.endRefreshing()
+				completionBlock?()
 			})
 		}
 	}
@@ -25,21 +24,24 @@ class AnnouncementsViewController: UITableViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
         refreshControl = UIRefreshControl()
 		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), for: UIControlEvents.valueChanged)
+		
         tableView.rowHeight = UITableViewAutomaticDimension
 		tableView.estimatedRowHeight = 100.0
-		
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		
         if APIManager.shared.canPostAnnouncements() {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
         }
         else {
             navigationItem.rightBarButtonItem = nil
         }
+		
 		NotificationCenter.default.addObserver(self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)), name: APIManager.AnnouncementsUpdatedNotification, object: nil)
 		
 		if APIManager.shared.canEditAnnouncements() {
@@ -60,19 +62,25 @@ class AnnouncementsViewController: UITableViewController {
 					}
 			})
 		}
-		tableView.reloadData()
+		
 		fetch()
     }
 	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
+		
 		NotificationCenter.default.removeObserver(self)
 	}
 	
 	// MARK: - Actions/Notifications
+	
 	func refresh(_ sender: UIRefreshControl) {
-		fetch()
+		
+		fetch {
+			sender.endRefreshing()
+		}
 	}
+	
 	func announcementsUpdated(_ notification: Notification? = nil) {
 		DispatchQueue.main.async(execute: {
 			CATransaction.begin()
@@ -97,18 +105,22 @@ class AnnouncementsViewController: UITableViewController {
     }
 	
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath) as! AnnouncementCell
-        
+		
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Announcement Cell", for: indexPath) as! AnnouncementCell
+
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
-        
+
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
         cell.messageLabel.text = announcement.message
-		cell.colorView.layer.borderColor = announcement.category.color.cgColor
-		cell.colorView.layer.borderWidth = cell.colorView.frame.width
+		
+		cell.colorView.backgroundColor = announcement.category.color
+
+		cell.sponsoredLabelContainer.isHidden = !announcement.isSponsored
+		
         return cell
     }
+	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if APIManager.shared.canEditAnnouncements() {
 			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController

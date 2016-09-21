@@ -12,8 +12,6 @@ import CoreImage
 
 final class UserViewController: UIViewController, LoginViewControllerDelegate, PKAddPassesViewControllerDelegate {
     
-    let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
-    
     let signInView = UIStackView()
     let ticketView = UIStackView()
     
@@ -26,14 +24,16 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     let nameTitleLabel = UILabel()
     let nameLabel = UILabel()
     
-    let emailTitleLabel = UILabel()
-    let emailLabel = UILabel()
+    let schoolTitleLabel = UILabel()
+    let schoolLabel = UILabel()
     
     let scannableCodeView = UIImageView()
     
     let addPassButton = PKAddPassButton(style: .black)
     
     let userInfo = APIManager.UserInfo(userID: "1234567890", email: "grladd@umich.edu", name: "Russell Ladd", school: "University of Michigan")
+    
+    let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,28 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         scannableCodeView.clipsToBounds = true
         scannableCodeView.layer.cornerRadius = 8.0
         
-        let ticketItemsView = UIStackView(arrangedSubviews: [nameLabel, emailLabel, scannableCodeView])
+        nameTitleLabel.text = "HACKER"
+        nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        
+        schoolTitleLabel.text = "SCHOOL"
+        schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        
+        nameLabel.textColor = UIColor.white
+        schoolLabel.textColor = UIColor.white
+        
+        let schoolView = UIStackView(arrangedSubviews: [nameTitleLabel, nameLabel])
+        schoolView.axis = .vertical
+        schoolView.alignment = .leading
+        
+        let emailView = UIStackView(arrangedSubviews: [schoolTitleLabel, schoolLabel])
+        emailView.axis = .vertical
+        emailView.alignment = .leading
+        
+        let fieldsView = UIStackView(arrangedSubviews: [schoolView, emailView])
+        fieldsView.axis = .vertical
+        fieldsView.spacing = 20.0
+        
+        let ticketItemsView = UIStackView(arrangedSubviews: [fieldsView, scannableCodeView])
         ticketItemsView.translatesAutoresizingMaskIntoConstraints = false
         ticketItemsView.axis = .vertical
         ticketItemsView.alignment = .center
@@ -100,7 +121,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         NSLayoutConstraint.activate([
             contentLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15.0),
             contentLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15.0),
-            contentLayoutGuide.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 15.0),
+            contentLayoutGuide.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             contentLayoutGuide.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -15.0),
             signInView.centerXAnchor.constraint(equalTo: contentLayoutGuide.centerXAnchor),
             signInView.centerYAnchor.constraint(equalTo: contentLayoutGuide.centerYAnchor),
@@ -109,6 +130,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
             ticketView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
             ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            fieldsView.widthAnchor.constraint(equalTo: ticketItemsView.widthAnchor),
             ticketItemsView.leadingAnchor.constraint(equalTo: ticketBackgroundView.leadingAnchor, constant: 15.0),
             ticketItemsView.trailingAnchor.constraint(equalTo: ticketBackgroundView.trailingAnchor, constant: -15.0),
             ticketItemsView.topAnchor.constraint(equalTo: ticketBackgroundView.topAnchor, constant: 15.0),
@@ -163,7 +185,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.isHidden = false
             
             nameLabel.text = user.name
-            emailLabel.text = user.email
+            schoolLabel.text = user.school
             
         } else {
             
@@ -187,9 +209,13 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
 	
-	func addPass(_ sender: PKAddPassButton)
-	{
+	func addPass(_ sender: PKAddPassButton) {
 		APIManager.shared.fetchPass { pass in
+			guard let pass = pass
+			else {
+				// Request failed
+				return
+			}
 			let passesViewController = PKAddPassesViewController(pass: pass)
 			passesViewController.delegate = self
 			self.present(passesViewController, animated: true, completion: nil)

@@ -90,6 +90,9 @@ struct Announcement: SerializableElementWithIdentifier {
 	var date: Date
 	var category: Category
 	var approved: Bool
+	var isSponsored: Bool {
+		return self.category.contains(Announcement.Category.Sponsor)
+	}
 		
 	static private let todayDateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
@@ -108,12 +111,8 @@ struct Announcement: SerializableElementWithIdentifier {
 		let formatter = Calendar.shared.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.string(from: date)
 	}
-	
-	
-	static let dateFont: UIFont = {
-		return UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightThin)
-	}()
 }
+
 extension Announcement
 {
 	private static let infoKey = "info"
