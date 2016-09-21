@@ -12,10 +12,12 @@ class AnnouncementCell: UITableViewCell {
     
     // MARK: Outlets
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
-	@IBOutlet weak var colorView: UIView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var messageLabel: UILabel!
+	@IBOutlet var colorView: UIView!
+	@IBOutlet var sponsoredLabel: UIView!
+	@IBOutlet var contentStackView: UIStackView!
 	
     // MARK: Life cycle
     
@@ -32,6 +34,9 @@ class AnnouncementCell: UITableViewCell {
         
         titleLabel?.preferredMaxLayoutWidth = titleLabel.frame.width
         messageLabel?.preferredMaxLayoutWidth = messageLabel.frame.width
+		
+		colorView.layer.cornerRadius = 2
+		sponsoredLabel.layer.cornerRadius = 4
         
         super.layoutSubviews()
     }
