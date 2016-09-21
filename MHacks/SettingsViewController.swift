@@ -98,4 +98,9 @@ class SettingsViewController: UITableViewController {
 			tableView.cellForRow(at: indexPath)?.accessoryType = .none
 		}
 	}
+	
+	@IBAction func doneButtonPressed(_: UIBarButtonItem)
+	{
+		dismiss(animated: true, completion: nil)
+	}
 }
