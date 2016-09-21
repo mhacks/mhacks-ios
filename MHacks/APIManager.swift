@@ -613,7 +613,7 @@ extension APIManager {
 		private let authenticationToken: String
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
-		private static let usernameKey = "username"
+		private static let usernameKey = "email"
 		private static let nameKey = "name"
 		private static let schoolKey = "school"
 		private static let canPostAnnouncementsKey = "can_post_announcements"
