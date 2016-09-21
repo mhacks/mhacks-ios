@@ -554,11 +554,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="broadcastCell" rowHeight="261" id="krp-vj-YAu" customClass="DatePickerCell" customModule="MHacks" customModuleProvider="target">
-<<<<<<< HEAD
                                         <rect key="frame" x="0.0" y="269" width="383" height="261"/>
-=======
-                                        <rect key="frame" x="0.0" y="268.5" width="383" height="261"/>
->>>>>>> master
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="krp-vj-YAu" id="qR7-tw-q4H">
                                             <frame key="frameInset" width="383" height="260"/>
