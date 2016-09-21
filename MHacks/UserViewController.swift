@@ -10,7 +10,9 @@ import UIKit
 import PassKit
 import CoreImage
 
-final class UserViewController: UIViewController, LoginViewControllerDelegate, PKAddPassesViewControllerDelegate {
+final class UserViewController: UIViewController, LoginViewControllerDelegate, PKAddPassesViewControllerDelegate, ScannerViewControllerDelegate {
+    
+    // MARK: Views
     
     let signInView = UIStackView()
     let ticketView = UIStackView()
@@ -34,6 +36,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     let userInfo = APIManager.UserInfo(userID: "1234567890", email: "grladd@umich.edu", name: "Russell Ladd", school: "University of Michigan")
     
     let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
+    let scanBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Scan", comment: "Scan button title"), style: .plain, target: nil, action: nil)
+    
+    // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +70,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         signOutBarButtonItem.target = self
         signOutBarButtonItem.action = #selector(signOut)
+        
+        scanBarButtonItem.target = self
+        scanBarButtonItem.action = #selector(scan)
         
         ticketBackgroundView.layer.cornerRadius = 15.0
         
@@ -149,6 +157,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         NotificationCenter.default.addObserver(self, selector: #selector(signInDidChange), name: APIManager.LoginStateChangedNotification, object: nil)
         
         updateViews()
+        
+        APIManager.shared.updateUserProfile()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -157,25 +167,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         NotificationCenter.default.removeObserver(self, name: APIManager.LoginStateChangedNotification, object: nil)
     }
     
-    func signIn() {
-        
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = self
-        
-        let loginNavigationController = UINavigationController(rootViewController: loginViewController)
-        
-        present(loginNavigationController, animated: true, completion: nil)
-    }
-    
-    func signOut() {
-        
-        APIManager.shared.logout()
-    }
-    
-    func signInDidChange() {
-        
-        updateViews()
-    }
+    // MARK: Update views
     
     func updateViews() {
         
@@ -199,17 +191,56 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.isHidden = true
         }
         
+        if APIManager.shared.canScanUserCode() {
+            navigationItem.rightBarButtonItem = scanBarButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+        
         let userIDData = userInfo.userID.data(using: .isoLatin1)!
         
         let qrCodeGenerator = CIFilter(name: "CIQRCodeGenerator")!
         qrCodeGenerator.setValue(userIDData, forKey: "inputMessage")
-        qrCodeGenerator.setValue("Q", forKey: "inputCorrectionLevel")
+        qrCodeGenerator.setValue("H", forKey: "inputCorrectionLevel")
         
         let scaleFilter = CIFilter(name: "CIAffineTransform")!
         scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
         scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 8.0, y: 8.0)), forKey: "inputTransform")
         
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
+    }
+    
+    // MARK: Actions
+    
+    func signIn() {
+        
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = self
+        
+        let loginNavigationController = UINavigationController(rootViewController: loginViewController)
+        
+        present(loginNavigationController, animated: true, completion: nil)
+    }
+    
+    func signOut() {
+        
+        APIManager.shared.logout()
+    }
+    
+    func scan() {
+        
+        let scannerViewController = ScannerViewController(nibName: nil, bundle: nil)
+        scannerViewController.delegate = self
+        
+        let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
+        scannerNavigationController.isToolbarHidden = false
+        
+        present(scannerNavigationController, animated: true, completion: nil)
+    }
+    
+    func signInDidChange() {
+        
+        updateViews()
     }
 	
 	func addPass(_ sender: PKAddPassButton) {
@@ -246,4 +277,10 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
 	func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
 		dismiss(animated: true, completion: nil)
 	}
+    
+    // MARK: Scanner view controller delegate
+    
+    func scannerViewControllerDidCancel(scannerViewController: ScannerViewController) {
+        dismiss(animated: true, completion: nil)
+    }
 }
