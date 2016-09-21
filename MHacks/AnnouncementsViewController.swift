@@ -97,16 +97,18 @@ class AnnouncementsViewController: UITableViewController {
     }
 	
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "item", for: indexPath) as! AnnouncementCell
-        
+
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
-        
+
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
         cell.messageLabel.text = announcement.message
 		cell.colorView.layer.borderColor = announcement.category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
+
+		cell.sponsoredLabel.isHidden = !announcement.isSponsored
+
         return cell
     }
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -90,6 +90,9 @@ struct Announcement: SerializableElementWithIdentifier {
 	var date: Date
 	var category: Category
 	var approved: Bool
+	var isSponsored: Bool {
+		return self.category.contains(Announcement.Category.Sponsor)
+	}
 		
 	static private let todayDateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
