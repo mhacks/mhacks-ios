@@ -643,7 +643,7 @@ extension APIManager {
 			else {
 				return nil
 			}
-			guard let authToken = SSKeychain.password(forService: Authenticator.authTokenKey, account: username)
+			guard let authToken = KeychainWrapper.shared.string(forKey: username)
 			else {
 				return nil
 			}
@@ -652,14 +652,13 @@ extension APIManager {
 		}
 		
 		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
-			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String
+			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String, KeychainWrapper.shared.set(authenticationToken, forKey: username)
 				else { return nil }
-			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
 			self.init(serializedRepresentation)
 		}
 		
 		func toSerializedRepresentation() -> NSDictionary {
-			SSKeychain.setPassword(authenticationToken, forService: Authenticator.authTokenKey, account: username)
+			_ = KeychainWrapper.shared.set(authenticationToken, forKey: username)
 			var dict: [String : Any] = [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.canPostAnnouncementsKey: canPostAnnouncements, Authenticator.canEditAnnouncementsKey: canEditAnnouncements, Authenticator.canPerformScanKey: canPerformScan]
 			if let school = school
 			{
@@ -668,7 +667,7 @@ extension APIManager {
 			return dict as NSDictionary
 		}
 		func destroyToken() {
-			_ = SSKeychain.deletePassword(forService: Authenticator.authTokenKey, account: username)
+			_ = KeychainWrapper.shared.remove(key: username)
 		}
 	}
 }

@@ -17,11 +17,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 
-# App keys
-#
-MHacks/MHacks/Keys.plist
-GoogleMaps.framework/Versions/A/GoogleMaps
-
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However

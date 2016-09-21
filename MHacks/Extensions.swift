@@ -42,7 +42,7 @@ extension Calendar {
 	}
 }
 
-private let groupName = "group.com.MPowered.MHacks"
+let groupName = "group.com.MPowered.MHacks"
 let defaults = UserDefaults(suiteName: groupName)!
 let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupName)!.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true)
 
