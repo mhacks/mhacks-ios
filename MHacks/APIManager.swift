@@ -102,7 +102,18 @@ final class APIManager
 			switch response
 			{
 			case .value(let newData):
-				self.authenticator = Authenticator(newData) ?? self.authenticator
+				guard let newAuthenticator = Authenticator(newData)
+				else {
+					completion?(false)
+					return
+				}
+				if newAuthenticator.canEditAnnouncements != self.authenticator?.canEditAnnouncements
+				{
+					// Invalidate the cache for announcements if the user's permissions changed
+					// This will effectively download all announcements again
+					self.announcements.empty()
+				}
+				self.authenticator = newAuthenticator
 				completion?(true)
 			case .error(let errorMessage):
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)

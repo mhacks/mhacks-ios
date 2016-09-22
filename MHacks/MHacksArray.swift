@@ -77,6 +77,15 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 		return [MHacksArray.lastUpdatedKey: lastUpdated, resultsKey: items.map { $0.1.toSerializedRepresentation() } as NSArray]
 	}
 	
+	
+	/// Useful if you need to invalidate the cache, if privileges change for example
+	func empty()
+	{
+		items.removeAll(keepingCapacity: true)
+		sortedKeys.removeAll(keepingCapacity: true)
+		lastUpdated = nil
+	}
+	
 	// MARK: - Stuff to make this "look" like a regular array
 	typealias Index = Int
 	typealias Indices = CountableRange<Int>
