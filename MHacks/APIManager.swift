@@ -382,6 +382,31 @@ final class APIManager
 		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: callback, existingObject: scanEvents)
 	}
 	
+	// MARK: - Perform Scan
+	
+	
+	/// A method to "do" a scan, i.e. after reading in a user's data
+	///
+	/// - parameter userDataScanned: The user's data that was scanned from the barcode. This can and should be opaque to you.
+	/// - parameter scanEvent:       The scan event you want to scan for
+	/// - parameter readOnlyPeek:    Whether the scan should be readonly, i.e. not actually perform the scan but check what the result of the scan would be. Pass false if you want the scan to actually be saved to the server
+	/// - parameter callback:        A callback after the server responds, the parameters are a boolean indicating success of the scan event as well as additionalData associated with the scan. This is scan event specific so you must parse it manually as you see fit. Note additionalData may still be nil even if succeeded is true if there is no additional data for that particular scan event
+	func performScan(userDataScanned: String, scanEvent: ScanEvent, readOnlyPeek: Bool, _ callback: @escaping (_ succeeded: Bool, _ additionalData: [String: Any]?) -> Void)
+	{
+		taskWithRoute("/v1/perform_scan/", parameters: ["user_id": userDataScanned, "scan_event": scanEvent.ID], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
+			switch response
+			{
+			case .value(let json):
+				guard let succeeded = json["scanned"] as? Bool
+				else { return callback(false, nil) }
+				callback(succeeded, json["data"] as? [String: Any])
+			case .error(let errorMessage):
+				callback(false, nil)
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+			}
+		}
+	}
+	
 	// MARK: - Helpers
 	
 	fileprivate func createRequestForRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get) -> URLRequest
