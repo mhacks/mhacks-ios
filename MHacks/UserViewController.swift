@@ -242,7 +242,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     func signInDidChange() {
         
-        updateViews()
+        DispatchQueue.main.async {
+            self.updateViews()
+        }
     }
 	
 	func addPass(_ sender: PKAddPassButton) {

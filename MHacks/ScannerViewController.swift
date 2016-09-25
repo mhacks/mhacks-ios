@@ -54,9 +54,9 @@ final class ScannerViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        APIManager.shared.updateScanEvents()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(scanEventsUpdated), name: APIManager.ScanEventsUpdatedNotification, object: nil)
+        
+        APIManager.shared.updateScanEvents()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -84,7 +84,10 @@ final class ScannerViewController: UIViewController {
     }
     
     func scanEventsUpdated() {
-        updateViews()
+        
+        DispatchQueue.main.async {
+            self.updateViews()
+        }
     }
     
     func selectScanEvent() {
