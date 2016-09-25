@@ -13,6 +13,7 @@ final class Countdown : Serializable, Equatable {
 	// MARK : - Properties
     private(set) var startDate: Date
     private(set) var duration: TimeInterval
+	private(set) var hacksSubmittedBy: TimeInterval
 	
 	let semaphoreGuard = DispatchSemaphore(value: 1)
 	let coalescer = CoalescedCallbacks()
@@ -22,7 +23,10 @@ final class Countdown : Serializable, Equatable {
     var endDate: Date {
         return startDate.addingTimeInterval(duration)
     }
-    
+	var hacksSubmittedByDate: Date {
+		return startDate.addingTimeInterval(hacksSubmittedBy)
+	}
+	
     var roundedCurrentDate: Date {
         return startDate.addingTimeInterval(duration - roundedTimeRemaining)
     }
@@ -47,21 +51,30 @@ final class Countdown : Serializable, Equatable {
 	
 	var endDateDescription: String {
 		
-		let message: String = {
+		let message: String
 			
-			if self.roundedCurrentDate < self.endDate
+		let currentDate = roundedCurrentDate
+		var dateInText = endDate
+		
+		if currentDate < endDate
+		{
+			if currentDate < hacksSubmittedByDate && currentDate > startDate
 			{
-				return NSLocalizedString("Hacking finishes on\n%@.", comment: "Countdown hacking will end")
+				message = NSLocalizedString("Hacks must be submitted by\n%@", comment: "Countdown hacks submitted by")
+				dateInText = hacksSubmittedByDate
 			}
 			else
 			{
-				return NSLocalizedString("Hacking finished on\n%@.", comment: "Countdown hacking did end")
+				message = NSLocalizedString("Hacking finishes on\n%@.", comment: "Countdown hacking will end")
 			}
-		}()
+		}
+		else
+		{
+			message = NSLocalizedString("Hacking finished on\n%@.", comment: "Countdown hacking did end")
+		}
 		
-		let dateText = Countdown.dateFormatter.string(from: endDate)
-		
-		return NSString(format: message as NSString, dateText) as String
+		let dateText = Countdown.dateFormatter.string(from: dateInText)
+		return String(format: message, dateText)
 	}
 	
 	// The current date clipped to the start and end of the event
@@ -115,10 +128,12 @@ final class Countdown : Serializable, Equatable {
     
 	private static let countdownStartDateKey = "start_time"
 	private static let countdownDurationKey = "countdown_duration"
+	private static let hacksSubmittedByDurationKey = "hacks_submitted"
 	
-	init(startDate: Date = Date(timeIntervalSince1970: 1455944400), duration: TimeInterval = 129600000) {
+	init(startDate: Date = Date(timeIntervalSince1970: 1475899200), duration: TimeInterval = 129600, hacksSubmittedBy: TimeInterval = 118800) {
         self.startDate = startDate
-		self.duration = duration / 1000.0
+		self.duration = duration
+		self.hacksSubmittedBy = hacksSubmittedBy
     }
 	
 	convenience init?(_ serializedRepresentation: SerializedRepresentation) {
@@ -127,7 +142,7 @@ final class Countdown : Serializable, Equatable {
 	}
 	
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Countdown.countdownStartDateKey: startDate.timeIntervalSince1970, Countdown.countdownDurationKey: duration, Countdown.lastUpdatedKey: lastUpdated ?? 0]
+		return [Countdown.countdownStartDateKey: startDate.timeIntervalSince1970, Countdown.countdownDurationKey: duration, Countdown.hacksSubmittedByDurationKey: hacksSubmittedBy, Countdown.lastUpdatedKey: lastUpdated ?? 0]
 	}
 	
 	func updateWith(_ serialized: SerializedRepresentation) -> Bool {
@@ -137,13 +152,14 @@ final class Countdown : Serializable, Equatable {
 		}
 		self.lastUpdated = lastUpdated
 
-		guard let startDateTimeStamp = serialized[Countdown.countdownStartDateKey] as? Double, let duration = serialized[Countdown.countdownDurationKey] as? Double
+		guard let startDateTimeStamp = serialized[Countdown.countdownStartDateKey] as? Double, let duration = serialized[Countdown.countdownDurationKey] as? Double, let hacksSubmittedBy = serialized[Countdown.hacksSubmittedByDurationKey] as? Double
 		else {
 			return false
 		}
 		
 		self.startDate = Date(timeIntervalSince1970: startDateTimeStamp)
 		self.duration = duration
+		self.hacksSubmittedBy = hacksSubmittedBy
 		
 		return true
 	}
@@ -151,5 +167,5 @@ final class Countdown : Serializable, Equatable {
 }
 
 func ==(lhs: Countdown, rhs: Countdown) -> Bool {
-	return lhs.startDate == rhs.startDate && lhs.duration == rhs.duration
+	return lhs.startDate == rhs.startDate && lhs.duration == rhs.duration && lhs.hacksSubmittedBy == rhs.hacksSubmittedBy
 }
