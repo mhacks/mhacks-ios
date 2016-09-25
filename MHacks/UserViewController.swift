@@ -199,15 +199,15 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             navigationItem.rightBarButtonItem = nil
         }
         
-        let userIDData = userInfo.userID.data(using: .isoLatin1)!
+        let userIDData = userInfo.email.data(using: .isoLatin1)!
         
         let qrCodeGenerator = CIFilter(name: "CIQRCodeGenerator")!
         qrCodeGenerator.setValue(userIDData, forKey: "inputMessage")
-        qrCodeGenerator.setValue("H", forKey: "inputCorrectionLevel")
+        qrCodeGenerator.setValue("M", forKey: "inputCorrectionLevel")
         
         let scaleFilter = CIFilter(name: "CIAffineTransform")!
         scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
-        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 8.0, y: 8.0)), forKey: "inputTransform")
+        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 7.0, y: 7.0)), forKey: "inputTransform")
         
         scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
@@ -284,7 +284,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     // MARK: Scanner view controller delegate
     
-    func scannerViewControllerDidCancel(scannerViewController: ScannerViewController) {
+    func scannerViewControllerDidFinish(scannerViewController: ScannerViewController) {
         dismiss(animated: true, completion: nil)
     }
 }

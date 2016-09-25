@@ -10,14 +10,29 @@ import UIKit
 
 protocol ScannerViewControllerDelegate: class {
     
-    func scannerViewControllerDidCancel(scannerViewController: ScannerViewController)
+    func scannerViewControllerDidFinish(scannerViewController: ScannerViewController)
 }
 
-final class ScannerViewController: UIViewController {
+final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     // MARK: Model
     
-    var currentScanEvent: ScanEvent?
+    enum InputMode: Int {
+        case list = 0
+        case scan = 1
+    }
+    
+    var inputMode = InputMode.scan {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    var currentScanEvent = APIManager.shared.scanEvents.first {
+        didSet {
+            updateEventsBarButtonItemTitle()
+        }
+    }
     
     // MARK: Delegate
     
@@ -29,14 +44,21 @@ final class ScannerViewController: UIViewController {
     
     let eventsBarButtonItem = UIBarButtonItem(title: "Loading", style: .plain, target: nil, action: nil)
     
+    let tableView = UITableView(frame: CGRect.zero, style: .plain)
+    let scannerView = ScannerView()
+    
     // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // View
+        
         view.backgroundColor = UIColor.white
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        // Bars
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finish))
         
         navigationItem.titleView = inputModeControl
         
@@ -47,6 +69,28 @@ final class ScannerViewController: UIViewController {
         eventsBarButtonItem.action = #selector(selectScanEvent)
         
         toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), eventsBarButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)]
+        
+        // Table view
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        
+        // Scanner view
+        
+        scannerView.translatesAutoresizingMaskIntoConstraints = false
+        scannerView.delegate = self
+        view.addSubview(scannerView)
+        
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scannerView.topAnchor.constraint(equalTo: view.topAnchor),
+            scannerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
         
         updateViews()
     }
@@ -69,28 +113,58 @@ final class ScannerViewController: UIViewController {
     
     func updateViews() {
         
-        eventsBarButtonItem.title = APIManager.shared.scanEvents.first?.name ?? "Loading"
+        inputModeControl.selectedSegmentIndex = inputMode.rawValue
+        
+        tableView.isHidden = (inputMode != .list)
+        scannerView.isHidden = (inputMode != .scan)
+        
+        updateEventsBarButtonItemTitle()
+    }
+    
+    func updateEventsBarButtonItemTitle() {
+        
+        eventsBarButtonItem.title = currentScanEvent?.name ?? "Loading"
     }
     
     // MARK: Actions
     
-    func cancel() {
-        delegate?.scannerViewControllerDidCancel(scannerViewController: self)
+    func finish() {
+        delegate?.scannerViewControllerDidFinish(scannerViewController: self)
     }
     
     func inputModeControlValueChanged() {
-        
-        
+        inputMode = InputMode(rawValue: inputModeControl.selectedSegmentIndex)!
     }
     
     func scanEventsUpdated() {
         
         DispatchQueue.main.async {
-            self.updateViews()
+            
+            if self.currentScanEvent == nil {
+                self.currentScanEvent = APIManager.shared.scanEvents.first
+            }
         }
     }
     
     func selectScanEvent() {
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        for scanEvent in APIManager.shared.scanEvents {
+            
+            alertController.addAction(UIAlertAction(title: scanEvent.name, style: .default, handler: { action in
+                self.currentScanEvent = scanEvent
+            }))
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    // MARK: Scanner view delegate
+    
+    func scannerView(scannerView: ScannerView, didScanIdentifier identifier: String) {
         
         
     }
