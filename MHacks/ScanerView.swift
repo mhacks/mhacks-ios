@@ -36,8 +36,6 @@ final class ScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     
     let supportedBarCodes = [AVMetadataObjectTypeQRCode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeAztecCode]
     
-    var enabled = false
-    
     // MARK: Initialization
     
     override init(frame: CGRect) {
@@ -83,10 +81,6 @@ final class ScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        
-        guard enabled else {
-            return
-        }
         
         if let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject, supportedBarCodes.contains(metadataObject.type) {
             delegate?.scannerView(scannerView: self, didScanIdentifier: metadataObject.stringValue)
