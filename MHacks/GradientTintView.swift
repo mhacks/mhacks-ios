@@ -13,7 +13,7 @@ final class GradientTintView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = tintColor
+        updateGradientColors()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -21,6 +21,36 @@ final class GradientTintView: UIView {
     }
     
     override func tintColorDidChange() {
-        backgroundColor = tintColor
+        updateGradientColors()
+    }
+    
+    override class var layerClass: AnyClass {
+        return CAGradientLayer.self
+    }
+    
+    var gradientLayer: CAGradientLayer {
+        return layer as! CAGradientLayer
+    }
+    
+    func updateGradientColors() {
+        
+        func lightened(color: UIColor, by changeInBrightness: CGFloat) -> UIColor {
+            
+            var h: CGFloat = 0.0
+            var s: CGFloat = 0.0
+            var b: CGFloat = 0.0
+            var a: CGFloat = 0.0
+            
+            color.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+            
+            b += changeInBrightness
+            
+            return UIColor(hue: h, saturation: s, brightness: b, alpha: a)
+        }
+        
+        let topColor = tintColor!
+        let bottomColor = lightened(color: tintColor, by: -0.1)
+        
+        gradientLayer.colors = [topColor.cgColor, bottomColor.cgColor]
     }
 }
