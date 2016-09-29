@@ -290,7 +290,9 @@ final class APIManager
 	
 	
 	// MARK: - Map
+	@available(*, deprecated: 3.0)
 	private(set) var map = Map()
+	@available(*, deprecated: 3.0)
 	func updateMap(_ callback: CoalescedCallbacks.Callback? = nil) {
 //		updateUsing(route: "/v1/map/", notificationKey: .MapUpdated, callback: callback, existingObject: map)
 		// FIXME: Map needs to be reimplemented to support floors
@@ -348,6 +350,12 @@ final class APIManager
 //			downloadTask.resume()
 //			return false
 //		}
+	}
+	
+	// MARK: - Floors
+	let floors = MHacksArray<Floor>()
+	func updateFloors(_ callback: CoalescedCallbacks.Callback? = nil) {
+		updateUsing(route: "/v1/floors/", notificationName: APIManager.FloorsUpdatedNotification, callback: callback, existingObject: floors)
 	}
 	
 	// MARK: - PKPass
@@ -553,7 +561,7 @@ final class APIManager
 				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
 				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
 				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
-				updateSerialized(self.map, using: obj.map, notificationName: APIManager.MapUpdatedNotification)
+				updateSerialized(self.floors, using: obj.floors, notificationName: APIManager.FloorsUpdatedNotification)
 				updateSerialized(self.scanEvents, using: obj.scanEvents, notificationName: APIManager.ScanEventsUpdatedNotification)
 				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification) {
 					self.eventsOrganizer = EventOrganizer(events: self.events)
@@ -582,6 +590,21 @@ final class APIManager
 		}
 	}
 }
+
+// MARK: - Notification Keys
+extension APIManager
+{
+	static let LoginStateChangedNotification = Notification.Name("LoginStateChanged")
+	static let AnnouncementsUpdatedNotification = Notification.Name("AnnouncementsUpdated")
+	static let CountdownUpdatedNotification = Notification.Name("CountdownUpdated")
+	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
+	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
+	static let FloorsUpdatedNotification = Notification.Name("FloorsUpdated")
+	static let ScanEventsUpdatedNotification = Notification.Name("ScanEventsUpdated")
+	static let UserProfileUpdatedNotification = Notification.Name("UserProfileUpdated")
+	static let FailureNotification = Notification.Name("Failure")
+}
+
 
 // MARK: - Authentication and User Stuff
 extension APIManager {
@@ -715,19 +738,6 @@ extension APIManager {
 	}
 }
 
-// MARK: - Notification Keys
-extension APIManager
-{
-	static let LoginStateChangedNotification = Notification.Name("LoginStateChanged")
-	static let AnnouncementsUpdatedNotification = Notification.Name("AnnouncementsUpdated")
-	static let CountdownUpdatedNotification = Notification.Name("CountdownUpdated")
-	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
-	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
-	static let MapUpdatedNotification = Notification.Name("MapUpdated")
-	static let ScanEventsUpdatedNotification = Notification.Name("ScanEventsUpdated")
-	static let UserProfileUpdatedNotification = Notification.Name("UserProfileUpdated")
-	static let FailureNotification = Notification.Name("Failure")
-}
 
 final private class APIManagerSerializer: NSObject, NSCoding {
 	let authenticator: NSDictionary
@@ -735,7 +745,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	let announcements: NSDictionary
 	let locations: NSDictionary
 	let events: NSDictionary
-	let map: NSDictionary
+	let floors: NSDictionary
 	let scanEvents: NSDictionary
 	
 	private static let authenticatorKey = "authenticator"
@@ -743,11 +753,11 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	private static let announcementsKey = "announcements"
 	private static let locationsKey = "locations"
 	private static let eventsKey = "events"
-	private static let mapKey = "map"
+	private static let floorsKey = "floors"
 	private static let scanEventsKey = "scan_events"
 	
 	init?(coder aDecoder: NSCoder) {
-		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let map = aDecoder.decodeObject(forKey: APIManagerSerializer.mapKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
+		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let floors = aDecoder.decodeObject(forKey: APIManagerSerializer.floorsKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
 			else { return nil }
 		
 		self.authenticator = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary ?? NSDictionary()
@@ -755,7 +765,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		self.announcements = announcements
 		self.locations = locations
 		self.events = events
-		self.map = map
+		self.floors = floors
 		self.scanEvents = scanEvents
 	}
 	
@@ -765,7 +775,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		self.announcements = manager.announcements.toSerializedRepresentation()
 		self.locations = manager.locations.toSerializedRepresentation()
 		self.events = manager.events.toSerializedRepresentation()
-		self.map = manager.map.toSerializedRepresentation()
+		self.floors = manager.floors.toSerializedRepresentation()
 		self.scanEvents = manager.scanEvents.toSerializedRepresentation()
 	}
 	
@@ -775,7 +785,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 		aCoder.encode(announcements, forKey: APIManagerSerializer.announcementsKey)
 		aCoder.encode(locations, forKey: APIManagerSerializer.locationsKey)
 		aCoder.encode(events, forKey: APIManagerSerializer.eventsKey)
-		aCoder.encode(map, forKey: APIManagerSerializer.mapKey)
+		aCoder.encode(floors, forKey: APIManagerSerializer.floorsKey)
 		aCoder.encode(scanEvents, forKey: APIManagerSerializer.scanEventsKey)
 	}
 }

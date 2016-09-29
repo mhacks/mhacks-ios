@@ -16,29 +16,37 @@ final class Location : SerializableElementWithIdentifier {
 	
 	let ID: String
 	let name: String
-	let coreLocation: CLLocation
+	private let floorID: String?
+	var floor : Floor? {
+		guard let floorID = floorID
+			else { return nil }
+		return APIManager.shared.floors[floorID]
+	}
 	
-	init(ID: String, name: String, coreLocation: CLLocation) {
+	init(ID: String, name: String, floorID: String?) {
 		self.ID = ID
 		self.name = name
-		self.coreLocation = coreLocation
+		self.floorID = floorID
 	}
 	
 	private static let nameKey = "name"
-	private static let latitudeKey = "latitude"
-	private static let longitudeKey = "longitude"
+	private static let floorKey = "floor"
 	
 	convenience init?(_ serializedRepresentation: SerializedRepresentation) {
-		guard let id = serializedRepresentation[Location.idKey] as? String, let locationName = serializedRepresentation[Location.nameKey] as? String, let latitude = serializedRepresentation[Location.latitudeKey] as? Double, let longitude = serializedRepresentation[Location.longitudeKey] as? Double
+		guard let id = serializedRepresentation[Location.idKey] as? String, let locationName = serializedRepresentation[Location.nameKey] as? String
 		else {
 			return nil
 		}
-		self.init(ID: id, name: locationName, coreLocation: CLLocation(latitude: latitude, longitude: longitude))
-
+		self.init(ID: id, name: locationName, floorID: serializedRepresentation[Location.floorKey] as? String)
 	}
 	
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Location.idKey: ID, Location.nameKey: name, Location.latitudeKey: coreLocation.coordinate.latitude, Location.longitudeKey: coreLocation.coordinate.longitude]
+		var dict = [Location.idKey: ID, Location.nameKey: name]
+		if let floorID = floorID
+		{
+			dict[Location.floorKey] = floorID
+		}
+		return dict as NSDictionary
 	}
 }
 

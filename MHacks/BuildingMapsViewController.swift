@@ -9,12 +9,15 @@
 import UIKit
 
 class BuildingMapsViewController: UIViewController, UIScrollViewDelegate {
+    
     let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.yellow]
     var frame = CGRect(x: 0, y: 0, width: 100, height: 100)
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TODO Update to use APIManager instead of hardcoding images.
         self.scrollView.frame = CGRect(x:0, y:0, width:self.view.frame.width, height:self.view.frame.height)
         let scrollViewWidth:CGFloat = self.scrollView.frame.width
         let scrollViewHeight:CGFloat = self.scrollView.frame.height
@@ -35,10 +38,6 @@ class BuildingMapsViewController: UIViewController, UIScrollViewDelegate {
         self.scrollView.contentSize = CGSize(width:self.scrollView.frame.width * 4, height:1.0)
         self.scrollView.delegate = self
         self.pageControl.currentPage = 0
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
