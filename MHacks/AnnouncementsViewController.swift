@@ -138,8 +138,9 @@ class AnnouncementsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-		print(APIManager.shared.announcements[indexPath.row])
-		
+		#if DEBUG
+			print(APIManager.shared.announcements[indexPath.row])
+		#endif
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)
             confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))

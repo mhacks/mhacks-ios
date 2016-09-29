@@ -172,6 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var statusWindow : UIWindow?
 	var label : UILabel?
+	var lastErrorMessage: String?
 	
 	fileprivate func makeLabel(_ text: String?) {
 		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRect.zero)
@@ -183,20 +184,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	}
 	
 	func error(_ notification: Notification) {
-		guard statusWindow == nil && label == nil
-		else
-		{
-			label!.text = (notification.object as? String)?.sentenceCapitalizedString ?? label!.text
-			// There already exists an error message
-			// so we discard this one. Maybe we could queue the errors up and have timeouts of some sort?
-			// FIXME: Hack to prevent multiple errors from colliding with each other
-			return
-		}
 		DispatchQueue.main.async(execute: {
+			guard self.statusWindow == nil && self.label == nil
+			else
+			{
+				self.label?.text = (notification.object as? String)?.sentenceCapitalizedString ?? self.label?.text
+				// There already exists an error message so we discard this one.
+				return
+			}
+			
 			self.statusWindow = UIWindow(frame: UIApplication.shared.statusBarFrame)
 			self.statusWindow?.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
 			
-			self.makeLabel(notification.object as? String)
+			guard let errorMessage = (notification.object as? String)?.sentenceCapitalizedString, errorMessage != self.lastErrorMessage
+			else {
+				// Don't show the same error repeatedly, this will annoy the user, especially if they keep seeing, internet connection not available.
+				return
+			}
+			self.lastErrorMessage = errorMessage
+			self.makeLabel(self.lastErrorMessage)
 			
 			self.statusWindow?.addSubview(self.label!)
 			self.statusWindow?.makeKeyAndVisible()
