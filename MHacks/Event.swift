@@ -32,6 +32,7 @@ final class Event: SerializableElementWithIdentifier {
 				return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
 			}
 		}
+		
 		var description : String {
 			switch self {
 			case .logisitics:

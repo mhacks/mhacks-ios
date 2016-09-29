@@ -16,6 +16,8 @@
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
 		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
 		46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */; };
+		709897611D7614B4003A3013 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709897601D7614B4003A3013 /* ColorPalette.swift */; };
+		709897621D761983003A3013 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709897601D7614B4003A3013 /* ColorPalette.swift */; };
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
 		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
@@ -106,6 +108,7 @@
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
 		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
 		46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowLabel.swift; sourceTree = "<group>"; };
+		709897601D7614B4003A3013 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82287A441C66C3D8001A0F38 /* MHacks.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MHacks.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82287A451C66C3D8001A0F38 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -228,6 +231,7 @@
 			children = (
 				82473FA51C1F7A170061FFFB /* AppDelegate.swift */,
 				820B8E651C2472EC007A2E88 /* Extensions.swift */,
+				709897601D7614B4003A3013 /* ColorPalette.swift */,
 				82473FC11C1F80EF0061FFFB /* Model */,
 				82473FBE1C1F7F6E0061FFFB /* Views */,
 				82473FBB1C1F7F2A0061FFFB /* Controller */,
@@ -483,6 +487,7 @@
 				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */,
 				82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */,
+				709897621D761983003A3013 /* ColorPalette.swift in Sources */,
 				82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */,
 				82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */,
 				82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */,
@@ -529,6 +534,7 @@
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
+				709897611D7614B4003A3013 /* ColorPalette.swift in Sources */,
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
 				823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
