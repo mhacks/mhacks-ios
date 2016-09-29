@@ -90,9 +90,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textColor = UIColor.white
+        nameLabel.numberOfLines = 0
         
         schoolLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         schoolLabel.textColor = UIColor.white
+        schoolLabel.numberOfLines = 0
         
         let schoolView = UIStackView(arrangedSubviews: [nameTitleLabel, nameLabel])
         schoolView.axis = .vertical
