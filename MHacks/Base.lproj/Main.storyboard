@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -381,7 +381,7 @@
             </objects>
             <point key="canvasLocation" x="2062" y="807"/>
         </scene>
-        <!--Settings-->
+        <!--Notifications-->
         <scene sceneID="ruZ-6I-stl">
             <objects>
                 <tableViewController id="sal-Fe-WoM" customClass="SettingsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -481,7 +481,7 @@
                             <outlet property="delegate" destination="sal-Fe-WoM" id="Vyn-VN-qka"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="gpC-KV-UoH">
+                    <navigationItem key="navigationItem" title="Notifications" id="gpC-KV-UoH">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="BAn-Kg-ql7">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="sal-Fe-WoM" id="T47-NC-mKj"/>
