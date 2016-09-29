@@ -422,13 +422,13 @@ final class APIManager
 			urlComponents.query = formData
 		}
 		
-		let mutableRequest = NSMutableURLRequest(url: urlComponents.url!)
+		var mutableRequest = URLRequest(url: urlComponents.url!)
 		mutableRequest.httpMethod = method.rawValue
-		authenticator?.addAuthorizationHeader(mutableRequest)
+		authenticator?.addAuthorizationHeader(&mutableRequest)
 		if method == .post || method == .put || method == .patch {
 			mutableRequest.httpBody = formData.substring(to: formData.index(before: formData.endIndex)).data(using: .utf8)
 		}
-		return (mutableRequest.copy() as! NSURLRequest) as URLRequest
+		return mutableRequest
 	}
 	
 	private func taskWithRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get, completion: @escaping (Response<[String: Any]>) -> Void)
@@ -675,7 +675,7 @@ extension APIManager {
 			NotificationCenter.default.post(name: APIManager.UserProfileUpdatedNotification, object: self)
 		}
 		
-		func addAuthorizationHeader(_ request: NSMutableURLRequest) {
+		func addAuthorizationHeader(_ request: inout URLRequest) {
 			request.addValue("Token \(authenticationToken)", forHTTPHeaderField: "Authorization")
 		}
 		
