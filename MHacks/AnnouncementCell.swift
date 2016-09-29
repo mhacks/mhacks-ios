@@ -16,9 +16,8 @@ class AnnouncementCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
 	@IBOutlet var colorView: UIView!
-	
-	@IBOutlet var sponsoredLabelBackground: UIView!	// Gray box behind label
-	@IBOutlet var sponsoredLabelContainer: UIView!	// Blank view for layout
+	@IBOutlet var sponsoredTextView: UITextView!
+	@IBOutlet var unapprovedTextView: UITextView!
 	
     // MARK: Life cycle
     
@@ -26,6 +25,10 @@ class AnnouncementCell: UITableViewCell {
         super.awakeFromNib()
 		
 		colorView.layer.cornerRadius = 1.0
-		sponsoredLabelBackground.layer.cornerRadius = 4.0
+		sponsoredTextView.layer.cornerRadius = 4.0
+		sponsoredTextView.textContainerInset = .zero
+		
+		unapprovedTextView.layer.cornerRadius = 4.0
+		unapprovedTextView.textContainerInset = .zero
     }
 }

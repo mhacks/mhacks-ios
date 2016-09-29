@@ -14,33 +14,30 @@ class DatePickerCell: UITableViewCell
 	@IBOutlet var datePicker: UIDatePicker!
 	@IBOutlet var dateLabel: UILabel!
 	
-	weak var delegate: ChangingHeightCellDelegate?
-	var expanded = false
-	{
+	var expanded = false {
 		didSet {
-			delegate?.cell(self, didChangeSize: CGSize(width: frame.width, height: rowHeight))
+			datePicker.isHidden = !expanded
 		}
 	}
 	
 	let dateFormatter = { () -> DateFormatter in
-		let dF = DateFormatter()
-		dF.dateFormat = "MMM dd ' at 'HH:mm"
-		return dF
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "MMMM dd' at 'h:mm a"
+		return dateFormatter
 	}()
 	
-	var rowHeight: CGFloat {
-		return 261.0 - (expanded ? 0 : datePicker.frame.height + 8.0)
-	}
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		
 		datePicker.addTarget(self, action: #selector(DatePickerCell.dateChanged(_:)), for: .valueChanged)
+		datePicker.isHidden = !expanded
 	}
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(false, animated: animated)
-        // Configure the view for the selected state
-    }
-	func dateChanged(_ sender: UIDatePicker)
-	{
+	
+	func dateChanged(_ sender: UIDatePicker) {
+		updateDateLabel()
+	}
+	
+	func updateDateLabel() {
 		dateLabel.text = dateFormatter.string(from: datePicker.date)
 	}
 }
