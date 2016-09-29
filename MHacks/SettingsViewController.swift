@@ -9,8 +9,6 @@
 import UIKit
 
 class SettingsViewController: UITableViewController {
-	
-    var settingTypes = ["Push Notifications"]
     
 	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
 	var currentPreference = Announcement.Category(rawValue: 0)
@@ -36,10 +34,6 @@ class SettingsViewController: UITableViewController {
 	}
 	
 	// MARK: - Table View Data Source
-	
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return settingTypes.count
-    }
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 0 {
@@ -70,10 +64,6 @@ class SettingsViewController: UITableViewController {
 	}
 	
 	// MARK: - Table View Delegate
-	
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return settingTypes[section]
-    }
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
