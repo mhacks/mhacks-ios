@@ -44,6 +44,7 @@
 		82287A861C66E5A5001A0F38 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82287A841C66E5A5001A0F38 /* ScheduleHourSeparator.xib */; };
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
+		8240DE641D9C72EA000DD78C /* ScannedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedData.swift */; };
 		82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA51C1F7A170061FFFB /* AppDelegate.swift */; };
 		82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA71C1F7A170061FFFB /* LoginViewController.swift */; };
 		82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA91C1F7A170061FFFB /* CountdownViewController.swift */; };
@@ -127,6 +128,7 @@
 		82287A841C66E5A5001A0F38 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
 		823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		823E4D321C615EE400F37D0B /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
+		8240DE631D9C72EA000DD78C /* ScannedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedData.swift; sourceTree = "<group>"; };
 		82473FA21C1F7A170061FFFB /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82473FA51C1F7A170061FFFB /* AppDelegate.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FA71C1F7A170061FFFB /* LoginViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -343,6 +345,7 @@
 				82942B9E1C2A2EAE0084880C /* Event.swift */,
 				827F59AD1C6532DE00FF2D15 /* Map.swift */,
 				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
+				8240DE631D9C72EA000DD78C /* ScannedData.swift */,
 			);
 			name = "Public Models";
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				82942BAD1C2A37670084880C /* Geometry.swift in Sources */,
 				82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */,
 				7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */,
+				8240DE641D9C72EA000DD78C /* ScannedData.swift in Sources */,
 				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
 				82942B9F1C2A2EAE0084880C /* Event.swift in Sources */,
 				82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */,

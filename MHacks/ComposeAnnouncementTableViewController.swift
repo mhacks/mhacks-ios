@@ -146,15 +146,17 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         
-        let id = editingAnnouncement?.ID ?? ""
-        let title = titleTextField.text ?? editingAnnouncement?.title ?? ""
-        let info = infoTextView.text ?? editingAnnouncement?.message ?? ""
-        let date = datePicker.date ?? editingAnnouncement?.date ?? Date()
-        let category = currentCategory?[1]
-        let approved = editingAnnouncement?.approved ?? false
+//        let id = editingAnnouncement?.ID ?? ""
+//        let title = titleTextField.text ?? editingAnnouncement?.title ?? ""
+//        let info = infoTextView.text ?? editingAnnouncement?.message ?? ""
+//        let date = datePicker.date ?? editingAnnouncement?.date ?? Date()
+//        let category = currentCategory?[1]
+//        let approved = editingAnnouncement?.approved ?? false
         
-        //TODO check for bad input
-        
+        // TODO: Check for bad input and actually save the announcement
+        // Note that you can edit editingAnnouncement directly and call the APIManager with that object directly.
+        // For creating a new announcement create the struct with fields filled out
+        // Only dismiss if succeeded!
         self.dismiss(animated: true, completion: nil)
     }
     

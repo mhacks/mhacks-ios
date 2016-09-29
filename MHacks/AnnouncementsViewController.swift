@@ -35,7 +35,7 @@ class AnnouncementsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 		
-        if APIManager.shared.canPostAnnouncements() {
+        if APIManager.shared.canPostAnnouncements {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(AnnouncementsViewController.compose(_:)))
         }
         else {
@@ -44,7 +44,7 @@ class AnnouncementsViewController: UITableViewController {
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(AnnouncementsViewController.announcementsUpdated(_:)), name: APIManager.AnnouncementsUpdatedNotification, object: nil)
 		
-		if APIManager.shared.canEditAnnouncements() {
+		if APIManager.shared.canEditAnnouncements {
 			tableView.allowsSelection = true
 			tableView.allowsMultipleSelection = false
 		}
@@ -90,7 +90,7 @@ class AnnouncementsViewController: UITableViewController {
 	}
 	
 	func compose(_ sender: UIBarButtonItem) {
-		guard APIManager.shared.canPostAnnouncements()
+		guard APIManager.shared.canPostAnnouncements
 		else {
 			navigationItem.rightBarButtonItem = nil
 			return
@@ -117,13 +117,13 @@ class AnnouncementsViewController: UITableViewController {
 		cell.colorView.backgroundColor = announcement.category.color
 
 		cell.sponsoredTextView.isHidden = !announcement.isSponsored
-		cell.unapprovedTextView.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements() ? false : true
+		cell.unapprovedTextView.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements ? false : true
 
         return cell
     }
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if APIManager.shared.canEditAnnouncements() {
+		if APIManager.shared.canEditAnnouncements {
 			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementNavigationController") as! UINavigationController
 			(compose.topViewController as? ComposeAnnouncementTableViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 			present(compose, animated: true, completion: nil)
@@ -134,7 +134,7 @@ class AnnouncementsViewController: UITableViewController {
 	}
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return APIManager.shared.canEditAnnouncements()
+        return APIManager.shared.canEditAnnouncements
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

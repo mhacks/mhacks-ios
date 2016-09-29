@@ -76,13 +76,14 @@ final class APIManager
 		case LoggedIn(UserInfo)
 		case LoggedOut
 	}
-	func canPostAnnouncements() -> Bool {
+	
+	var canPostAnnouncements: Bool {
 		return authenticator?.canPostAnnouncements ?? false
 	}
-	func canEditAnnouncements() -> Bool {
+	var canEditAnnouncements : Bool {
 		return authenticator?.canEditAnnouncements ?? false
 	}
-	func canScanUserCode() -> Bool {
+	var canScanUserCode: Bool {
 		return authenticator?.canPerformScan ?? false
 	}
 	
@@ -631,6 +632,7 @@ extension APIManager {
 		authenticator?.destroyToken()
 		authenticator = nil
 		NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
+		updateAPNSToken()
 	}
 	
 	// MARK: - Private implmentation details of user auth

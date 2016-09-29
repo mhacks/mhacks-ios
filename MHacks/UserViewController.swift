@@ -193,7 +193,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.isHidden = true
         }
         
-        if APIManager.shared.canScanUserCode() {
+        if APIManager.shared.canScanUserCode {
             navigationItem.rightBarButtonItem = scanBarButtonItem
         } else {
             navigationItem.rightBarButtonItem = nil
@@ -225,7 +225,6 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     }
     
     func signOut() {
-        
         APIManager.shared.logout()
     }
     

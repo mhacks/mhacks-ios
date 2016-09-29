@@ -66,14 +66,14 @@ final class ScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
             
             // Start video capture
             captureSession.startRunning()
-            
+			
+			videoPreviewLayer.session = captureSession
+
         } catch {
-            
-            // If any error occurs, simply print it out and don't continue any more.
-            print(error)
+			// If any error occurs, simply print it out and don't continue any more.
+			NotificationCenter.default.post(name: APIManager.FailureNotification, object: error.localizedDescription)
         }
         
-        videoPreviewLayer.session = captureSession
     }
     
     required init?(coder aDecoder: NSCoder) {
