@@ -392,17 +392,18 @@ final class APIManager
 	/// - parameter scanEvent:       The scan event you want to scan for
 	/// - parameter readOnlyPeek:    Whether the scan should be readonly, i.e. not actually perform the scan but check what the result of the scan would be. Pass false if you want the scan to actually be saved to the server
 	/// - parameter callback:        A callback after the server responds, the parameters are a boolean indicating success of the scan event as well as additionalData associated with the scan. This is scan event specific so you must parse it manually as you see fit. Note additionalData may still be nil even if succeeded is true if there is no additional data for that particular scan event
-	func performScan(userDataScanned: String, scanEvent: ScanEvent, readOnlyPeek: Bool, _ callback: @escaping (_ succeeded: Bool, _ additionalData: [String: Any]?) -> Void)
+	func performScan(userDataScanned: String, scanEvent: ScanEvent, readOnlyPeek: Bool, _ callback: @escaping (_ succeeded: Bool, _ additionalData: [ScannedDataField]) -> Void)
 	{
 		taskWithRoute("/v1/perform_scan/", parameters: ["user_id": userDataScanned, "scan_event": scanEvent.ID], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
 			switch response
 			{
 			case .value(let json):
-				guard let succeeded = json["scanned"] as? Bool
-				else { return callback(false, nil) }
-				callback(succeeded, json["data"] as? [String: Any])
+				guard let succeeded = json["scanned"] as? Bool, succeeded, let serializedItems = json["data"] as? [SerializedRepresentation]
+				else { return callback(false, []) }
+				let scannedDataFields = serializedItems.flatMap { ScannedDataField($0) }
+				callback(succeeded, scannedDataFields)
 			case .error(let errorMessage):
-				callback(false, nil)
+				callback(false, [])
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
 			}
 		}
