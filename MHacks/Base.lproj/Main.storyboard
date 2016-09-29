@@ -400,7 +400,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDM-UN-qwT">
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="2" id="cOb-gr-Mi1"/>
+                                                <constraint firstAttribute="width" constant="30" id="cOb-gr-Mi1"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP8-q3-5Kx">
@@ -410,13 +410,12 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="YDM-UN-qwT" secondAttribute="bottom" id="0Xz-4x-eG8"/>
+                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="bottom" secondItem="cLb-j5-0MS" secondAttribute="bottom" id="0Xz-4x-eG8"/>
                                         <constraint firstItem="YDM-UN-qwT" firstAttribute="top" secondItem="cLb-j5-0MS" secondAttribute="top" id="6tF-hu-ftZ"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="wP8-q3-5Kx" secondAttribute="bottom" constant="3" id="7Qh-Su-3YI"/>
+                                        <constraint firstItem="wP8-q3-5Kx" firstAttribute="bottom" secondItem="cLb-j5-0MS" secondAttribute="bottomMargin" constant="-3" id="7Qh-Su-3YI"/>
                                         <constraint firstItem="wP8-q3-5Kx" firstAttribute="leading" secondItem="YDM-UN-qwT" secondAttribute="trailing" constant="8" id="7Yx-C8-PKQ"/>
                                         <constraint firstItem="wP8-q3-5Kx" firstAttribute="centerY" secondItem="cLb-j5-0MS" secondAttribute="centerY" id="hYY-LK-0XO"/>
                                         <constraint firstItem="YDM-UN-qwT" firstAttribute="leading" secondItem="cLb-j5-0MS" secondAttribute="leading" id="qLA-bb-ap0"/>
-                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="top" secondItem="cLb-j5-0MS" secondAttribute="top" id="yaH-Z2-YOo"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
