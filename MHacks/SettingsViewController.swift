@@ -52,40 +52,27 @@ class SettingsViewController: UITableViewController {
 		cell.categoryLabel.text = category.description
 		cell.colorView.layer.borderColor = category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
-		if currentPreference.contains(category)
-		{
-			cell.accessoryType = .checkmark
+		
+		let switchView = UISwitch()
+		switchView.setOn(currentPreference.contains(category), animated: false)
+		switchView.addTarget(self, action: #selector(self.switchToggled(sender:)), for: UIControlEvents.valueChanged)
+		switchView.tag = indexPath.row
+		if category.contains(Announcement.Category.Emergency) {
+			// Disable Emergency CategoryCell UISwitch
+			switchView.isEnabled = false
 		}
-		else
-		{
-			cell.accessoryType = .none
-		}
+		
+		cell.accessoryView = switchView
 		return cell
 	}
 	
-	// MARK: - Table View Delegate
-	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		tableView.deselectRow(at: indexPath, animated: true)
-		guard indexPath.section == 0
-			else { fatalError("Did not update code properly") }
-		let category = announcementCategories[(indexPath as NSIndexPath).row]
-		guard !category.contains(Announcement.Category.Emergency)
-			else
-		{
-			let alertController = UIAlertController(title: "Denied", message: "Emergency notifications must stay active during the entire hackathon.", preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
-			present(alertController, animated: true, completion: nil)
-			return
-		}
-		if currentPreference.remove(category) == nil
-		{
+	func switchToggled(sender: UISwitch) {
+		let category = announcementCategories[sender.tag]
+		
+		if sender.isOn {
 			currentPreference.insert(category)
-			tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-		}
-		else
-		{
-			tableView.cellForRow(at: indexPath)?.accessoryType = .none
+		} else {
+			currentPreference.remove(category)
 		}
 	}
 	
