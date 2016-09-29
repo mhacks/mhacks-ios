@@ -10,7 +10,7 @@ import UIKit
 
 class MultilineInputTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var inputTextView: UITextView!
+    @IBOutlet var inputTextView: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

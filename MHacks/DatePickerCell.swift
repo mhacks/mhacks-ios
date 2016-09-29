@@ -8,8 +8,7 @@
 
 import UIKit
 
-class DatePickerCell: UITableViewCell
-{
+class DatePickerCell: UITableViewCell {
 
 	@IBOutlet var datePicker: UIDatePicker!
 	@IBOutlet var dateLabel: UILabel!

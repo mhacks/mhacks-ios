@@ -10,7 +10,7 @@ import UIKit
 
 class SinglelineInputTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var inputTextField: UITextField!
+    @IBOutlet var inputTextField: UITextField!
     
     // MARK: UIResponder
     
