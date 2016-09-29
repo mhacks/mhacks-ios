@@ -95,7 +95,7 @@ class AnnouncementsViewController: UITableViewController {
 			navigationItem.rightBarButtonItem = nil
 			return
 		}
-		let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
+		let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementNavigationController") as! UINavigationController
 		present(compose, animated: true, completion: nil)
 	}
 	
@@ -116,15 +116,16 @@ class AnnouncementsViewController: UITableViewController {
 		
 		cell.colorView.backgroundColor = announcement.category.color
 
-		cell.sponsoredLabelContainer.isHidden = !announcement.isSponsored
-		
+		cell.sponsoredTextView.isHidden = !announcement.isSponsored
+		cell.unapprovedTextView.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements() ? false : true
+
         return cell
     }
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if APIManager.shared.canEditAnnouncements() {
-			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementViewController") as! UINavigationController
-			(compose.topViewController as? ComposeAnnouncementViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
+			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementNavigationController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementTableViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 			present(compose, animated: true, completion: nil)
 		}
 		else {
@@ -137,20 +138,34 @@ class AnnouncementsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let delete = UITableViewRowAction(style: .normal, title: "✕") { action, index in
-            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.",preferredStyle: .alert)
+		print(APIManager.shared.announcements[indexPath.row])
+		
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
+            let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)
             confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
             confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
                 
-//                APIManager.shared.deleteAnnouncement((indexPath as NSIndexPath).row, completion: {deleted in
-//                    if deleted {
-//                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
-//                    }
-//                })
+                APIManager.shared.deleteAnnouncement(APIManager.shared.announcements[indexPath.row], completion: nil)
             }))
+			
             self.present(confirm, animated: true, completion: nil)
         }
-        delete.backgroundColor = UIColor.red
+		
+		if !APIManager.shared.announcements[indexPath.row].approved {
+			let approve = UITableViewRowAction(style: .default, title: "Approve", handler: { action, index in
+				let confirm = UIAlertController(title: "Announcement Approval", message: "This announcement will be added to the approval list", preferredStyle: .alert)
+				confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+				confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
+					//APIManager.shared.approveAnnouncement((indexPath as NSIndexPath).row)
+				}))
+				
+				self.present(confirm, animated: true, completion: nil)
+			})
+			
+			approve.backgroundColor = .blue
+			
+			return [approve, delete]
+		}
         
         return [delete]
     }

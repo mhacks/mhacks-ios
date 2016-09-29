@@ -16,6 +16,10 @@
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
 		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
 		46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */; };
+		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
+		7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */; };
+		7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */; };
+		70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */; };
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
 		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
@@ -55,7 +59,6 @@
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
 		825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
-		8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */; };
 		827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
@@ -106,6 +109,10 @@
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
 		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
 		46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowLabel.swift; sourceTree = "<group>"; };
+		704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementTableViewController.swift; sourceTree = "<group>"; };
+		7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglelineInputTableViewCell.swift; sourceTree = "<group>"; };
+		7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineInputTableViewCell.swift; sourceTree = "<group>"; };
+		70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82287A441C66C3D8001A0F38 /* MHacks.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MHacks.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82287A451C66C3D8001A0F38 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -137,7 +144,6 @@
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanEvent.swift; sourceTree = "<group>"; };
-		8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		827F59AD1C6532DE00FF2D15 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A0211C6074D100B6EFEE /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -267,13 +273,13 @@
 				82EFDE8A1C32ED060074AB99 /* EventViewController.swift */,
 				82473FA91C1F7A170061FFFB /* CountdownViewController.swift */,
 				82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */,
-				8266BC761C2B2321007AAF45 /* ComposeAnnouncementViewController.swift */,
 				82E9C4881C4F09B100ED2EBF /* MapViewController.swift */,
 				9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */,
 				463165371D86023D00371D56 /* UserViewController.swift */,
 				82473FA71C1F7A170061FFFB /* LoginViewController.swift */,
 				46EA62F21D927421003AE1D5 /* ScannerViewController.swift */,
 				FE87AA231D8CD7C000C8DB64 /* BuildingMapsViewController.swift */,
+				704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -294,7 +300,10 @@
 				82942BAC1C2A37670084880C /* Geometry.swift */,
 				8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */,
 				823E4D321C615EE400F37D0B /* TextViewCell.swift */,
+				7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */,
+				7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */,
 				8286A0211C6074D100B6EFEE /* DatePickerCell.swift */,
+				70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */,
 				828D498C1C65F3FD0090313C /* CategoryCell.swift */,
 				460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */,
 				463A90721D9769B600C0F6FE /* ScanerView.swift */,
@@ -504,19 +513,21 @@
 				9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */,
 				827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
+				704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
+				7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */,
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
 				825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
-				8266BC771C2B2321007AAF45 /* ComposeAnnouncementViewController.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82942BAD1C2A37670084880C /* Geometry.swift in Sources */,
 				82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */,
+				7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */,
 				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
 				82942B9F1C2A2EAE0084880C /* Event.swift in Sources */,
 				82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */,
@@ -532,6 +543,7 @@
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
 				823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
+				70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
 				82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */,
