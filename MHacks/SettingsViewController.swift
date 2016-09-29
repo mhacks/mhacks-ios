@@ -52,8 +52,7 @@ class SettingsViewController: UITableViewController {
 		cell.categoryLabel.text = category.description
 		
 		// Draw the dot with a specified color
-		print(cell.colorView.bounds.size.width, " as width")
-		print(cell.colorView.bounds.size.height, " as height")
+		// TODO: Fix hardcoded coordinate positions
 		let dotPath = UIBezierPath(arcCenter: CGPoint(x: 21, y: 22),
 		                           radius: CGFloat(5), startAngle: CGFloat(0),
 		                           endAngle:CGFloat(M_PI * 2), clockwise: true)
