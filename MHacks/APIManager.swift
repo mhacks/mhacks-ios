@@ -214,7 +214,7 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func updateAnnouncement(_ announcement: Announcement, usingMethod method: HTTPMethod, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		let route = method == .put ? "/v1/announcement/\(announcement.ID)" : "/v1/announcements"
+		let route = method == .put ? "/v1/announcements/\(announcement.ID)" : "/v1/announcements"
 		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as? [String: Any] ?? [:], usingHTTPMethod: method) { response in
 			switch response
 			{
@@ -236,7 +236,7 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func deleteAnnouncement(_ announcement: Announcement, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		taskWithRoute("/v1/announcement/\(announcement.ID)", usingHTTPMethod: .delete) { response in
+		taskWithRoute("/v1/announcements/\(announcement.ID)", usingHTTPMethod: .delete) { response in
 			switch response
 			{
 			case .value(_):
@@ -462,7 +462,11 @@ final class APIManager
 				completion(.error(error!.localizedDescription))
 				return
 			}
-			
+			guard method != .delete
+			else {
+				completion(.value([:]))
+				return
+			}
 			guard let data = data, let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []), let json = jsonObject as? [String: Any]
 			else {
 				assertionFailure("Deserialization should never fail. We recover silently in production builds")
