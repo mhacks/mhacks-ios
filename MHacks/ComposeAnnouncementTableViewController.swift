@@ -87,9 +87,15 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
             
         case let cell as DatePickerCell:
             self.datePicker = cell.datePicker
+            
+            cell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
+            cell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
+            
             if let announcement = editingAnnouncement {
                 cell.datePicker.date = announcement.date
-                cell.updateDateLabel()
+                cell.datePicker.sendActions(for: .valueChanged)
+            } else {
+                //cell.datePicker.date = min(Date(timeIntervalSinceNow: 60 * 60), cell.datePicker.maximumDate)
             }
             
         case let cell as CategoryCell:
@@ -146,18 +152,24 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         
-//        let id = editingAnnouncement?.ID ?? ""
-//        let title = titleTextField.text ?? editingAnnouncement?.title ?? ""
-//        let info = infoTextView.text ?? editingAnnouncement?.message ?? ""
-//        let date = datePicker.date ?? editingAnnouncement?.date ?? Date()
-//        let category = currentCategory?[1]
-//        let approved = editingAnnouncement?.approved ?? false
-        
-        // TODO: Check for bad input and actually save the announcement
-        // Note that you can edit editingAnnouncement directly and call the APIManager with that object directly.
-        // For creating a new announcement create the struct with fields filled out
-        // Only dismiss if succeeded!
-        self.dismiss(animated: true, completion: nil)
+        if let title = titleTextField.text, let info = infoTextView.text {
+            var categoryRawValue = 0
+
+            if let categoryIndexPath = currentCategory {
+                categoryRawValue = 1 << categoryIndexPath.row
+            }
+            
+            if sponsorSwitch.isOn {
+                categoryRawValue += Announcement.Category.Sponsor.rawValue
+            }
+            
+            let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: title, message: info, date: datePicker.date, category: Announcement.Category(rawValue: categoryRawValue), approved: editingAnnouncement?.approved ?? false)
+
+            APIManager.shared.updateAnnouncement(announcement, usingMethod: editingAnnouncement == nil ? .post : .put) { finished in
+                guard finished else { return }
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {

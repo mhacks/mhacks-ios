@@ -145,9 +145,8 @@ class AnnouncementsViewController: UITableViewController {
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)
             confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
             confirm.addAction(UIAlertAction(title: "Confirm", style: .default, handler: {(action: UIAlertAction!) in
-                
-                APIManager.shared.deleteAnnouncement(APIManager.shared.announcements[indexPath.row], completion: nil)
-            }))
+				APIManager.shared.deleteAnnouncement(APIManager.shared.announcements[indexPath.row])
+			}))
 			
             self.present(confirm, animated: true, completion: nil)
         }

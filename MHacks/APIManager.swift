@@ -214,7 +214,7 @@ final class APIManager
 	/// - note: Do *not* update the UI automatically to compensate for this change. The MHacksArray will be updated separately and will post its notification.
 	func updateAnnouncement(_ announcement: Announcement, usingMethod method: HTTPMethod, completion: CoalescedCallbacks.Callback? = nil)
 	{
-		let route = method == .put ? "/v1/announcements/\(announcement.ID)" : "/v1/announcements"
+		let route = method == .put ? "/v1/announcements/\(announcement.ID)" : "/v1/announcements/"
 		taskWithRoute(route, parameters: announcement.toSerializedRepresentation() as? [String: Any] ?? [:], usingHTTPMethod: method) { response in
 			switch response
 			{
@@ -240,8 +240,8 @@ final class APIManager
 			switch response
 			{
 			case .value(_):
-				completion?(true)
 				self.updateAnnouncements()
+				completion?(true)
 			case .error(let errorMessage):
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
 				completion?(false)
