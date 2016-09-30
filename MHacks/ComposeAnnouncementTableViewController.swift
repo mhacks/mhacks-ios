@@ -149,6 +149,14 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
     @IBAction func save(_ sender: UIBarButtonItem) {
         
         if let title = titleTextField.text, let info = infoTextView.text {
+            
+            if title.isEmpty || info.isEmpty {
+                let errorAlert = UIAlertController(title: "Missing Data", message: "You must both a title and message", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Oh.", style: .default, handler: nil))
+                self.present(errorAlert, animated: true)
+                return
+            }
+            
             var categoryRawValue = 0
 
             if let categoryIndexPath = currentCategory {

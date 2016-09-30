@@ -135,6 +135,6 @@ extension Announcement
 
 
 func <(lhs: Announcement, rhs: Announcement) -> Bool {
-	return lhs.date < rhs.date
+	return lhs.date > rhs.date
 }
 
