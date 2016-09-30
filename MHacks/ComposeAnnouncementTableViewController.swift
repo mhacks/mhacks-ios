@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ComposeAnnouncementTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
+class ComposeAnnouncementTableViewController: UITableViewController, UITextFieldDelegate {
 
     // MARK: Views
     
@@ -24,6 +24,8 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
                 let oldIndexPath = IndexPath(row: oldCategory.rawValue, section: Section.category.rawValue)
                 tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
             }
+            
+            if oldValue == currentCategory { return }
             
             if let newCategory = currentCategory {
                 let newIndexPath = IndexPath(row: newCategory.rawValue, section: Section.category.rawValue)
@@ -68,6 +70,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         titleCell.inputTextField.placeholder = "Party at Krupp's Workspace"
         titleCell.inputTextField.text = editingAnnouncement?.title
         titleCell.inputTextField.autocapitalizationType = .sentences
+        titleCell.inputTextField.returnKeyType = .next
         titleCell.inputTextField.delegate = self
         titleCell.selectionStyle = .none
         
@@ -114,6 +117,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        tableView.keyboardDismissMode = .interactive
         tableView.reloadData()
         
         self.navigationItem.title = editingAnnouncement == nil ? "New Announcement" : "Edit Announcement"
@@ -172,7 +176,12 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         }
     }
 
-    // MARK: UITextViewDelegate
+    // MARK: UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        infoCell.inputTextView.becomeFirstResponder()
+        return false
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         let currentOffset = tableView.contentOffset
