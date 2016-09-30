@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -381,26 +381,27 @@
             </objects>
             <point key="canvasLocation" x="1942" y="280"/>
         </scene>
-        <!--Settings-->
+        <!--Notifications-->
         <scene sceneID="ruZ-6I-stl">
             <objects>
                 <tableViewController id="sal-Fe-WoM" customClass="SettingsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" id="yUs-yC-jNb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" id="yUs-yC-jNb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" id="pOu-v5-YZj" customClass="CategoryCell" customModule="MHacks" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="notificationCell" id="pOu-v5-YZj" customClass="CategoryCell" customModule="MHacks" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="119.5" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pOu-v5-YZj" id="cLb-j5-0MS">
                                     <frame key="frameInset" width="375" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDM-UN-qwT">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDM-UN-qwT" customClass="CircleView" customModule="MHacks" customModuleProvider="target">
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="2" id="cOb-gr-Mi1"/>
+                                                <constraint firstAttribute="height" constant="8" id="Law-i5-hn3"/>
+                                                <constraint firstAttribute="width" constant="8" id="cOb-gr-Mi1"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wP8-q3-5Kx">
@@ -410,12 +411,11 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="YDM-UN-qwT" secondAttribute="bottom" id="0Xz-4x-eG8"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="wP8-q3-5Kx" secondAttribute="bottom" id="7Qh-Su-3YI"/>
-                                        <constraint firstItem="wP8-q3-5Kx" firstAttribute="leading" secondItem="YDM-UN-qwT" secondAttribute="trailing" constant="8" id="7Yx-C8-PKQ"/>
+                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="centerY" secondItem="cLb-j5-0MS" secondAttribute="centerY" id="0Xz-4x-eG8"/>
+                                        <constraint firstItem="wP8-q3-5Kx" firstAttribute="bottom" secondItem="cLb-j5-0MS" secondAttribute="bottomMargin" constant="-3" id="7Qh-Su-3YI"/>
+                                        <constraint firstItem="wP8-q3-5Kx" firstAttribute="leading" secondItem="YDM-UN-qwT" secondAttribute="trailing" constant="12" id="7Yx-C8-PKQ"/>
                                         <constraint firstItem="wP8-q3-5Kx" firstAttribute="centerY" secondItem="cLb-j5-0MS" secondAttribute="centerY" id="hYY-LK-0XO"/>
-                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="leading" secondItem="cLb-j5-0MS" secondAttribute="leading" id="qLA-bb-ap0"/>
-                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="top" secondItem="cLb-j5-0MS" secondAttribute="top" id="yaH-Z2-YOo"/>
+                                        <constraint firstItem="YDM-UN-qwT" firstAttribute="leading" secondItem="cLb-j5-0MS" secondAttribute="leading" constant="16" id="qLA-bb-ap0"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -481,7 +481,7 @@
                             <outlet property="delegate" destination="sal-Fe-WoM" id="Vyn-VN-qka"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="gpC-KV-UoH">
+                    <navigationItem key="navigationItem" title="Notifications" id="gpC-KV-UoH">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="BAn-Kg-ql7">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="sal-Fe-WoM" id="T47-NC-mKj"/>
