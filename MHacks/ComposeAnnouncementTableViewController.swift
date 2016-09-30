@@ -18,7 +18,19 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     var categoryCells = [UITableViewCell]()
     let sponsorCell = UITableViewCell()
     
-    var currentCategory: Announcement.Category?
+    var currentCategory: Announcement.Category? {
+        didSet {
+            if let oldCategory = oldValue {
+                let oldIndexPath = IndexPath(row: oldCategory.rawValue, section: Section.category.rawValue)
+                tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
+            }
+            
+            if let newCategory = currentCategory {
+                let newIndexPath = IndexPath(row: newCategory.rawValue, section: Section.category.rawValue)
+                tableView.cellForRow(at: newIndexPath)?.accessoryType = .checkmark
+            }
+        }
+    }
     
     // MARK: Data
 
