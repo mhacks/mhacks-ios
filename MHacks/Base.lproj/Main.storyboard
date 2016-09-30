@@ -707,16 +707,6 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iHU-Sy-pSz">
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wth-FJ-wu9">
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="Wth-FJ-wu9" secondAttribute="height" multiplier="1:1" id="zOg-cn-J7k"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="H5r-h1-VYO" appends="YES" id="kfF-qw-CaH"/>
-                                        </connections>
-                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-wF-91S">
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -764,14 +754,13 @@
                                 <constraints>
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="top" secondItem="yYr-Hx-Oiw" secondAttribute="bottom" constant="15" id="3j5-Gw-CDj"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="top" secondItem="6oU-Kv-kdK" secondAttribute="bottom" constant="15" id="8dc-ex-Q0X"/>
-                                    <constraint firstItem="Wth-FJ-wu9" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="GKC-jp-Ksg"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="M7p-wo-1Ul"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iAN-lx-7xS" secondAttribute="top" id="Nh8-IW-xJl"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="PWw-k5-50H"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="ThC-la-42h"/>
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leading" constant="-5" id="Wv1-LQ-I5t"/>
+                                    <constraint firstAttribute="bottom" secondItem="dg0-Mb-HdI" secondAttribute="bottom" constant="15" id="YX8-a4-dgG"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="top" secondItem="U05-tk-fMk" secondAttribute="bottom" constant="15" id="Yjb-5Z-jnj"/>
-                                    <constraint firstAttribute="bottom" secondItem="Wth-FJ-wu9" secondAttribute="bottom" id="a8x-i6-wd1"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="aQ1-AL-9Ir"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="b1Q-Rb-hgl"/>
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailing" constant="5" id="c1Z-Cb-irR"/>
@@ -781,9 +770,7 @@
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="m0d-Mk-JDg"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dPa-wF-91S" secondAttribute="trailing" id="nNJ-Wl-kLO"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iHU-Sy-pSz" secondAttribute="topMargin" id="nx8-bQ-BKv"/>
-                                    <constraint firstItem="Wth-FJ-wu9" firstAttribute="top" secondItem="dg0-Mb-HdI" secondAttribute="bottom" constant="15" id="s9c-tI-eld"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="t8G-3a-YPI"/>
-                                    <constraint firstItem="Wth-FJ-wu9" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="vLl-uj-LlT"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="top" secondItem="dPa-wF-91S" secondAttribute="bottom" id="yf5-LU-qX5"/>
                                 </constraints>
                                 <variation key="default">
@@ -809,18 +796,12 @@
                         <outlet property="contentView" destination="iHU-Sy-pSz" id="ujp-iy-Glz"/>
                         <outlet property="dateLabel" destination="yYr-Hx-Oiw" id="5lo-LR-q4n"/>
                         <outlet property="descriptionLabel" destination="6oU-Kv-kdK" id="nYj-mQ-Wps"/>
-                        <outlet property="mapView" destination="Wth-FJ-wu9" id="P38-T8-gff"/>
                         <outlet property="notifButton" destination="dg0-Mb-HdI" id="Xjl-4u-o1B"/>
                         <outlet property="subtitleLabel" destination="U05-tk-fMk" id="Chg-qH-9yb"/>
                         <outlet property="titleLabel" destination="dPa-wF-91S" id="7dn-6b-udd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ien-RE-7AC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="H5r-h1-VYO">
-                    <connections>
-                        <action selector="mapWasTapped:" destination="zCk-07-Lo5" id="auB-vR-ssV"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1942" y="-1556"/>
         </scene>

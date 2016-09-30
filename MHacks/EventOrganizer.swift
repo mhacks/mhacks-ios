@@ -116,7 +116,7 @@ struct Hour {
         
         let hourInterval = 0.0..<1.0
 		
-        return hourInterval.clamped(to: dateInterval).lowerBound
+        return dateInterval.clamped(to: hourInterval).lowerBound
     }
     
     static let Components: DateComponents = {
@@ -180,9 +180,9 @@ final class EventOrganizer {
         
         // Get first day
         
-        var days = [Day(firstDate: firstDate as Date, lastDate: lastDate)]
+        var days = [Day(firstDate: firstDate, lastDate: lastDate)]
         
-        (calendar as NSCalendar).enumerateDates(startingAfter: firstDate as Date, matching: Day.Components, options: .matchNextTime) { date, exactMatch, stop in
+        (calendar as NSCalendar).enumerateDates(startingAfter: firstDate, matching: Day.Components, options: .matchNextTime) { date, exactMatch, stop in
 			
 			guard let date = date else {
 				return
@@ -211,7 +211,7 @@ final class EventOrganizer {
         
         for day in 0..<days.count {
             partialHoursByDay += [self.eventsByDay[day].map { event in
-                return days[day].partialHoursFromDate(event.startDate as Date, toDate: event.endDate as Date)
+                return days[day].partialHoursFromDate(event.startDate, toDate: event.endDate)
             }]
         }
         
@@ -379,7 +379,7 @@ extension EventOrganizer {
 		for (i, event) in events.enumerated()
 		{
 			// Keep going while the event's start date is less than today
-			guard (event.startDate as Date) < today
+			guard event.startDate < today
 			else
 			{
 				startIndex = i
