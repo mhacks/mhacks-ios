@@ -34,7 +34,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         }
     }
     
-    var currentIdentifier: String? {
+    var scanIdentifier: String?
+    var scanFields: [ScannedDataField]? {
         didSet {
             updateUserView()
             updateToolbarItems(animated: true)
@@ -56,6 +57,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     let scannerView = ScannerView()
     
     let userBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    let userStackView = UIStackView()
     
     final class DoubleLabel: UIStackView {
         
@@ -69,6 +71,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
             alignment = .leading
             
             titleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+            
+            textLabel.numberOfLines = 0
         }
         
         required init(coder: NSCoder) {
@@ -78,13 +82,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         let titleLabel = UILabel()
         let textLabel = UILabel()
     }
-    
-    let nameLabel = DoubleLabel()
-    let emailLabel = DoubleLabel()
-    let schoolLabel = DoubleLabel()
-    let mentorLabel = DoubleLabel()
-    let minorLabel = DoubleLabel()
-    let shirtSizeLabel = DoubleLabel()
     
     // MARK: View life cycle
     
@@ -127,19 +124,11 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         userBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(userBackgroundView)
         
-        let userStackView = UIStackView(arrangedSubviews: [nameLabel, emailLabel, schoolLabel, mentorLabel, minorLabel, shirtSizeLabel])
         userStackView.translatesAutoresizingMaskIntoConstraints = false
         userStackView.axis = .vertical
         userStackView.spacing = 15.0
         
         userBackgroundView.contentView.addSubview(userStackView)
-        
-        nameLabel.titleLabel.text = "NAME"
-        emailLabel.titleLabel.text = "EMAIL"
-        schoolLabel.titleLabel.text = "SCHOOL"
-        mentorLabel.titleLabel.text = "MENTOR"
-        minorLabel.titleLabel.text = "MINOR"
-        shirtSizeLabel.titleLabel.text = "SHIRT SIZE"
         
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -199,17 +188,36 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func updateUserView() {
         
-        userBackgroundView.alpha = (currentIdentifier == nil) ? 0.0 : 1.0
+        userBackgroundView.alpha = (scanFields == nil) ? 0.0 : 1.0
         
-        if let currentIdentifier = currentIdentifier {
+        if let fields = scanFields {
             
-            emailLabel.textLabel.text = currentIdentifier
+            // Ensure the stack view has the right number of double labels
+            
+            while userStackView.arrangedSubviews.count < fields.count {
+                userStackView.addArrangedSubview(DoubleLabel())
+            }
+            
+            while userStackView.arrangedSubviews.count > fields.count {
+                userStackView.arrangedSubviews.last!.removeFromSuperview()
+            }
+            
+            for (index, field) in fields.enumerated() {
+                
+                let doubleLabel = userStackView.arrangedSubviews[index] as! DoubleLabel
+                
+                doubleLabel.titleLabel.text = field.label
+                doubleLabel.textLabel.text = field.value
+                
+                doubleLabel.titleLabel.textColor = field.color
+                doubleLabel.textLabel.textColor = field.color
+            }
         }
     }
     
     func updateToolbarItems(animated: Bool) {
         
-        if currentIdentifier == nil {
+        if scanFields == nil {
             setToolbarItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), eventsBarButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)], animated: animated)
         } else {
             setToolbarItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), confirmationBarButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)], animated: animated)
@@ -254,7 +262,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func confirmUser() {
         
-        APIManager.shared.performScan(userDataScanned: currentIdentifier!, scanEvent: currentScanEvent!, readOnlyPeek: false) { success, additionalData in
+        APIManager.shared.performScan(userDataScanned: scanIdentifier!, scanEvent: currentScanEvent!, readOnlyPeek: false) { success, additionalData in
             
             DispatchQueue.main.async {
                 
@@ -263,7 +271,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                 }
                 
                 UIView.animate(withDuration: 0.15) {
-                    self.currentIdentifier = nil
+                    self.scanIdentifier = nil
+                    self.scanFields = nil
                 }
             }
         }
@@ -272,7 +281,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     func cancelUserScan() {
         
         UIView.animate(withDuration: 0.15) {
-            self.currentIdentifier = nil
+            self.scanIdentifier = nil
+            self.scanFields = nil
         }
     }
     
@@ -280,22 +290,25 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func scannerView(scannerView: ScannerView, didScanIdentifier identifier: String) {
         
-        guard currentIdentifier == nil, let scanEvent = currentScanEvent else {
+        guard scanIdentifier == nil, let scanEvent = currentScanEvent else {
             return
         }
+        
+        scanIdentifier = identifier
         
         APIManager.shared.performScan(userDataScanned: identifier, scanEvent: scanEvent, readOnlyPeek: true) { success, additionalData in
             
             DispatchQueue.main.async {
                 
                 guard success else {
+                    self.scanIdentifier = nil
                     return
                 }
                 
                 // TODO: if already scanned, make confirmation button red
                 
                 UIView.animate(withDuration: 0.15) {
-                    self.currentIdentifier = identifier
+                    self.scanFields = additionalData
                 }
             }
         }
