@@ -13,8 +13,17 @@ class CategoryCell : UITableViewCell
 	@IBOutlet var colorView: CircleView!
 	@IBOutlet var categoryLabel: UILabel!
 	
+	let switchControl = UISwitch()
+	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
-		self.accessoryView = UISwitch()
+		
+		self.accessoryView = switchControl
+		
+		switchControl.onTintColor = tintColor
+	}
+	
+	override func tintColorDidChange() {
+		switchControl.onTintColor = tintColor
 	}
 }
