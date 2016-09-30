@@ -21,9 +21,18 @@ extension ScanEvent
 	
 	init?(_ serializedRepresentation: SerializedRepresentation)
 	{
-		guard let ID = serializedRepresentation[ScanEvent.idKey] as? String, let name = serializedRepresentation[ScanEvent.nameKey] as? String, let expiryDateRaw = serializedRepresentation[ScanEvent.expiryDateKey] as? Double
+		guard let ID = serializedRepresentation[ScanEvent.idKey] as? String, let name = serializedRepresentation[ScanEvent.nameKey] as? String
 			else { return nil }
-		self.init(ID: ID, name: name, expiryDate: Date(timeIntervalSince1970: expiryDateRaw))
+        let expiryDate: Date
+        if let expiryDateRaw = serializedRepresentation[ScanEvent.expiryDateKey] as? Double
+        {
+            expiryDate = Date(timeIntervalSince1970: expiryDateRaw)
+        }
+        else
+        {
+            expiryDate = Date.distantFuture
+        }
+		self.init(ID: ID, name: name, expiryDate: expiryDate)
 	}
 	func toSerializedRepresentation() -> NSDictionary {
 		return [ScanEvent.idKey: ID, ScanEvent.nameKey: name, ScanEvent.expiryDateKey: expiryDate.timeIntervalSince1970]

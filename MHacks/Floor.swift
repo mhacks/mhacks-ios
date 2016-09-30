@@ -49,6 +49,7 @@ final class Floor: SerializableElementWithIdentifier
         }
         guard let URL = URL(string: imageURL)
         else {
+            assertionFailure("Could not resolve URL \(imageURL) from server")
             return
         }
         
@@ -60,23 +61,26 @@ final class Floor: SerializableElementWithIdentifier
             }
             
             let newFileLocation = container.appendingPathComponent(URL.lastPathComponent)
+            _ = try? FileManager.default.removeItem(at: newFileLocation)
             do {
-                try FileManager.default.moveItem(at: fileURL, to: newFileLocation)
-                self.fileLocation = newFileLocation.absoluteString
+                try FileManager.default.copyItem(at: fileURL, to: newFileLocation)
+                self.fileLocation = newFileLocation.path
                 if let image = self.imageFromFileLocation()
                 {
                     internalCompletion(image)
                 }
             }
             catch
-            {}
+            {
+                NotificationCenter.default.post(name: APIManager.FailureNotification, object: error.localizedDescription)
+            }
         }
         task.resume()
     }
     private func imageFromFileLocation() -> UIImage?
     {
         guard let location = fileLocation
-            else
+        else
         {
             return nil
         }

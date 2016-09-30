@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11521.1" systemVersion="16B2333a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11517.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -194,7 +194,7 @@
             </objects>
             <point key="canvasLocation" x="382" y="88"/>
         </scene>
-        <!--First Floor-->
+        <!--Maps-->
         <scene sceneID="1z9-MJ-sXD">
             <objects>
                 <viewController id="9sT-vU-We0" customClass="BuildingMapsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -225,7 +225,7 @@
                             <constraint firstAttribute="bottom" secondItem="CbT-qu-Teh" secondAttribute="bottom" id="xc9-lS-BQL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="First Floor" id="TTN-L0-KLy"/>
+                    <navigationItem key="navigationItem" title="Maps" id="TTN-L0-KLy"/>
                     <connections>
                         <outlet property="pageControl" destination="aPq-wT-RAg" id="1FV-E5-jQn"/>
                         <outlet property="scrollView" destination="CbT-qu-Teh" id="nYw-38-suL"/>
@@ -333,7 +333,7 @@
                             <outlet property="delegate" destination="NV6-fG-79i" id="i47-Fg-8mb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Announcements" id="Oud-2x-abZ">
+                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="zwo-n5-FbI">
                             <connections>
                                 <segue destination="6X2-Rl-zZC" kind="presentation" identifier="showAnnouncementSettings" id="3n5-aK-Xbw"/>
@@ -586,11 +586,17 @@
                                             <action selector="notifyMe:" destination="zCk-07-Lo5" eventType="touchUpInside" id="5vH-5X-pcD"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2tB-X8-xAO">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2tB-X8-xAO" secondAttribute="height" multiplier="1.5:1" id="gMV-6u-9XY"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="top" secondItem="yYr-Hx-Oiw" secondAttribute="bottom" constant="15" id="3j5-Gw-CDj"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="top" secondItem="6oU-Kv-kdK" secondAttribute="bottom" constant="15" id="8dc-ex-Q0X"/>
+                                    <constraint firstItem="2tB-X8-xAO" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leading" constant="8" id="9wj-Bm-lMF"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="M7p-wo-1Ul"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iAN-lx-7xS" secondAttribute="top" id="Nh8-IW-xJl"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="PWw-k5-50H"/>
@@ -604,10 +610,12 @@
                                     <constraint firstItem="dg0-Mb-HdI" firstAttribute="centerX" secondItem="iHU-Sy-pSz" secondAttribute="centerX" id="d3U-c2-B0F"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="dGy-U0-epv"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="U05-tk-fMk" secondAttribute="trailing" id="fUy-Zb-i7G"/>
+                                    <constraint firstItem="2tB-X8-xAO" firstAttribute="top" secondItem="dg0-Mb-HdI" secondAttribute="bottom" constant="8" id="gzV-x3-akH"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="m0d-Mk-JDg"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dPa-wF-91S" secondAttribute="trailing" id="nNJ-Wl-kLO"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iHU-Sy-pSz" secondAttribute="topMargin" id="nx8-bQ-BKv"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="t8G-3a-YPI"/>
+                                    <constraint firstAttribute="trailing" secondItem="2tB-X8-xAO" secondAttribute="trailing" constant="8" id="txU-vv-zZm"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="top" secondItem="dPa-wF-91S" secondAttribute="bottom" id="yf5-LU-qX5"/>
                                 </constraints>
                                 <variation key="default">
@@ -633,6 +641,7 @@
                         <outlet property="contentView" destination="iHU-Sy-pSz" id="ujp-iy-Glz"/>
                         <outlet property="dateLabel" destination="yYr-Hx-Oiw" id="5lo-LR-q4n"/>
                         <outlet property="descriptionLabel" destination="6oU-Kv-kdK" id="nYj-mQ-Wps"/>
+                        <outlet property="floorView" destination="2tB-X8-xAO" id="wrb-jS-gkA"/>
                         <outlet property="notifButton" destination="dg0-Mb-HdI" id="Xjl-4u-o1B"/>
                         <outlet property="subtitleLabel" destination="U05-tk-fMk" id="Chg-qH-9yb"/>
                         <outlet property="titleLabel" destination="dPa-wF-91S" id="7dn-6b-udd"/>
@@ -640,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ien-RE-7AC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1942" y="-1556"/>
+            <point key="canvasLocation" x="1941.5999999999999" y="-1556.6716641679161"/>
         </scene>
         <!--Ticket-->
         <scene sceneID="wa4-11-ea2">
