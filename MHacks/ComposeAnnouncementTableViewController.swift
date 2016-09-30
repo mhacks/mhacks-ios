@@ -67,10 +67,16 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         /// Title Cell
         titleCell.inputTextField.placeholder = "Party at Krupp's Workspace"
         titleCell.inputTextField.text = editingAnnouncement?.title
+        titleCell.inputTextField.autocapitalizationType = .sentences
+        titleCell.inputTextField.delegate = self
         titleCell.selectionStyle = .none
         
         /// Info Cell
         infoCell.inputTextView.text = editingAnnouncement?.message
+        infoCell.inputTextView.autocapitalizationType = .sentences
+        infoCell.inputTextView.font = UIFont.preferredFont(forTextStyle: .body)
+        infoCell.inputTextView.isScrollEnabled = false
+        infoCell.inputTextView.delegate = self
         infoCell.selectionStyle = .none
         
         /// Date Picker Cell
