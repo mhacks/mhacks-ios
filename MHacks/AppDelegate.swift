@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		let deviceTokenString = deviceToken.reduce("", {
-			$0 + String(format: "%x", $1)
+			$0 + String(format: "%02x", $1)
 		})
 		if defaults.object(forKey: remoteNotificationPreferencesKey) == nil
 		{

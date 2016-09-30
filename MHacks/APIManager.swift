@@ -289,69 +289,6 @@ final class APIManager
 	}
 	
 	
-	// MARK: - Map
-	@available(*, deprecated: 3.0)
-	private(set) var map = Map()
-	@available(*, deprecated: 3.0)
-	func updateMap(_ callback: CoalescedCallbacks.Callback? = nil) {
-//		updateUsing(route: "/v1/map/", notificationKey: .MapUpdated, callback: callback, existingObject: map)
-		// FIXME: Map needs to be reimplemented to support floors
-		
-//		updateGenerically("/v1/map/", notification: .MapUpdated, semaphoreGuard: mapSemaphore, coalecser: mapCallbacks, callback: callback) {(result: JSONWrapper) in
-//			// FIXME: This is a redundancy mess, cleanup once backend works better
-//			var newJSON = result.JSON
-//			let completion = { () -> Bool in
-//				guard let map = Map(serialized: Serialized(JSON: newJSON)) , map != self.map
-//				else {
-//					return false
-//				}
-//				self.map = map
-//				return true
-//			}
-//			guard let URLString = result[Map.imageURLKey] as? String
-//			else {
-//				return false
-//			}
-//			guard self.map?.imageURL != URLString
-//			else {
-//				newJSON[Map.fileLocationKey] = self.map?.fileLocation
-//				return completion()
-//			}
-//			guard let URL = URL(string: URLString)
-//			else {
-//				return false
-//			}
-//			let downloadTask = URLSession.shared.downloadTask(with: URL, completionHandler: { downloadedImage, response, error in
-//				guard error == nil, let downloaded = downloadedImage
-//				else {
-//					guard completion()
-//					else {
-//						NotificationCenter.default.post(.Failure, object: (error?.localizedDescription ?? "Could not save map") as NSString)
-//						return
-//					}
-//					NotificationCenter.default.post(.MapUpdated)
-//					return
-//				}
-//				do {
-//					let fileURL = container.appendingPathComponent("map.png")
-//					let _ = try? FileManager.default.removeItem(at: fileURL)
-//					try FileManager.default.moveItem(at: downloaded, to: fileURL)
-//					newJSON[Map.fileLocationKey] = fileURL.absoluteString
-//					guard completion()
-//					else {
-//						return
-//					}
-//					NotificationCenter.default.post(.MapUpdated, object: self)
-//				}
-//				catch {
-//					NotificationCenter.default.post(.Failure, object: (error as NSError).localizedDescription)
-//				}
-//			})
-//			downloadTask.resume()
-//			return false
-//		}
-	}
-	
 	// MARK: - Floors
 	let floors = MHacksArray<Floor>()
 	func updateFloors(_ callback: CoalescedCallbacks.Callback? = nil) {
