@@ -50,16 +50,7 @@ class SettingsViewController: UITableViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell") as! CategoryCell
 		let category = announcementCategories[(indexPath as NSIndexPath).row]
 		cell.categoryLabel.text = category.description
-		
-		// Draw the dot with a specified color
-		// TODO: Fix hardcoded coordinate positions
-		let dotPath = UIBezierPath(arcCenter: CGPoint(x: 21, y: 22),
-		                           radius: CGFloat(5), startAngle: CGFloat(0),
-		                           endAngle:CGFloat(M_PI * 2), clockwise: true)
-		let dot = CAShapeLayer()
-		dot.path = dotPath.cgPath
-		dot.fillColor = category.color.cgColor
-		cell.colorView.layer.addSublayer(dot)
+		cell.colorView.fillColor = category.color
 		
 		let switchView = cell.accessoryView as! UISwitch
 		switchView.setOn(currentPreference.contains(category), animated: false)
