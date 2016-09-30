@@ -8,45 +8,95 @@
 
 import UIKit
 
-class ComposeAnnouncementTableViewController: UITableViewController, UITextViewDelegate {
+class ComposeAnnouncementTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 
     // MARK: Views
     
-    var titleTextField: UITextField!
-    var infoTextView: UITextView!
-    var datePicker: UIDatePicker!
-    var sponsorSwitch: UISwitch!
-    var currentCategory: IndexPath? {
-        didSet {
-            if let oldIndexPath = oldValue {
-                tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
-            }
-            
-            if let newIndexPath = currentCategory {
-                tableView.cellForRow(at: newIndexPath)?.accessoryType = .checkmark
-            }
-        }
-    }
+    let titleCell = SinglelineInputTableViewCell(style: .default, reuseIdentifier: nil)
+    let infoCell = MultilineInputTableViewCell(style: .default, reuseIdentifier: nil)
+    let dateCell = DatePickerCell(style: .default, reuseIdentifier: nil)
+    var categoryCells = [UITableViewCell]()
+    let sponsorCell = UITableViewCell()
+    
+    var currentCategory: Announcement.Category?
     
     // MARK: Data
 
     var editingAnnouncement: Announcement?
     
-    let sections = [
-        (title: "Title", identifier: "title"),
-        (title: "Info", identifier: "info"),
-        (title: "Broadcast Time", identifier: "date"),
-        (title: "Category", identifier: "category"),
-        (title: "Flags", identifier: "sponsor")
-    ]
+    enum Section: Int {
+        case title = 0
+        case info = 1
+        case broadcast = 2
+        case category = 3
+        case flags = 4
+ 
+        var description: String {
+            switch self {
+            case .title:
+                return "Title"
+            case .info:
+                return "Info"
+            case .broadcast:
+                return "Broadcast Time"
+            case .category:
+                return "Category"
+            case .flags:
+                return "Flags"
+            }
+        }
+    }
     
     // MARK: View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// Title Cell
+        titleCell.inputTextField.placeholder = "Party at Krupp's Workspace"
+        titleCell.inputTextField.text = editingAnnouncement?.title
+        titleCell.selectionStyle = .none
+        
+        /// Info Cell
+        infoCell.inputTextView.text = editingAnnouncement?.message
+        infoCell.selectionStyle = .none
+        
+        /// Date Picker Cell
+        dateCell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
+        dateCell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
+        
+        dateCell.datePicker.date = editingAnnouncement?.date ?? Date()
+        dateCell.datePicker.sendActions(for: .valueChanged)
+        
+        dateCell.selectionStyle = .none
+        
+        /// Category Cells
+        for index in 0..<Announcement.Category.maxBit {
+            let cell = UITableViewCell()
+            let category = Announcement.Category(rawValue: 1 << index)
+            
+            if editingAnnouncement?.category.contains(category) ?? false {
+                currentCategory = category
+            }
+            
+            cell.accessoryType = currentCategory == category ? .checkmark : .none
+            cell.textLabel?.text = category.description
+            cell.selectionStyle = .none
+            
+            categoryCells.append(cell)
+        }
+        
+        /// Sponsor Cell
+        let toggle = UISwitch()
+        
+        toggle.isOn = editingAnnouncement?.isSponsored ?? false
+        sponsorCell.textLabel?.text = "Sponsored"
+        sponsorCell.accessoryView = toggle
+        sponsorCell.selectionStyle = .none
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        tableView.reloadData()
         
         self.navigationItem.title = editingAnnouncement == nil ? "New Announcement" : "Edit Announcement"
     }
@@ -54,82 +104,53 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
     // MARK: UITableViewDataSource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
+        return Section(rawValue: section)?.description
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 3:
-            return Announcement.Category.maxBit - 1 // Ignore sponsored category
-        default:
-            return 1
+        if Section(rawValue: section) == .category {
+            return Announcement.Category.maxBit - 1 // ignore sponsored
         }
+        
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: sections[indexPath.section].identifier, for: indexPath)
-
-        cell.selectionStyle = .none
-        
-        switch cell {
-        case let cell as SinglelineInputTableViewCell:
-            self.titleTextField = cell.inputTextField
-            cell.inputTextField.text = editingAnnouncement?.title
-            
-        case let cell as MultilineInputTableViewCell:
-            cell.inputTextView.delegate = self
-            self.infoTextView = cell.inputTextView
-            cell.inputTextView.text = editingAnnouncement?.message
-            
-        case let cell as DatePickerCell:
-            self.datePicker = cell.datePicker
-            
-            cell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
-            cell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
-            
-            cell.datePicker.date = editingAnnouncement?.date ?? Date()
-            cell.datePicker.sendActions(for: .valueChanged)
-            
-        case let cell as CategoryCell:
-            let category = Announcement.Category(rawValue: 1 << indexPath.row)
-            if editingAnnouncement?.category.contains(category) ?? false {
-                currentCategory = indexPath
-            }
-            
-            cell.accessoryType = currentCategory == indexPath ? .checkmark : .none
-            cell.colorView.backgroundColor = category.color
-            cell.categoryLabel.text = category.description
-            
-        case let cell as SwitchTableViewCell:
-            cell.toggle.isOn = editingAnnouncement?.isSponsored ?? false
-            self.sponsorSwitch = cell.toggle
-            
+        switch indexPath.section {
+        case 0:
+            return titleCell
+        case 1:
+            return infoCell
+        case 2:
+            return dateCell
+        case 3:
+            return categoryCells[indexPath.row]
+        case 4:
+            return sponsorCell
         default:
-            fatalError("Invalid section")
+            fatalError("Invalid Index")
         }
-        
-        return cell
     }
     
     // MARK: UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        let section = Section(rawValue: indexPath.section)
         
-        if let datePickerCell = cell as? DatePickerCell  {
+        if section == .broadcast  {
             tableView.beginUpdates()
-            datePickerCell.expanded = !datePickerCell.expanded
+            dateCell.expanded = !dateCell.expanded
             tableView.endUpdates()
-        } else if let _ = cell as? CategoryCell {
-            currentCategory = indexPath
-        } else if let inputCell = cell as? SinglelineInputTableViewCell {
-            inputCell.becomeFirstResponder()
-        } else if let inputCell = cell as? MultilineInputTableViewCell {
-            inputCell.becomeFirstResponder()
+        } else if section == .category {
+            currentCategory = Announcement.Category(rawValue: indexPath.row)
+        } else if section == .title {
+            titleCell.becomeFirstResponder()
+        } else if section == .info {
+            infoCell.becomeFirstResponder()
         }
     }
 
@@ -148,7 +169,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         
-        if let title = titleTextField.text, let info = infoTextView.text {
+        if let title = titleCell.inputTextField.text, let info = infoCell.inputTextView.text {
             
             if title.isEmpty || info.isEmpty {
                 let errorAlert = UIAlertController(title: "Missing Data", message: "You must both a title and message", preferredStyle: .alert)
@@ -157,17 +178,12 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
                 return
             }
             
-            var categoryRawValue = 0
-
-            if let categoryIndexPath = currentCategory {
-                categoryRawValue = 1 << categoryIndexPath.row
-            }
-            
-            if sponsorSwitch.isOn {
+            var categoryRawValue = currentCategory?.rawValue ?? 0
+            if (sponsorCell.accessoryView as? UISwitch)?.isOn ?? false {
                 categoryRawValue += Announcement.Category.Sponsor.rawValue
             }
             
-            let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: title, message: info, date: datePicker.date, category: Announcement.Category(rawValue: categoryRawValue), approved: editingAnnouncement?.approved ?? false)
+            let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: title, message: info, date: dateCell.datePicker.date, category: Announcement.Category(rawValue: categoryRawValue), approved: editingAnnouncement?.approved ?? false)
 
             APIManager.shared.updateAnnouncement(announcement, usingMethod: editingAnnouncement == nil ? .post : .put) { finished in
                 guard finished else { return }
