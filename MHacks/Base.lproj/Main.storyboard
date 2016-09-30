@@ -24,7 +24,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="37.5" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
@@ -824,11 +824,11 @@
             </objects>
             <point key="canvasLocation" x="1942" y="-1556"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Ticket-->
         <scene sceneID="wa4-11-ea2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xLk-s8-jXP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="contacts" id="674-gp-7Mm"/>
+                    <tabBarItem key="tabBarItem" title="Ticket" image="Ticket" selectedImage="Ticket Selected" id="674-gp-7Mm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BFw-JK-E65">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -892,5 +892,7 @@
         <image name="Schedule Selected" width="25" height="25"/>
         <image name="Settings" width="26" height="26"/>
         <image name="Settings Selected" width="26" height="26"/>
+        <image name="Ticket" width="25" height="25"/>
+        <image name="Ticket Selected" width="25" height="25"/>
     </resources>
 </document>
