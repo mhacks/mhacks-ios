@@ -162,7 +162,7 @@ class AnnouncementsViewController: UITableViewController {
 				self.present(confirm, animated: true, completion: nil)
 			})
 			
-			approve.backgroundColor = .blue
+			approve.backgroundColor = UIColor(red: 27/255, green: 188/255, blue: 155/255, alpha: 1.0)
 			
 			return [approve, delete]
 		}

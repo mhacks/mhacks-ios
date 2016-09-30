@@ -91,12 +91,8 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextViewD
             cell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
             cell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
             
-            if let announcement = editingAnnouncement {
-                cell.datePicker.date = announcement.date
-                cell.datePicker.sendActions(for: .valueChanged)
-            } else {
-                //cell.datePicker.date = min(Date(timeIntervalSinceNow: 60 * 60), cell.datePicker.maximumDate)
-            }
+            cell.datePicker.date = editingAnnouncement?.date ?? Date()
+            cell.datePicker.sendActions(for: .valueChanged)
             
         case let cell as CategoryCell:
             let category = Announcement.Category(rawValue: 1 << indexPath.row)
