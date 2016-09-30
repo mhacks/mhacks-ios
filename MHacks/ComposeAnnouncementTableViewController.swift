@@ -79,7 +79,6 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         infoCell.inputTextView.autocapitalizationType = .sentences
         infoCell.inputTextView.font = UIFont.preferredFont(forTextStyle: .body)
         infoCell.inputTextView.isScrollEnabled = false
-        infoCell.inputTextView.delegate = self
         infoCell.selectionStyle = .none
         
         /// Date Picker Cell
