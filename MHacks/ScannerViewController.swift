@@ -17,17 +17,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     // MARK: Model
     
-    enum InputMode: Int {
-        case list = 0
-        case scan = 1
-    }
-    
-    var inputMode = InputMode.scan {
-        didSet {
-            updateViews()
-        }
-    }
-    
     var currentScanEvent = APIManager.shared.scanEvents.first {
         didSet {
             updateEventsBarButtonItemTitle()
@@ -48,12 +37,9 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     // MARK: Views
     
-    let inputModeControl = UISegmentedControl(items: ["List", "Scan"])
-    
     let eventsBarButtonItem = UIBarButtonItem(title: "Loading", style: .plain, target: nil, action: nil)
     let confirmationBarButtonItem = UIBarButtonItem(title: "Confirm", style: .done, target: nil, action: nil)
     
-    let tableView = UITableView(frame: CGRect.zero, style: .plain)
     let scannerView = ScannerView()
     
     let userBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
@@ -96,21 +82,15 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Finish", style: .plain, target: self, action: #selector(finish))
         
-        navigationItem.titleView = inputModeControl
+        navigationItem.title = "Scan Tickets"
         
-        inputModeControl.selectedSegmentIndex = 1
-        inputModeControl.addTarget(self, action: #selector(inputModeControlValueChanged), for: .valueChanged)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search))
         
         eventsBarButtonItem.target = self
         eventsBarButtonItem.action = #selector(selectScanEvent)
         
         confirmationBarButtonItem.target = self
         confirmationBarButtonItem.action = #selector(confirmUser)
-        
-        // Table view
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
         
         // Scanner view
         
@@ -131,10 +111,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         userBackgroundView.contentView.addSubview(userStackView)
         
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scannerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scannerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scannerView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -168,11 +144,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     // MARK: Update views
     
     func updateViews() {
-        
-        inputModeControl.selectedSegmentIndex = inputMode.rawValue
-        
-        tableView.isHidden = (inputMode != .list)
-        scannerView.isHidden = (inputMode != .scan)
         
         updateEventsBarButtonItemTitle()
         
@@ -230,8 +201,28 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         delegate?.scannerViewControllerDidFinish(scannerViewController: self)
     }
     
-    func inputModeControlValueChanged() {
-        inputMode = InputMode(rawValue: inputModeControl.selectedSegmentIndex)!
+    func search() {
+        
+        cancelUserScan()
+        
+        let alertController = UIAlertController(title: "Search by Email", message: "Enter the hacker's email address.", preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+            textField.keyboardType = .emailAddress
+            textField.placeholder = "hacker@school.edu"
+            textField.returnKeyType = .search
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alertController.addAction(UIAlertAction(title: "Search", style: .default, handler: { action in
+            
+            if let identifier = alertController.textFields!.first!.text {
+                self.performScan(identifier: identifier)
+            }
+        }))
+        
+        present(alertController, animated: true)
     }
     
     func scanEventsUpdated() {
@@ -270,25 +261,21 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                     return
                 }
                 
-                UIView.animate(withDuration: 0.15) {
-                    self.scanIdentifier = nil
-                    self.scanFields = nil
-                }
+                self.cancelUserScan()
             }
-        }
-    }
-    
-    func cancelUserScan() {
-        
-        UIView.animate(withDuration: 0.15) {
-            self.scanIdentifier = nil
-            self.scanFields = nil
         }
     }
     
     // MARK: Scanner view delegate
     
     func scannerView(scannerView: ScannerView, didScanIdentifier identifier: String) {
+        
+        performScan(identifier: identifier)
+    }
+    
+    // MARK: Perform and cancel scan
+    
+    func performScan(identifier: String) {
         
         guard scanIdentifier == nil, let scanEvent = currentScanEvent else {
             return
@@ -311,6 +298,14 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                     self.scanFields = additionalData
                 }
             }
+        }
+    }
+    
+    func cancelUserScan() {
+        
+        UIView.animate(withDuration: 0.15) {
+            self.scanIdentifier = nil
+            self.scanFields = nil
         }
     }
 }
