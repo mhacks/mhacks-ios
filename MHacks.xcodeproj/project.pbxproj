@@ -20,6 +20,7 @@
 		7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */; };
 		7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */; };
 		70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */; };
+		820508DB1D9F15960000965E /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		820525201D9DADDD00EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
 		820525211D9DADE900EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
 		820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
@@ -102,14 +103,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		82287A541C66C3D8001A0F38 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
 				822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -514,6 +515,7 @@
 				82287A731C66D89A001A0F38 /* Countdown.swift in Sources */,
 				820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */,
 				820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */,
+				820508DB1D9F15960000965E /* MultilineLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

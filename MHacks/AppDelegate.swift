@@ -107,7 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	}
 
 	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-		guard url.absoluteString.hasPrefix("mhacks://") else {
+		guard url.absoluteString.hasPrefix("mhacks://")
+		else {
 			return false
 		}
 		
