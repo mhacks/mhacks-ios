@@ -61,7 +61,7 @@ class SettingsViewController: UITableViewController {
 		dot.fillColor = category.color.cgColor
 		cell.colorView.layer.addSublayer(dot)
 		
-		let switchView = UISwitch()
+		let switchView = cell.accessoryView as! UISwitch
 		switchView.setOn(currentPreference.contains(category), animated: false)
 		switchView.addTarget(self, action: #selector(self.switchToggled(sender:)), for: UIControlEvents.valueChanged)
 		switchView.tag = indexPath.row
@@ -70,7 +70,6 @@ class SettingsViewController: UITableViewController {
 			switchView.isEnabled = false
 		}
 		
-		cell.accessoryView = switchView
 		return cell
 	}
 	

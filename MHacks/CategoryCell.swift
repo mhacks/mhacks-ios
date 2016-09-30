@@ -12,4 +12,9 @@ class CategoryCell : UITableViewCell
 {
 	@IBOutlet var colorView: UIView!
 	@IBOutlet var categoryLabel: UILabel!
+	
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		self.accessoryView = UISwitch()
+	}
 }
