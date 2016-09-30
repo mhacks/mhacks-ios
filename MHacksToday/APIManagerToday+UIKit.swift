@@ -1,5 +1,5 @@
 //
-//  APIManager.swift
+//  APIManagerToday+UIKit.swift
 //  MHacks
 //
 //  Created by Manav Gabhawala on 2/6/16.

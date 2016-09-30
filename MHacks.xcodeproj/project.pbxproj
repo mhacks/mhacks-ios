@@ -36,9 +36,8 @@
 		82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
 		82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		82287A731C66D89A001A0F38 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
-		82287A741C66D8A4001A0F38 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
 		82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */; };
-		82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A671C66D46F001A0F38 /* APIManagerExtended.swift */; };
+		82287A761C66D935001A0F38 /* APIManagerToday+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A671C66D46F001A0F38 /* APIManagerToday+UIKit.swift */; };
 		82287A7E1C66DDDA001A0F38 /* ScheduleEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA91C2A37000084880C /* ScheduleEventCell.swift */; };
 		82287A7F1C66DDE2001A0F38 /* ScheduleDayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA61C2A36F70084880C /* ScheduleDayHeader.swift */; };
 		82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BA81C2A37000084880C /* ScheduleHourSeparator.swift */; };
@@ -46,6 +45,7 @@
 		82287A821C66DFF1001A0F38 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82287A851C66E5A5001A0F38 /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82287A831C66E5A5001A0F38 /* ScheduleDayHeader.xib */; };
 		82287A861C66E5A5001A0F38 /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82287A841C66E5A5001A0F38 /* ScheduleHourSeparator.xib */; };
+		822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
 		8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
@@ -64,7 +64,6 @@
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
 		825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
-		827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F59AD1C6532DE00FF2D15 /* Map.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
 		828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D498C1C65F3FD0090313C /* CategoryCell.swift */; };
@@ -90,16 +89,27 @@
 		FE87AA241D8CD7C000C8DB64 /* BuildingMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87AA231D8CD7C000C8DB64 /* BuildingMapsViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		822896981D9E4B420081A613 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82287A431C66C3D8001A0F38;
+			remoteInfo = MHacksToday;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		82287A541C66C3D8001A0F38 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -126,7 +136,7 @@
 		82287A5A1C66C419001A0F38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		82287A641C66C61D001A0F38 /* MHacksToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MHacksToday.entitlements; sourceTree = "<group>"; };
 		82287A651C66C633001A0F38 /* MHacks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MHacks.entitlements; sourceTree = "<group>"; };
-		82287A671C66D46F001A0F38 /* APIManagerExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManagerExtended.swift; sourceTree = "<group>"; };
+		82287A671C66D46F001A0F38 /* APIManagerToday+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "APIManagerToday+UIKit.swift"; sourceTree = "<group>"; };
 		82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = "APIManager+UIKit.swift"; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82287A831C66E5A5001A0F38 /* ScheduleDayHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleDayHeader.xib; sourceTree = "<group>"; };
 		82287A841C66E5A5001A0F38 /* ScheduleHourSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleHourSeparator.xib; sourceTree = "<group>"; };
@@ -150,7 +160,6 @@
 		82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = MultilineLabel.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FCC1C1F91D70061FFFB /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanEvent.swift; sourceTree = "<group>"; };
-		827F59AD1C6532DE00FF2D15 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8286A0211C6074D100B6EFEE /* DatePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		828D498C1C65F3FD0090313C /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -203,7 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				82287A551C66C3EC001A0F38 /* TodayViewController.swift */,
-				82287A671C66D46F001A0F38 /* APIManagerExtended.swift */,
+				82287A671C66D46F001A0F38 /* APIManagerToday+UIKit.swift */,
 				82287A591C66C419001A0F38 /* MainInterface.storyboard */,
 				82287A831C66E5A5001A0F38 /* ScheduleDayHeader.xib */,
 				82287A841C66E5A5001A0F38 /* ScheduleHourSeparator.xib */,
@@ -345,7 +354,6 @@
 				82942B9A1C2A2B850084880C /* Location.swift */,
 				82942B9C1C2A2EA00084880C /* EventOrganizer.swift */,
 				82942B9E1C2A2EAE0084880C /* Event.swift */,
-				827F59AD1C6532DE00FF2D15 /* Map.swift */,
 				8205251F1D9DADDD00EF535C /* Floor.swift */,
 				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
 				8240DE631D9C72EA000DD78C /* ScannedDataField.swift */,
@@ -385,6 +393,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				822896991D9E4B420081A613 /* PBXTargetDependency */,
 			);
 			name = MHacks;
 			productName = MHacks;
@@ -484,7 +493,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */,
-				82287A741C66D8A4001A0F38 /* Map.swift in Sources */,
 				82287A811C66DDE7001A0F38 /* CalendarLayout.swift in Sources */,
 				820525211D9DADE900EF535C /* Floor.swift in Sources */,
 				82287A621C66C570001A0F38 /* EventOrganizer.swift in Sources */,
@@ -498,7 +506,7 @@
 				82287A611C66C570001A0F38 /* Event.swift in Sources */,
 				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82287A801C66DDE2001A0F38 /* ScheduleHourSeparator.swift in Sources */,
-				82287A761C66D935001A0F38 /* APIManagerExtended.swift in Sources */,
+				82287A761C66D935001A0F38 /* APIManagerToday+UIKit.swift in Sources */,
 				82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */,
 				82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */,
 				82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */,
@@ -520,7 +528,6 @@
 				FE87AA241D8CD7C000C8DB64 /* BuildingMapsViewController.swift in Sources */,
 				46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */,
 				9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */,
-				827F59AE1C6532DE00FF2D15 /* Map.swift in Sources */,
 				82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */,
 				704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */,
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
@@ -565,6 +572,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		822896991D9E4B420081A613 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
+			targetProxy = 822896981D9E4B420081A613 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		82287A591C66C419001A0F38 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -600,7 +615,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
@@ -619,7 +634,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;

@@ -8,7 +8,6 @@
 
 import UIKit
 import NotificationCenter
-import CoreLocation
 
 typealias CompletionHandler = ((NCUpdateResult) -> Void)
 
@@ -17,17 +16,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 	@IBOutlet var tableView: UITableView!
 	@IBOutlet var segmentedControl: UISegmentedControl!
 	@IBOutlet var collectionView: UICollectionView!
-	
-	let completionHandlerLock = NSLock()
-	var completionHandlers = [CompletionHandler]()
-	
-	var myEventOrganizer = EventOrganizer(events: MHacksArray<Event>())
-	
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		tableView.delegate = self
 		tableView.dataSource = self
-		tableView.separatorEffect = UIVibrancyEffect.notificationCenter()
+		tableView.separatorEffect = UIVibrancyEffect.widgetPrimary()
 		tableView.separatorColor = UIColor(white: 1.0, alpha: 0.5)
 		tableView.separatorInset = .zero
 		
@@ -45,10 +39,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 	override func viewWillAppear(_ animated: Bool)
 	{
 		super.viewWillAppear(animated)
-		eventsUpdated()
-		NotificationCenter.default.addObserver(self, selector: #selector(TodayViewController.announcementsUpdated(_:)), name: APIManager.EventsUpdatedNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(TodayViewController.failed(_:)), name: APIManager.FailureNotification, object: nil)
-		
 		APIManager.shared.updateAnnouncements()
 		APIManager.shared.updateEvents()
 		tableView.reloadData()
@@ -58,73 +48,36 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		NotificationCenter.default.removeObserver(self)
 	}
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 	func widgetPerformUpdate(completionHandler: @escaping (NCUpdateResult) -> Void) {
-		APIManager.shared.updateAnnouncements {
-			guard $0
-			else {
-				completionHandler(.failed)
-				return
-			}
-			completionHandler(.newData)
-		}
-		APIManager.shared.updateEvents()
+        let callback = { (succeded: Bool) in
+            guard succeded
+            else {
+                completionHandler(.noData)
+                return
+            }
+            completionHandler(.newData)
+        }
+        
+        if segmentedControl.selectedSegmentIndex == 0
+        {
+            APIManager.shared.updateAnnouncements(callback)
+        }
+        else
+        {
+            APIManager.shared.updateEvents(callback)
+        }
 	}
 	
 	func widgetMarginInsets(forProposedMarginInsets defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
 		defer { tableView.setNeedsUpdateConstraints() }
 		return .zero
 	}
-	
-	func announcementsUpdated(_ notification: Notification)
-	{
-		completionHandlerLock.lock()
-		defer { completionHandlerLock.unlock() }
-		let returnVal = notification.object == nil ? NCUpdateResult.noData : .newData
-		for completionHandler in completionHandlers
-		{
-			completionHandler(returnVal)
-		}
-		completionHandlers.removeAll(keepingCapacity: true)
-		if returnVal == .newData
-		{
-			DispatchQueue.main.async(execute: {
-				self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-				self.updatePreferredContentSize()
-			})
-		}
-	}
-	func eventsUpdated(_: Notification? = nil)
-	{
-		completionHandlerLock.lock()
-		defer { completionHandlerLock.unlock() }
-		for completionHandler in completionHandlers
-		{
-			completionHandler(.newData)
-		}
-		completionHandlers.removeAll(keepingCapacity: true)
-//		myEventOrganizer = EventOrganizer(events: APIManager.shared.eventsOrganizer.next5Events)
-		DispatchQueue.main.async(execute: {
-			self.collectionView.reloadData()
-			self.updatePreferredContentSize()
-		})
-	}
-	func failed(_: Notification)
-	{
-		completionHandlerLock.lock()
-		defer { completionHandlerLock.unlock() }
-		for completionHandler in completionHandlers
-		{
-			completionHandler(.failed)
-		}
-		completionHandlers.removeAll(keepingCapacity: true)
-	}
-	
+		
 	
 	func transitionFromView(_ from: UIView, toView to: UIView, moveInFromLeft: Bool)
 	{
@@ -179,7 +132,7 @@ extension TodayViewController: UITableViewDelegate, UITableViewDataSource
 		cell.colorView.layer.borderColor = announcement.category.color.cgColor
 		cell.colorView.layer.borderWidth = cell.colorView.frame.width
 		
-		let effect = UIVibrancyEffect.notificationCenter()
+		let effect = UIVibrancyEffect.widgetPrimary()
 		let effectView = UIVisualEffectView(effect: effect)
 		
 		effectView.autoresizingMask = UIViewAutoresizing.flexibleHeight.intersection(UIViewAutoresizing.flexibleWidth)
@@ -204,18 +157,18 @@ extension TodayViewController : UICollectionViewDataSource, CalendarLayoutDelega
 {
 	func numberOfSections(in collectionView: UICollectionView) -> Int
 	{
-		return myEventOrganizer.days.count
+		return APIManager.shared.eventsOrganizer.days.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return myEventOrganizer.numberOfEventsInDay(section)
+		return APIManager.shared.eventsOrganizer.numberOfEventsInDay(section)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as! ScheduleEventCell
 		
-		let event = myEventOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+		let event = APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
 		cell.color = event.category.color
 		cell.textLabel.text = event.name
 		cell.detailTextLabel.text = event.locationsDescription
@@ -229,13 +182,13 @@ extension TodayViewController : UICollectionViewDataSource, CalendarLayoutDelega
 			
 		case .Header:
 			let dayHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DayHeader", for: indexPath) as! ScheduleDayHeader
-			dayHeader.textLabel.text = myEventOrganizer.days[(indexPath as NSIndexPath).section].weekdayTitle
-			dayHeader.detailTextLabel.text = myEventOrganizer.days[(indexPath as NSIndexPath).section].dateTitle
+			dayHeader.textLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].weekdayTitle
+			dayHeader.detailTextLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].dateTitle
 			return dayHeader
 			
 		case .Separator:
 			let hourSeparator = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HourSeparator", for: indexPath) as! ScheduleHourSeparator
-			hourSeparator.label.text = myEventOrganizer.days[(indexPath as NSIndexPath).section].hours[(indexPath as NSIndexPath).item].title
+			hourSeparator.label.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].hours[(indexPath as NSIndexPath).item].title
 			return hourSeparator
             
         case .NowIndicator:
@@ -249,29 +202,29 @@ extension TodayViewController : UICollectionViewDataSource, CalendarLayoutDelega
 	// MARK: Calendar layout delegate
 	
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-		return myEventOrganizer.days[section].hours.count
+		return APIManager.shared.eventsOrganizer.days[section].hours.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: IndexPath) -> Double {
-		return myEventOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).lowerBound
+		return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).lowerBound
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: IndexPath) -> Double {
-		return myEventOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).upperBound
+		return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).upperBound
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: IndexPath) -> Int {
-		return myEventOrganizer.numberOfColumnsForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+		return APIManager.shared.eventsOrganizer.numberOfColumnsForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: IndexPath) -> Int {
-		return myEventOrganizer.columnForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+		return APIManager.shared.eventsOrganizer.columnForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 	{
 		collectionView.deselectItem(at: indexPath, animated: true)
-		let event = myEventOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section)
+		let event = APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section)
 		extensionContext?.open(URL(string: "mhacks://\(event.ID)")!, completionHandler: nil)
 	}
 }
