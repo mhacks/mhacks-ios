@@ -435,6 +435,7 @@ final class APIManager
 		authenticator?.addAuthorizationHeader(&mutableRequest)
 		if method == .post || method == .put || method == .patch {
 			mutableRequest.httpBody = formData.substring(to: formData.index(before: formData.endIndex)).data(using: .utf8)
+			mutableRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 		}
 		return mutableRequest
 	}
