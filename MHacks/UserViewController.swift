@@ -173,33 +173,38 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     // MARK: Update views
     
-    func updateViews() {
+    func updateViews(animated: Bool = false) {
         
         if case .LoggedIn(let user) = APIManager.shared.userState {
             
             navigationItem.leftBarButtonItem = signOutBarButtonItem
             navigationItem.title = "My Ticket"
             
-            signInView.isHidden = true
-            ticketView.isHidden = false
+            signInView.alpha = 0.0
+            ticketView.alpha = 1.0
             
             nameLabel.text = user.name
             schoolLabel.text = user.school ?? "Unknown"
             
         } else {
             
-            navigationItem.leftBarButtonItem = nil
+            navigationItem.setLeftBarButton(nil, animated: animated)
             navigationItem.title = nil
             
-            signInView.isHidden = false
-            ticketView.isHidden = true
+            UIView.animateKeyframes(withDuration: animated ? 1.0 : 0.0, delay: 0.0, options: [], animations: {
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.4, animations: {
+                    self.ticketView.alpha = 0.0
+                })
+                
+                UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4, animations: {
+                    self.signInView.alpha = 1.0
+                })
+                
+            }, completion: nil)
         }
         
-        if APIManager.shared.canScanUserCode {
-            navigationItem.rightBarButtonItem = scanBarButtonItem
-        } else {
-            navigationItem.rightBarButtonItem = nil
-        }
+        navigationItem.setRightBarButton(APIManager.shared.canScanUserCode ? scanBarButtonItem : nil, animated: animated)
         
         let userIDData = userInfo.email.data(using: .isoLatin1)!
         
@@ -244,7 +249,10 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     func signInDidChange() {
         
         DispatchQueue.main.async {
-            self.updateViews()
+            
+            // Not a good way to determine the animated flag
+            // Okay solution in this isolated case
+            self.updateViews(animated: !APIManager.shared.loggedIn)
         }
     }
 	
