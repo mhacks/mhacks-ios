@@ -261,8 +261,9 @@ final class APIManager
 	}
 	
 	// MARK: - Events
-	fileprivate let events = MHacksArray<Event>()
-	private(set) var eventsOrganizer = EventOrganizer(events: MHacksArray<Event>())
+	
+	private(set) var events = MHacksArray<Event>()
+	
 	func updateEvents(_ callback: CoalescedCallbacks.Callback? = nil) {
 		updateLocations { succeeded in
 			guard succeeded
@@ -276,9 +277,6 @@ final class APIManager
 				return
 			}
 			self.updateUsing(route: "/v1/events/", notificationName: APIManager.EventsUpdatedNotification, callback: callback, existingObject: self.events)
-			{ _ in
-				self.eventsOrganizer = EventOrganizer(events: self.events)
-			}
 		}
 	}
 	
@@ -501,9 +499,7 @@ final class APIManager
 				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
 				updateSerialized(self.floors, using: obj.floors, notificationName: APIManager.FloorsUpdatedNotification)
 				updateSerialized(self.scanEvents, using: obj.scanEvents, notificationName: APIManager.ScanEventsUpdatedNotification)
-				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification) {
-					self.eventsOrganizer = EventOrganizer(events: self.events)
-				}
+				updateSerialized(self.events, using: obj.events, notificationName: APIManager.EventsUpdatedNotification)
 			}
 		}
 	}

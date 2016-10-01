@@ -71,15 +71,20 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	// MARK: Model
 	
-	func eventsUpdated(_ notification: Notification) {
-		
-		DispatchQueue.main.async {
-			
+	var eventsOrganizer = EventOrganizer(events: APIManager.shared.events) {
+		didSet {
 			if self.isViewLoaded {
 				self.collectionView.reloadData()
 				self.updateNowIndicator()
 				self.scrollToNowIfNeeded()
 			}
+		}
+	}
+	
+	func eventsUpdated(_ notification: Notification) {
+		
+		DispatchQueue.main.async {
+			self.eventsOrganizer = EventOrganizer(events: APIManager.shared.events)
 		}
 	}
 	
@@ -121,7 +126,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		#endif
 		
 		
-		if let (day, partialHour) = APIManager.shared.eventsOrganizer.dayAndPartialHourForDate(date) {
+		if let (day, partialHour) = eventsOrganizer.dayAndPartialHourForDate(date) {
 			calendarLayout.nowIndicatorPosition = (day, partialHour)
 		} else {
 			calendarLayout.nowIndicatorPosition = nil
@@ -177,18 +182,18 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     // MARK: Collection view data source
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return APIManager.shared.eventsOrganizer.days.count
+        return eventsOrganizer.days.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return APIManager.shared.eventsOrganizer.numberOfEventsInDay(section)
+		return eventsOrganizer.numberOfEventsInDay(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as! ScheduleEventCell
         
-        let event = APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+        let event = eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
 		cell.color = event.category.color
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.locationsDescription
@@ -202,13 +207,13 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
             
         case .Header:
             let dayHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "DayHeader", for: indexPath) as! ScheduleDayHeader
-            dayHeader.textLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].weekdayTitle
-            dayHeader.detailTextLabel.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].dateTitle
+            dayHeader.textLabel.text = eventsOrganizer.days[(indexPath as NSIndexPath).section].weekdayTitle
+            dayHeader.detailTextLabel.text = eventsOrganizer.days[(indexPath as NSIndexPath).section].dateTitle
             return dayHeader
             
         case .Separator:
             let hourSeparator = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HourSeparator", for: indexPath) as! ScheduleHourSeparator
-            hourSeparator.label.text = APIManager.shared.eventsOrganizer.days[(indexPath as NSIndexPath).section].hours[(indexPath as NSIndexPath).item].title
+            hourSeparator.label.text = eventsOrganizer.days[(indexPath as NSIndexPath).section].hours[(indexPath as NSIndexPath).item].title
             return hourSeparator
 			
 		case .NowIndicator:
@@ -224,27 +229,27 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     // MARK: Calendar layout delegate
     
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfRowsInSection section: Int) -> Int {
-        return APIManager.shared.eventsOrganizer.days[section].hours.count
+        return eventsOrganizer.days[section].hours.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, startRowForItemAtIndexPath indexPath: IndexPath) -> Double {
-        return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).lowerBound
+        return eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).lowerBound
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, endRowForItemAtIndexPath indexPath: IndexPath) -> Double {
-        return APIManager.shared.eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).upperBound
+        return eventsOrganizer.partialHoursForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section).upperBound
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, numberOfColumnsForItemAtIndexPath indexPath: IndexPath) -> Int {
-        return APIManager.shared.eventsOrganizer.numberOfColumnsForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+        return eventsOrganizer.numberOfColumnsForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, columnForItemAtIndexPath indexPath: IndexPath) -> Int {
-        return APIManager.shared.eventsOrganizer.columnForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+        return eventsOrganizer.columnForEventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
     }
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		showDetailsForEvent(APIManager.shared.eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section))
+		showDetailsForEvent(eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section))
 	}
 	
     // MARK: Segues

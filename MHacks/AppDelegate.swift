@@ -131,11 +131,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		selectViewController(scheduleNavigationController)
 		
 		let displayEvent = { () -> Bool in
-			if let (day, index) = APIManager.shared.eventsOrganizer.findDayAndIndexForEventWithID(eventID) {
-				self.scheduleViewController.showDetailsForEvent(APIManager.shared.eventsOrganizer.eventAtIndex(index, inDay: day))
-				return true
+			
+			guard let event = APIManager.shared.events.first(where: { $0.ID == eventID }) else {
+				return false
 			}
-			return false
+			
+			self.scheduleViewController.showDetailsForEvent(event)
+			
+			return true
 		}
 		
 		guard !displayEvent() else {
