@@ -73,7 +73,7 @@ struct Announcement: SerializableElementWithIdentifier {
 				case 3:
 					return  UIColor(red: 057.0/255.0, green: 203.0/255.0, blue: 085.0/255.0, alpha: 1.0)
 				case 4:
-					return UIColor(red: 158.0/255.0, green: 030.0/255.0, blue: 229.0/255.0, alpha: 1.0)
+					return UIColor(red: 149.0/255.0, green: 165.0/255.0, blue: 166.0/255.0, alpha: 1.0)
 				case 5:
 					return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
 				default:
