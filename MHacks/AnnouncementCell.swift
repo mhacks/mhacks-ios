@@ -9,25 +9,29 @@
 import UIKit
 
 class AnnouncementCell: UITableViewCell {
-    
+
     // MARK: Outlets
-    
+
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var messageTextView: UITextView!
 	@IBOutlet var colorView: UIView!
 	@IBOutlet var sponsoredTextView: UITextView!
 	@IBOutlet var unapprovedTextView: UITextView!
-	
+
     // MARK: Life cycle
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-		
-		colorView.layer.cornerRadius = 1.0
+
+		colorView?.layer.cornerRadius = 1.0
+
+		messageTextView?.textContainer.lineFragmentPadding = 0
+		messageTextView?.textContainerInset = .zero
+
 		sponsoredTextView?.layer.cornerRadius = 4.0
 		sponsoredTextView?.textContainerInset = .zero
-		
+
 		unapprovedTextView?.layer.cornerRadius = 4.0
 		unapprovedTextView?.textContainerInset = .zero
     }
