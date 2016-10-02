@@ -94,7 +94,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         dateCell.selectionStyle = .none
         
         /// Category Cells
-        for index in 0..<Announcement.Category.maxBit {
+        for index in 0..<Announcement.Category.maxBit - 1 {
             let cell = UITableViewCell()
             let category = Announcement.Category(rawValue: 1 << index)
             
