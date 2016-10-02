@@ -86,10 +86,13 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         infoCell.selectionStyle = .none
         
         /// Date Picker Cell
-        dateCell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
-        dateCell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
+        let minDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
+        let maxDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
         
-        dateCell.datePicker.date = editingAnnouncement?.date ?? Date()
+        dateCell.datePicker.minimumDate = minDate
+        dateCell.datePicker.maximumDate = maxDate
+        
+        dateCell.datePicker.date = editingAnnouncement?.date ?? min(max(minDate, Date()), maxDate)
         dateCell.datePicker.sendActions(for: .valueChanged)
         
         dateCell.selectionStyle = .none
