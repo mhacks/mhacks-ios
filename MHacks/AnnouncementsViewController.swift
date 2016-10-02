@@ -105,9 +105,7 @@ class AnnouncementsViewController: UITableViewController {
     }
 	
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
         let cell = tableView.dequeueReusableCell(withIdentifier: "Announcement Cell", for: indexPath) as! AnnouncementCell
-
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 
 		cell.selectionStyle = .none
