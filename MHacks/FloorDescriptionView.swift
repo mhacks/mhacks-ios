@@ -11,4 +11,10 @@ import UIKit
 final class FloorDescriptionView: UICollectionReusableView {
     
     @IBOutlet weak var label: UILabel!
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        label.preferredMaxLayoutWidth = bounds.width - 30.0
+    }
 }

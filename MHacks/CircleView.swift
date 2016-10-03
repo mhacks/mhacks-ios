@@ -42,6 +42,14 @@ class CircleView: UIView {
     
     let shapeLayer = CAShapeLayer()
     
+    // MARK: Tint color
+    
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+        
+        updateFillColor()
+    }
+    
     // MARK: Properties
     
     override var bounds: CGRect {
@@ -75,7 +83,7 @@ class CircleView: UIView {
     }
     
     fileprivate func updateFillColor() {
-        shapeLayer.fillColor = fillColor?.cgColor
+        shapeLayer.fillColor = (fillColor ?? tintColor).cgColor
     }
     
     fileprivate func updateStrokeColor() {

@@ -22,6 +22,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
         super.viewDidLoad()
         
         collectionView.register(UINib(nibName: "FloorDescription", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Description.rawValue, withReuseIdentifier: "Description View")
+        collectionView.register(UINib(nibName: "FloorLabel", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Label.rawValue, withReuseIdentifier: "Label View")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,11 +70,28 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Description View", for: indexPath) as! FloorDescriptionView
-        
         let floor = APIManager.shared.floors[indexPath.item]
         
-        view.label.text = floor.name
+        let view: UICollectionReusableView
+        
+        switch FloorLayout.SupplementaryViewKind(rawValue: kind)! {
+            
+        case .Description:
+            
+            let descriptionView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Description View", for: indexPath) as! FloorDescriptionView
+            
+            descriptionView.label.text = floor.description
+            
+            view = descriptionView
+            
+        case .Label:
+            
+            let labelView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Label View", for: indexPath) as! FloorLabelView
+            
+            labelView.label.text = floor.name
+            
+            view = labelView
+        }
         
         return view
     }

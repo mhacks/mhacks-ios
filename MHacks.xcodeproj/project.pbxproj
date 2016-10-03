@@ -14,6 +14,8 @@
 		46451B751DA24B6F0025478A /* FloorDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46451B741DA24B6F0025478A /* FloorDescriptionView.swift */; };
 		465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C71DA0670300713EF4 /* FloorLayout.swift */; };
 		465EB4CA1DA06BAF00713EF4 /* FloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C91DA06BAF00713EF4 /* FloorCell.swift */; };
+		46B75ADB1DA253510024139A /* FloorLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46B75ADA1DA253510024139A /* FloorLabel.xib */; };
+		46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B75ADC1DA253680024139A /* FloorLabelView.swift */; };
 		46EA62F31D927421003AE1D5 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EA62F21D927421003AE1D5 /* ScannerViewController.swift */; };
 		46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */; };
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
@@ -125,6 +127,8 @@
 		46451B741DA24B6F0025478A /* FloorDescriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorDescriptionView.swift; sourceTree = "<group>"; };
 		465EB4C71DA0670300713EF4 /* FloorLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorLayout.swift; sourceTree = "<group>"; };
 		465EB4C91DA06BAF00713EF4 /* FloorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorCell.swift; sourceTree = "<group>"; };
+		46B75ADA1DA253510024139A /* FloorLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloorLabel.xib; sourceTree = "<group>"; };
+		46B75ADC1DA253680024139A /* FloorLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorLabelView.swift; sourceTree = "<group>"; };
 		46EA62F21D927421003AE1D5 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowIndicator.xib; sourceTree = "<group>"; };
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
@@ -274,6 +278,7 @@
 				46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */,
 				46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */,
 				46F716EB1DA23D6B008D473F /* FloorDescription.xib */,
+				46B75ADA1DA253510024139A /* FloorLabel.xib */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 				465EB4C71DA0670300713EF4 /* FloorLayout.swift */,
 				465EB4C91DA06BAF00713EF4 /* FloorCell.swift */,
 				46451B741DA24B6F0025478A /* FloorDescriptionView.swift */,
+				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -486,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */,
+				46B75ADB1DA253510024139A /* FloorLabel.xib in Resources */,
 				46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */,
 				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
 				46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */,
@@ -570,6 +577,7 @@
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
+				46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */,
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
 				823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */,
 				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,

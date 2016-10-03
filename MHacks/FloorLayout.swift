@@ -18,6 +18,7 @@ final class FloorLayout: UICollectionViewLayout {
     
     enum SupplementaryViewKind: String {
         case Description = "Description"
+        case Label = "Label"
     }
     
     var promotedItem: Int? = nil {
@@ -81,11 +82,15 @@ final class FloorLayout: UICollectionViewLayout {
             return layoutAttributesForItem(at: [0, item])!
         }
         
-        let viewAttributes: [UICollectionViewLayoutAttributes] = (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
+        let descriptionViewAttributes: [UICollectionViewLayoutAttributes] = (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
             return layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.Description.rawValue, at: [0, item])!
         }
         
-        return cellAttributes + viewAttributes
+        let labelViewAttributes: [UICollectionViewLayoutAttributes] = (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
+            return layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.Label.rawValue, at: [0, item])!
+        }
+        
+        return cellAttributes + descriptionViewAttributes + labelViewAttributes
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -117,7 +122,7 @@ final class FloorLayout: UICollectionViewLayout {
                 let originalY = layoutAttributes.frame.origin.y
                 let middleY = sectionInsets.top + (sectionSize.height - sectionSize.width / aspectRatio) / 2.0
                 
-                layoutAttributes.frame.origin.y = (originalY + middleY) / 2.0
+                layoutAttributes.frame.origin.y = originalY * 0.4 + middleY * 0.6
             }
         }
         
@@ -129,14 +134,30 @@ final class FloorLayout: UICollectionViewLayout {
     
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         
-        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SupplementaryViewKind.Description.rawValue, with: indexPath)
+        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
         
-        layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
-        layoutAttributes.frame.origin.y += layoutAttributes.frame.height + 10.0
-        
-        layoutAttributes.alpha = (promotedItem == indexPath.item) ? 1.0 : 0.0
-        
-        layoutAttributes.zIndex = -collectionView!.numberOfItems(inSection: 0) - indexPath.item
+        switch SupplementaryViewKind(rawValue: elementKind)! {
+            
+        case .Description:
+            
+            layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
+            layoutAttributes.frame.origin.y += layoutAttributes.frame.height + 10.0
+            
+            layoutAttributes.alpha = (promotedItem == indexPath.item) ? 1.0 : 0.0
+            
+            layoutAttributes.zIndex = -collectionView!.numberOfItems(inSection: 0) - indexPath.item
+
+        case .Label:
+            
+            layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
+            layoutAttributes.frame.origin.x += 15.0
+            layoutAttributes.frame.origin.y += (layoutAttributes.frame.height - 22.0) * 0.4
+            layoutAttributes.frame.size = CGSize(width: 22.0, height: 22.0)
+            
+            if let promotedItem = promotedItem, promotedItem != indexPath.item {
+                layoutAttributes.alpha = 0.0
+            }
+        }
         
         return layoutAttributes
     }
