@@ -564,7 +564,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iHU-Sy-pSz">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iHU-Sy-pSz">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="367"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-wF-91S">
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -594,50 +595,23 @@
                                             <constraint firstAttribute="height" constant="20" id="AAR-Un-ffj"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dg0-Mb-HdI">
-                                        <color key="backgroundColor" red="0.78431372549019607" green="0.78431372549019607" blue="0.78431372549019607" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <inset key="contentEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="10"/>
-                                        <state key="normal" title="Add Reminder"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                <integer key="value" value="1"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="notifyMe:" destination="zCk-07-Lo5" eventType="touchUpInside" id="5vH-5X-pcD"/>
-                                        </connections>
-                                    </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2tB-X8-xAO">
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="2tB-X8-xAO" secondAttribute="height" multiplier="1.5:1" id="gMV-6u-9XY"/>
-                                        </constraints>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="dg0-Mb-HdI" firstAttribute="top" secondItem="yYr-Hx-Oiw" secondAttribute="bottom" constant="15" id="3j5-Gw-CDj"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="top" secondItem="6oU-Kv-kdK" secondAttribute="bottom" constant="15" id="8dc-ex-Q0X"/>
-                                    <constraint firstItem="2tB-X8-xAO" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leading" constant="8" id="9wj-Bm-lMF"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="M7p-wo-1Ul"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iAN-lx-7xS" secondAttribute="top" id="Nh8-IW-xJl"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="PWw-k5-50H"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="ThC-la-42h"/>
-                                    <constraint firstItem="dg0-Mb-HdI" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leading" constant="-5" id="Wv1-LQ-I5t"/>
-                                    <constraint firstAttribute="bottom" secondItem="dg0-Mb-HdI" secondAttribute="bottom" constant="15" id="YX8-a4-dgG"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="top" secondItem="U05-tk-fMk" secondAttribute="bottom" constant="15" id="Yjb-5Z-jnj"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="aQ1-AL-9Ir"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="b1Q-Rb-hgl"/>
-                                    <constraint firstItem="dg0-Mb-HdI" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailing" constant="5" id="c1Z-Cb-irR"/>
-                                    <constraint firstItem="dg0-Mb-HdI" firstAttribute="centerX" secondItem="iHU-Sy-pSz" secondAttribute="centerX" id="d3U-c2-B0F"/>
                                     <constraint firstItem="yYr-Hx-Oiw" firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailingMargin" id="dGy-U0-epv"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="U05-tk-fMk" secondAttribute="trailing" id="fUy-Zb-i7G"/>
-                                    <constraint firstItem="2tB-X8-xAO" firstAttribute="top" secondItem="dg0-Mb-HdI" secondAttribute="bottom" constant="8" id="gzV-x3-akH"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="m0d-Mk-JDg"/>
                                     <constraint firstItem="iAN-lx-7xS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dPa-wF-91S" secondAttribute="trailing" id="nNJ-Wl-kLO"/>
                                     <constraint firstItem="dPa-wF-91S" firstAttribute="top" secondItem="iHU-Sy-pSz" secondAttribute="topMargin" id="nx8-bQ-BKv"/>
                                     <constraint firstItem="6oU-Kv-kdK" firstAttribute="leading" secondItem="iHU-Sy-pSz" secondAttribute="leadingMargin" id="t8G-3a-YPI"/>
-                                    <constraint firstAttribute="trailing" secondItem="2tB-X8-xAO" secondAttribute="trailing" constant="8" id="txU-vv-zZm"/>
                                     <constraint firstItem="U05-tk-fMk" firstAttribute="top" secondItem="dPa-wF-91S" secondAttribute="bottom" id="yf5-LU-qX5"/>
                                 </constraints>
                                 <variation key="default">
@@ -655,16 +629,13 @@
                             <constraint firstAttribute="trailing" secondItem="iHU-Sy-pSz" secondAttribute="trailing" id="v4w-iq-snS"/>
                         </constraints>
                     </scrollView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Event" id="wuY-ho-eQO"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="colorView" destination="iAN-lx-7xS" id="1BN-aA-WQB"/>
                         <outlet property="contentView" destination="iHU-Sy-pSz" id="ujp-iy-Glz"/>
                         <outlet property="dateLabel" destination="yYr-Hx-Oiw" id="5lo-LR-q4n"/>
                         <outlet property="descriptionLabel" destination="6oU-Kv-kdK" id="nYj-mQ-Wps"/>
-                        <outlet property="floorView" destination="2tB-X8-xAO" id="wrb-jS-gkA"/>
-                        <outlet property="notifButton" destination="dg0-Mb-HdI" id="Xjl-4u-o1B"/>
                         <outlet property="subtitleLabel" destination="U05-tk-fMk" id="Chg-qH-9yb"/>
                         <outlet property="titleLabel" destination="dPa-wF-91S" id="7dn-6b-udd"/>
                     </connections>

@@ -45,14 +45,6 @@ extension APIManager {
 }
 
 
-extension Event {
-	
-	var notification : UILocalNotification?
-	{
-		return UIApplication.shared.scheduledLocalNotifications?.filter { $0.userInfo?["id"] as? String == ID }.first
-	}
-}
-
 func bodyColorForColor(_ color: UIColor, desaturated: Bool) -> UIColor {
 	
 	var hue: CGFloat = 0.0

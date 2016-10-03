@@ -39,22 +39,14 @@ class EventViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
 	
-	// FIXME: Change to UIPaging view controller like on maps page
-	@IBOutlet weak var floorView: UIImageView!
-	
-	@IBOutlet weak var notifButton: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        notifButton.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
         contentView.layoutMargins = Geometry.Insets
 		updateViews()
-		updateNotifyButton(event?.notification != nil)
     }
 	
     override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		updateNotifyButton(event?.notification != nil)
 		colorView.layer.cornerRadius = colorView.frame.width / 2
 		
 		// FIXME: Only update if floors cannot be found!
@@ -92,56 +84,5 @@ class EventViewController: UIViewController {
 		dateLabel.text = dateIntervalFormatter.string(from: event.startDate as Date, to: event.endDate as Date)
 		// TODO: Put images in floor view
     }
-	
-    func updateNotifyButton(_ hasNotification: Bool)
-    {   
-        if hasNotification
-        {
-            notifButton.setTitle("Cancel Reminder", for: UIControlState())
-            notifButton.tintColor = UIColor.mhacksRed
-
-        }
-        else
-        {
-            notifButton.setTitle("Add Reminder", for: UIControlState())
-            notifButton.tintColor = self.view.tintColor
-        }
-		if let event = event, event.endDate < Date(timeIntervalSinceNow: 0)
-		{
-			notifButton.isEnabled = false
-		}
-		else
-		{
-			notifButton.isEnabled = true
-		}
-    }
-    
-    
-    @IBAction func notifyMe (_ sender: UIButton)
-	{
-		guard let event = event
-		else
-		{
-			return
-		}
-        if let notif = event.notification
-        {
-            updateNotifyButton(false)
-            UIApplication.shared.cancelLocalNotification(notif)
-        }
-        else
-        {
-            updateNotifyButton(true)
-            let notification = UILocalNotification()
-            notification.userInfo = ["id": event.ID]
-            notification.alertBody = "\(event.name) will start soon at \(event.locationsDescription)"
-            notification.fireDate = event.startDate.addingTimeInterval(-600) as Date
-            notification.soundName = UILocalNotificationDefaultSoundName
-			
-			notification.alertTitle = "\(event.name)"
-			notification.repeatInterval = NSCalendar.Unit.init(rawValue: 0)
-			notification.category = ""
-            UIApplication.shared.scheduleLocalNotification(notification)
-        }
-	}
+	    
 }
