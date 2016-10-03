@@ -11,6 +11,8 @@
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
 		463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463A90721D9769B600C0F6FE /* ScannerView.swift */; };
 		46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46427FBD1CD97CC300B06D0D /* CircleView.swift */; };
+		465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C71DA0670300713EF4 /* FloorLayout.swift */; };
+		465EB4CA1DA06BAF00713EF4 /* FloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C91DA06BAF00713EF4 /* FloorCell.swift */; };
 		46EA62F31D927421003AE1D5 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EA62F21D927421003AE1D5 /* ScannerViewController.swift */; };
 		46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */; };
 		46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */; };
@@ -119,6 +121,8 @@
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		463A90721D9769B600C0F6FE /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		46427FBD1CD97CC300B06D0D /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		465EB4C71DA0670300713EF4 /* FloorLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorLayout.swift; sourceTree = "<group>"; };
+		465EB4C91DA06BAF00713EF4 /* FloorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorCell.swift; sourceTree = "<group>"; };
 		46EA62F21D927421003AE1D5 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		46F3AE9A1CD86EDA002495B2 /* ScheduleNowIndicator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowIndicator.xib; sourceTree = "<group>"; };
 		46F3AE9C1CD86EF5002495B2 /* ScheduleNowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowIndicator.swift; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 				828D498C1C65F3FD0090313C /* CategoryCell.swift */,
 				460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */,
 				463A90721D9769B600C0F6FE /* ScannerView.swift */,
+				465EB4C71DA0670300713EF4 /* FloorLayout.swift */,
+				465EB4C91DA06BAF00713EF4 /* FloorCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -535,6 +541,7 @@
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
 				7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */,
+				465EB4CA1DA06BAF00713EF4 /* FloorCell.swift in Sources */,
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
 				825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
@@ -565,6 +572,7 @@
 				70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
+				465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */,
 				82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */,
 				46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */,
 				463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */,

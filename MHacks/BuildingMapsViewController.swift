@@ -8,59 +8,74 @@
 
 import UIKit
 
-class BuildingMapsViewController: UIViewController, UIScrollViewDelegate {
+class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    // MARK: Views
+    
+    @IBOutlet var collectionView: UICollectionView!
+    
+    // MARK: View life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(floorsUpdated(_:)), name: APIManager.FloorsUpdatedNotification, object: nil)
         
-        self.scrollView.frame = CGRect(origin: CGPoint.zero, size: view.frame.size)
-        self.scrollView.delegate = self
-        self.pageControl.currentPage = 0
         floorsUpdated(Notification(name: APIManager.FloorsUpdatedNotification))
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(floorsUpdated(_:)), name: APIManager.FloorsUpdatedNotification, object: nil)
+        
         APIManager.shared.updateFloors()
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.frame.width
-        let currentPage = Int(floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1)
-        pageControl.currentPage = Int(currentPage);
-        navigationItem.title = APIManager.shared.floors[currentPage].name
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: APIManager.FloorsUpdatedNotification, object: nil)
     }
-    func floorsUpdated(_ : Notification)
-    {
-        DispatchQueue.main.async {
-            let count = APIManager.shared.floors.count
-            self.pageControl.numberOfPages = count
-            self.scrollView.subviews.forEach { $0.removeFromSuperview() }
-            
-            let scrollViewWidth = self.scrollView.frame.width
-            let scrollViewHeight = self.scrollView.frame.width
-            for (i, floor) in APIManager.shared.floors.enumerated()
-            {
-                let imageView = UIImageView(frame: CGRect(x: (scrollViewWidth * CGFloat(i)) + 50,
-                                                          y: 40,
-                                                          width: scrollViewWidth - 100,
-                                                          height: scrollViewHeight - 200))
-                if i == self.pageControl.currentPage
-                {
-                    self.navigationItem.title = floor.name
+    
+    // MARK: Collection view data source
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return APIManager.shared.floors.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let floorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Floor Cell", for: indexPath) as! FloorCell
+        
+        let floor = APIManager.shared.floors[indexPath.item]
+        
+        floor.retrieveImage { image in
+            DispatchQueue.main.async {
+                
+                if collectionView.indexPath(for: floorCell) == indexPath {
+                    floorCell.imageView.image = image
                 }
-                floor.retrieveImage { image in
-                    DispatchQueue.main.async {
-                        imageView.image = image
-                    }
-                }
-                self.scrollView.addSubview(imageView)
             }
-            self.scrollView.contentSize = CGSize(width: self.scrollView.frame.width * CGFloat(count), height: 1.0)
+        }
+        
+        return floorCell
+    }
+    
+    // MARK: Collection view delegate
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+    }
+    
+    // MARK: Notifications
+    
+    func floorsUpdated(_ : Notification) {
+        
+        DispatchQueue.main.async {
+            
+            if self.isViewLoaded {
+                self.collectionView.reloadData()
+            }
         }
     }
-
 }

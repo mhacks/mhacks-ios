@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11521.1" systemVersion="16B2333a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A320" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11517.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,7 +24,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="37.5" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
@@ -206,29 +206,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CbT-qu-Teh"/>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="aPq-wT-RAg">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="97" id="vfD-tM-eqe"/>
-                                </constraints>
-                                <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="currentPageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            </pageControl>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yCN-7i-19d">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="KzC-6M-j4X" customClass="FloorLayout" customModule="MHacks" customModuleProvider="target"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Floor Cell" id="k0n-1y-97x" customClass="FloorCell" customModule="MHacks" customModuleProvider="target">
+                                        <rect key="frame" x="38" y="0.0" width="300" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView verifyAmbiguity="ignoreSizes" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Qe-AG-dOg">
+                                                    <frame key="frameInset" minX="20" minY="-30" width="260" height="160"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="7Qe-AG-dOg" secondAttribute="trailing" constant="20" id="bnZ-B1-f0s"/>
+                                            <constraint firstItem="7Qe-AG-dOg" firstAttribute="leading" secondItem="k0n-1y-97x" secondAttribute="leading" constant="20" id="mHL-mn-jnD"/>
+                                            <constraint firstItem="7Qe-AG-dOg" firstAttribute="centerY" secondItem="k0n-1y-97x" secondAttribute="centerY" id="scE-CO-IRG"/>
+                                        </constraints>
+                                        <size key="customSize" width="300" height="100"/>
+                                        <connections>
+                                            <outlet property="imageView" destination="7Qe-AG-dOg" id="jUx-IE-hW7"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="9sT-vU-We0" id="v3I-ft-OtN"/>
+                                    <outlet property="delegate" destination="9sT-vU-We0" id="Z5e-5Z-a3W"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="CbT-qu-Teh" secondAttribute="trailing" id="0xE-bF-GQI"/>
-                            <constraint firstItem="CbT-qu-Teh" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="CfI-0z-bvB"/>
-                            <constraint firstItem="dDM-Nn-5EG" firstAttribute="top" secondItem="aPq-wT-RAg" secondAttribute="bottom" constant="1" id="S9U-Jq-1q1"/>
-                            <constraint firstItem="aPq-wT-RAg" firstAttribute="centerX" secondItem="CbT-qu-Teh" secondAttribute="centerX" id="ZLD-Xh-SMn"/>
-                            <constraint firstItem="CbT-qu-Teh" firstAttribute="top" secondItem="Dal-eo-GUe" secondAttribute="top" id="xUM-wo-48l"/>
-                            <constraint firstAttribute="bottom" secondItem="CbT-qu-Teh" secondAttribute="bottom" id="xc9-lS-BQL"/>
+                            <constraint firstItem="yCN-7i-19d" firstAttribute="top" secondItem="Dal-eo-GUe" secondAttribute="top" id="2Xx-9t-ey1"/>
+                            <constraint firstAttribute="trailing" secondItem="yCN-7i-19d" secondAttribute="trailing" id="6GK-sD-6vS"/>
+                            <constraint firstItem="yCN-7i-19d" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="eRo-wd-L0w"/>
+                            <constraint firstAttribute="bottom" secondItem="yCN-7i-19d" secondAttribute="bottom" id="wg1-Tz-iQD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Maps" id="TTN-L0-KLy"/>
                     <connections>
-                        <outlet property="pageControl" destination="aPq-wT-RAg" id="1FV-E5-jQn"/>
-                        <outlet property="scrollView" destination="CbT-qu-Teh" id="nYw-38-suL"/>
+                        <outlet property="collectionView" destination="yCN-7i-19d" id="WfR-oo-B4x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -391,10 +412,10 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="notificationCell" id="pOu-v5-YZj" customClass="CategoryCell" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="119.5" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pOu-v5-YZj" id="cLb-j5-0MS">
-                                    <frame key="frameInset" width="375" height="54.5"/>
+                                    <frame key="frameInset" width="375" height="54"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YDM-UN-qwT" customClass="CircleView" customModule="MHacks" customModuleProvider="target">
