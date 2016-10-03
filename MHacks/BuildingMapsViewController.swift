@@ -21,7 +21,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        floorsUpdated(Notification(name: APIManager.FloorsUpdatedNotification))
+        collectionView.register(UINib(nibName: "FloorDescription", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Description.rawValue, withReuseIdentifier: "Description View")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,8 +55,6 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
 
         let floor = APIManager.shared.floors[indexPath.item]
         
-        print(floor.offsetFraction)
-        
         floor.retrieveImage { image in
             DispatchQueue.main.async {
                 
@@ -69,23 +67,27 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
         return floorCell
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Description View", for: indexPath) as! FloorDescriptionView
+        
+        let floor = APIManager.shared.floors[indexPath.item]
+        
+        view.label.text = floor.name
+        
+        return view
+    }
+    
     // MARK: Collection view delegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.performBatchUpdates({
             
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut], animations: { 
-                self.floorLayout.promotedItem = (self.floorLayout.promotedItem == nil) ? indexPath.item : nil
-                self.collectionView.layoutIfNeeded()
-            }, completion: nil)
-            
-        }, completion: nil)
-        
-        /*UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
             self.floorLayout.promotedItem = (self.floorLayout.promotedItem == nil) ? indexPath.item : nil
             self.collectionView.layoutIfNeeded()
-        }, completion: nil)*/
+            
+        }, completion: nil)
     }
     
     // MARK: Floor layout delegate

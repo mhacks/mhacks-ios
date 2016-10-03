@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreBluetooth
+import CoreLocation
 
 protocol ScannerViewControllerDelegate: class {
     
@@ -36,10 +38,19 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         }
     }
     
-    
     // MARK: Delegate
     
     weak var delegate: ScannerViewControllerDelegate?
+    
+    // MARK: Beacons
+    
+    let beaconUUID = UUID(uuidString: "5759985C-B037-43B4-939D-D6286CE9C941")!
+    
+    let peripheralManager = CBPeripheralManager()
+    
+    lazy var beaconRegion: CLBeaconRegion = {
+        return CLBeaconRegion(proximityUUID: self.beaconUUID, major: 0, minor: 0, identifier: "com.MHacks.ScanTicketBeacon")
+    }()
     
     // MARK: Views
     
@@ -139,10 +150,15 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(scanEventsUpdated), name: APIManager.ScanEventsUpdatedNotification, object: nil)
         
         APIManager.shared.updateScanEvents()
+        
+        let beaconPeripheralData = beaconRegion.peripheralData(withMeasuredPower: nil)
+        peripheralManager.startAdvertising(beaconPeripheralData.copy() as? [String: AnyObject])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        peripheralManager.stopAdvertising()
         
         NotificationCenter.default.removeObserver(self, name: APIManager.ScanEventsUpdatedNotification, object: nil)
     }

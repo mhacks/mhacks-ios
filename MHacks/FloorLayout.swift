@@ -16,6 +16,10 @@ protocol FloorLayoutDelegate: UICollectionViewDelegate {
 
 final class FloorLayout: UICollectionViewLayout {
     
+    enum SupplementaryViewKind: String {
+        case Description = "Description"
+    }
+    
     var promotedItem: Int? = nil {
         didSet {
             invalidateLayout()
@@ -73,9 +77,15 @@ final class FloorLayout: UICollectionViewLayout {
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        return (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
-            return layoutAttributesForItem(at: IndexPath(item: item, section: 0))!
+        let cellAttributes: [UICollectionViewLayoutAttributes] = (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
+            return layoutAttributesForItem(at: [0, item])!
         }
+        
+        let viewAttributes: [UICollectionViewLayoutAttributes] = (0..<collectionView!.numberOfItems(inSection: 0)).map { item in
+            return layoutAttributesForSupplementaryView(ofKind: SupplementaryViewKind.Description.rawValue, at: [0, item])!
+        }
+        
+        return cellAttributes + viewAttributes
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -85,30 +95,48 @@ final class FloorLayout: UICollectionViewLayout {
         let offsetFraction = offsetFractions[indexPath.item]
         let aspectRatio = aspectRatios[indexPath.item]
         
-        let height = sectionSize.width / aspectRatio
+        layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + sectionSize.height * offsetFraction * verticalCompressionFactor, width: sectionSize.width, height: sectionSize.width / aspectRatio)
         
         if let promotedItem = promotedItem {
             
-            if indexPath.item == promotedItem  {
+            if indexPath.item != promotedItem {
                 
-                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + (sectionSize.height - height) / 2.0, width: sectionSize.width, height: height)
+                let delta = indexPath.item - promotedItem
+                let sign = abs(delta) / delta
+                let inverseDistance = collectionView!.numberOfItems(inSection: 0) - abs(delta)
+                let inverseDelta = sign * inverseDistance
                 
-            } else if indexPath.item < promotedItem {
+                layoutAttributes.frame.origin.y += CGFloat(inverseDelta) * 20.0
                 
-                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: -collectionView!.contentInset.top - 100.0, width: sectionSize.width, height: height)
+                layoutAttributes.alpha = 0.0
                 
             } else {
                 
-                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: contentSize.height + collectionView!.contentInset.bottom - 100.0, width: sectionSize.width, height: height)
+                // Average position with the middle
+                
+                let originalY = layoutAttributes.frame.origin.y
+                let middleY = sectionInsets.top + (sectionSize.height - sectionSize.width / aspectRatio) / 2.0
+                
+                layoutAttributes.frame.origin.y = (originalY + middleY) / 2.0
             }
-            
-        } else {
-            
-            layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + sectionSize.height * offsetFraction * verticalCompressionFactor, width: sectionSize.width, height: sectionSize.width / aspectRatio)
         }
         
         // Lower rows should appear underneath higher rows
         layoutAttributes.zIndex = -indexPath.item
+        
+        return layoutAttributes
+    }
+    
+    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        
+        let layoutAttributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: SupplementaryViewKind.Description.rawValue, with: indexPath)
+        
+        layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
+        layoutAttributes.frame.origin.y += layoutAttributes.frame.height + 10.0
+        
+        layoutAttributes.alpha = (promotedItem == indexPath.item) ? 1.0 : 0.0
+        
+        layoutAttributes.zIndex = -collectionView!.numberOfItems(inSection: 0) - indexPath.item
         
         return layoutAttributes
     }
