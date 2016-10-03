@@ -24,7 +24,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
@@ -206,7 +206,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yCN-7i-19d">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yCN-7i-19d">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="KzC-6M-j4X" customClass="FloorLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
@@ -218,13 +218,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView verifyAmbiguity="ignoreSizes" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Qe-AG-dOg">
-                                                    <frame key="frameInset" minX="20" minY="-30" width="260" height="160"/>
+                                                    <frame key="frameInset" minY="-30" width="300" height="160"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="7Qe-AG-dOg" secondAttribute="trailing" constant="20" id="bnZ-B1-f0s"/>
-                                            <constraint firstItem="7Qe-AG-dOg" firstAttribute="leading" secondItem="k0n-1y-97x" secondAttribute="leading" constant="20" id="mHL-mn-jnD"/>
+                                            <constraint firstAttribute="trailing" secondItem="7Qe-AG-dOg" secondAttribute="trailing" id="bnZ-B1-f0s"/>
+                                            <constraint firstItem="7Qe-AG-dOg" firstAttribute="leading" secondItem="k0n-1y-97x" secondAttribute="leading" id="mHL-mn-jnD"/>
                                             <constraint firstItem="7Qe-AG-dOg" firstAttribute="centerY" secondItem="k0n-1y-97x" secondAttribute="centerY" id="scE-CO-IRG"/>
                                         </constraints>
                                         <size key="customSize" width="300" height="100"/>
@@ -254,7 +254,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1166" y="-707"/>
+            <point key="canvasLocation" x="1165.5999999999999" y="-707.49625187406298"/>
         </scene>
         <!--News-->
         <scene sceneID="Efb-xw-Rfz">

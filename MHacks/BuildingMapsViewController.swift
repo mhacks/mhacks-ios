@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, FloorLayoutDelegate {
     
     // MARK: Views
     
@@ -45,8 +45,10 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let floorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Floor Cell", for: indexPath) as! FloorCell
-        
+
         let floor = APIManager.shared.floors[indexPath.item]
+        
+        print(floor.offsetFraction)
         
         floor.retrieveImage { image in
             DispatchQueue.main.async {
@@ -65,6 +67,16 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
+    }
+    
+    // MARK: Floor layout delegate
+    
+    func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, offsetFractionForItemAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(APIManager.shared.floors[indexPath.item].offsetFraction)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, aspectRatioForItemAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(APIManager.shared.floors[indexPath.item].aspectRatio)
     }
     
     // MARK: Notifications
