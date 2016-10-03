@@ -28,11 +28,21 @@ class AnnouncementCell: UITableViewCell {
 
 		message?.textContainer.lineFragmentPadding = 0
 		message?.textContainerInset = .zero
-
+		message?.delegate = self
+		
 		sponsored?.layer.cornerRadius = 4.0
 		sponsored?.clipsToBounds = true
 		
 		unapproved?.layer.cornerRadius = 4.0
 		unapproved?.clipsToBounds = true
     }
+}
+extension AnnouncementCell: UITextViewDelegate
+{
+	func textViewDidChangeSelection(_ textView: UITextView) {
+		if textView.selectedRange.length > 0
+		{
+			textView.selectedRange.length = 0
+		}
+	}
 }
