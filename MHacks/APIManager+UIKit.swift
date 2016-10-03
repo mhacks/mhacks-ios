@@ -68,5 +68,3 @@ func bodyColorForColor(_ color: UIColor, desaturated: Bool) -> UIColor {
 	
 	return UIColor(hue: hue, saturation: saturation * desaturationFactor, brightness: brightness * brightnessFactor, alpha: alpha * alphaFactor)
 }
-
-

@@ -54,26 +54,24 @@ struct Announcement: SerializableElementWithIdentifier {
 		}
 		var color: UIColor {
 			for i in 0...Category.maxBit {
-				guard self.contains(Category(rawValue: 1 << i)) else { continue }
+				guard self.contains(Category(rawValue: 1 << i))
+				else { continue }
 				switch i {
 				case 0:
-					return UIColor(red: 255.0/255.0, green: 050.0/255.0, blue: 050.0/255.0, alpha: 1.0)
+					return UIColor.mhacksRed
 				case 1:
-					return UIColor(red: 056.0/255.0, green: 093.0/255.0, blue: 214.0/255.0, alpha: 1.0)
+					return UIColor.mhacksOrange
 				case 2:
-					return UIColor(red: 255.0/255.0, green: 202.0/255.0, blue: 011.0/255.0, alpha: 1.0)
+					return UIColor.mhacksYellow
 				case 3:
-					return  UIColor(red: 057.0/255.0, green: 203.0/255.0, blue: 085.0/255.0, alpha: 1.0)
+					return UIColor.mhacksBlue
 				case 4:
-					return UIColor(red: 149.0/255.0, green: 165.0/255.0, blue: 166.0/255.0, alpha: 1.0)
-				case 5:
-					return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
+					continue
 				default:
 					fatalError("Unrecognized category \(i)")
 				}
 			}
-			
-			return UIColor(red: 149.0/255.0, green: 165.0/255.0, blue: 166.0/255.0, alpha: 1.0)
+			return UIColor.mhacksPlain
 		}
 	}
 	
