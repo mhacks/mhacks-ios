@@ -38,3 +38,7 @@ extension ScanEvent
 		return [ScanEvent.idKey: ID, ScanEvent.nameKey: name, ScanEvent.expiryDateKey: expiryDate.timeIntervalSince1970]
 	}
 }
+func <(lhs: ScanEvent, rhs: ScanEvent) -> Bool
+{
+    return lhs.expiryDate < rhs.expiryDate
+}

@@ -30,6 +30,12 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
             updateToolbarItems(animated: true)
         }
     }
+    var scanFieldsHasError: Bool = false {
+        didSet {
+            updateEnableConfirmationButton()
+        }
+    }
+    
     
     // MARK: Delegate
     
@@ -150,6 +156,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         updateUserView()
         
         updateToolbarItems(animated: false)
+        
+        updateEnableConfirmationButton()
     }
     
     func updateEventsBarButtonItemTitle() {
@@ -195,6 +203,16 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         }
     }
     
+    func updateEnableConfirmationButton() {
+        if scanFieldsHasError
+        {
+            confirmationBarButtonItem.isEnabled = false
+        }
+        else
+        {
+            confirmationBarButtonItem.isEnabled = true
+        }
+    }
     // MARK: Actions
     
     func finish() {
@@ -286,15 +304,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         APIManager.shared.performScan(userDataScanned: identifier, scanEvent: scanEvent, readOnlyPeek: true) { success, additionalData in
             
             DispatchQueue.main.async {
-                
-                guard success else {
-                    self.scanIdentifier = nil
-                    return
-                }
-                
-                // TODO: if already scanned, make confirmation button red
-                
                 UIView.animate(withDuration: 0.15) {
+                    self.scanFieldsHasError = !success
                     self.scanFields = additionalData
                 }
             }
@@ -306,6 +317,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         UIView.animate(withDuration: 0.15) {
             self.scanIdentifier = nil
             self.scanFields = nil
+            self.scanFieldsHasError = false
         }
     }
 }
