@@ -11,4 +11,9 @@ import UIKit
 final class FloorCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        
+        return super.point(inside: point, with: event)
+    }
 }

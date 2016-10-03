@@ -14,6 +14,8 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     @IBOutlet var collectionView: UICollectionView!
     
+    @IBOutlet var floorLayout: FloorLayout!
+    
     // MARK: View life cycle
     
     override func viewDidLoad() {
@@ -34,6 +36,11 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
         super.viewDidDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: APIManager.FloorsUpdatedNotification, object: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        collectionView.contentInset = UIEdgeInsets(top: 100.0 + topLayoutGuide.length, left: 0.0, bottom: 100.0 + topLayoutGuide.length, right: 0.0)
     }
     
     // MARK: Collection view data source
@@ -66,7 +73,19 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        collectionView.performBatchUpdates({
+            
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut], animations: { 
+                self.floorLayout.promotedItem = (self.floorLayout.promotedItem == nil) ? indexPath.item : nil
+                self.collectionView.layoutIfNeeded()
+            }, completion: nil)
+            
+        }, completion: nil)
         
+        /*UIView.animate(withDuration: 0.25, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+            self.floorLayout.promotedItem = (self.floorLayout.promotedItem == nil) ? indexPath.item : nil
+            self.collectionView.layoutIfNeeded()
+        }, completion: nil)*/
     }
     
     // MARK: Floor layout delegate

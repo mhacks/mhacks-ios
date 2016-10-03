@@ -16,6 +16,12 @@ protocol FloorLayoutDelegate: UICollectionViewDelegate {
 
 final class FloorLayout: UICollectionViewLayout {
     
+    var promotedItem: Int? = nil {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
     private var delegate: FloorLayoutDelegate? {
         return collectionView?.delegate as? FloorLayoutDelegate
     }
@@ -27,12 +33,12 @@ final class FloorLayout: UICollectionViewLayout {
     
     let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
     
-    var sectionSize: CGSize {
+    private var sectionSize: CGSize {
         return CGSize(width: contentSize.width - sectionInsets.left - sectionInsets.left,
                       height: contentSize.height - sectionInsets.top - sectionInsets.bottom)
     }
     
-    var verticalCompressionFactor: CGFloat = 1.0
+    private var verticalCompressionFactor: CGFloat = 1.0
     
     override func prepare() {
         super.prepare()
@@ -79,9 +85,27 @@ final class FloorLayout: UICollectionViewLayout {
         let offsetFraction = offsetFractions[indexPath.item]
         let aspectRatio = aspectRatios[indexPath.item]
         
-        layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + sectionSize.height * offsetFraction * verticalCompressionFactor, width: sectionSize.width, height: sectionSize.width / aspectRatio)
+        let height = sectionSize.width / aspectRatio
         
-        print(layoutAttributes.frame)
+        if let promotedItem = promotedItem {
+            
+            if indexPath.item == promotedItem  {
+                
+                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + (sectionSize.height - height) / 2.0, width: sectionSize.width, height: height)
+                
+            } else if indexPath.item < promotedItem {
+                
+                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: -collectionView!.contentInset.top - 100.0, width: sectionSize.width, height: height)
+                
+            } else {
+                
+                layoutAttributes.frame = CGRect(x: sectionInsets.left, y: contentSize.height + collectionView!.contentInset.bottom - 100.0, width: sectionSize.width, height: height)
+            }
+            
+        } else {
+            
+            layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + sectionSize.height * offsetFraction * verticalCompressionFactor, width: sectionSize.width, height: sectionSize.width / aspectRatio)
+        }
         
         // Lower rows should appear underneath higher rows
         layoutAttributes.zIndex = -indexPath.item
