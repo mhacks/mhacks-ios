@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 
-struct ScannedDataField: SerializableElementWithIdentifier
+struct ScannedDataField: SerializableElement
 {
-	let ID: String
 	var label: String
 	var value: String
 	var color: UIColor
@@ -23,8 +22,8 @@ extension ScannedDataField
 	private static let colorKey = "color"
 	
 	init?(_ serializedRepresentation: SerializedRepresentation) {
-		guard let id = serializedRepresentation[ScannedDataField.idKey] as? String, let value = serializedRepresentation[ScannedDataField.valueKey] as? String, let label = serializedRepresentation[ScannedDataField.labelKey] as? String
-			else { return nil }
+		guard let value = serializedRepresentation[ScannedDataField.valueKey] as? String, let label = serializedRepresentation[ScannedDataField.labelKey] as? String
+        else { return nil }
 		var color = UIColor.black
 		if let colorString = serializedRepresentation[ScannedDataField.colorKey] as? String, let hexValue = Int(colorString, radix: 16)
 		{
@@ -34,7 +33,7 @@ extension ScannedDataField
 			color = UIColor(red: red, green: green, blue: blue, alpha: 1.0)
 		}
 		
-		self.init(ID: id, label: label, value: value, color: color)
+		self.init(label: label, value: value, color: color)
 	}
 	func toSerializedRepresentation() -> NSDictionary
 	{

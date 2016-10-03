@@ -15,15 +15,19 @@ final class Floor: SerializableElementWithIdentifier
     var name: String
     var imageURL: String
     var index: Int
+    var offsetFraction: Double
+    var aspectRatio: Double
     var fileLocation: String?
     private var imageCache: UIImage? = nil
     
-    init(ID: String, name: String, imageURL: String, index: Int, fileLocation: String?)
+    init(ID: String, name: String, imageURL: String, index: Int, offsetFraction: Double, aspectRatio: Double, fileLocation: String?)
     {
         self.ID = ID
         self.name = name
         self.imageURL = imageURL
         self.index = index
+        self.offsetFraction = offsetFraction
+        self.aspectRatio = aspectRatio
         self.fileLocation = fileLocation
     }
     
@@ -92,17 +96,20 @@ extension Floor
     private static let nameKey = "name"
     private static let imageURLKey = "image"
     private static let indexKey = "index"
+    private static let offsetFractionKey = "offset_fraction"
+    private static let aspectRatioKey = "aspect_ratio"
     private static let fileLocationKey = "file"
     
+    
     convenience init?(_ serializedRepresentation: SerializedRepresentation) {
-        guard let id = serializedRepresentation[Floor.idKey] as? String, let name = serializedRepresentation[Floor.nameKey] as? String, let imageURL = serializedRepresentation[Floor.imageURLKey] as? String, let index = serializedRepresentation[Floor.indexKey] as? Int
+        guard let id = serializedRepresentation[Floor.idKey] as? String, let name = serializedRepresentation[Floor.nameKey] as? String, let imageURL = serializedRepresentation[Floor.imageURLKey] as? String, let index = serializedRepresentation[Floor.indexKey] as? Int, let offsetFraction = serializedRepresentation[Floor.offsetFractionKey] as? Double, let aspectRatio = serializedRepresentation[Floor.aspectRatioKey] as? Double
             else { return nil }
         
-        self.init(ID: id, name: name, imageURL: imageURL, index: index, fileLocation: serializedRepresentation[Floor.fileLocationKey] as? String)
+        self.init(ID: id, name: name, imageURL: imageURL, index: index, offsetFraction: offsetFraction, aspectRatio: aspectRatio, fileLocation: serializedRepresentation[Floor.fileLocationKey] as? String)
     }
     func toSerializedRepresentation() -> NSDictionary
     {
-        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index]
+        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio]
         if let file = fileLocation
         {
             dict[Floor.fileLocationKey] = file

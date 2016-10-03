@@ -323,7 +323,20 @@ final class APIManager
 	let scanEvents = MHacksArray<ScanEvent>()
 	func updateScanEvents(_ callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: callback, existingObject: scanEvents)
+		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: {
+			self.invalidateExpiredScanEvents()
+			callback?($0)
+		}, existingObject: scanEvents)
+	}
+	
+	private func invalidateExpiredScanEvents()
+	{
+		let deletedUpdates: [SerializedRepresentation] = scanEvents.flatMap {
+			guard $0.expiryDate < Date()
+			else { return nil }
+			return [ScanEvent.idKey: $0.ID, "deleted": true]
+		}
+		_ = scanEvents.updateWith(["results": deletedUpdates, MHacksArray<ScanEvent>.lastUpdatedKey: (scanEvents.lastUpdated ?? 0)])
 	}
 	
 	// MARK: - Perform Scan
@@ -341,8 +354,9 @@ final class APIManager
 			switch response
 			{
 			case .value(let json):
-				guard let succeeded = json["scanned"] as? Bool, succeeded, let serializedItems = json["data"] as? [SerializedRepresentation]
+				guard let succeeded = json["scanned"] as? Bool
 				else { return callback(false, []) }
+				let serializedItems = json["data"] as? [SerializedRepresentation] ?? []
 				let scannedDataFields = serializedItems.flatMap { ScannedDataField($0) }
 				callback(succeeded, scannedDataFields)
 			case .error(let errorMessage):
@@ -431,7 +445,7 @@ final class APIManager
 		task.resume()
 	}
 	
-	private func updateUsing<Object: Serializable>(route: String, notificationName: Notification.Name, callback: CoalescedCallbacks.Callback?, existingObject: Object, completion: CoalescedCallbacks.Callback? = nil) {
+	private func updateUsing<Object: Serializable>(route: String, notificationName: Notification.Name, callback: CoalescedCallbacks.Callback?, existingObject: Object) {
 		if let callback = callback {
 			existingObject.coalescer.registerCallback(callback)
 		}
@@ -442,31 +456,28 @@ final class APIManager
 		}
 		
 		taskWithRoute(route, parameters: existingObject.sinceDictionary) { result in
-			var errorMessage: String? = nil
-			var updated = false
 			defer {
-				completion?(updated)
-				if updated
-				{
-					NotificationCenter.default.post(name: notificationName, object: self)
-				}
-				if let error = errorMessage
-				{
-					NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
-				}
-				existingObject.coalescer.fire(errorMessage == nil)
 				existingObject.semaphoreGuard.signal()
 			}
 			switch result
 			{
 			case .value(let json):
+				var updated = false
+				defer {
+					existingObject.coalescer.fire(true)
+					if updated
+					{
+						NotificationCenter.default.post(name: notificationName, object: self)
+					}
+				}
 				guard existingObject.updateWith(json)
-					else {
-						return
+				else {
+					return
 				}
 				updated = true
-			case .error(let errorString):
-				errorMessage = errorString
+			case .error(let errorMessage):
+				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
+				existingObject.coalescer.fire(false)
 			}
 		}
 	}
