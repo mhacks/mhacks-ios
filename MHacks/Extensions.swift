@@ -97,12 +97,16 @@ extension UIView
 		var pixel: [UInt8] = [0, 0, 0, 0]
 		
 		// Create an offscreen context to draw into so that we can fetch the pixel's information
-		let context = CGContext(data: &pixel, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue).rawValue)
+		guard let context = CGContext(data: &pixel, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue).rawValue)
+		else {
+			assertionFailure("Context should always be initializable. We return an alpha value in production builds instead of asserting")
+			return 1.0
+		}
 		// Translation into context's space
-		context!.translateBy(x: -point.x, y: -point.y);
+		context.translateBy(x: -point.x, y: -point.y);
 		
 		// Render the view into the context so that the pixel's data gets filled
-		layer.render(in: context!)
+		layer.render(in: context)
 		
 		// Now the alpha is the last component inside pixel, the rest are rgb as you probably guessed.
 		// Also, normalize alpha by dividing by 255.0
