@@ -109,14 +109,14 @@ class AnnouncementsViewController: UITableViewController {
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 
 		cell.selectionStyle = .none
-        cell.titleLabel.text = announcement.title
-        cell.dateLabel.text = announcement.localizedDate
-        cell.messageTextView.text = announcement.message
+        cell.title.text = announcement.title
+        cell.date.text = announcement.localizedDate
+        cell.message.text = announcement.message
 		
 		cell.colorView.backgroundColor = announcement.category.color
 
-		cell.sponsoredTextView.isHidden = !announcement.isSponsored
-		cell.unapprovedTextView.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements ? false : true
+		cell.sponsored.isHidden = !announcement.isSponsored
+		cell.unapproved.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements ? false : true
 
         return cell
     }
@@ -132,7 +132,7 @@ class AnnouncementsViewController: UITableViewController {
 			self.present(compose, animated: true, completion: nil)
 		}
 		
-		edit.backgroundColor = UIColor(red: 108/255, green: 122/255, blue: 137/255, alpha: 1.0)
+		edit.backgroundColor = UIColor.mhacksPlain
 		
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)
@@ -157,7 +157,7 @@ class AnnouncementsViewController: UITableViewController {
 				self.present(confirm, animated: true, completion: nil)
 			})
 			
-			approve.backgroundColor = UIColor(red: 27/255, green: 188/255, blue: 155/255, alpha: 1.0)
+			approve.backgroundColor = UIColor(red: 27.0 / 255, green: 188.0 / 255.0, blue: 155.0 / 255.0, alpha: 1.0)
 			
 			return [approve, delete, edit]
 		}

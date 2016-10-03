@@ -12,15 +12,14 @@ struct Announcement: SerializableElementWithIdentifier {
 	
 	struct Category : OptionSet, CustomStringConvertible {
 		let rawValue : Int
-		static let None = Category(rawValue: 0 << 0)
-		static let Emergency = Category(rawValue: 1 << 0)
-		static let Logistics = Category(rawValue: 1 << 1)
-		static let Food = Category(rawValue: 1 << 2)
-		static let Swag = Category(rawValue: 1 << 3)
-		static let Sponsor = Category(rawValue: 1 << 4)
-		static let Other = Category(rawValue: 1 << 5)
+		static let none = Category(rawValue: 0 << 0)
+		static let emergency = Category(rawValue: 1 << 0)
+		static let logistics = Category(rawValue: 1 << 1)
+		static let food = Category(rawValue: 1 << 2)
+		static let events = Category(rawValue: 1 << 3)
+		static let sponsor = Category(rawValue: 1 << 4)
 		
-		static let maxBit = 5
+		static let maxBit = 4
 		var description: String {
 			var categories = [String]()
 			for i in 0...Category.maxBit
@@ -29,7 +28,7 @@ struct Announcement: SerializableElementWithIdentifier {
 				else {
 					continue
 				}
-				categories.append( {
+				categories.append({
 					switch i
 					{
 					case 0:
@@ -39,11 +38,9 @@ struct Announcement: SerializableElementWithIdentifier {
 					case 2:
 						return "Food"
 					case 3:
-						return "Swag"
+						return "Events"
 					case 4:
 						return "Sponsor"
-					case 5:
-						return "Other"
 					default:
 						fatalError("Unrecognized category \(i)")
 					}
@@ -57,26 +54,24 @@ struct Announcement: SerializableElementWithIdentifier {
 		}
 		var color: UIColor {
 			for i in 0...Category.maxBit {
-				guard self.contains(Category(rawValue: 1 << i)) else { continue }
+				guard self.contains(Category(rawValue: 1 << i))
+				else { continue }
 				switch i {
 				case 0:
-					return UIColor(red: 255.0/255.0, green: 050.0/255.0, blue: 050.0/255.0, alpha: 1.0)
+					return UIColor.mhacksRed
 				case 1:
-					return UIColor(red: 056.0/255.0, green: 093.0/255.0, blue: 214.0/255.0, alpha: 1.0)
+					return UIColor.mhacksOrange
 				case 2:
-					return UIColor(red: 255.0/255.0, green: 202.0/255.0, blue: 011.0/255.0, alpha: 1.0)
+					return UIColor.mhacksYellow
 				case 3:
-					return  UIColor(red: 057.0/255.0, green: 203.0/255.0, blue: 085.0/255.0, alpha: 1.0)
+					return UIColor.mhacksBlue
 				case 4:
-					return UIColor(red: 149.0/255.0, green: 165.0/255.0, blue: 166.0/255.0, alpha: 1.0)
-				case 5:
-					return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
+					continue
 				default:
 					fatalError("Unrecognized category \(i)")
 				}
 			}
-			
-			return UIColor(red: 149.0/255.0, green: 165.0/255.0, blue: 166.0/255.0, alpha: 1.0)
+			return UIColor.mhacksPlain
 		}
 	}
 	
@@ -87,7 +82,7 @@ struct Announcement: SerializableElementWithIdentifier {
 	var category: Category
 	var approved: Bool
 	var isSponsored: Bool {
-		return self.category.contains(Announcement.Category.Sponsor)
+		return self.category.contains(Announcement.Category.sponsor)
 	}
 		
 	static private let todayDateFormatter: DateFormatter = {

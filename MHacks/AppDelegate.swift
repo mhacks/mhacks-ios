@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	// MARK: Application life cycle
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
 		
-		window!.tintColor = UIColor(red: 0.0, green: 188.0 / 255.0, blue: 212.0 / 255.0, alpha: 1.0)
+		window!.tintColor = UIColor.mhacksBlue
 		
 		tabBarController = window!.rootViewController as! UITabBarController
 		tabBarController.delegate = self
@@ -181,7 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	fileprivate func makeLabel(_ text: String?) {
 		self.label = UILabel(frame: self.statusWindow?.bounds ?? CGRect.zero)
 		self.label?.textAlignment = .center
-		self.label?.backgroundColor = UIColor.red
+		self.label?.backgroundColor = UIColor.mhacksRed
 		self.label?.textColor = UIColor.white
 		self.label?.font = UIFont.boldSystemFont(ofSize: 12)
 		self.label?.text = text ?? "Unknown Error"

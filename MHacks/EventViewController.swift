@@ -98,7 +98,7 @@ class EventViewController: UIViewController {
         if hasNotification
         {
             notifButton.setTitle("Cancel Reminder", for: UIControlState())
-            notifButton.tintColor = UIColor.red
+            notifButton.tintColor = UIColor.mhacksRed
 
         }
         else

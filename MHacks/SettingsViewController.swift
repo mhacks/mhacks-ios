@@ -25,7 +25,7 @@ class SettingsViewController: UITableViewController {
 			return
 		}
 		let categories = Announcement.Category(rawValue: preference.intValue)
-		currentPreference = categories.contains(Announcement.Category.Emergency) ? categories : categories.intersection(Announcement.Category.Emergency)
+		currentPreference = categories.contains(Announcement.Category.emergency) ? categories : categories.intersection(Announcement.Category.emergency)
     }
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -56,7 +56,7 @@ class SettingsViewController: UITableViewController {
 		switchView.setOn(currentPreference.contains(category), animated: false)
 		switchView.addTarget(self, action: #selector(self.switchToggled(sender:)), for: UIControlEvents.valueChanged)
 		switchView.tag = indexPath.row
-		if category.contains(Announcement.Category.Emergency) {
+		if category.contains(Announcement.Category.emergency) {
 			// Disable Emergency CategoryCell UISwitch
 			switchView.isEnabled = false
 		}
