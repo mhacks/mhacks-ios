@@ -12,8 +12,11 @@ final class FloorCell: UICollectionViewCell {
     
     @IBOutlet var imageView: UIImageView!
     
-    /*override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard super.point(inside: point, with: event)
+        else { return false }
         
-        return super.point(inside: point, with: event)
-    }*/
+        return alphaFromPoint(point: point) >= 0.8
+    }
 }
+

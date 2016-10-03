@@ -83,3 +83,29 @@ extension UIColor
 		return UIColor.gray
 	}
 }
+
+// MARK: Custom hit testing
+extension UIView
+{
+	
+	/// This beauty allows us to test whether a point in a view is actually transparent or not which means we can test for hit testing by what the user sees rather than the bounding box we would otherwise be restricted to
+	///
+	/// - Parameter point: The point in the view's space. This will get inverted during computation to convert to the view's bounds. Don't do any computation on the point you have, we do it here.
+	/// - Returns: The alpha value for the view you call this function on with a bound of [0, 1.0] where 1.0 means maximum alpha.
+	func alphaFromPoint(point: CGPoint) -> CGFloat {
+		// Pixel information for point
+		var pixel: [UInt8] = [0, 0, 0, 0]
+		
+		// Create an offscreen context to draw into so that we can fetch the pixel's information
+		let context = CGContext(data: &pixel, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue).rawValue)
+		// Translation into context's space
+		context!.translateBy(x: -point.x, y: -point.y);
+		
+		// Render the view into the context so that the pixel's data gets filled
+		layer.render(in: context!)
+		
+		// Now the alpha is the last component inside pixel, the rest are rgb as you probably guessed.
+		// Also, normalize alpha by dividing by 255.0
+		return CGFloat(pixel[3]) / 255.0
+	}
+}
