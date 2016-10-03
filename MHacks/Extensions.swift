@@ -46,6 +46,8 @@ let groupName = "group.com.MPowered.MHacks"
 let defaults = UserDefaults(suiteName: groupName)!
 let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupName)!.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true)
 
+let cacheContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupName)!.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Caches", isDirectory: true)
+
 // MARK: - Keys for User Defaults
 
 let remoteNotificationTokenKey = "remote_notification_token"

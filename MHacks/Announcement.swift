@@ -12,15 +12,14 @@ struct Announcement: SerializableElementWithIdentifier {
 	
 	struct Category : OptionSet, CustomStringConvertible {
 		let rawValue : Int
-		static let None = Category(rawValue: 0 << 0)
-		static let Emergency = Category(rawValue: 1 << 0)
-		static let Logistics = Category(rawValue: 1 << 1)
-		static let Food = Category(rawValue: 1 << 2)
-		static let Swag = Category(rawValue: 1 << 3)
-		static let Sponsor = Category(rawValue: 1 << 4)
-		static let Other = Category(rawValue: 1 << 5)
+		static let none = Category(rawValue: 0 << 0)
+		static let emergency = Category(rawValue: 1 << 0)
+		static let logistics = Category(rawValue: 1 << 1)
+		static let food = Category(rawValue: 1 << 2)
+		static let events = Category(rawValue: 1 << 3)
+		static let sponsor = Category(rawValue: 1 << 4)
 		
-		static let maxBit = 5
+		static let maxBit = 4
 		var description: String {
 			var categories = [String]()
 			for i in 0...Category.maxBit
@@ -29,7 +28,7 @@ struct Announcement: SerializableElementWithIdentifier {
 				else {
 					continue
 				}
-				categories.append( {
+				categories.append({
 					switch i
 					{
 					case 0:
@@ -39,11 +38,9 @@ struct Announcement: SerializableElementWithIdentifier {
 					case 2:
 						return "Food"
 					case 3:
-						return "Swag"
+						return "Events"
 					case 4:
 						return "Sponsor"
-					case 5:
-						return "Other"
 					default:
 						fatalError("Unrecognized category \(i)")
 					}
@@ -87,7 +84,7 @@ struct Announcement: SerializableElementWithIdentifier {
 	var category: Category
 	var approved: Bool
 	var isSponsored: Bool {
-		return self.category.contains(Announcement.Category.Sponsor)
+		return self.category.contains(Announcement.Category.sponsor)
 	}
 		
 	static private let todayDateFormatter: DateFormatter = {

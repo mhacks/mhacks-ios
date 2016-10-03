@@ -57,17 +57,17 @@ final class Floor: SerializableElementWithIdentifier
             return
         }
         
-        let task = URLSession.shared.downloadTask(with: URL) { fileURL, response, error in
-            guard error == nil, let fileURL = fileURL
+        let task = URLSession.shared.dataTask(with: URL) { data, response, error in
+            guard error == nil, let data = data
             else {
                 NotificationCenter.default.post(name: APIManager.FailureNotification, object: error?.localizedDescription ?? "Failed to download floor \(self.name)")
                 return
             }
             
-            let newFileLocation = container.appendingPathComponent(URL.lastPathComponent)
+            let newFileLocation = cacheContainer.appendingPathComponent(URL.lastPathComponent)
             _ = try? FileManager.default.removeItem(at: newFileLocation)
             do {
-                try FileManager.default.copyItem(at: fileURL, to: newFileLocation)
+                try data.write(to: newFileLocation)
                 self.fileLocation = newFileLocation.path
                 if let image = self.imageFromFileLocation()
                 {

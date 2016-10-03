@@ -13,37 +13,34 @@ import UIKit
 final class Event: SerializableElementWithIdentifier {
  
 	enum Category: Int, CustomStringConvertible {
-		case logisitics = 0
-		case social = 1
-		case food = 2
-		case techTalk = 3
-		case other = 4
+		case general = 0, logisitics, food, learn, social
+		
 		var color: UIColor {
 			switch self {
+			case .general:
+				return UIColor(red: 100.0 / 255.0, green: 100.0 / 255.0, blue: 100.0 / 255.0, alpha: 1.0)
 			case .logisitics:
 				return UIColor(red: 056.0/255.0, green: 093.0/255.0, blue: 214.0/255.0, alpha: 1.0)
-			case .social:
-				return UIColor(red: 226.0/255.0, green: 048.0/255.0, blue: 082.0/255.0, alpha: 1.0)
 			case .food:
 				return UIColor(red: 255.0/255.0, green: 202.0/255.0, blue: 011.0/255.0, alpha: 1.0)
-			case .techTalk:
+			case .learn:
 				return UIColor(red: 168.0/255.0, green: 110.0/255.0, blue: 219.0/255.0, alpha: 1.0)
-			case .other:
-				return UIColor(red: 247.0/255.0, green: 139.0/255.0, blue: 049.0/255.0, alpha: 1.0)
+			case .social:
+				return UIColor(red: 226.0/255.0, green: 048.0/255.0, blue: 082.0/255.0, alpha: 1.0)
 			}
 		}
 		var description : String {
 			switch self {
+			case .general:
+				return "General"
 			case .logisitics:
 				return "Logisitics"
-			case .social:
-				return "Social"
 			case .food:
 				return "Food"
-			case .techTalk:
-				return "Tech Talk"
-			case .other:
-				return "Other"
+			case .learn:
+				return "Learn"
+			case .social:
+				return "Social"
 			}
 		}
 	}

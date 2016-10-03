@@ -109,14 +109,14 @@ class AnnouncementsViewController: UITableViewController {
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 
 		cell.selectionStyle = .none
-        cell.titleLabel.text = announcement.title
-        cell.dateLabel.text = announcement.localizedDate
-        cell.messageTextView.text = announcement.message
+        cell.title.text = announcement.title
+        cell.date.text = announcement.localizedDate
+        cell.message.text = announcement.message
 		
 		cell.colorView.backgroundColor = announcement.category.color
 
-		cell.sponsoredTextView.isHidden = !announcement.isSponsored
-		cell.unapprovedTextView.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements ? false : true
+		cell.sponsored.isHidden = !announcement.isSponsored
+		cell.unapproved.isHidden = !announcement.approved && APIManager.shared.canEditAnnouncements ? false : true
 
         return cell
     }

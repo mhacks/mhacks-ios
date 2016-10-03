@@ -213,7 +213,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
             
             var categoryRawValue = currentCategory?.rawValue ?? 0
             if (sponsorCell.accessoryView as? UISwitch)?.isOn ?? false {
-                categoryRawValue += Announcement.Category.Sponsor.rawValue
+                categoryRawValue += Announcement.Category.sponsor.rawValue
             }
             
             let announcement = Announcement(ID: editingAnnouncement?.ID ?? "", title: title, message: info, date: dateCell.datePicker.date, category: Announcement.Category(rawValue: categoryRawValue), approved: editingAnnouncement?.approved ?? false)

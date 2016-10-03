@@ -12,12 +12,12 @@ class AnnouncementCell: UITableViewCell {
 
     // MARK: Outlets
 
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var messageTextView: UITextView!
+    @IBOutlet var title: UILabel!
+    @IBOutlet var date: UILabel!
+    @IBOutlet var message: UITextView!
 	@IBOutlet var colorView: UIView!
-	@IBOutlet var sponsoredTextView: UITextView!
-	@IBOutlet var unapprovedTextView: UITextView!
+	@IBOutlet var sponsored: UILabel!
+	@IBOutlet var unapproved: UILabel!
 
     // MARK: Life cycle
 
@@ -26,13 +26,13 @@ class AnnouncementCell: UITableViewCell {
 
 		colorView?.layer.cornerRadius = 1.0
 
-		messageTextView?.textContainer.lineFragmentPadding = 0
-		messageTextView?.textContainerInset = .zero
+		message?.textContainer.lineFragmentPadding = 0
+		message?.textContainerInset = .zero
 
-		sponsoredTextView?.layer.cornerRadius = 4.0
-		sponsoredTextView?.textContainerInset = .zero
-
-		unapprovedTextView?.layer.cornerRadius = 4.0
-		unapprovedTextView?.textContainerInset = .zero
+		sponsored?.layer.cornerRadius = 4.0
+		sponsored?.clipsToBounds = true
+		
+		unapproved?.layer.cornerRadius = 4.0
+		unapproved?.clipsToBounds = true
     }
 }
