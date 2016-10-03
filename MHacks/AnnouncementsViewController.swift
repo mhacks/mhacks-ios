@@ -105,14 +105,13 @@ class AnnouncementsViewController: UITableViewController {
     }
 	
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		
         let cell = tableView.dequeueReusableCell(withIdentifier: "Announcement Cell", for: indexPath) as! AnnouncementCell
-
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
 
+		cell.selectionStyle = .none
         cell.titleLabel.text = announcement.title
         cell.dateLabel.text = announcement.localizedDate
-        cell.messageLabel.text = announcement.message
+        cell.messageTextView.text = announcement.message
 		
 		cell.colorView.backgroundColor = announcement.category.color
 
@@ -121,26 +120,20 @@ class AnnouncementsViewController: UITableViewController {
 
         return cell
     }
-	
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		if APIManager.shared.canEditAnnouncements {
-			let compose = storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementNavigationController") as! UINavigationController
-			(compose.topViewController as? ComposeAnnouncementTableViewController)?.editingAnnouncement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
-			present(compose, animated: true, completion: nil)
-		}
-		else {
-			tableView.deselectRow(at: indexPath, animated: true)
-		}
-	}
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return APIManager.shared.canEditAnnouncements
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-		#if DEBUG
-			print(APIManager.shared.announcements[indexPath.row])
-		#endif
+		let edit = UITableViewRowAction(style: .default, title: "Edit") { action, index in
+			let compose = self.storyboard!.instantiateViewController(withIdentifier: "ComposeAnnouncementNavigationController") as! UINavigationController
+			(compose.topViewController as? ComposeAnnouncementTableViewController)?.editingAnnouncement = APIManager.shared.announcements[indexPath.row]
+			self.present(compose, animated: true, completion: nil)
+		}
+		
+		edit.backgroundColor = UIColor(red: 108/255, green: 122/255, blue: 137/255, alpha: 1.0)
+		
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)
             confirm.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
@@ -166,9 +159,9 @@ class AnnouncementsViewController: UITableViewController {
 			
 			approve.backgroundColor = UIColor(red: 27/255, green: 188/255, blue: 155/255, alpha: 1.0)
 			
-			return [approve, delete]
+			return [approve, delete, edit]
 		}
         
-        return [delete]
+        return [delete, edit]
     }
 }

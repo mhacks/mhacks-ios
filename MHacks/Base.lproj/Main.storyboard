@@ -24,7 +24,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="38" y="0.0" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
@@ -260,16 +260,16 @@
         <scene sceneID="Efb-xw-Rfz">
             <objects>
                 <tableViewController title="News" id="NV6-fG-79i" customClass="AnnouncementsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="261" sectionHeaderHeight="28" sectionFooterHeight="28" id="2WC-rc-iEm">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="195" sectionHeaderHeight="28" sectionFooterHeight="28" id="2WC-rc-iEm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Announcement Cell" rowHeight="261" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="375" height="261"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Announcement Cell" rowHeight="195" id="7Pa-B2-ywx" customClass="AnnouncementCell" customModule="MHacks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="375" height="195"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Pa-B2-ywx" id="OQs-WU-F2p">
-                                    <frame key="frameInset" width="375" height="261"/>
+                                    <frame key="frameInset" width="375" height="195"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a">
@@ -294,18 +294,18 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcW-Nt-J46" customClass="MultilineLabel" customModule="MHacks" customModuleProvider="target">
-                                                    <string key="text">Description lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis gravida sit amet lacus at rhoncus. Pellentesque tortor quam, tempor vitae nunc eget, semper augue. Maecenas vulputate</string>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oZp-9b-vxB">
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
+                                                </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7Z-l8-gNC">
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-rr-sZI">
                                                             <subviews>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="SPONSORED" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QWZ-7a-vgD">
-                                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="backgroundColor" red="0.55510944128036499" green="0.61587482690811157" blue="0.62033778429031372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -332,17 +332,17 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Gub-h2-czG" secondAttribute="trailing" constant="15" id="0O8-hO-g9u"/>
                                         <constraint firstItem="Gub-h2-czG" firstAttribute="leading" secondItem="hQ7-2n-g8a" secondAttribute="trailing" constant="13" id="1IE-y7-ubX"/>
-                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="bottom" secondItem="fcW-Nt-J46" secondAttribute="bottom" constant="-4" id="KJK-g8-7ZQ"/>
                                         <constraint firstItem="Gub-h2-czG" firstAttribute="top" secondItem="OQs-WU-F2p" secondAttribute="top" constant="15" id="clH-qw-XyU"/>
-                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="top" secondItem="fcW-Nt-J46" secondAttribute="top" constant="4" id="hqU-QP-guE"/>
                                         <constraint firstItem="hQ7-2n-g8a" firstAttribute="leading" secondItem="OQs-WU-F2p" secondAttribute="leading" constant="15" id="lOD-CW-AQa"/>
+                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="top" secondItem="oZp-9b-vxB" secondAttribute="top" id="rKu-s4-Tf6"/>
+                                        <constraint firstItem="hQ7-2n-g8a" firstAttribute="bottom" secondItem="oZp-9b-vxB" secondAttribute="bottom" id="tfh-vJ-JVE"/>
                                         <constraint firstAttribute="bottom" secondItem="Gub-h2-czG" secondAttribute="bottom" constant="30" id="yrX-qJ-rcw"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="colorView" destination="hQ7-2n-g8a" id="2cE-9d-69g"/>
                                     <outlet property="dateLabel" destination="gVc-xy-de2" id="fIP-nb-SYW"/>
-                                    <outlet property="messageLabel" destination="fcW-Nt-J46" id="RLa-sf-Kfj"/>
+                                    <outlet property="messageTextView" destination="oZp-9b-vxB" id="tzl-5X-Gdq"/>
                                     <outlet property="sponsoredTextView" destination="QWZ-7a-vgD" id="DCs-bv-SdN"/>
                                     <outlet property="titleLabel" destination="XYO-bj-4DQ" id="Xni-10-wKA"/>
                                     <outlet property="unapprovedTextView" destination="z57-as-iu8" id="1pC-rD-WVl"/>
@@ -364,7 +364,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jof-wQ-jCs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1166" y="806"/>
+            <point key="canvasLocation" x="1165.5999999999999" y="805.54722638680664"/>
         </scene>
         <!--User View Controller-->
         <scene sceneID="xWe-hg-BwP">

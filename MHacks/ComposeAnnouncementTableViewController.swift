@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ComposeAnnouncementTableViewController: UITableViewController, UITextFieldDelegate {
+class ComposeAnnouncementTableViewController: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
 
     // MARK: Views
     
@@ -21,14 +21,17 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     var currentCategory: Announcement.Category? {
         didSet {
             if let oldCategory = oldValue {
-                let oldIndexPath = IndexPath(row: oldCategory.rawValue, section: Section.category.rawValue)
+                let oldIndexPath = IndexPath(row: Int(log2(Double(oldCategory.rawValue))), section: Section.category.rawValue)
                 tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
             }
             
-            if oldValue == currentCategory { return }
+            if oldValue == currentCategory {
+                currentCategory = nil
+                return
+            }
             
             if let newCategory = currentCategory {
-                let newIndexPath = IndexPath(row: newCategory.rawValue, section: Section.category.rawValue)
+                let newIndexPath = IndexPath(row: Int(log2(Double(newCategory.rawValue))), section: Section.category.rawValue)
                 tableView.cellForRow(at: newIndexPath)?.accessoryType = .checkmark
             }
         }
@@ -79,29 +82,34 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         infoCell.inputTextView.autocapitalizationType = .sentences
         infoCell.inputTextView.font = UIFont.preferredFont(forTextStyle: .body)
         infoCell.inputTextView.isScrollEnabled = false
+        infoCell.inputTextView.delegate = self
         infoCell.selectionStyle = .none
         
         /// Date Picker Cell
-        dateCell.datePicker.minimumDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
-        dateCell.datePicker.maximumDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
+        let minDate = APIManager.shared.countdown.startDate.addingTimeInterval(-36000)
+        let maxDate = APIManager.shared.countdown.endDate.addingTimeInterval(36000)
         
-        dateCell.datePicker.date = editingAnnouncement?.date ?? Date()
+        dateCell.datePicker.minimumDate = minDate
+        dateCell.datePicker.maximumDate = maxDate
+        
+        dateCell.datePicker.date = editingAnnouncement?.date ?? min(max(minDate, Date()), maxDate)
         dateCell.datePicker.sendActions(for: .valueChanged)
         
         dateCell.selectionStyle = .none
         
         /// Category Cells
-        for index in 0..<Announcement.Category.maxBit {
+        for index in 0..<Announcement.Category.maxBit - 1 {
             let cell = UITableViewCell()
             let category = Announcement.Category(rawValue: 1 << index)
             
-            if editingAnnouncement?.category.contains(category) ?? false {
-                currentCategory = category
-            }
-            
-            cell.accessoryType = currentCategory == category ? .checkmark : .none
             cell.textLabel?.text = category.description
             cell.selectionStyle = .none
+            cell.accessoryType = .none
+            
+            if editingAnnouncement?.category.contains(category) ?? false {
+                currentCategory = category
+                cell.accessoryType = .checkmark
+            }
             
             categoryCells.append(cell)
         }
@@ -167,7 +175,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
             dateCell.expanded = !dateCell.expanded
             tableView.endUpdates()
         } else if section == .category {
-            currentCategory = Announcement.Category(rawValue: indexPath.row)
+            currentCategory = Announcement.Category(rawValue: 1 << indexPath.row)
         } else if section == .title {
             titleCell.becomeFirstResponder()
         } else if section == .info {
@@ -194,7 +202,6 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     // MARK: Actions
     
     @IBAction func save(_ sender: UIBarButtonItem) {
-        
         if let title = titleCell.inputTextField.text, let info = infoCell.inputTextView.text {
             
             if title.isEmpty || info.isEmpty {
