@@ -60,23 +60,23 @@ extension UIColor
 {
 	static var mhacksBlue: UIColor
 	{
-		return UIColor(red: 0.0, green: 188.0 / 255.0, blue: 212.0 / 255.0, alpha: 1.0)
+		return UIColor(red: 0.0 / 255.0, green: 188.0 / 255.0, blue: 212.0 / 255.0, alpha: 1.0)
 	}
 	static var mhacksRed: UIColor
 	{
-			return UIColor.red
+		return UIColor.red
 	}
 	static var mhacksYellow: UIColor
 	{
-		return UIColor.yellow
+		return UIColor(red: 255.0 / 255.0, green: 202.0 / 255.0, blue: 11.0 / 255.0, alpha: 1.0)
 	}
 	static var mhacksOrange: UIColor
 	{
-		return UIColor.orange
+		return UIColor(red: 247.0 / 255.0, green: 139.0 / 255.0, blue: 49.0 / 255.0, alpha: 1.0)
 	}
 	static var mhacksPurple: UIColor
 	{
-		return UIColor.purple
+		return UIColor(red: 168.0 / 255.0, green: 110.0 / 255.0, blue: 219.0 / 255.0, alpha: 1.0)
 	}
 	static var mhacksPlain: UIColor
 	{
