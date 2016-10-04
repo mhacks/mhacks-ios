@@ -1075,7 +1075,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1103,7 +1103,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1126,6 +1126,7 @@
 				8243F6961DA35EF400B9D929 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8243F6991DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch" */ = {
 			isa = XCConfigurationList;
@@ -1134,6 +1135,7 @@
 				8243F6941DA35EF400B9D929 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82473F9D1C1F7A170061FFFB /* Build configuration list for PBXProject "MHacks" */ = {
 			isa = XCConfigurationList;
