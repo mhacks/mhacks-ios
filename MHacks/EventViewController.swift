@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventViewController: UIViewController {
+class EventViewController: UIViewController, UICollectionViewDataSource, FloorLayoutDelegate {
     
     // MARK: Model
     
@@ -31,16 +31,55 @@ class EventViewController: UIViewController {
     
     // MARK: Views
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subtitleLabel: UILabel!
-    @IBOutlet weak var colorView: CircleView!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var subtitleLabel: UILabel!
+    @IBOutlet var colorView: CircleView!
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
+	
+	@IBOutlet var locationsView: UIStackView!
+	
+	@IBOutlet var floorsView: UICollectionView!
+	@IBOutlet var floorLayout: FloorLayout!
+	
+	final class DoubleLabel: UIStackView {
+		
+		init() {
+			super.init(frame: CGRect.zero)
+			
+			addArrangedSubview(titleLabel)
+			addArrangedSubview(textLabel)
+			
+			axis = .horizontal
+			spacing = 5.0
+			
+			titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
+			textLabel.font = UIFont.preferredFont(forTextStyle: .body)
+			
+			titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow + 1, for: .horizontal)
+			
+			textLabel.textColor = UIColor(white: 0.5, alpha: 1.0)
+		}
+		
+		required init(coder: NSCoder) {
+			fatalError("init(coder:) has not been implemented")
+		}
+		
+		let titleLabel = UILabel()
+		let textLabel = UILabel()
+	}
 	
 	// MARK: View life cycle
 	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		floorsView.register(UINib(nibName: "FloorDescription", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Description.rawValue, withReuseIdentifier: "Description View")
+		floorsView.register(UINib(nibName: "FloorLabel", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Label.rawValue, withReuseIdentifier: "Label View")
+		
+		floorLayout.explodesFromFirstPromotedItem = false
+		floorLayout.sectionInsets = UIEdgeInsets(top: 10.0, left: 40.0, bottom: 10.0, right: 40.0)
+		floorLayout.labelInset = -32.0
 		
 		updateViews()
     }
@@ -66,6 +105,8 @@ class EventViewController: UIViewController {
 		updateViews()
 	}
 	
+	// MARK: Update views
+	
     func updateViews() {
         
         if !isViewLoaded {
@@ -77,12 +118,117 @@ class EventViewController: UIViewController {
 		}
 		
         titleLabel.text = event.name
-		subtitleLabel.text = event.category.description + " | " + event.locationsDescription
+		subtitleLabel.text = event.category.description
+		subtitleLabel.textColor = event.category.color
 		colorView.fillColor = event.category.color
 		descriptionLabel.text = event.information
 		dateLabel.text = dateIntervalFormatter.string(from: event.startDate, to: event.endDate)
 		
-		// TODO: Put images in floor view
+		for subview in locationsView.arrangedSubviews {
+			subview.removeFromSuperview()
+		}
+		
+		for location in event.locations {
+			
+			let locationLabel = DoubleLabel()
+			
+			if let floor = location.floor {
+				
+				locationLabel.titleLabel.text = floor.name
+				locationLabel.textLabel.text = location.name
+				
+			} else {
+				
+				locationLabel.titleLabel.text = location.name
+				locationLabel.textLabel.text = nil
+			}
+			
+			locationsView.addArrangedSubview(locationLabel)
+		}
+		
+		var prominentFloors = IndexSet()
+		
+		for location in event.locations {
+			
+			if let floor = location.floor, let index = APIManager.shared.floors.index(of: floor) {
+				prominentFloors.insert(index)
+			}
+		}
+		
+		floorsView.isHidden = prominentFloors.isEmpty
+		
+		floorLayout.promotedItems = prominentFloors
     }
-	    
+	
+	// MARK: Collection view data source
+	
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return APIManager.shared.floors.count
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		
+		let floorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Floor Cell", for: indexPath) as! FloorCell
+		
+		let floor = APIManager.shared.floors[indexPath.item]
+		
+		floorCell.imageView.alpha = 0.0
+		
+		floor.retrieveImage { image in
+			DispatchQueue.main.async {
+				
+				if collectionView.indexPath(for: floorCell) == indexPath {
+					floorCell.imageView.image = image
+					
+					UIView.animate(withDuration: 0.15) {
+						floorCell.imageView.alpha = 1.0
+					}
+				}
+			}
+		}
+		
+		return floorCell
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		
+		let floor = APIManager.shared.floors[indexPath.item]
+		
+		let view: UICollectionReusableView
+		
+		switch FloorLayout.SupplementaryViewKind(rawValue: kind)! {
+			
+		case .Description:
+			
+			let descriptionView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Description View", for: indexPath) as! FloorDescriptionView
+			
+			descriptionView.label.text = floor.description
+			
+			view = descriptionView
+			
+		case .Label:
+			
+			let labelView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Label View", for: indexPath) as! FloorLabelView
+			
+			if floor.name.isEmpty {
+				labelView.label.text = nil
+			} else {
+				labelView.label.text = String(floor.name.characters[floor.name.startIndex])
+			}
+			
+			view = labelView
+		}
+		
+		return view
+	}
+	
+	// MARK: Floor layout delegate
+	
+	func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, offsetFractionForItemAt indexPath: IndexPath) -> CGFloat {
+		return CGFloat(APIManager.shared.floors[indexPath.item].offsetFraction)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, aspectRatioForItemAt indexPath: IndexPath) -> CGFloat {
+		return CGFloat(APIManager.shared.floors[indexPath.item].aspectRatio)
+	}
 }

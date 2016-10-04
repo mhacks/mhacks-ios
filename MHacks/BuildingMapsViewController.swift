@@ -54,7 +54,12 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
         
         collectionView.performBatchUpdates({
             
-            self.floorLayout.promotedItem = promotedFloor
+            if let promotedFloor = promotedFloor {
+                self.floorLayout.promotedItems = [promotedFloor]
+            } else {
+                self.floorLayout.promotedItems = []
+            }
+            
             self.collectionView.layoutIfNeeded()
             
         }, completion: nil)
@@ -85,6 +90,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
                     UIView.animate(withDuration: 0.15, delay: TimeInterval(offsetFromBottom) * 0.05, options: [], animations: {
                         floorCell.imageView.alpha = 1.0
                     }, completion: nil)
+
                 }
             }
         }
@@ -112,7 +118,11 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
             
             let labelView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Label View", for: indexPath) as! FloorLabelView
             
-            labelView.label.text = floor.name
+            if floor.name.isEmpty {
+                labelView.label.text = nil
+            } else {
+                labelView.label.text = String(floor.name.characters[floor.name.startIndex])
+            }
             
             view = labelView
         }
@@ -124,7 +134,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        updatePromotedFloor((floorLayout.promotedItem == nil) ? indexPath.item : nil)
+        updatePromotedFloor(floorLayout.promotedItems.isEmpty ? indexPath.item : nil)
     }
     
     // MARK: Floor layout delegate

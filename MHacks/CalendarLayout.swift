@@ -141,7 +141,7 @@ class CalendarLayout: UICollectionViewLayout {
                 let cellRect = UIEdgeInsetsInsetRect(columnRect, self.cellInsets)
                 
                 layoutAttributes.frame = cellRect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
-                layoutAttributes.zIndex = (indexPath as NSIndexPath).item
+                layoutAttributes.zIndex = indexPath.item
                 
                 return layoutAttributes
             }
@@ -191,11 +191,11 @@ class CalendarLayout: UICollectionViewLayout {
         case .Header:
             let headerOffset = min(max(collectionView!.contentInset.top + collectionView!.bounds.origin.y, heightForSections(0..<(indexPath as NSIndexPath).section)), heightForSections(0..<(indexPath as NSIndexPath).section + 1) - headerHeight)
             layoutAttributes.frame = CGRect(x: 0.0, y: headerOffset, width: contentSize.width, height: headerHeight)
-            layoutAttributes.zIndex = Int.max
+            layoutAttributes.zIndex = Int.max - 3
             
         case .Separator:
             layoutAttributes.frame = CGRect(x: 0.0, y: sectionOffset + headerHeight + CGFloat((indexPath as NSIndexPath).item) * rowHeight - separatorHeight / 2.0, width: contentSize.width, height: separatorHeight)
-            layoutAttributes.zIndex = -2
+            layoutAttributes.zIndex = -1
 			
 		case .NowIndicator:
 			
@@ -207,7 +207,7 @@ class CalendarLayout: UICollectionViewLayout {
 			let sectionOffset = heightForSections(0..<nowIndicatorPosition.section)
 			
 			layoutAttributes.frame = CGRect(x: 0.0, y: sectionOffset + headerHeight + CGFloat(nowIndicatorPosition.row) * rowHeight - separatorHeight / 2.0, width: contentSize.width, height: separatorHeight)
-			layoutAttributes.zIndex = -1
+			layoutAttributes.zIndex = Int.max - 2
 			
 		case .NowLabel:
 			

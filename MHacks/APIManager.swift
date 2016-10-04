@@ -283,7 +283,19 @@ final class APIManager
 	// MARK: - Location
 	let locations = MHacksArray<Location>()
 	func updateLocations(_ callback: CoalescedCallbacks.Callback? = nil) {
-		updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: locations)
+		updateFloors { succeeded in
+			guard succeeded
+				else
+			{
+				if let callback = callback
+				{
+					self.events.coalescer.registerCallback(callback)
+				}
+				self.events.coalescer.fire(false)
+				return
+			}
+			self.updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: self.locations)
+		}
 	}
 	
 	

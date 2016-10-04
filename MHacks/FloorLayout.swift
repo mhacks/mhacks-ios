@@ -21,7 +21,25 @@ final class FloorLayout: UICollectionViewLayout {
         case Label = "Label"
     }
     
-    var promotedItem: Int? = nil {
+    var promotedItems = IndexSet() {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var explodesFromFirstPromotedItem = true {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0) {
+        didSet {
+            invalidateLayout()
+        }
+    }
+    
+    var labelInset: CGFloat = 15.0 {
         didSet {
             invalidateLayout()
         }
@@ -35,8 +53,6 @@ final class FloorLayout: UICollectionViewLayout {
     
     private var offsetFractions = [CGFloat]()
     private var aspectRatios = [CGFloat]()
-    
-    let sectionInsets = UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
     
     private var sectionSize: CGSize {
         return CGSize(width: contentSize.width - sectionInsets.left - sectionInsets.left,
@@ -102,7 +118,11 @@ final class FloorLayout: UICollectionViewLayout {
         
         layoutAttributes.frame = CGRect(x: sectionInsets.left, y: sectionInsets.top + sectionSize.height * offsetFraction * verticalCompressionFactor, width: sectionSize.width, height: sectionSize.width / aspectRatio)
         
-        if let promotedItem = promotedItem {
+        if !promotedItems.isEmpty && !promotedItems.contains(indexPath.item) {
+            layoutAttributes.alpha = 0.1
+        }
+        
+        if let promotedItem = promotedItems.first, explodesFromFirstPromotedItem {
             
             if indexPath.item != promotedItem {
                 
@@ -112,8 +132,6 @@ final class FloorLayout: UICollectionViewLayout {
                 let inverseDelta = sign * inverseDistance
                 
                 layoutAttributes.frame.origin.y += CGFloat(inverseDelta) * 20.0
-                
-                layoutAttributes.alpha = 0.1
                 
             } else {
                 
@@ -143,19 +161,19 @@ final class FloorLayout: UICollectionViewLayout {
             layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
             layoutAttributes.frame.origin.y += layoutAttributes.frame.height + 10.0
             
-            layoutAttributes.alpha = (promotedItem == indexPath.item) ? 1.0 : 0.0
+            layoutAttributes.alpha = (promotedItems.contains(indexPath.item) && explodesFromFirstPromotedItem) ? 1.0 : 0.0
             
             layoutAttributes.zIndex = 1
 
         case .Label:
             
             layoutAttributes.frame = layoutAttributesForItem(at: indexPath)!.frame
-            layoutAttributes.frame.origin.x += 15.0
+            layoutAttributes.frame.origin.x += labelInset
             layoutAttributes.frame.origin.y += (layoutAttributes.frame.height - 22.0) * 0.4
             layoutAttributes.frame.size = CGSize(width: 22.0, height: 22.0)
             
-            if let promotedItem = promotedItem, promotedItem != indexPath.item {
-                layoutAttributes.alpha = 0.0
+            if !promotedItems.isEmpty && !promotedItems.contains(indexPath.item) {
+                layoutAttributes.alpha = explodesFromFirstPromotedItem ? 0.0 : 0.2
             }
         }
         
