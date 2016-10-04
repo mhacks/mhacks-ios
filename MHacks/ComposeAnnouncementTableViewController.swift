@@ -18,10 +18,14 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     var categoryCells = [CategoryPickerCell]()
     let sponsorCell = UITableViewCell()
     
+    let categories = Announcement.Category.all.flatMap {
+        return $0.contains(Announcement.Category.sponsor) ? nil : $0
+    }
+    
     var currentCategory: Announcement.Category? {
         didSet {
             if let oldCategory = oldValue {
-                let oldIndexPath = IndexPath(row: Int(log2(Double(oldCategory.rawValue))), section: Section.category.rawValue)
+                let oldIndexPath = IndexPath(row: categories.index(of: oldCategory)!, section: Section.category.rawValue)
                 tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
             }
             
@@ -31,7 +35,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
             }
             
             if let newCategory = currentCategory {
-                let newIndexPath = IndexPath(row: Int(log2(Double(newCategory.rawValue))), section: Section.category.rawValue)
+                let newIndexPath = IndexPath(row: categories.index(of: newCategory)!, section: Section.category.rawValue)
                 tableView.cellForRow(at: newIndexPath)?.accessoryType = .checkmark
             }
         }
@@ -98,10 +102,8 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         dateCell.selectionStyle = .none
         
         /// Category Cells
-        categoryCells = Announcement.Category.all.flatMap {
-            if $0.contains(Announcement.Category.sponsor) {
-                return nil
-            }
+        categoryCells = categories.map {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell") as! CategoryPickerCell
             cell.categoryLabel.text = $0.description
             cell.colorView.fillColor = $0.color
@@ -109,6 +111,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
                 currentCategory = $0
                 cell.accessoryType = .checkmark
             }
+            
             return cell
         }
         
@@ -166,6 +169,9 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     // MARK: UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let section = Section(rawValue: indexPath.section)
         
         if section == .broadcast  {
@@ -173,7 +179,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
             dateCell.expanded = !dateCell.expanded
             tableView.endUpdates()
         } else if section == .category {
-            currentCategory = Announcement.Category(rawValue: 1 << indexPath.row)
+            currentCategory = categories[indexPath.row]
         } else if section == .title {
             titleCell.becomeFirstResponder()
         } else if section == .info {

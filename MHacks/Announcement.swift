@@ -42,16 +42,16 @@ struct Announcement: SerializableElementWithIdentifier {
 		}
 		
 		var color: UIColor {
-			switch self.rawValue {
-			case Category.emergency.rawValue:
+			
+			if contains(.emergency) {
 				return MHacksColor.red
-			case Category.logistics.rawValue:
+			} else if contains(.logistics) {
 				return MHacksColor.orange
-			case Category.food.rawValue:
+			} else if contains(.food) {
 				return MHacksColor.yellow
-			case Category.events.rawValue:
+			} else if contains(.events) {
 				return MHacksColor.blue
-			default:
+			} else {
 				return MHacksColor.plain
 			}
 		}

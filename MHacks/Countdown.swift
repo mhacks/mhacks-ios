@@ -36,11 +36,11 @@ final class Countdown : Serializable, Equatable {
 		let message: String = {
 			if self.roundedCurrentDate > self.startDate
 			{
-				return NSLocalizedString("Hacking started on\n%@.", comment: "Countdown hacking did start")
+				return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
 			}
 			else
 			{
-				return NSLocalizedString("Hacking starts on\n%@.", comment: "Countdown hacking will start")
+				return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
 			}
 		}()
 		
@@ -65,12 +65,12 @@ final class Countdown : Serializable, Equatable {
 			}
 			else
 			{
-				message = NSLocalizedString("Hacking finishes on\n%@.", comment: "Countdown hacking will end")
+				message = NSLocalizedString("Hacking finishes\n%@.", comment: "Countdown hacking will end")
 			}
 		}
 		else
 		{
-			message = NSLocalizedString("Hacking finished on\n%@.", comment: "Countdown hacking did end")
+			message = NSLocalizedString("Hacking finished\n%@.", comment: "Countdown hacking did end")
 		}
 		
 		let dateText = Countdown.dateFormatter.string(from: dateInText)
