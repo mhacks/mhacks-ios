@@ -29,59 +29,59 @@ class EventViewController: UIViewController {
         return formatter
     }()
     
-    // MARK: View
-    
-    @IBOutlet weak var contentView: UIView!
+    // MARK: Views
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
-    @IBOutlet weak var colorView: UIView!
+    @IBOutlet weak var colorView: CircleView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
 	
+	// MARK: View life cycle
+	
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentView.layoutMargins = Geometry.Insets
+		
 		updateViews()
     }
 	
     override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		colorView.layer.cornerRadius = colorView.frame.width / 2
 		
-		// FIXME: Only update if floors cannot be found!
+		NotificationCenter.default.addObserver(self, selector: #selector(floorsUpdated), name: APIManager.FloorsUpdatedNotification, object: nil)
+		
 		APIManager.shared.updateFloors()
-		
-		var frame = contentView.frame.size
-		frame.height += Geometry.Insets.bottom
-		(contentView.superview as! UIScrollView).contentSize = frame
     }
 	
 	override func viewDidDisappear(_ animated: Bool) {
-		NotificationCenter.default.removeObserver(self)
+		super.viewDidDisappear(animated)
+		
+		NotificationCenter.default.removeObserver(self, name: APIManager.FloorsUpdatedNotification, object: nil)
 	}
 	
-	@IBAction func mapWasTapped(_ sender: UITapGestureRecognizer)
-	{
-		// TODO: Switch to map tab?
-	}
+	// MARK: Notifications
 	
+	func floorsUpdated(_ notification: Notification) {
+		
+		updateViews()
+	}
 	
     func updateViews() {
         
         if !isViewLoaded {
             return
         }
-        guard let event = event
-		else {
+		
+        guard let event = event else {
 			return
 		}
+		
         titleLabel.text = event.name
 		subtitleLabel.text = event.category.description + " | " + event.locationsDescription
-		colorView.backgroundColor = event.category.color
-		colorView.layer.cornerRadius = colorView.frame.width / 2
+		colorView.fillColor = event.category.color
 		descriptionLabel.text = event.information
-		dateLabel.text = dateIntervalFormatter.string(from: event.startDate as Date, to: event.endDate as Date)
+		dateLabel.text = dateIntervalFormatter.string(from: event.startDate, to: event.endDate)
+		
 		// TODO: Put images in floor view
     }
 	    
