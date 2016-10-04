@@ -25,7 +25,7 @@ struct Day {
     // Clamps hours to firstDate and lastDate
     init(firstDate: Date, lastDate: Date) {
         
-        let calendar = Calendar.shared
+        let calendar = Calendar.current
 		
         startDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: firstDate)!
 		
@@ -36,7 +36,8 @@ struct Day {
 		self.endDate = endDate
         
         var hours = [Hour(startDate: (calendar as NSCalendar).date(bySettingHour: (calendar as NSCalendar).component(.hour, from: firstDate), minute: 0, second: 0, of: firstDate, options: [])!)]
-        
+
+		// FIXME: Use the swift method instead?
         (calendar as NSCalendar).enumerateDates(startingAfter: firstDate, matching: Hour.Components, options: .matchNextTime) { date, exactMatch, stop in
 			guard let date = date
 			else
@@ -103,7 +104,7 @@ struct Hour {
     
     var endDate: Date {
 		// FIXME: Use swift method instead?
-        return (Calendar.shared as NSCalendar).nextDate(after: startDate, matching: .minute, value: 0, options: .matchNextTime)!
+        return (Calendar.current as NSCalendar).nextDate(after: startDate, matching: .minute, value: 0, options: .matchNextTime)!
     }
     
     var duration: TimeInterval {
@@ -177,7 +178,7 @@ final class EventOrganizer {
         
         // Calendar
         
-        let calendar = Calendar.shared
+        let calendar = Calendar.current
         
         // Get first day
         

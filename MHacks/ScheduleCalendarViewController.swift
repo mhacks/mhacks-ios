@@ -94,7 +94,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	func beginUpdatingNowIndicatorPosition() {
 		
-		let nextSecond = (Calendar.shared as NSCalendar).nextDate(after: Date(), matching: .second, value: 0, options: .matchNextTime)!
+		let nextSecond = (Calendar.current as NSCalendar).nextDate(after: Date(), matching: .second, value: 0, options: .matchNextTime)!
 		
 		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(ScheduleCalendarViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
@@ -116,11 +116,11 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	
 	func updateNowIndicator() {
 		#if DEBUG
-			var components = (Calendar.shared as NSCalendar).components([.hour, .minute, .second], from: Date())
+			var components = (Calendar.current as NSCalendar).components([.hour, .minute, .second], from: Date())
 			components.year = 2016
 			components.month = 10
 			components.day = 8
-			let date = Calendar.shared.date(from: components)!
+			let date = Calendar.current.date(from: components)!
 		#else
 			let date = Date()
 		#endif

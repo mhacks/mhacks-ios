@@ -15,7 +15,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     let titleCell = SinglelineInputTableViewCell(style: .default, reuseIdentifier: nil)
     let infoCell = MultilineInputTableViewCell(style: .default, reuseIdentifier: nil)
     let dateCell = DatePickerCell(style: .default, reuseIdentifier: nil)
-    var categoryCells = [UITableViewCell]()
+    var categoryCells = [CategoryPickerCell]()
     let sponsorCell = UITableViewCell()
     
     var currentCategory: Announcement.Category? {
@@ -98,20 +98,18 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         dateCell.selectionStyle = .none
         
         /// Category Cells
-        for index in 0..<Announcement.Category.maxBit - 1 {
-            let cell = UITableViewCell()
-            let category = Announcement.Category(rawValue: 1 << index)
-            
-            cell.textLabel?.text = category.description
-            cell.selectionStyle = .none
-            cell.accessoryType = .none
-            
-            if editingAnnouncement?.category.contains(category) ?? false {
-                currentCategory = category
+        categoryCells = Announcement.Category.all.flatMap {
+            if $0.contains(Announcement.Category.sponsor) {
+                return nil
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell") as! CategoryPickerCell
+            cell.categoryLabel.text = $0.description
+            cell.colorView.fillColor = $0.color
+            if editingAnnouncement?.category.contains($0) ?? false {
+                currentCategory = $0
                 cell.accessoryType = .checkmark
             }
-            
-            categoryCells.append(cell)
+            return cell
         }
         
         /// Sponsor Cell
@@ -142,7 +140,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if Section(rawValue: section) == .category {
-            return Announcement.Category.maxBit - 1 // ignore sponsored
+            return categoryCells.count
         }
         
         return 1
