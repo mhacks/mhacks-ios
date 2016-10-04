@@ -78,7 +78,7 @@ class CountdownViewController: UIViewController {
 		DispatchQueue.main.async(execute: {
 			
 			if let firstAppearanceDate = self.firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
-				self.progressIndicator.setProgress(APIManager.shared.countdown.progress, animated: true)
+				self.progressIndicator.setProgress(APIManager.shared.countdown.progress(), animated: true)
 			}
 			
 			self.countdownLabel.text = APIManager.shared.countdown.timeRemainingDescription

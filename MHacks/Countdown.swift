@@ -78,16 +78,17 @@ final class Countdown : Serializable, Equatable {
 	}
 	
 	// The current date clipped to the start and end of the event
-	var progressDate: Date {
-		return min(max(Date(), startDate), endDate)
+	
+	func progressDate(for date: Date = Date()) -> Date {
+		return min(max(date, startDate), endDate)
 	}
 	
-	var timeRemaining: TimeInterval {
-		return endDate.timeIntervalSince(progressDate)
+	func timeRemaining(for date: Date = Date()) -> TimeInterval {
+		return endDate.timeIntervalSince(progressDate(for: date))
 	}
 	
 	var roundedTimeRemaining: TimeInterval {
-		return round(timeRemaining)
+		return round(timeRemaining())
 	}
 	
 	var timeRemainingDescription: String {
@@ -106,8 +107,8 @@ final class Countdown : Serializable, Equatable {
 		return UIFont.monospacedDigitSystemFont(ofSize: 120.0, weight: UIFontWeightThin)
 	}()
 	
-	var progress: Double {
-		return 1.0 - timeRemaining / duration
+	func progress(for date: Date = Date()) -> Double {
+		return 1.0 - timeRemaining(for: date) / duration
 	}
 	
 	// MARK: - Helpers
