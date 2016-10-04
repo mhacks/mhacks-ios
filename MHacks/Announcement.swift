@@ -11,13 +11,17 @@ import UIKit
 struct Announcement: SerializableElementWithIdentifier {
 	
 	struct Category : OptionSet, CustomStringConvertible {
+		
 		let rawValue : Int
+		
 		static let none = Category(rawValue: 0 << 0)
 		static let emergency = Category(rawValue: 1 << 0)
 		static let logistics = Category(rawValue: 1 << 1)
 		static let food = Category(rawValue: 1 << 2)
 		static let events = Category(rawValue: 1 << 3)
 		static let sponsor = Category(rawValue: 1 << 4)
+		
+		static let categories: [Category] = [.events, .food, .logistics, .emergency, .sponsor]
 		
 		static let maxBit = 4
 		var description: String {

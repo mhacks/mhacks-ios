@@ -10,7 +10,6 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
-	let announcementCategories = (0...Announcement.Category.maxBit).map { Announcement.Category(rawValue: 1 << $0) }
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
     override func viewDidLoad () {
@@ -37,7 +36,7 @@ class SettingsViewController: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == 0 {
-			return announcementCategories.count
+			return Announcement.Category.categories.count
 		}
 		return 0
 	}
@@ -48,7 +47,7 @@ class SettingsViewController: UITableViewController {
 			fatalError("Did not update code properly")
 		}
 		let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell") as! CategoryCell
-		let category = announcementCategories[(indexPath as NSIndexPath).row]
+		let category = Announcement.Category.categories[(indexPath as NSIndexPath).row]
 		cell.categoryLabel.text = category.description
 		cell.colorView.fillColor = category.color
 		
@@ -65,7 +64,7 @@ class SettingsViewController: UITableViewController {
 	}
 	
 	func switchToggled(sender: UISwitch) {
-		let category = announcementCategories[sender.tag]
+		let category = Announcement.Category.categories[sender.tag]
 		
 		if sender.isOn {
 			currentPreference.insert(category)
