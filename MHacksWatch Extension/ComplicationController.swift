@@ -101,16 +101,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Placeholder Templates
     
     func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-        guard let template = complicationTemplate(for: complication)?.init()
-        else {
-            handler(nil)
-            return
-        }
-        template.ringStyle = .closed
-        template.fillFraction = 0.0
-        template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: type(of: template).imageString)!)
-        template.tintColor = MHacksColor.blue
-        handler(template as? CLKComplicationTemplate)
+        handler(nil)
     }
     
     // MARK: - Helper
