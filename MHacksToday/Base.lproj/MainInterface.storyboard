@@ -66,8 +66,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="colorView" destination="Zgt-7b-id0" id="3WL-x8-atb"/>
-                                            <outlet property="dateLabel" destination="25y-pj-qig" id="SB2-W1-R0v"/>
-                                            <outlet property="titleLabel" destination="tTI-KR-ZVU" id="6rI-6U-ytP"/>
+                                            <outlet property="date" destination="25y-pj-qig" id="k0P-1l-Cmu"/>
+                                            <outlet property="title" destination="tTI-KR-ZVU" id="q1W-D8-aoT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

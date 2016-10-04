@@ -79,11 +79,16 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 	
 	
 	/// Useful if you need to invalidate the cache, if privileges change for example
-	func empty()
+    /// It is not guaranteed that the cache will be invalidated immediately in order to maintain thread safety. 
+    /// However it is guranteed that the cache will eventually be cleared and the function will return immediately.
+	func invalidateElements()
 	{
-		items.removeAll(keepingCapacity: true)
-		sortedKeys.removeAll(keepingCapacity: true)
-		lastUpdated = nil
+        DispatchQueue.global(qos: .utility).async {
+            self.semaphoreGuard.wait()
+            self.items.removeAll(keepingCapacity: true)
+            self.sortedKeys.removeAll(keepingCapacity: true)
+            self.lastUpdated = nil
+        }
 	}
 	
 	// MARK: - Stuff to make this "look" like a regular array

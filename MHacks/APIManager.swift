@@ -112,7 +112,7 @@ final class APIManager
 				{
 					// Invalidate the cache for announcements if the user's permissions changed
 					// This will effectively download all announcements again
-					self.announcements.empty()
+					self.announcements.invalidateElements()
 				}
 				self.authenticator = newAuthenticator
 				completion?(true)
@@ -597,6 +597,7 @@ extension APIManager {
 			DispatchQueue.global(qos: .background).async {
 				self.archive()
 			}
+			self.announcements.invalidateElements()
 			NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 		}
 		task.resume()
@@ -604,6 +605,7 @@ extension APIManager {
 	func logout() {
 		authenticator?.destroyToken()
 		authenticator = nil
+		announcements.invalidateElements()
 		NotificationCenter.default.post(name: APIManager.LoginStateChangedNotification, object: self)
 		updateAPNSToken()
 	}

@@ -23,20 +23,20 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 		tableView.separatorColor = UIColor(white: 1.0, alpha: 0.6)
 		tableView.separatorInset = .zero
     }
-	override func viewWillAppear(_ animated: Bool)
-	{
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		APIManager.shared.updateAnnouncements()
+        APIManager.shared.updateAnnouncements { [weak self] succeeded in
+            self?.tableView.reloadData()
+        }
 		tableView.reloadData()
-		updatePreferredContentSize()
 	}
 
     func widgetPerformUpdate(completionHandler: @escaping (NCUpdateResult) -> Void) {
         APIManager.shared.updateAnnouncements {
             guard $0
-                else {
-                    completionHandler(.noData)
-                    return
+            else {
+                completionHandler(.noData)
+                return
             }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -44,50 +44,41 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             completionHandler(.newData)
         }
 	}
-	
-	func widgetMarginInsets(forProposedMarginInsets defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
-		defer { tableView.setNeedsUpdateConstraints() }
-		return .zero
-	}
-		
-	func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize)
-    {
-        tableView.reloadData()
-        updatePreferredContentSize()
+	func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == .compact
+        {
+            preferredContentSize = maxSize
+        }
+        else
+        {
+             preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.rowHeight * CGFloat(tableView(tableView, numberOfRowsInSection: 0)))
+        }
     }
-	func updatePreferredContentSize()
-	{
-        preferredContentSize = CGSize(width: preferredContentSize.width, height: tableView.rowHeight * CGFloat(tableView(tableView, numberOfRowsInSection: 0)))
-	}
 }
 
-extension TodayViewController: UITableViewDelegate, UITableViewDataSource
-{
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-	{
-		if extensionContext?.widgetActiveDisplayMode == .compact
-        {
-            return min(2, APIManager.shared.announcements.count)
-        }
+extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return min(5, APIManager.shared.announcements.count)
 	}
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-	{
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Announcement Cell", for: indexPath) as! AnnouncementCell
         
         let announcement = APIManager.shared.announcements[(indexPath as NSIndexPath).row]
         
         cell.title.text = announcement.title
         cell.date.text = announcement.localizedDate
-        
+        cell.date.textColor = UIColor.darkGray
         cell.colorView.backgroundColor = announcement.category.color
         
 		return cell
 	}
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-	{
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: false)
 		extensionContext?.open(URL(string: "mhacks://announcements")!, completionHandler: nil)
 	}
 }
 
+extension APIManager {
+    func showNetworkIndicator() {}
+    func hideNetworkIndicator() {}
+}
