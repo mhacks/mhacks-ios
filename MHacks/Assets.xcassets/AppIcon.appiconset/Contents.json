@@ -3,50 +3,104 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_40 px.png",
+      "filename" : "App Icon iOS_App Store 40px.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_60 px.png",
+      "filename" : "App Icon iOS_App Store 60px.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_58 px.png",
+      "filename" : "App Icon iOS_App Store 58px.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_87 px.png",
+      "filename" : "App Icon iOS_App Store 87px.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_80 px.png",
+      "filename" : "App Icon iOS_App Store 80px.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_120 px-1.png",
+      "filename" : "App Icon iOS_App Store 120px.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_120 px.png",
+      "filename" : "App Icon iOS_App Store 120px-1.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "App Icon iOS_180 px.png",
+      "filename" : "App Icon iOS_App Store 180px.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "20x20",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 20px.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "20x20",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 40px-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 29px.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 58px-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 40px-2.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 80px-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 76px.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 152px.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "83.5x83.5",
+      "idiom" : "ipad",
+      "filename" : "App Icon iOS_App Store 167px.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
