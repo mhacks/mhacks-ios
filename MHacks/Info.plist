@@ -32,13 +32,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>9</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Privileged users can use the camera to scan tickets.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>When scanning tickets phones will turn into iBeacons to make tickets appear on the lockscreen of nearby devices.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Privileged users can use the camera to scan tickets.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
