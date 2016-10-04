@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11521.1" systemVersion="16B2333a" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <dependencies>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11517.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11506"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller alwaysBounce="YES" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="MHacks" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="qQM-XH-W43">
+                            <items>
+                                <tableRow identifier="announcementCell" selectable="NO" id="Zue-FQ-E8b" customClass="WatchAnnouncementCell" customModule="MHacksWatch_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="5qK-QA-auf">
+                                        <items>
+                                            <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="2" id="unF-7s-XEf">
+                                                <accessibilityTraits key="accessibilityTraits" none="YES"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                            </label>
+                                            <label width="1" alignment="left" text="Label some really long goes here usually" textAlignment="left" numberOfLines="5" id="evm-W9-WvV">
+                                                <accessibilityTraits key="accessibilityTraits" notEnabled="YES"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                            </label>
+                                            <label width="125" alignment="left" text="Label" id="hQE-vK-g4a">
+                                                <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
+                                                <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                            </label>
+                                        </items>
+                                        <edgeInsets key="margins" left="5" right="5" top="5" bottom="5"/>
+                                    </group>
+                                    <connections>
+                                        <outlet property="dateLabel" destination="hQE-vK-g4a" id="TTw-tJ-bpU"/>
+                                        <outlet property="descriptionLabel" destination="evm-W9-WvV" id="Vmg-KC-1Dk"/>
+                                        <outlet property="titleLabel" destination="unF-7s-XEf" id="8Ro-NP-3Wy"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                    </items>
+                    <connections>
+                        <outlet property="tableView" destination="qQM-XH-W43" id="9iM-Cx-dnn"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="220" y="345"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" numberOfLines="7" id="IdU-wH-bcW"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" id="JfB-70-Muf">
+                        <color key="sashColor" red="0.095800705254077911" green="0.7015644907951355" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </notificationCategory>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="IdU-wH-bcW" id="JKC-fr-R95"/>
+                        <segue destination="4sK-HA-Art" kind="relationship" relationship="dynamicNotificationInterface" id="kXh-Jw-8B1"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="220" y="643"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="ZPc-GJ-vnh">
+            <objects>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="MHacks" customModuleProvider="target">
+                    <items>
+                        <group width="1" alignment="left" layout="vertical" id="8TN-co-qe4">
+                            <items>
+                                <label width="1" alignment="left" text="Label" textAlignment="left" numberOfLines="2" id="FdK-64-0Lt">
+                                    <accessibilityTraits key="accessibilityTraits" none="YES"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                </label>
+                                <label width="1" alignment="left" text="Label some really long goes here usually" textAlignment="left" numberOfLines="5" id="tlV-zL-tuV">
+                                    <accessibilityTraits key="accessibilityTraits" notEnabled="YES"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                </label>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="tlV-zL-tuV" id="nMW-fM-BVT"/>
+                        <outlet property="titleLabel" destination="FdK-64-0Lt" id="IJk-bb-v6G"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="468" y="643"/>
+        </scene>
+    </scenes>
+</document>

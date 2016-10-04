@@ -132,7 +132,7 @@ class AnnouncementsViewController: UITableViewController {
 			self.present(compose, animated: true, completion: nil)
 		}
 		
-		edit.backgroundColor = UIColor.mhacksPlain
+		edit.backgroundColor = MHacksColor.plain
 		
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { action, index in
             let confirm = UIAlertController(title: "Announcement Deletion", message: "This announcement will be deleted from the approval list for all MHacks organizers.", preferredStyle: .alert)

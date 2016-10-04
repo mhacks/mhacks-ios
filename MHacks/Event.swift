@@ -18,15 +18,15 @@ final class Event: SerializableElementWithIdentifier {
 		var color: UIColor {
 			switch self {
 			case .general:
-				return UIColor.mhacksBlue
+				return MHacksColor.blue
 			case .logisitics:
-				return UIColor.mhacksOrange
+				return MHacksColor.orange
 			case .food:
-				return UIColor.mhacksYellow
+				return MHacksColor.yellow
 			case .learn:
-				return UIColor.mhacksPurple
+				return MHacksColor.purple
 			case .social:
-				return UIColor.mhacksRed
+				return MHacksColor.red
 			}
 		}
 		var description : String {

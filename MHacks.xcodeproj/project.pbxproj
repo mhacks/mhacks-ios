@@ -46,6 +46,28 @@
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
 		8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
+		8243F6761DA35EF400B9D929 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8243F6741DA35EF400B9D929 /* Interface.storyboard */; };
+		8243F6781DA35EF400B9D929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8243F6771DA35EF400B9D929 /* Assets.xcassets */; };
+		8243F67F1DA35EF400B9D929 /* MHacksWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8243F6861DA35EF400B9D929 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8243F6851DA35EF400B9D929 /* InterfaceController.swift */; };
+		8243F6881DA35EF400B9D929 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8243F6871DA35EF400B9D929 /* ExtensionDelegate.swift */; };
+		8243F68A1DA35EF400B9D929 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8243F6891DA35EF400B9D929 /* NotificationController.swift */; };
+		8243F68C1DA35EF400B9D929 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8243F68B1DA35EF400B9D929 /* ComplicationController.swift */; };
+		8243F68E1DA35EF400B9D929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8243F68D1DA35EF400B9D929 /* Assets.xcassets */; };
+		8243F6921DA35EF400B9D929 /* MHacks.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8243F6721DA35EF400B9D929 /* MHacks.app */; };
+		8243F69B1DA3648C00B9D929 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
+		8243F69C1DA365A900B9D929 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
+		8243F69D1DA365A900B9D929 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
+		8243F69E1DA365A900B9D929 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
+		8243F69F1DA365A900B9D929 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
+		8243F6A81DA365B300B9D929 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
+		8243F6A91DA365B300B9D929 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
+		8243F6AA1DA365B300B9D929 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
+		8243F6AB1DA365B300B9D929 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
+		8243F6AC1DA365B300B9D929 /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
+		8243F6AD1DA365B300B9D929 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
+		8243F6AE1DA365B300B9D929 /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
+		8243F6AF1DA369A600B9D929 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
 		82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA51C1F7A170061FFFB /* AppDelegate.swift */; };
 		82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA71C1F7A170061FFFB /* LoginViewController.swift */; };
 		82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FA91C1F7A170061FFFB /* CountdownViewController.swift */; };
@@ -93,6 +115,20 @@
 			remoteGlobalIDString = 82287A431C66C3D8001A0F38;
 			remoteInfo = MHacksToday;
 		};
+		8243F6801DA35EF400B9D929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8243F67D1DA35EF400B9D929;
+			remoteInfo = "MHacksWatch Extension";
+		};
+		8243F6901DA35EF400B9D929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8243F6711DA35EF400B9D929;
+			remoteInfo = MHacksWatch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,6 +141,28 @@
 				822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8243F6981DA35EF400B9D929 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8243F67F1DA35EF400B9D929 /* MHacksWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8243F69A1DA35EF400B9D929 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				8243F6921DA35EF400B9D929 /* MHacks.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -142,6 +200,20 @@
 		823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		823E4D321C615EE400F37D0B /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		8240DE631D9C72EA000DD78C /* ScannedDataField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannedDataField.swift; sourceTree = "<group>"; };
+		8243F6721DA35EF400B9D929 /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8243F6751DA35EF400B9D929 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		8243F6771DA35EF400B9D929 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8243F6791DA35EF400B9D929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MHacksWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8243F6841DA35EF400B9D929 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		8243F6851DA35EF400B9D929 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		8243F6871DA35EF400B9D929 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		8243F6891DA35EF400B9D929 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		8243F68B1DA35EF400B9D929 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		8243F68D1DA35EF400B9D929 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8243F68F1DA35EF400B9D929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8243F6B01DA36C7E00B9D929 /* MHacksWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MHacksWatch.entitlements; sourceTree = "<group>"; };
+		8243F6B11DA36C8400B9D929 /* MHacksWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MHacksWatch Extension.entitlements"; sourceTree = "<group>"; };
 		82473FA21C1F7A170061FFFB /* MHacks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHacks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82473FA51C1F7A170061FFFB /* AppDelegate.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FA71C1F7A170061FFFB /* LoginViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -188,6 +260,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8243F67B1DA35EF400B9D929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82473F9F1C1F7A170061FFFB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -217,11 +296,47 @@
 			path = MHacksToday;
 			sourceTree = "<group>";
 		};
+		8243F6731DA35EF400B9D929 /* MHacksWatch */ = {
+			isa = PBXGroup;
+			children = (
+				8243F6B01DA36C7E00B9D929 /* MHacksWatch.entitlements */,
+				8243F6741DA35EF400B9D929 /* Interface.storyboard */,
+				8243F6771DA35EF400B9D929 /* Assets.xcassets */,
+				8243F6791DA35EF400B9D929 /* Info.plist */,
+			);
+			path = MHacksWatch;
+			sourceTree = "<group>";
+		};
+		8243F6821DA35EF400B9D929 /* MHacksWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8243F6B11DA36C8400B9D929 /* MHacksWatch Extension.entitlements */,
+				8243F6851DA35EF400B9D929 /* InterfaceController.swift */,
+				8243F6871DA35EF400B9D929 /* ExtensionDelegate.swift */,
+				8243F6891DA35EF400B9D929 /* NotificationController.swift */,
+				8243F68B1DA35EF400B9D929 /* ComplicationController.swift */,
+				8243F68D1DA35EF400B9D929 /* Assets.xcassets */,
+				8243F68F1DA35EF400B9D929 /* Info.plist */,
+				8243F6831DA35EF400B9D929 /* Supporting Files */,
+			);
+			path = "MHacksWatch Extension";
+			sourceTree = "<group>";
+		};
+		8243F6831DA35EF400B9D929 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8243F6841DA35EF400B9D929 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		82473F991C1F7A170061FFFB = {
 			isa = PBXGroup;
 			children = (
 				82473FA41C1F7A170061FFFB /* MHacks */,
 				82287A471C66C3D8001A0F38 /* MHacksToday */,
+				8243F6731DA35EF400B9D929 /* MHacksWatch */,
+				8243F6821DA35EF400B9D929 /* MHacksWatch Extension */,
 				820C5BF51C29326900CD9F09 /* Frameworks */,
 				82473FA31C1F7A170061FFFB /* Products */,
 			);
@@ -234,6 +349,8 @@
 			children = (
 				82473FA21C1F7A170061FFFB /* MHacks.app */,
 				82287A441C66C3D8001A0F38 /* MHacks.appex */,
+				8243F6721DA35EF400B9D929 /* MHacks.app */,
+				8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,6 +498,40 @@
 			productReference = 82287A441C66C3D8001A0F38 /* MHacks.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		8243F6711DA35EF400B9D929 /* MHacksWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8243F6991DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch" */;
+			buildPhases = (
+				8243F6701DA35EF400B9D929 /* Resources */,
+				8243F6981DA35EF400B9D929 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8243F6811DA35EF400B9D929 /* PBXTargetDependency */,
+			);
+			name = MHacksWatch;
+			productName = MHacksWatch;
+			productReference = 8243F6721DA35EF400B9D929 /* MHacks.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8243F6971DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch Extension" */;
+			buildPhases = (
+				8243F67A1DA35EF400B9D929 /* Sources */,
+				8243F67B1DA35EF400B9D929 /* Frameworks */,
+				8243F67C1DA35EF400B9D929 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MHacksWatch Extension";
+			productName = "MHacksWatch Extension";
+			productReference = 8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		82473FA11C1F7A170061FFFB /* MHacks */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82473FB61C1F7A170061FFFB /* Build configuration list for PBXNativeTarget "MHacks" */;
@@ -389,11 +540,13 @@
 				82473F9F1C1F7A170061FFFB /* Frameworks */,
 				82473FA01C1F7A170061FFFB /* Resources */,
 				82287A541C66C3D8001A0F38 /* Embed App Extensions */,
+				8243F69A1DA35EF400B9D929 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				822896991D9E4B420081A613 /* PBXTargetDependency */,
+				8243F6911DA35EF400B9D929 /* PBXTargetDependency */,
 			);
 			name = MHacks;
 			productName = MHacks;
@@ -406,7 +559,7 @@
 		82473F9A1C1F7A170061FFFB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
@@ -414,6 +567,26 @@
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 478C74MJ7T;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					8243F6711DA35EF400B9D929 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 478C74MJ7T;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					8243F67D1DA35EF400B9D929 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 478C74MJ7T;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -456,6 +629,8 @@
 			targets = (
 				82473FA11C1F7A170061FFFB /* MHacks */,
 				82287A431C66C3D8001A0F38 /* MHacksToday */,
+				8243F6711DA35EF400B9D929 /* MHacksWatch */,
+				8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -466,6 +641,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8243F6701DA35EF400B9D929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8243F6781DA35EF400B9D929 /* Assets.xcassets in Resources */,
+				8243F6761DA35EF400B9D929 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8243F67C1DA35EF400B9D929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8243F68E1DA35EF400B9D929 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +698,30 @@
 				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */,
 				82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8243F67A1DA35EF400B9D929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8243F69F1DA365A900B9D929 /* KeychainWrapper.swift in Sources */,
+				8243F69C1DA365A900B9D929 /* Serializable.swift in Sources */,
+				8243F6AD1DA365B300B9D929 /* ScanEvent.swift in Sources */,
+				8243F68A1DA35EF400B9D929 /* NotificationController.swift in Sources */,
+				8243F68C1DA35EF400B9D929 /* ComplicationController.swift in Sources */,
+				8243F6A91DA365B300B9D929 /* Announcement.swift in Sources */,
+				8243F69D1DA365A900B9D929 /* MHacksArray.swift in Sources */,
+				8243F69B1DA3648C00B9D929 /* APIManager.swift in Sources */,
+				8243F6881DA35EF400B9D929 /* ExtensionDelegate.swift in Sources */,
+				8243F69E1DA365A900B9D929 /* CoalescedCallbacks.swift in Sources */,
+				8243F6861DA35EF400B9D929 /* InterfaceController.swift in Sources */,
+				8243F6AE1DA365B300B9D929 /* ScannedDataField.swift in Sources */,
+				8243F6AC1DA365B300B9D929 /* Floor.swift in Sources */,
+				8243F6AA1DA365B300B9D929 /* Location.swift in Sources */,
+				8243F6AF1DA369A600B9D929 /* Extensions.swift in Sources */,
+				8243F6A81DA365B300B9D929 /* Countdown.swift in Sources */,
+				8243F6AB1DA365B300B9D929 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +790,16 @@
 			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
 			targetProxy = 822896981D9E4B420081A613 /* PBXContainerItemProxy */;
 		};
+		8243F6811DA35EF400B9D929 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */;
+			targetProxy = 8243F6801DA35EF400B9D929 /* PBXContainerItemProxy */;
+		};
+		8243F6911DA35EF400B9D929 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8243F6711DA35EF400B9D929 /* MHacksWatch */;
+			targetProxy = 8243F6901DA35EF400B9D929 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -583,6 +809,14 @@
 				82287A5A1C66C419001A0F38 /* Base */,
 			);
 			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		8243F6741DA35EF400B9D929 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8243F6751DA35EF400B9D929 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		82473FAB1C1F7A170061FFFB /* Main.storyboard */ = {
@@ -631,6 +865,98 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		8243F6931DA35EF400B9D929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				IBSC_MODULE = MHacksWatch_Extension;
+				INFOPLIST_FILE = MHacksWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
+				PRODUCT_NAME = MHacks;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		8243F6941DA35EF400B9D929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				IBSC_MODULE = MHacksWatch_Extension;
+				INFOPLIST_FILE = MHacksWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
+				PRODUCT_NAME = MHacks;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		8243F6951DA35EF400B9D929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		8243F6961DA35EF400B9D929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -792,6 +1118,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8243F6971DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8243F6951DA35EF400B9D929 /* Debug */,
+				8243F6961DA35EF400B9D929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8243F6991DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8243F6931DA35EF400B9D929 /* Debug */,
+				8243F6941DA35EF400B9D929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		82473F9D1C1F7A170061FFFB /* Build configuration list for PBXProject "MHacks" */ = {
 			isa = XCConfigurationList;

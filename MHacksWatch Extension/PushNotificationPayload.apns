@@ -1,0 +1,9 @@
+{
+    "aps": {
+        "alert": {
+            "body": "Test message",
+        },
+    },
+    "category": 2,
+    "title": "Optional title"
+}

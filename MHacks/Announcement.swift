@@ -44,15 +44,15 @@ struct Announcement: SerializableElementWithIdentifier {
 		var color: UIColor {
 			switch self.rawValue {
 			case Category.emergency.rawValue:
-				return UIColor.mhacksRed
+				return MHacksColor.red
 			case Category.logistics.rawValue:
-				return UIColor.mhacksOrange
+				return MHacksColor.orange
 			case Category.food.rawValue:
-				return UIColor.mhacksYellow
+				return MHacksColor.yellow
 			case Category.events.rawValue:
-				return UIColor.mhacksBlue
+				return MHacksColor.blue
 			default:
-				return UIColor.mhacksPlain
+				return MHacksColor.plain
 			}
 		}
 	}
@@ -80,9 +80,13 @@ struct Announcement: SerializableElementWithIdentifier {
 		return formatter;
 	}()
 	
-	var localizedDate: String {
+	static func localizedDate(for date: Date) -> String {
 		let formatter = Calendar.current.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.string(from: date)
+	}
+	
+	var localizedDate: String {
+		return Announcement.localizedDate(for: date)
 	}
 }
 
