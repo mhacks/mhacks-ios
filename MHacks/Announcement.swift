@@ -81,7 +81,7 @@ struct Announcement: SerializableElementWithIdentifier {
 	}()
 	
 	var localizedDate: String {
-		let formatter = Calendar.shared.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
+		let formatter = Calendar.current.isDateInToday(date) ? Announcement.todayDateFormatter : Announcement.otherDayDateFormatter
 		return formatter.string(from: date)
 	}
 }

@@ -53,7 +53,7 @@ class CountdownViewController: UIViewController {
 		
 		updateCountdownViews()
 		// FIXME: Use swift method instead?
-		let nextSecond = (Calendar.shared as NSCalendar).nextDate(after: Date(), matching: .nanosecond, value: 0, options: .matchNextTime)!
+		let nextSecond = (Calendar.current as NSCalendar).nextDate(after: Date(), matching: .nanosecond, value: 0, options: .matchNextTime)!
 		
 		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		

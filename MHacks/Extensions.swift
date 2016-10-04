@@ -32,17 +32,6 @@ extension String {
 	}
 }
 
-// FIXME: Is this lock still necessary? It used to crash without it in earlier versions
-private let calendarLock = NSLock()
-extension Calendar {
-	static var shared: Calendar {
-		calendarLock.lock()
-		defer { calendarLock.unlock() }
-		return Calendar.current
-
-	}
-}
-
 let groupName = "group.com.MPowered.MHacks"
 let defaults = UserDefaults(suiteName: groupName)!
 let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupName)!.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true)
