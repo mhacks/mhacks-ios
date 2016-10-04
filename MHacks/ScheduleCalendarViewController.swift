@@ -25,12 +25,12 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
         let layout = collectionView.collectionViewLayout as! CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 62.0, bottom: 0.0, right: 0.0)
-		
-		APIManager.shared.updateEvents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		
+		eventsOrganizer = EventOrganizer(events: APIManager.shared.events)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)), name: APIManager.EventsUpdatedNotification, object: nil)
 		APIManager.shared.updateEvents()

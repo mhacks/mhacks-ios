@@ -19,4 +19,3 @@ final class FloorCell: UICollectionViewCell {
         return alphaFromPoint(point: point) >= 0.8
     }
 }
-

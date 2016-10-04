@@ -16,6 +16,8 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     @IBOutlet var floorLayout: FloorLayout!
     
+    @IBOutlet var demoteGestureRecognizer: UITapGestureRecognizer!
+    
     // MARK: View life cycle
     
     override func viewDidLoad() {
@@ -44,6 +46,20 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
         collectionView.contentInset = UIEdgeInsets(top: 100.0 + topLayoutGuide.length, left: 0.0, bottom: 100.0 + topLayoutGuide.length, right: 0.0)
     }
     
+    // MARK: Update promoted item
+    
+    func updatePromotedFloor(_ promotedFloor: Int?) {
+        
+        demoteGestureRecognizer.isEnabled = (promotedFloor != nil)
+        
+        collectionView.performBatchUpdates({
+            
+            self.floorLayout.promotedItem = promotedFloor
+            self.collectionView.layoutIfNeeded()
+            
+        }, completion: nil)
+    }
+    
     // MARK: Collection view data source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -56,11 +72,19 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
 
         let floor = APIManager.shared.floors[indexPath.item]
         
+        floorCell.imageView.alpha = 0.0
+        
         floor.retrieveImage { image in
             DispatchQueue.main.async {
                 
                 if collectionView.indexPath(for: floorCell) == indexPath {
                     floorCell.imageView.image = image
+                    
+                    let offsetFromBottom = collectionView.numberOfItems(inSection: 0) - 1 - indexPath.item
+                    
+                    UIView.animate(withDuration: 0.15, delay: TimeInterval(offsetFromBottom) * 0.05, options: [], animations: {
+                        floorCell.imageView.alpha = 1.0
+                    }, completion: nil)
                 }
             }
         }
@@ -100,12 +124,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        collectionView.performBatchUpdates({
-            
-            self.floorLayout.promotedItem = (self.floorLayout.promotedItem == nil) ? indexPath.item : nil
-            self.collectionView.layoutIfNeeded()
-            
-        }, completion: nil)
+        updatePromotedFloor((floorLayout.promotedItem == nil) ? indexPath.item : nil)
     }
     
     // MARK: Floor layout delegate
@@ -116,6 +135,13 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, aspectRatioForItemAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(APIManager.shared.floors[indexPath.item].aspectRatio)
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func demoteFloor() {
+        
+        updatePromotedFloor(nil)
     }
     
     // MARK: Notifications

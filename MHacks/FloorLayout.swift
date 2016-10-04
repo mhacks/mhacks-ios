@@ -113,7 +113,7 @@ final class FloorLayout: UICollectionViewLayout {
                 
                 layoutAttributes.frame.origin.y += CGFloat(inverseDelta) * 20.0
                 
-                layoutAttributes.alpha = 0.0
+                layoutAttributes.alpha = 0.1
                 
             } else {
                 
@@ -145,7 +145,7 @@ final class FloorLayout: UICollectionViewLayout {
             
             layoutAttributes.alpha = (promotedItem == indexPath.item) ? 1.0 : 0.0
             
-            layoutAttributes.zIndex = -collectionView!.numberOfItems(inSection: 0) - indexPath.item
+            layoutAttributes.zIndex = 1
 
         case .Label:
             

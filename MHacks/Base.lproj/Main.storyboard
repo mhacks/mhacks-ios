@@ -24,7 +24,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RrQ-De-3Ye" customClass="CalendarLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EventCell" id="kfx-5F-nII" customClass="ScheduleEventCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
@@ -194,7 +194,7 @@
             </objects>
             <point key="canvasLocation" x="382" y="88"/>
         </scene>
-        <!--Maps-->
+        <!--Masonic Temple-->
         <scene sceneID="1z9-MJ-sXD">
             <objects>
                 <viewController id="9sT-vU-We0" customClass="BuildingMapsViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
@@ -211,7 +211,7 @@
                                 <collectionViewLayout key="collectionViewLayout" id="KzC-6M-j4X" customClass="FloorLayout" customModule="MHacks" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Floor Cell" id="k0n-1y-97x" customClass="FloorCell" customModule="MHacks" customModuleProvider="target">
-                                        <rect key="frame" x="37.5" y="0.0" width="300" height="100"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
@@ -240,20 +240,30 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="yCN-7i-19d" firstAttribute="top" secondItem="Dal-eo-GUe" secondAttribute="top" constant="-100" id="2Xx-9t-ey1"/>
                             <constraint firstAttribute="trailing" secondItem="yCN-7i-19d" secondAttribute="trailing" id="6GK-sD-6vS"/>
                             <constraint firstItem="yCN-7i-19d" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="eRo-wd-L0w"/>
                             <constraint firstAttribute="bottom" secondItem="yCN-7i-19d" secondAttribute="bottom" constant="-100" id="wg1-Tz-iQD"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="qJq-ul-qwk" appends="YES" id="vc9-ri-lA3"/>
+                        </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="Maps" id="TTN-L0-KLy"/>
+                    <navigationItem key="navigationItem" title="Masonic Temple" id="TTN-L0-KLy"/>
                     <connections>
                         <outlet property="collectionView" destination="yCN-7i-19d" id="WfR-oo-B4x"/>
+                        <outlet property="demoteGestureRecognizer" destination="qJq-ul-qwk" id="W9t-we-wbs"/>
                         <outlet property="floorLayout" destination="KzC-6M-j4X" id="glz-v1-4Fs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer enabled="NO" id="qJq-ul-qwk">
+                    <connections>
+                        <action selector="demoteFloor" destination="9sT-vU-We0" id="dih-t7-W25"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1165.5999999999999" y="-707.49625187406298"/>
         </scene>
@@ -273,7 +283,8 @@
                                     <frame key="frameInset" width="375" height="195"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a">
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQ7-2n-g8a">
+                                            <frame key="frameInset" width="1000" height="1000"/>
                                             <color key="backgroundColor" red="0.40000000000000002" green="1" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="2" id="Kfn-Ee-OfF"/>
@@ -303,7 +314,8 @@
                                                 </textView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7Z-l8-gNC">
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-rr-sZI">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3yn-rr-sZI">
+                                                            <frame key="frameInset" width="89" height="118"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" SPONSORED " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hev-oU-pCc">
                                                                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -355,7 +367,7 @@
                             <outlet property="delegate" destination="NV6-fG-79i" id="i47-Fg-8mb"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="News" id="Oud-2x-abZ">
+                    <navigationItem key="navigationItem" title="Announcements" id="Oud-2x-abZ">
                         <barButtonItem key="leftBarButtonItem" image="Settings" id="zwo-n5-FbI">
                             <connections>
                                 <segue destination="6X2-Rl-zZC" kind="presentation" identifier="showAnnouncementSettings" id="3n5-aK-Xbw"/>
