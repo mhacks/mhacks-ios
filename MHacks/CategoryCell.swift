@@ -27,3 +27,10 @@ class CategoryCell : UITableViewCell
 		switchControl.onTintColor = tintColor
 	}
 }
+
+// Same as CategoryCell without the UISwitch()
+class CategoryPickerCell : UITableViewCell
+{
+	@IBOutlet var colorView: CircleView!
+	@IBOutlet var categoryLabel: UILabel!
+}

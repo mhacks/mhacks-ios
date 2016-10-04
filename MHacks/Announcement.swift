@@ -21,61 +21,39 @@ struct Announcement: SerializableElementWithIdentifier {
 		static let events = Category(rawValue: 1 << 3)
 		static let sponsor = Category(rawValue: 1 << 4)
 		
-		static let categories: [Category] = [.events, .food, .logistics, .emergency, .sponsor]
+		static let all: [Category] = [.events, .food, .logistics, .emergency, .sponsor]
 		
-		static let maxBit = 4
 		var description: String {
-			var categories = [String]()
-			for i in 0...Category.maxBit
+			switch self.rawValue
 			{
-				guard self.contains(Category(rawValue: 1 << i))
-				else {
-					continue
-				}
-				categories.append({
-					switch i
-					{
-					case 0:
-						return "Emergency"
-					case 1:
-						return "Logistics"
-					case 2:
-						return "Food"
-					case 3:
-						return "Events"
-					case 4:
-						return "Sponsor"
-					default:
-						fatalError("Unrecognized category \(i)")
-					}
-				}())
-			}
-			guard categories.count > 0
-			else {
+			case Category.emergency.rawValue:
+				return "Emergency"
+			case Category.logistics.rawValue:
+				return "Logistics"
+			case Category.food.rawValue:
+				return "Food"
+			case Category.events.rawValue:
+				return "Events"
+			case Category.sponsor.rawValue:
+				return "Sponsor"
+			default:
 				return "None"
 			}
-			return categories.joined(separator: ", ")
 		}
+		
 		var color: UIColor {
-			for i in 0...Category.maxBit {
-				guard self.contains(Category(rawValue: 1 << i))
-				else { continue }
-				switch i {
-				case 0:
-					return UIColor.mhacksRed
-				case 1:
-					return UIColor.mhacksOrange
-				case 2:
-					return UIColor.mhacksYellow
-				case 3:
-					return UIColor.mhacksBlue
-				case 4:
-					continue
-				default:
-					fatalError("Unrecognized category \(i)")
-				}
+			switch self.rawValue {
+			case Category.emergency.rawValue:
+				return UIColor.mhacksRed
+			case Category.logistics.rawValue:
+				return UIColor.mhacksOrange
+			case Category.food.rawValue:
+				return UIColor.mhacksYellow
+			case Category.events.rawValue:
+				return UIColor.mhacksBlue
+			default:
+				return UIColor.mhacksPlain
 			}
-			return UIColor.mhacksPlain
 		}
 	}
 	
