@@ -132,7 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		
 		let displayEvent = { () -> Bool in
 			
-			guard let event = APIManager.shared.events.first(where: { $0.ID == eventID }) else {
+			guard let event = APIManager.shared.events[eventID] else {
 				return false
 			}
 			
