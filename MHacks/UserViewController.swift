@@ -33,8 +33,6 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     let addPassButton = PKAddPassButton(style: .black)
     
-    let userInfo = APIManager.UserInfo(userID: "1234567890", email: "grladd@umich.edu", name: "Russell Ladd", school: "University of Michigan")
-    
     let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
     let scanBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Scan", comment: "Scan button title"), style: .plain, target: nil, action: nil)
     
@@ -90,11 +88,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textColor = UIColor.white
-        nameLabel.numberOfLines = 0
+        nameLabel.numberOfLines = 2
         
         schoolLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         schoolLabel.textColor = UIColor.white
-        schoolLabel.numberOfLines = 0
+        schoolLabel.numberOfLines = 2
         
         let schoolView = UIStackView(arrangedSubviews: [nameTitleLabel, nameLabel])
         schoolView.axis = .vertical
@@ -112,6 +110,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         ticketItemsView.translatesAutoresizingMaskIntoConstraints = false
         ticketItemsView.axis = .vertical
         ticketItemsView.alignment = .center
+        ticketItemsView.spacing = 40.0
         ticketItemsView.distribution = .equalSpacing
         
         ticketBackgroundView.addSubview(ticketItemsView)
@@ -150,6 +149,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketItemsView.trailingAnchor.constraint(equalTo: ticketBackgroundView.trailingAnchor, constant: -15.0),
             ticketItemsView.topAnchor.constraint(equalTo: ticketBackgroundView.topAnchor, constant: 15.0),
             ticketItemsView.bottomAnchor.constraint(equalTo: ticketBackgroundView.bottomAnchor, constant: -15.0),
+            scannableCodeView.widthAnchor.constraint(lessThanOrEqualTo: ticketItemsView.widthAnchor, multiplier: 0.5),
+            scannableCodeView.widthAnchor.constraint(equalTo: scannableCodeView.heightAnchor)
         ])
         
         updateViews()
@@ -186,6 +187,18 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             nameLabel.text = user.name
             schoolLabel.text = user.school ?? "Unknown"
             
+            let userIDData = user.userID.data(using: .isoLatin1)!
+            
+            let qrCodeGenerator = CIFilter(name: "CIQRCodeGenerator")!
+            qrCodeGenerator.setValue(userIDData, forKey: "inputMessage")
+            qrCodeGenerator.setValue("M", forKey: "inputCorrectionLevel")
+            
+            let scaleFilter = CIFilter(name: "CIAffineTransform")!
+            scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
+            scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 20.0, y: 20.0)), forKey: "inputTransform")
+            
+            scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
+            
         } else {
             
             navigationItem.setLeftBarButton(nil, animated: animated)
@@ -205,18 +218,6 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         }
         
         navigationItem.setRightBarButton(APIManager.shared.canScanUserCode ? scanBarButtonItem : nil, animated: animated)
-        
-        let userIDData = userInfo.email.data(using: .isoLatin1)!
-        
-        let qrCodeGenerator = CIFilter(name: "CIQRCodeGenerator")!
-        qrCodeGenerator.setValue(userIDData, forKey: "inputMessage")
-        qrCodeGenerator.setValue("M", forKey: "inputCorrectionLevel")
-        
-        let scaleFilter = CIFilter(name: "CIAffineTransform")!
-        scaleFilter.setValue(qrCodeGenerator.outputImage, forKey: "inputImage")
-        scaleFilter.setValue(NSValue(cgAffineTransform: CGAffineTransform(scaleX: 7.0, y: 7.0)), forKey: "inputTransform")
-        
-        scannableCodeView.image = UIImage(ciImage: scaleFilter.outputImage!)
     }
     
     // MARK: Actions
