@@ -19,7 +19,7 @@ protocol CLKComplicationTemplateRingImage: class
 }
 
 extension CLKComplicationTemplateExtraLargeRingImage: CLKComplicationTemplateRingImage {
-    @nonobjc static let imageString = "Complication/ExtraLarge"
+    @nonobjc static let imageString = "Complication/Extra Large"
 }
 extension CLKComplicationTemplateCircularSmallRingImage: CLKComplicationTemplateRingImage {
     @nonobjc static let imageString = "Complication/Circular"
