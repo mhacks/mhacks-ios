@@ -60,7 +60,7 @@ struct MHacksColor
 	}
 	static var orange: UIColor
 	{
-		return UIColor(red: 247.0 / 255.0, green: 139.0 / 255.0, blue: 49.0 / 255.0, alpha: 1.0)
+		return UIColor(red: 241.0 / 255.0, green: 103.0 / 255.0, blue: 88.0 / 255.0, alpha: 1.0)
 	}
 	static var purple: UIColor
 	{

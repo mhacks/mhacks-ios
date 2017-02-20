@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	// MARK: Application life cycle
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
 		
-		window!.tintColor = MHacksColor.blue
+		window!.tintColor = MHacksColor.orange
 		
 		tabBarController = window!.rootViewController as! UITabBarController
 		tabBarController.delegate = self
