@@ -25,6 +25,7 @@ class CountdownViewController: UIViewController {
 		
 		countdownLabel.font = Countdown.font
 		APIManager.shared.updateCountdown()
+		
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

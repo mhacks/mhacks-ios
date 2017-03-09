@@ -4,7 +4,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "736h",
-      "filename" : "Simulator Screen Shot Oct 3, 2016, 1.57.20 AM.png",
+      "filename" : "Retina 4.png",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
       "scale" : "3x"
@@ -13,7 +13,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "667h",
-      "filename" : "Simulator Screen Shot Oct 3, 2016, 1.58.02 AM.png",
+      "filename" : "2x.png",
       "minimum-system-version" : "8.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -21,7 +21,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "Simulator Screen Shot Oct 3, 2016, 1.49.33 AM.png",
+      "filename" : "Retina 4-3.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -30,7 +30,7 @@
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "Simulator Screen Shot Oct 3, 2016, 1.58.39 AM.png",
+      "filename" : "Retina 4-2.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -38,7 +38,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
-      "filename" : "Simulator Screen Shot Oct 4, 2016, 8.08.17 AM 2.png",
+      "filename" : "Retina 4-1.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "1x"
@@ -46,7 +46,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
-      "filename" : "Simulator Screen Shot Oct 4, 2016, 8.08.17 AM 3.png",
+      "filename" : "2x-1.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
