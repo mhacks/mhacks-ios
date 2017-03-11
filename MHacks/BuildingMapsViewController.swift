@@ -7,15 +7,14 @@
 //
 
 import UIKit
+import MapKit
 
 class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, FloorLayoutDelegate {
     
     // MARK: Views
     
     @IBOutlet var collectionView: UICollectionView!
-    
     @IBOutlet var floorLayout: FloorLayout!
-    
     @IBOutlet var demoteGestureRecognizer: UITapGestureRecognizer!
     
     // MARK: View life cycle

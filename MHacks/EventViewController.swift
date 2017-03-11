@@ -9,33 +9,33 @@
 import UIKit
 
 class EventViewController: UIViewController, UICollectionViewDataSource, FloorLayoutDelegate {
-    
-    // MARK: Model
-    
-    var event: Event? {
-        didSet {
-            updateViews()
-        }
-    }
-    
-    // MARK: Date interval formatter
-    
-    let dateIntervalFormatter: DateIntervalFormatter = {
-        
-        let formatter = DateIntervalFormatter()
-        
-        formatter.dateTemplate = "EEEEdMMMM h:mm a"
-        
-        return formatter
-    }()
-    
-    // MARK: Views
-    
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var subtitleLabel: UILabel!
-    @IBOutlet var colorView: CircleView!
-    @IBOutlet var descriptionLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
+	
+	// MARK: Model
+	
+	var event: Event? {
+		didSet {
+			updateViews()
+		}
+	}
+	
+	// MARK: Date interval formatter
+	
+	let dateIntervalFormatter: DateIntervalFormatter = {
+		
+		let formatter = DateIntervalFormatter()
+		
+		formatter.dateTemplate = "EEEEdMMMM h:mm a"
+		
+		return formatter
+	}()
+	
+	// MARK: Views
+	
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var subtitleLabel: UILabel!
+	@IBOutlet var colorView: CircleView!
+	@IBOutlet var descriptionLabel: UILabel!
+	@IBOutlet var dateLabel: UILabel!
 	
 	@IBOutlet var locationsView: UIStackView!
 	
@@ -71,8 +71,8 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 	
 	// MARK: View life cycle
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		floorsView.register(UINib(nibName: "FloorDescription", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Description.rawValue, withReuseIdentifier: "Description View")
 		floorsView.register(UINib(nibName: "FloorLabel", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Label.rawValue, withReuseIdentifier: "Label View")
@@ -82,15 +82,15 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 		floorLayout.labelInset = -32.0
 		
 		updateViews()
-    }
+	}
 	
-    override func viewWillAppear(_ animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(floorsUpdated), name: APIManager.FloorsUpdatedNotification, object: nil)
 		
 		APIManager.shared.updateFloors()
-    }
+	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
@@ -107,17 +107,17 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 	
 	// MARK: Update views
 	
-    func updateViews() {
-        
-        if !isViewLoaded {
-            return
-        }
+	func updateViews() {
 		
-        guard let event = event else {
+		if !isViewLoaded {
 			return
 		}
 		
-        titleLabel.text = event.name
+		guard let event = event else {
+			return
+		}
+		
+		titleLabel.text = event.name
 		subtitleLabel.text = event.category.description
 		subtitleLabel.textColor = event.category.color
 		colorView.fillColor = event.category.color
@@ -158,7 +158,7 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 		floorsView.isHidden = prominentFloors.isEmpty
 		
 		floorLayout.promotedItems = prominentFloors
-    }
+	}
 	
 	// MARK: Collection view data source
 	
