@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapKitViewController: UIViewController {
+class MapKitViewController: UIViewController, MKMapViewDelegate{
     
     @IBOutlet weak var mapViewObject: MKMapView!
     
@@ -22,6 +22,16 @@ class MapKitViewController: UIViewController {
         mapViewObject.mapType = .satellite
         mapViewObject.showsUserLocation = true
         mapViewObject.setRegion(adjustedRegion, animated: true)
+        
+        //TODO: Complete The NCOverlayRender Class
+        
+        //These Elements will Be Grabbed from API
+        //MKMapRect
+        //CLLocationCoordinate2D
+        
+        //let MapOverlay: NCMapOverlay = NCMapOverlay(coord: <#T##CLLocationCoordinate2D#>, MapRect: <#T##MKMapRect#>)
+        //mapViewObject.add(MapOverlay)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,4 +42,10 @@ class MapKitViewController: UIViewController {
 
     }
     
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let OverlayImage: UIImage = #imageLiteral(resourceName: "grand-map")
+        let render: NCMapRender = NCMapRender(img: OverlayImage, aOverlay: overlay);
+        
+        return render
+    }
 }

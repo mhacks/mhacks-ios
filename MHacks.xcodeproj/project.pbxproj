@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		278CEAB61E75CCF400F95833 /* NorthCampusOverlayClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */; };
+		278CEAB81E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */; };
 		2796A9731E73798C00B5141E /* MapKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapKitViewController.swift */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
@@ -169,6 +171,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NorthCampusOverlayClass.swift; sourceTree = "<group>"; };
+		278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NorthCampusOverlayRendererClass.swift; sourceTree = "<group>"; };
 		2796A9721E73798C00B5141E /* MapKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitViewController.swift; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +444,8 @@
 				465EB4C91DA06BAF00713EF4 /* FloorCell.swift */,
 				46451B741DA24B6F0025478A /* FloorDescriptionView.swift */,
 				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
+				278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */,
+				278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -732,6 +738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				278CEAB61E75CCF400F95833 /* NorthCampusOverlayClass.swift in Sources */,
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */,
 				463165381D86023D00371D56 /* UserViewController.swift in Sources */,
@@ -770,6 +777,7 @@
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
 				2796A9731E73798C00B5141E /* MapKitViewController.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
+				278CEAB81E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
 				46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */,
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
