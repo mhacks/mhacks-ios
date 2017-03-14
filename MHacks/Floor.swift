@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 final class Floor: SerializableElementWithIdentifier
 {
@@ -18,10 +19,12 @@ final class Floor: SerializableElementWithIdentifier
     var description: String
     var offsetFraction: Double
     var aspectRatio: Double
+    var northWestCoordinate: CLLocationCoordinate2D
+    var southEastCoordinate: CLLocationCoordinate2D
     var fileLocation: String?
     private var imageCache: UIImage? = nil
     
-    init(ID: String, name: String, imageURL: String, index: Int, description: String, offsetFraction: Double, aspectRatio: Double, fileLocation: String?)
+    init(ID: String, name: String, imageURL: String, index: Int, description: String, offsetFraction: Double, aspectRatio: Double, northWestCoordinate: CLLocationCoordinate2D, southEastCoordinate: CLLocationCoordinate2D, fileLocation: String?)
     {
         self.ID = ID
         self.name = name
@@ -30,6 +33,8 @@ final class Floor: SerializableElementWithIdentifier
         self.description = description
         self.offsetFraction = offsetFraction
         self.aspectRatio = aspectRatio
+        self.northWestCoordinate = northWestCoordinate
+        self.southEastCoordinate = southEastCoordinate
         self.fileLocation = fileLocation
     }
     
@@ -101,17 +106,41 @@ extension Floor
     private static let offsetFractionKey = "offset_fraction"
     private static let aspectRatioKey = "aspect_ratio"
     private static let fileLocationKey = "file"
+    private static let northWestLatitudeKey = "nw_latitude"
+    private static let northWestLongitudeKey = "nw_longitude"
+    private static let southEastLatitudeKey = "se_latitude"
+    private static let southEastLongitudeKey = "se_longitude"
     private static let descriptionKey = "description"
     
     convenience init?(_ serializedRepresentation: SerializedRepresentation) {
-        guard let id = serializedRepresentation[Floor.idKey] as? String, let name = serializedRepresentation[Floor.nameKey] as? String, let imageURL = serializedRepresentation[Floor.imageURLKey] as? String, let index = serializedRepresentation[Floor.indexKey] as? Int, let offsetFraction = serializedRepresentation[Floor.offsetFractionKey] as? Double, let aspectRatio = serializedRepresentation[Floor.aspectRatioKey] as? Double, let description = serializedRepresentation[Floor.descriptionKey] as? String
+        
+        guard
+            let id = serializedRepresentation[Floor.idKey] as? String,
+            let name = serializedRepresentation[Floor.nameKey] as? String,
+            let imageURL = serializedRepresentation[Floor.imageURLKey] as? String,
+            let index = serializedRepresentation[Floor.indexKey] as? Int,
+            let offsetFraction = serializedRepresentation[Floor.offsetFractionKey] as? Double,
+            let aspectRatio = serializedRepresentation[Floor.aspectRatioKey] as? Double,
+            let northWestLatitudeString = serializedRepresentation[Floor.northWestLatitudeKey] as? String,
+            let northWestLongitudeString = serializedRepresentation[Floor.northWestLongitudeKey] as? String,
+            let southEastLatitudeString = serializedRepresentation[Floor.southEastLatitudeKey] as? String,
+            let southEastLongitudeString = serializedRepresentation[Floor.southEastLongitudeKey] as? String,
+            let northWestLatitude = Double(northWestLatitudeString),
+            let northWestLongitude = Double(northWestLongitudeString),
+            let southEastLatitude = Double(southEastLatitudeString),
+            let southEastLongitude = Double(southEastLongitudeString),
+            let description = serializedRepresentation[Floor.descriptionKey] as? String
             else { return nil }
         
-        self.init(ID: id, name: name, imageURL: imageURL, index: index, description: description, offsetFraction: offsetFraction, aspectRatio: aspectRatio, fileLocation: serializedRepresentation[Floor.fileLocationKey] as? String)
+        let northWestCoordinate = CLLocationCoordinate2D(latitude: northWestLatitude, longitude: northWestLongitude)
+        let southEastCoordinate = CLLocationCoordinate2D(latitude: southEastLatitude, longitude: southEastLongitude)
+        
+        self.init(ID: id, name: name, imageURL: imageURL, index: index, description: description, offsetFraction: offsetFraction, aspectRatio: aspectRatio, northWestCoordinate: northWestCoordinate, southEastCoordinate: southEastCoordinate, fileLocation: serializedRepresentation[Floor.fileLocationKey] as? String)
     }
     func toSerializedRepresentation() -> NSDictionary
     {
-        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio, Floor.descriptionKey: description]
+        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio, Floor.northWestLatitudeKey: northWestCoordinate.latitude, Floor.northWestLongitudeKey: northWestCoordinate.longitude, Floor.southEastLatitudeKey: southEastCoordinate.latitude, Floor.southEastLongitudeKey: southEastCoordinate.longitude, Floor.descriptionKey: description]
+        
         if let file = fileLocation
         {
             dict[Floor.fileLocationKey] = file

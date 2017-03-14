@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -213,8 +213,6 @@
         <!--North Campus-->
         <scene sceneID="1z9-MJ-sXD">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer enabled="NO" id="qJq-ul-qwk"/>
                 <viewController id="9sT-vU-We0" customClass="MapKitViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TrW-qa-le6"/>
@@ -225,18 +223,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-3A-hlk">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="667" id="DCw-YR-8Lo"/>
-                                    <constraint firstAttribute="width" constant="375" id="Xrb-67-DJV"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="bR9-3A-hlk" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="LpW-Ra-IlC"/>
-                            <constraint firstItem="bR9-3A-hlk" firstAttribute="top" secondItem="Dal-eo-GUe" secondAttribute="top" id="Y72-YT-9zf"/>
+                            <constraint firstItem="bR9-3A-hlk" firstAttribute="top" secondItem="TrW-qa-le6" secondAttribute="bottom" id="Ya2-uc-cuV"/>
+                            <constraint firstItem="bR9-3A-hlk" firstAttribute="trailingMargin" secondItem="Dal-eo-GUe" secondAttribute="trailing" id="a7X-nz-ZIw"/>
+                            <constraint firstItem="dDM-Nn-5EG" firstAttribute="top" secondItem="bR9-3A-hlk" secondAttribute="bottom" id="arS-RK-ZQm"/>
+                            <constraint firstItem="bR9-3A-hlk" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="bx0-Hr-aCm"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="qJq-ul-qwk" appends="YES" id="vc9-ri-lA3"/>
@@ -247,6 +243,8 @@
                         <outlet property="mapViewObject" destination="bR9-3A-hlk" id="5jN-zo-EY6"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer enabled="NO" id="qJq-ul-qwk"/>
             </objects>
             <point key="canvasLocation" x="1165.5999999999999" y="-707.49625187406298"/>
         </scene>

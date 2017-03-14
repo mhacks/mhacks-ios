@@ -506,9 +506,9 @@ final class APIManager
 			func updateSerialized(_ serializedObject: Serializable, using representation: NSDictionary, notificationName: Notification.Name, successfulUpdate: (() -> Void)? = nil) {
 				serializedObject.semaphoreGuard.wait()
 				defer { serializedObject.semaphoreGuard.signal() }
-				guard let serialzedRepresentation = representation as? SerializedRepresentation
+				guard let serializedRepresentation = representation as? SerializedRepresentation
 					else { return }
-				if serializedObject.updateWith(serialzedRepresentation) {
+				if serializedObject.updateWith(serializedRepresentation) {
 					successfulUpdate?()
 					NotificationCenter.default.post(name: notificationName, object: self)
 				}
