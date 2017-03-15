@@ -213,7 +213,7 @@
         <!--North Campus-->
         <scene sceneID="1z9-MJ-sXD">
             <objects>
-                <viewController id="9sT-vU-We0" customClass="MapKitViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9sT-vU-We0" customClass="MapViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TrW-qa-le6"/>
                         <viewControllerLayoutGuide type="bottom" id="dDM-Nn-5EG"/>
@@ -222,7 +222,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-3A-hlk">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-3A-hlk">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                             </mapView>
                         </subviews>
@@ -240,7 +240,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="North Campus" id="TTN-L0-KLy" userLabel="North Campus"/>
                     <connections>
-                        <outlet property="mapViewObject" destination="bR9-3A-hlk" id="5jN-zo-EY6"/>
+                        <outlet property="mapView" destination="bR9-3A-hlk" id="58l-LW-uc3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>

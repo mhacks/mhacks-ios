@@ -1,23 +1,23 @@
 //
-//  NorthCampusOverlayClass.swift
+//  MapOverlay.swift
 //  MHacks
 //
 //  Created by Kyle Zappitell on 3/12/17.
 //  Copyright © 2017 MHacks. All rights reserved.
 //
 
-import MapKit
 import Foundation
+import MapKit
 
 // -- Generic Class for MKOverlay -- //
 
-class NCMapOverlay: NSObject, MKOverlay {
+class MapOverlay: NSObject, MKOverlay {
     
     var coordinate: CLLocationCoordinate2D
     var boundingMapRect: MKMapRect
     
-    init(coord: CLLocationCoordinate2D, MapRect: MKMapRect) {
+    init(coord: CLLocationCoordinate2D, mapRect: MKMapRect) {
         coordinate = coord
-        boundingMapRect = MapRect
+        boundingMapRect = mapRect
     }
 }

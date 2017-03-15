@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		278CEAB61E75CCF400F95833 /* NorthCampusOverlayClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */; };
-		278CEAB81E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */; };
-		2796A9731E73798C00B5141E /* MapKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapKitViewController.swift */; };
+		278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* MapOverlay.swift */; };
+		278CEAB81E75CEAC00F95833 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */; };
+		2796A9731E73798C00B5141E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapViewController.swift */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
 		463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463A90721D9769B600C0F6FE /* ScannerView.swift */; };
@@ -171,9 +171,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NorthCampusOverlayClass.swift; sourceTree = "<group>"; };
-		278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NorthCampusOverlayRendererClass.swift; sourceTree = "<group>"; };
-		2796A9721E73798C00B5141E /* MapKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitViewController.swift; sourceTree = "<group>"; };
+		278CEAB51E75CCF400F95833 /* MapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
+		278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
+		2796A9721E73798C00B5141E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		463A90721D9769B600C0F6FE /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -412,7 +412,7 @@
 				46EA62F21D927421003AE1D5 /* ScannerViewController.swift */,
 				FE87AA231D8CD7C000C8DB64 /* BuildingMapsViewController.swift */,
 				704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */,
-				2796A9721E73798C00B5141E /* MapKitViewController.swift */,
+				2796A9721E73798C00B5141E /* MapViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -444,8 +444,8 @@
 				465EB4C91DA06BAF00713EF4 /* FloorCell.swift */,
 				46451B741DA24B6F0025478A /* FloorDescriptionView.swift */,
 				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
-				278CEAB51E75CCF400F95833 /* NorthCampusOverlayClass.swift */,
-				278CEAB71E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift */,
+				278CEAB51E75CCF400F95833 /* MapOverlay.swift */,
+				278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -738,7 +738,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				278CEAB61E75CCF400F95833 /* NorthCampusOverlayClass.swift in Sources */,
+				278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */,
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */,
 				463165381D86023D00371D56 /* UserViewController.swift in Sources */,
@@ -775,9 +775,9 @@
 				82473FA81C1F7A170061FFFB /* LoginViewController.swift in Sources */,
 				8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */,
 				82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */,
-				2796A9731E73798C00B5141E /* MapKitViewController.swift in Sources */,
+				2796A9731E73798C00B5141E /* MapViewController.swift in Sources */,
 				823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */,
-				278CEAB81E75CEAC00F95833 /* NorthCampusOverlayRendererClass.swift in Sources */,
+				278CEAB81E75CEAC00F95833 /* ImageOverlayRenderer.swift in Sources */,
 				46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */,
 				46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */,
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,

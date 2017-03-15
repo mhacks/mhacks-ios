@@ -1,33 +1,33 @@
 //
-//  NorthCampusOverlayRendererClass.swift
+//  ImageOverlayRenderer.swift
 //  MHacks
 //
 //  Created by Kyle Zappitell on 3/12/17.
 //  Copyright © 2017 MHacks. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import MapKit
 
 // -- Custom Class for Render that Utilizes a UIImage for an Overlay -- //
 
-class NCMapRender: MKOverlayRenderer {
+class ImageOverlayRenderer: MKOverlayRenderer {
     
     var overlayImage: UIImage
     
-    init(img: UIImage, aOverlay: MKOverlay) {
-        self.overlayImage = img
-        super.init(overlay: aOverlay)
+    init(image: UIImage, overlay: MKOverlay) {
+        self.overlayImage = image
+        super.init(overlay: overlay)
     }
     
     override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
         let image = overlayImage.cgImage
         
-        let theMapRect = overlay.boundingMapRect
-        let aCGRect = rect(for: theMapRect)
+        let mapRect = overlay.boundingMapRect
+        let cgRect = rect(for: mapRect)
         
         context.scaleBy(x: 1.0, y: -1.0)
-        context.translateBy(x: 0.0, y: -aCGRect.size.height)
-        context.draw(image!, in: aCGRect)
+        context.translateBy(x: 0.0, y: -cgRect.size.height)
+        context.draw(image!, in: cgRect)
     }
 }
