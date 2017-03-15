@@ -9,6 +9,8 @@
 import MapKit
 import Foundation
 
+// -- Generic Class for MKOverlay -- //
+
 class NCMapOverlay: NSObject, MKOverlay {
     
     var coordinate: CLLocationCoordinate2D

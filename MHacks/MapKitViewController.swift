@@ -9,32 +9,14 @@
 import UIKit
 import MapKit
 
-class MapKitViewController: UIViewController, MKMapViewDelegate{
+class MapKitViewController: UIViewController, MKMapViewDelegate {
     
-    @IBOutlet weak var mapViewObject: MKMapView!
+    @IBOutlet var mapViewObject: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //North Campus Lat/Long
-        let startCoord = CLLocationCoordinate2DMake(42.292478, -83.715122)
-        let adjustedRegion = MKCoordinateRegionMake(startCoord, MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003))
-        
-        mapViewObject.mapType = .satellite
-        mapViewObject.showsUserLocation = true
-        mapViewObject.setRegion(adjustedRegion, animated: true)
-        
-        //TODO: Complete The NCOverlayRender Class
-        
-        //These Elements will Be Grabbed from API
-        //MKMapRect
-        //CLLocationCoordinate2D
-        
-        //let MapOverlay: NCMapOverlay = NCMapOverlay(coord: <#T##CLLocationCoordinate2D#>, MapRect: <#T##MKMapRect#>)
-        //mapViewObject.add(MapOverlay)
-        
+        mapViewObject.delegate = self
         self.layoutMapOverlay()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +33,7 @@ class MapKitViewController: UIViewController, MKMapViewDelegate{
         NotificationCenter.default.removeObserver(self, name: APIManager.FloorsUpdatedNotification, object: nil)
     }
     
+    //-- Delegate function for rendering overlay -- //
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let OverlayImage: UIImage = #imageLiteral(resourceName: "grand-map")
         let render: NCMapRender = NCMapRender(img: OverlayImage, aOverlay: overlay);
@@ -73,9 +56,31 @@ class MapKitViewController: UIViewController, MKMapViewDelegate{
             let northWestCoordinate = floor.northWestCoordinate
             let southEastCoordinate = floor.southEastCoordinate
             
+            //Hard Coded Lat/Long for Testing
+            // let northWestCoordinate = CLLocationCoordinate2D(latitude: 42.291820, longitude: -83.716611)
+            // let southEastCoordinate = CLLocationCoordinate2D(latitude: 42.293530, longitude: -83.713641)
+            
             print(northWestCoordinate, southEastCoordinate)
             
-            // PUT YOUR OVERLAY CODE HERE
+            //-- OVERLAY CODE --//
+            let p1 = MKMapPointForCoordinate(northWestCoordinate);
+            let p2 = MKMapPointForCoordinate(southEastCoordinate);
+            let theSquare: MKMapRect = MKMapRectMake(p1.x, p2.y, fabs(p1.x-p2.x), fabs(p1.y-p2.y))
+            let theMidPoint: CLLocationCoordinate2D = CLLocationCoordinate2D(
+                latitude: (northWestCoordinate.latitude + southEastCoordinate.latitude)/2,
+                longitude: (northWestCoordinate.longitude + southEastCoordinate.longitude)/2)
+            
+            let MapOverlay: NCMapOverlay = NCMapOverlay(coord: theMidPoint, MapRect: theSquare)
+            mapViewObject.add(MapOverlay)
+            
+            // -- North Campus Lat/Long (Set Frame) -- //
+            let startCoord = theMidPoint
+            let adjustedRegion = MKCoordinateRegionMake(startCoord, MKCoordinateSpan(latitudeDelta: 0.002, longitudeDelta: 0.002))
+            
+            // -- Map Settings -- //
+            mapViewObject.mapType = .standard
+            mapViewObject.showsUserLocation = true
+            mapViewObject.setRegion(adjustedRegion, animated: false)
         }
     }
 }
