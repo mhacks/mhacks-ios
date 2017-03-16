@@ -139,7 +139,7 @@ extension Floor
     }
     func toSerializedRepresentation() -> NSDictionary
     {
-        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio, Floor.northWestLatitudeKey: northWestCoordinate.latitude, Floor.northWestLongitudeKey: northWestCoordinate.longitude, Floor.southEastLatitudeKey: southEastCoordinate.latitude, Floor.southEastLongitudeKey: southEastCoordinate.longitude, Floor.descriptionKey: description]
+        var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio, Floor.northWestLatitudeKey: "\(northWestCoordinate.latitude)", Floor.northWestLongitudeKey: "\(northWestCoordinate.longitude)", Floor.southEastLatitudeKey: "\(southEastCoordinate.latitude)", Floor.southEastLongitudeKey: "\(southEastCoordinate.longitude)", Floor.descriptionKey: description]
         
         if let file = fileLocation
         {

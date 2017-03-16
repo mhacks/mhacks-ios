@@ -17,6 +17,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mapView.delegate = self
+        
+        self.setupMapOverlay()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,13 +50,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func floorsUpdated(_ : Notification) {
         
         DispatchQueue.main.async {
-            
-            guard self.isViewLoaded, let floor = APIManager.shared.floors.first else { return }
-            
-            floor.retrieveImage { image in
-                DispatchQueue.main.async {
-                    self.layoutMapOverlay(image: image, northWestCoordinate: floor.northWestCoordinate, southEastCoordinate: floor.southEastCoordinate)
-                }
+            self.setupMapOverlay()
+        }
+    }
+    
+    func setupMapOverlay() {
+        guard self.isViewLoaded, let floor = APIManager.shared.floors.first else { return }
+        
+        floor.retrieveImage { image in
+            DispatchQueue.main.async {
+                self.layoutMapOverlay(image: image, northWestCoordinate: floor.northWestCoordinate, southEastCoordinate: floor.southEastCoordinate)
             }
         }
     }
