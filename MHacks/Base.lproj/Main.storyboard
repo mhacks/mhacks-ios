@@ -683,26 +683,27 @@
                                                 </constraints>
                                                 <collectionViewLayout key="collectionViewLayout" id="9r6-A5-5gX" customClass="FloorLayout" customModule="MHacks" customModuleProvider="target"/>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Floor Cell" id="zrh-Vh-6QI" customClass="FloorCell" customModule="MHacks" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Map Cell" id="zrh-Vh-6QI" customClass="MapCell" customModule="MHacks" customModuleProvider="target">
                                                         <rect key="frame" x="22.5" y="0.0" width="300" height="100"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView verifyAmbiguity="ignoreSizes" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vnn-jF-3Ur">
-                                                                    <rect key="frame" x="0.0" y="-30" width="300" height="160"/>
-                                                                </imageView>
+                                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TO9-DB-V9C">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
+                                                                </mapView>
                                                             </subviews>
                                                         </view>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="Vnn-jF-3Ur" secondAttribute="trailing" id="AMz-2f-MBR"/>
-                                                            <constraint firstItem="Vnn-jF-3Ur" firstAttribute="centerY" secondItem="zrh-Vh-6QI" secondAttribute="centerY" id="b4V-aW-cTc"/>
-                                                            <constraint firstItem="Vnn-jF-3Ur" firstAttribute="leading" secondItem="zrh-Vh-6QI" secondAttribute="leading" id="w9j-WJ-fNH"/>
+                                                            <constraint firstItem="TO9-DB-V9C" firstAttribute="top" secondItem="zrh-Vh-6QI" secondAttribute="topMargin" constant="-8" id="Dnw-2J-Eds"/>
+                                                            <constraint firstItem="TO9-DB-V9C" firstAttribute="leading" secondItem="zrh-Vh-6QI" secondAttribute="leadingMargin" constant="-8" id="Qi2-BJ-Rm8"/>
+                                                            <constraint firstAttribute="trailingMargin" secondItem="TO9-DB-V9C" secondAttribute="trailing" constant="-8" id="d4v-Fx-Vo7"/>
+                                                            <constraint firstAttribute="bottomMargin" secondItem="TO9-DB-V9C" secondAttribute="bottom" constant="-8" id="f1F-qN-vuz"/>
                                                         </constraints>
                                                         <size key="customSize" width="300" height="100"/>
                                                         <connections>
-                                                            <outlet property="imageView" destination="Vnn-jF-3Ur" id="l2e-ld-qrV"/>
+                                                            <outlet property="mapView" destination="TO9-DB-V9C" id="tAj-wk-YD4"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>

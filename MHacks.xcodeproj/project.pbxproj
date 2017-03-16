@@ -17,7 +17,7 @@
 		46427FBE1CD97CC300B06D0D /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46427FBD1CD97CC300B06D0D /* CircleView.swift */; };
 		46451B751DA24B6F0025478A /* FloorDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46451B741DA24B6F0025478A /* FloorDescriptionView.swift */; };
 		465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C71DA0670300713EF4 /* FloorLayout.swift */; };
-		465EB4CA1DA06BAF00713EF4 /* FloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C91DA06BAF00713EF4 /* FloorCell.swift */; };
+		465EB4CA1DA06BAF00713EF4 /* MapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EB4C91DA06BAF00713EF4 /* MapCell.swift */; };
 		46B75ADB1DA253510024139A /* FloorLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46B75ADA1DA253510024139A /* FloorLabel.xib */; };
 		46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B75ADC1DA253680024139A /* FloorLabelView.swift */; };
 		46EA62F31D927421003AE1D5 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EA62F21D927421003AE1D5 /* ScannerViewController.swift */; };
@@ -26,6 +26,7 @@
 		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
 		46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */; };
 		46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F716EB1DA23D6B008D473F /* FloorDescription.xib */; };
+		703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */; };
 		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
 		7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */; };
 		7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */; };
@@ -182,7 +183,7 @@
 		46427FBD1CD97CC300B06D0D /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		46451B741DA24B6F0025478A /* FloorDescriptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorDescriptionView.swift; sourceTree = "<group>"; };
 		465EB4C71DA0670300713EF4 /* FloorLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorLayout.swift; sourceTree = "<group>"; };
-		465EB4C91DA06BAF00713EF4 /* FloorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorCell.swift; sourceTree = "<group>"; };
+		465EB4C91DA06BAF00713EF4 /* MapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCell.swift; sourceTree = "<group>"; };
 		46B75ADA1DA253510024139A /* FloorLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloorLabel.xib; sourceTree = "<group>"; };
 		46B75ADC1DA253680024139A /* FloorLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorLabelView.swift; sourceTree = "<group>"; };
 		46EA62F21D927421003AE1D5 /* ScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
 		46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowLabel.swift; sourceTree = "<group>"; };
 		46F716EB1DA23D6B008D473F /* FloorDescription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloorDescription.xib; sourceTree = "<group>"; };
+		703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndoorFloorCell.swift; sourceTree = "<group>"; };
 		704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementTableViewController.swift; sourceTree = "<group>"; };
 		7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglelineInputTableViewCell.swift; sourceTree = "<group>"; };
 		7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineInputTableViewCell.swift; sourceTree = "<group>"; };
@@ -445,7 +447,8 @@
 				460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */,
 				463A90721D9769B600C0F6FE /* ScannerView.swift */,
 				465EB4C71DA0670300713EF4 /* FloorLayout.swift */,
-				465EB4C91DA06BAF00713EF4 /* FloorCell.swift */,
+				465EB4C91DA06BAF00713EF4 /* MapCell.swift */,
+				703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */,
 				46451B741DA24B6F0025478A /* FloorDescriptionView.swift */,
 				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
 				278CEAB51E75CCF400F95833 /* MapOverlay.swift */,
@@ -758,12 +761,13 @@
 				82473FAA1C1F7A170061FFFB /* CountdownViewController.swift in Sources */,
 				82942BA51C2A36BC0084880C /* CalendarLayout.swift in Sources */,
 				7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */,
-				465EB4CA1DA06BAF00713EF4 /* FloorCell.swift in Sources */,
+				465EB4CA1DA06BAF00713EF4 /* MapCell.swift in Sources */,
 				82942B9B1C2A2B850084880C /* Location.swift in Sources */,
 				825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
 				82942BAA1C2A37000084880C /* ScheduleHourSeparator.swift in Sources */,
 				82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */,
 				82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
+				703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,

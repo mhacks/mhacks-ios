@@ -16,6 +16,7 @@ final class Location : SerializableElementWithIdentifier {
 	
 	let ID: String
 	let name: String
+	let coordinate: CLLocationCoordinate2D?
 	private let floorID: String?
 	var floor : Floor? {
 		guard let floorID = floorID
@@ -23,21 +24,37 @@ final class Location : SerializableElementWithIdentifier {
 		return APIManager.shared.floors[floorID]
 	}
 	
-	init(ID: String, name: String, floorID: String?) {
+	init(ID: String, name: String, floorID: String?, coordinate: CLLocationCoordinate2D?) {
 		self.ID = ID
 		self.name = name
 		self.floorID = floorID
+		self.coordinate = coordinate
 	}
 	
 	private static let nameKey = "name"
 	private static let floorKey = "floor"
+	private static let latitudeKey = "latitude"
+	private static let longitudeKey = "longitude"
 	
 	convenience init?(_ serializedRepresentation: SerializedRepresentation) {
 		guard let id = serializedRepresentation[Location.idKey] as? String, let locationName = serializedRepresentation[Location.nameKey] as? String
 		else {
 			return nil
 		}
-		self.init(ID: id, name: locationName, floorID: serializedRepresentation[Location.floorKey] as? String)
+		
+		// Backend passes latitude and longitude back as strings (as of March 2017)
+		// so to use same serialization/deserialization method from cache as JSON response
+		// we cast to string before serialization and thus must change back to Double on deserialization
+		
+		var coordinate: CLLocationCoordinate2D?
+		if let latitudeString = serializedRepresentation[Location.latitudeKey] as? String,
+			let longitudeString = serializedRepresentation[Location.longitudeKey] as? String,
+			let latitude = Double(latitudeString),
+			let longitude = Double(longitudeString) {
+			coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+		}
+		
+		self.init(ID: id, name: locationName, floorID: serializedRepresentation[Location.floorKey] as? String, coordinate: coordinate)
 	}
 	
 	func toSerializedRepresentation() -> NSDictionary {
@@ -45,6 +62,10 @@ final class Location : SerializableElementWithIdentifier {
 		if let floorID = floorID
 		{
 			dict[Location.floorKey] = floorID
+		}
+		if let coordinate = self.coordinate {
+			dict[Location.latitudeKey] = "\(coordinate.latitude)"
+			dict[Location.longitudeKey] = "\(coordinate.longitude)"
 		}
 		return dict as NSDictionary
 	}

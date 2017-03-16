@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class EventViewController: UIViewController, UICollectionViewDataSource, FloorLayoutDelegate {
+class EventViewController: UIViewController, UICollectionViewDataSource, MKMapViewDelegate, FloorLayoutDelegate {
 	
 	// MARK: Model
 	
@@ -17,6 +18,8 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 			updateViews()
 		}
 	}
+	
+	var overlayImage: UIImage?
 	
 	// MARK: Date interval formatter
 	
@@ -168,26 +171,27 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
-		let floorCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Floor Cell", for: indexPath) as! FloorCell
+		let mapCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Map Cell", for: indexPath) as! MapCell
 		
 		let floor = APIManager.shared.floors[indexPath.item]
 		
-		floorCell.imageView.alpha = 0.0
+		mapCell.mapView.alpha = 0.0
 		
 		floor.retrieveImage { image in
 			DispatchQueue.main.async {
 				
-				if collectionView.indexPath(for: floorCell) == indexPath {
-					floorCell.imageView.image = image
+				if collectionView.indexPath(for: mapCell) == indexPath {
+					mapCell.layoutMapOverlayWithLocations(image: image, northWestCoordinate: floor.northWestCoordinate, southEastCoordinate: floor.southEastCoordinate, locations: self.event?.locations)
 					
-					UIView.animate(withDuration: 0.15) {
-						floorCell.imageView.alpha = 1.0
-					}
+    				UIView.animate(withDuration: 0.15) {
+    					mapCell.mapView.alpha = 1.0
+    				}
 				}
+				
 			}
 		}
 		
-		return floorCell
+		return mapCell
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -216,6 +220,9 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 				labelView.label.text = String(floor.name.characters[floor.name.startIndex])
 			}
 			
+			// Super lame fix to not show floor label when we have one floor
+			labelView.isHidden = true
+			
 			view = labelView
 		}
 		
@@ -231,4 +238,18 @@ class EventViewController: UIViewController, UICollectionViewDataSource, FloorLa
 	func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, aspectRatioForItemAt indexPath: IndexPath) -> CGFloat {
 		return CGFloat(APIManager.shared.floors[indexPath.item].aspectRatio)
 	}
+	
+	// MARK: MKMapViewDelegate
+	
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let overlayImage = self.overlayImage {
+            return ImageOverlayRenderer(image: overlayImage, overlay: overlay)
+        }
+        
+        // We should never get to here because we dont add the overlay until after the image is loaded
+        
+        print("Failed to load Overlay Image")
+        return MKOverlayRenderer()
+    }
+    
 }
