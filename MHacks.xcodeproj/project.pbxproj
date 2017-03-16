@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2780FAD71E7A22D900C2A6FD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2780FAD61E7A22D900C2A6FD /* MapKit.framework */; };
 		278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* MapOverlay.swift */; };
 		278CEAB81E75CEAC00F95833 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */; };
 		2796A9731E73798C00B5141E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapViewController.swift */; };
@@ -171,6 +172,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2780FAD61E7A22D900C2A6FD /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		278CEAB51E75CCF400F95833 /* MapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
 		278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
 		2796A9721E73798C00B5141E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2780FAD71E7A22D900C2A6FD /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +289,7 @@
 		820C5BF51C29326900CD9F09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2780FAD61E7A22D900C2A6FD /* MapKit.framework */,
 				82287A451C66C3D8001A0F38 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -611,6 +615,9 @@
 								enabled = 1;
 							};
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
 							com.apple.Push = {

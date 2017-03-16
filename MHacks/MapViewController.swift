@@ -9,9 +9,11 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+    
     
     @IBOutlet var mapView: MKMapView!
+    let locationService = CLLocationManager()
     var overlayImage: UIImage?
     
     override func viewDidLoad() {
@@ -19,6 +21,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.mapView.delegate = self
         
         self.setupMapOverlay()
+
+        // -- Quick Location Fix -- //
+        locationService.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,6 +38,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidDisappear(animated)
         
         NotificationCenter.default.removeObserver(self, name: APIManager.FloorsUpdatedNotification, object: nil)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            self.mapView.showsUserLocation = true
+        }
     }
     
     //-- Delegate function for rendering overlay -- //
@@ -87,7 +98,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         // -- Map Settings -- //
         self.mapView.mapType = .standard
-        self.mapView.showsUserLocation = true
         self.mapView.setRegion(adjustedRegion, animated: true)
+        locationService.requestWhenInUseAuthorization()
     }
 }
