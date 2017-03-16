@@ -83,7 +83,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let nwMapPoint = MKMapPointForCoordinate(northWestCoordinate)
         let seMapPoint = MKMapPointForCoordinate(southEastCoordinate)
         
-        let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: nwMapPoint.y - seMapPoint.y)
+        let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: seMapPoint.y - nwMapPoint.y)
         let mapOverlayRect = MKMapRect(origin: nwMapPoint, size: mapOverlayRectSize)
         let midpoint = CLLocationCoordinate2D(
             latitude: (northWestCoordinate.latitude + southEastCoordinate.latitude)/2,
