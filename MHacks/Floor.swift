@@ -137,14 +137,15 @@ extension Floor
         
         self.init(ID: id, name: name, imageURL: imageURL, index: index, description: description, offsetFraction: offsetFraction, aspectRatio: aspectRatio, northWestCoordinate: northWestCoordinate, southEastCoordinate: southEastCoordinate, fileLocation: serializedRepresentation[Floor.fileLocationKey] as? String)
     }
+    
     func toSerializedRepresentation() -> NSDictionary
     {
         var dict: [String: Any] = [Floor.idKey: ID, Floor.nameKey: name, Floor.imageURLKey: imageURL, Floor.indexKey: index, Floor.offsetFractionKey : offsetFraction, Floor.aspectRatioKey: aspectRatio, Floor.northWestLatitudeKey: "\(northWestCoordinate.latitude)", Floor.northWestLongitudeKey: "\(northWestCoordinate.longitude)", Floor.southEastLatitudeKey: "\(southEastCoordinate.latitude)", Floor.southEastLongitudeKey: "\(southEastCoordinate.longitude)", Floor.descriptionKey: description]
         
-        if let file = fileLocation
-        {
+        if let file = fileLocation {
             dict[Floor.fileLocationKey] = file
         }
+        
         return dict as NSDictionary
     }
 }

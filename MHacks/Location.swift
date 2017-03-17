@@ -59,14 +59,16 @@ final class Location : SerializableElementWithIdentifier {
 	
 	func toSerializedRepresentation() -> NSDictionary {
 		var dict = [Location.idKey: ID, Location.nameKey: name]
-		if let floorID = floorID
-		{
+		
+		if let floorID = floorID {
 			dict[Location.floorKey] = floorID
 		}
+		
 		if let coordinate = self.coordinate {
 			dict[Location.latitudeKey] = "\(coordinate.latitude)"
 			dict[Location.longitudeKey] = "\(coordinate.longitude)"
 		}
+		
 		return dict as NSDictionary
 	}
 }

@@ -28,7 +28,9 @@ final class MapCell: UICollectionViewCell, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        for coordinate in self.locations?.flatMap({ $0.coordinate }) ?? [] {
+        let validLocations = self.locations?.flatMap({ $0.coordinate }) ?? []
+        
+        for coordinate in validLocations {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             self.mapView.addAnnotation(annotation)
@@ -59,6 +61,7 @@ final class MapCell: UICollectionViewCell, MKMapViewDelegate {
         self.mapView.mapType = .standard
         self.mapView.setRegion(adjustedRegion, animated: true)
         self.mapView.showsUserLocation = true
+        
         locationService.requestWhenInUseAuthorization()
     }
 }
