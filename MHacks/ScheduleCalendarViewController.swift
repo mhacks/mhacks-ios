@@ -26,13 +26,20 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
         let layout = collectionView.collectionViewLayout as! CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 62.0, bottom: 0.0, right: 0.0)
     }
+	
+	var didAddNotification = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 		
-		eventsOrganizer = EventOrganizer(events: APIManager.shared.events)
 		
-		NotificationCenter.default.addObserver(self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)), name: APIManager.EventsUpdatedNotification, object: nil)
+		if !didAddNotification {
+			eventsOrganizer = EventOrganizer(events: APIManager.shared.events)
+			
+			NotificationCenter.default.addObserver(self, selector: #selector(ScheduleCalendarViewController.eventsUpdated(_:)), name: APIManager.EventsUpdatedNotification, object: nil)
+			didAddNotification = true
+		}
+		
 		APIManager.shared.updateEvents()
 		
 		if let indexPath = collectionView.indexPathsForSelectedItems?.first {
@@ -52,7 +59,14 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 		
-		NotificationCenter.default.removeObserver(self)
+		// FIXME: Disabled removing notification to prevent reinstantiation
+		// of the EventOrganizer on every call of viewWillAppear
+		// There is an inherent tradeoff with the current notification system between not oberserving when not visible, and updating every time we become visible
+		// An ideal solution would coallesce changes for us while we're not visible, and let us know if anything has changed when we become visible again
+		// This would cause us to update our model a minimal number of times and eliminate the aforementioned tradeoff
+		// Implementing this would require keeping track of who is observing the API Manager, which would require using a different notification system than NotificationCenter
+		// TODO: This should be implemented in the general case for all the view controllers in the future
+		// NotificationCenter.default.removeObserver(self)
 		
 		stopUpdatingNowIndicatorPosition()
 	}
@@ -192,8 +206,8 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as! ScheduleEventCell
-        
         let event = eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).item, inDay: (indexPath as NSIndexPath).section)
+		
 		cell.color = event.category.color
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.locationsDescription

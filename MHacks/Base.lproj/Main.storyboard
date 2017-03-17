@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -225,22 +225,12 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-3A-hlk">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOO-U3-kl8">
-                                <rect key="frame" x="313" y="556" width="46" height="54"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="centerButtonTap:" destination="9sT-vU-We0" eventType="touchUpInside" id="QxE-W9-pys"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="dDM-Nn-5EG" firstAttribute="top" secondItem="FOO-U3-kl8" secondAttribute="bottom" constant="8" symbolic="YES" id="Jsd-GM-um0"/>
-                            <constraint firstItem="FOO-U3-kl8" firstAttribute="trailing" secondItem="Dal-eo-GUe" secondAttribute="trailingMargin" id="W2S-wP-GVc"/>
                             <constraint firstItem="bR9-3A-hlk" firstAttribute="top" secondItem="TrW-qa-le6" secondAttribute="bottom" id="Ya2-uc-cuV"/>
                             <constraint firstItem="bR9-3A-hlk" firstAttribute="trailingMargin" secondItem="Dal-eo-GUe" secondAttribute="trailing" id="a7X-nz-ZIw"/>
-                            <constraint firstItem="FOO-U3-kl8" firstAttribute="top" secondItem="TrW-qa-le6" secondAttribute="bottom" constant="492" id="aDo-pz-4Ue"/>
                             <constraint firstItem="dDM-Nn-5EG" firstAttribute="top" secondItem="bR9-3A-hlk" secondAttribute="bottom" id="arS-RK-ZQm"/>
                             <constraint firstItem="bR9-3A-hlk" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="bx0-Hr-aCm"/>
                         </constraints>
@@ -618,7 +608,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="pPc-3A-wlv">
-                                        <rect key="frame" x="15" y="15" width="345" height="709.5"/>
+                                        <rect key="frame" x="15" y="15" width="345" height="559.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Ntd-xW-33n">
                                                 <rect key="frame" x="0.0" y="0.0" width="345" height="44.5"/>
@@ -685,43 +675,12 @@
                                                     </stackView>
                                                 </subviews>
                                             </stackView>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mor-7W-Buh">
-                                                <rect key="frame" x="0.0" y="339.5" width="345" height="370"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CTd-a5-Ab9">
+                                                <rect key="frame" x="0.0" y="339.5" width="345" height="220"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="370" id="J2Y-F8-x5C"/>
+                                                    <constraint firstAttribute="height" constant="220" id="hfm-hX-NqP"/>
                                                 </constraints>
-                                                <collectionViewLayout key="collectionViewLayout" id="9r6-A5-5gX" customClass="FloorLayout" customModule="MHacks" customModuleProvider="target"/>
-                                                <cells>
-                                                    <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Map Cell" id="zrh-Vh-6QI" customClass="MapCell" customModule="MHacks" customModuleProvider="target">
-                                                        <rect key="frame" x="23" y="0.0" width="300" height="100"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TO9-DB-V9C">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="100"/>
-                                                                </mapView>
-                                                            </subviews>
-                                                        </view>
-                                                        <constraints>
-                                                            <constraint firstItem="TO9-DB-V9C" firstAttribute="top" secondItem="zrh-Vh-6QI" secondAttribute="topMargin" constant="-8" id="Dnw-2J-Eds"/>
-                                                            <constraint firstItem="TO9-DB-V9C" firstAttribute="leading" secondItem="zrh-Vh-6QI" secondAttribute="leadingMargin" constant="-8" id="Qi2-BJ-Rm8"/>
-                                                            <constraint firstAttribute="trailingMargin" secondItem="TO9-DB-V9C" secondAttribute="trailing" constant="-8" id="d4v-Fx-Vo7"/>
-                                                            <constraint firstAttribute="bottomMargin" secondItem="TO9-DB-V9C" secondAttribute="bottom" constant="-8" id="f1F-qN-vuz"/>
-                                                        </constraints>
-                                                        <size key="customSize" width="300" height="100"/>
-                                                        <connections>
-                                                            <outlet property="mapView" destination="TO9-DB-V9C" id="tAj-wk-YD4"/>
-                                                        </connections>
-                                                    </collectionViewCell>
-                                                </cells>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="zCk-07-Lo5" id="KDX-rO-Hbc"/>
-                                                    <outlet property="delegate" destination="zCk-07-Lo5" id="aI0-gR-Fl2"/>
-                                                </connections>
-                                            </collectionView>
+                                            </mapView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -748,9 +707,8 @@
                         <outlet property="colorView" destination="yPu-JO-8Wl" id="sBG-SI-nZA"/>
                         <outlet property="dateLabel" destination="Oi9-fK-Ztk" id="HaY-Iq-qhF"/>
                         <outlet property="descriptionLabel" destination="tct-Da-n8x" id="9mq-uT-70X"/>
-                        <outlet property="floorLayout" destination="9r6-A5-5gX" id="Hvf-qj-bNK"/>
-                        <outlet property="floorsView" destination="mor-7W-Buh" id="eT1-be-AQF"/>
                         <outlet property="locationsView" destination="NZx-On-mFr" id="RJl-2T-nOY"/>
+                        <outlet property="mapView" destination="CTd-a5-Ab9" id="xKD-KU-7Zw"/>
                         <outlet property="subtitleLabel" destination="cxf-lj-w9V" id="d26-rh-MgW"/>
                         <outlet property="titleLabel" destination="nE9-8T-FC9" id="r3n-Fa-5Lx"/>
                     </connections>

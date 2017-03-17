@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class EventViewController: UIViewController, UICollectionViewDataSource, MKMapViewDelegate, FloorLayoutDelegate {
+class EventViewController: UIViewController, MKMapViewDelegate {
 	
 	// MARK: Model
 	
@@ -20,6 +20,7 @@ class EventViewController: UIViewController, UICollectionViewDataSource, MKMapVi
 	}
 	
 	var overlayImage: UIImage?
+	let locationService = CLLocationManager()
 	
 	// MARK: Date interval formatter
 	
@@ -42,8 +43,7 @@ class EventViewController: UIViewController, UICollectionViewDataSource, MKMapVi
 	
 	@IBOutlet var locationsView: UIStackView!
 	
-	@IBOutlet var floorsView: UICollectionView!
-	@IBOutlet var floorLayout: FloorLayout!
+	@IBOutlet var mapView: MKMapView!
 	
 	final class DoubleLabel: UIStackView {
 		
@@ -77,13 +77,6 @@ class EventViewController: UIViewController, UICollectionViewDataSource, MKMapVi
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		floorsView.register(UINib(nibName: "FloorDescription", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Description.rawValue, withReuseIdentifier: "Description View")
-		floorsView.register(UINib(nibName: "FloorLabel", bundle: nil), forSupplementaryViewOfKind: FloorLayout.SupplementaryViewKind.Label.rawValue, withReuseIdentifier: "Label View")
-		
-		floorLayout.explodesFromFirstPromotedItem = false
-		floorLayout.sectionInsets = UIEdgeInsets(top: 10.0, left: 40.0, bottom: 10.0, right: 40.0)
-		floorLayout.labelInset = -32.0
-		
 		updateViews()
 	}
 	
@@ -105,7 +98,10 @@ class EventViewController: UIViewController, UICollectionViewDataSource, MKMapVi
 	
 	func floorsUpdated(_ notification: Notification) {
 		
-		updateViews()
+		DispatchQueue.main.async {
+			self.updateViews()
+			
+		}
 	}
 	
 	// MARK: Update views
@@ -149,107 +145,88 @@ class EventViewController: UIViewController, UICollectionViewDataSource, MKMapVi
 			locationsView.addArrangedSubview(locationLabel)
 		}
 		
-		var prominentFloors = IndexSet()
+		guard let floor = APIManager.shared.floors.first else { return }
 		
-		for location in event.locations {
-			
-			if let floor = location.floor, let index = APIManager.shared.floors.index(of: floor) {
-				prominentFloors.insert(index)
-			}
-		}
-		
-		floorsView.isHidden = prominentFloors.isEmpty
-		
-		floorLayout.promotedItems = prominentFloors
-	}
-	
-	// MARK: Collection view data source
-	
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return APIManager.shared.floors.count
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		
-		let mapCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Map Cell", for: indexPath) as! MapCell
-		
-		let floor = APIManager.shared.floors[indexPath.item]
-		
-		mapCell.mapView.alpha = 0.0
+        self.mapView.layer.cornerRadius = 10
+        self.mapView.layer.borderColor = UIColor.lightGray.cgColor
+        self.mapView.layer.borderWidth = Geometry.hairlineWidthInTraitCollection(self.traitCollection)
 		
 		floor.retrieveImage { image in
 			DispatchQueue.main.async {
-				
-				if collectionView.indexPath(for: mapCell) == indexPath {
-					mapCell.layoutMapOverlayWithLocations(image: image, northWestCoordinate: floor.northWestCoordinate, southEastCoordinate: floor.southEastCoordinate, locations: self.event?.locations)
-					
-    				UIView.animate(withDuration: 0.15) {
-    					mapCell.mapView.alpha = 1.0
-    				}
-				}
-				
+				self.layoutMapOverlay(image: image, northWestCoordinate: floor.northWestCoordinate, southEastCoordinate: floor.southEastCoordinate)
 			}
 		}
-		
-		return mapCell
+
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-		
-		let floor = APIManager.shared.floors[indexPath.item]
-		
-		let view: UICollectionReusableView
-		
-		switch FloorLayout.SupplementaryViewKind(rawValue: kind)! {
-			
-		case .Description:
-			
-			let descriptionView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Description View", for: indexPath) as! FloorDescriptionView
-			
-			descriptionView.label.text = floor.description
-			
-			view = descriptionView
-			
-		case .Label:
-			
-			let labelView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Label View", for: indexPath) as! FloorLabelView
-			
-			if floor.name.isEmpty {
-				labelView.label.text = nil
-			} else {
-				labelView.label.text = String(floor.name.characters[floor.name.startIndex])
-			}
-			
-			// Super lame fix to not show floor label when we have one floor
-			labelView.isHidden = true
-			
-			view = labelView
+	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+		if let overlayImage = self.overlayImage {
+			return ImageOverlayRenderer(image: overlayImage, overlay: overlay)
 		}
 		
-		return view
+		// We should never get to here because we dont add the overlay until after the image is loaded
+		
+		print("Failed to load Overlay Image")
+		return MKOverlayRenderer()
 	}
 	
-	// MARK: Floor layout delegate
-	
-	func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, offsetFractionForItemAt indexPath: IndexPath) -> CGFloat {
-		return CGFloat(APIManager.shared.floors[indexPath.item].offsetFraction)
+	func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+		let validLocations = self.event?.locations.flatMap({ $0.coordinate }) ?? []
+		
+		for coordinate in validLocations {
+			let annotation = MKPointAnnotation()
+			annotation.coordinate = coordinate
+			self.mapView.addAnnotation(annotation)
+		}
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, floorLayout: FloorLayout, aspectRatioForItemAt indexPath: IndexPath) -> CGFloat {
-		return CGFloat(APIManager.shared.floors[indexPath.item].aspectRatio)
+	func layoutMapOverlay(image: UIImage, northWestCoordinate: CLLocationCoordinate2D, southEastCoordinate: CLLocationCoordinate2D) {
+		
+		self.mapView.delegate = self
+		self.overlayImage = image
+		
+		let nwMapPoint = MKMapPointForCoordinate(northWestCoordinate)
+		let seMapPoint = MKMapPointForCoordinate(southEastCoordinate)
+		
+		let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: seMapPoint.y - nwMapPoint.y)
+		let mapOverlayRect = MKMapRect(origin: nwMapPoint, size: mapOverlayRectSize)
+		let midpoint = CLLocationCoordinate2D(
+			latitude: (northWestCoordinate.latitude + southEastCoordinate.latitude)/2,
+			longitude: (northWestCoordinate.longitude + southEastCoordinate.longitude)/2)
+		
+		let mapOverlay = MapOverlay(coord: midpoint, mapRect: mapOverlayRect)
+		
+		self.mapView.add(mapOverlay)
+		
+		let mapCenter = self.event?.locations.flatMap({ $0.coordinate }).first ?? midpoint
+		let adjustedRegion = MKCoordinateRegion(center: mapCenter, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+		
+		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(shiftToAngledView))
+		tapRecognizer.numberOfTapsRequired = 1
+		tapRecognizer.numberOfTouchesRequired = 1
+		
+		self.mapView.mapType = .satelliteFlyover
+		self.mapView.isScrollEnabled = false
+		self.mapView.isPitchEnabled = false
+		self.mapView.isZoomEnabled = false
+		self.mapView.isRotateEnabled = false
+		self.mapView.showsCompass = false
+		self.mapView.setRegion(adjustedRegion, animated: false)
+		self.mapView.showsUserLocation = true
+		
+		self.mapView.addGestureRecognizer(tapRecognizer)
+		
+		locationService.requestWhenInUseAuthorization()
 	}
 	
-	// MARK: MKMapViewDelegate
+	var isAngled = false
 	
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let overlayImage = self.overlayImage {
-            return ImageOverlayRenderer(image: overlayImage, overlay: overlay)
-        }
-        
-        // We should never get to here because we dont add the overlay until after the image is loaded
-        
-        print("Failed to load Overlay Image")
-        return MKOverlayRenderer()
-    }
-    
+	func shiftToAngledView() {
+		if let eventLocation = self.event?.locations.flatMap({ $0.coordinate }).first {
+			let camera = isAngled ? MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 0, heading: 0) : MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 70, heading: 40)
+    			self.mapView.setCamera(camera, animated: true)
+    			isAngled = !isAngled
+		}
+	}
+
 }

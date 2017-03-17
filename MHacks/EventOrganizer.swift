@@ -101,12 +101,13 @@ struct Day {
 struct Hour {
     
     let startDate: Date
-    
-    var endDate: Date {
-		// FIXME: Use swift method instead?
-        return (Calendar.current as NSCalendar).nextDate(after: startDate, matching: .minute, value: 0, options: .matchNextTime)!
-    }
-    
+	let endDate: Date
+	
+	init(startDate: Date) {
+		self.startDate = startDate
+		self.endDate = (Calendar.current as NSCalendar).nextDate(after: startDate, matching: .minute, value: 0, options: .matchNextTime)!
+	}
+	
     var duration: TimeInterval {
         return endDate.timeIntervalSinceReferenceDate - startDate.timeIntervalSinceReferenceDate
     }

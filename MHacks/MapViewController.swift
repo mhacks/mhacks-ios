@@ -18,22 +18,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.mapView.delegate = self
+        self.mapView.mapType = .satelliteFlyover
+        self.mapView.showsPointsOfInterest = false
+        self.mapView.showsTraffic = false
+        self.mapView.showsBuildings = false
         
         self.setupMapOverlay()
 
         // -- Quick Location Fix -- //
         locationService.delegate = self
     }
-    
-    @IBAction func centerButtonTap(_ sender: Any) {
-        let currentLocation = locationService.location
-        let coordSpan = MKCoordinateSpan(latitudeDelta: 0.006, longitudeDelta: 0.006)
-        let region = MKCoordinateRegion(center: currentLocation!.coordinate, span: coordSpan)
-        
-        mapView.setRegion(region, animated: true)
-    }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -103,11 +99,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.add(mapOverlay)
         
         // -- North Campus Lat/Long (Set Frame) -- //
-        let adjustedRegion = MKCoordinateRegion(center: midpoint, span: MKCoordinateSpan(latitudeDelta: 0.006, longitudeDelta: 0.006))
+        let adjustedRegion = MKCoordinateRegion(center: midpoint, span: MKCoordinateSpan(latitudeDelta: 0.004, longitudeDelta: 0.004))
         
         // -- Map Settings -- //
-        self.mapView.mapType = .standard
-        self.mapView.setRegion(adjustedRegion, animated: true)
+        self.mapView.setRegion(adjustedRegion, animated: false)
         locationService.requestWhenInUseAuthorization()
     }
 }
