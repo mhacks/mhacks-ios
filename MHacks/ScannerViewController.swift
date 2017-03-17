@@ -32,11 +32,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
             updateToolbarItems(animated: true)
         }
     }
-    var scanFieldsHasError: Bool = false {
-        didSet {
-            updateEnableConfirmationButton()
-        }
-    }
     
     // MARK: Delegate
     
@@ -55,7 +50,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     // MARK: Views
     
     let eventsBarButtonItem = UIBarButtonItem(title: "Loading", style: .plain, target: nil, action: nil)
-    let confirmationBarButtonItem = UIBarButtonItem(title: "Confirm", style: .done, target: nil, action: nil)
+    let dismissBarButtonItem = UIBarButtonItem(title: "Dismiss", style: .done, target: nil, action: nil)
     
     let scannerView = ScannerView()
     
@@ -106,8 +101,8 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         eventsBarButtonItem.target = self
         eventsBarButtonItem.action = #selector(selectScanEvent)
         
-        confirmationBarButtonItem.target = self
-        confirmationBarButtonItem.action = #selector(confirmUser)
+        dismissBarButtonItem.target = self
+        dismissBarButtonItem.action = #selector(dismissUserScan)
         
         // Scanner view
         
@@ -115,7 +110,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         scannerView.delegate = self
         view.addSubview(scannerView)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cancelUserScan))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissUserScan))
         scannerView.addGestureRecognizer(tapGestureRecognizer)
         
         userBackgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -172,8 +167,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         updateUserView()
         
         updateToolbarItems(animated: false)
-        
-        updateEnableConfirmationButton()
     }
     
     func updateEventsBarButtonItemTitle() {
@@ -212,23 +205,11 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func updateToolbarItems(animated: Bool) {
         
-        if scanFields == nil {
-            setToolbarItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), eventsBarButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)], animated: animated)
-        } else {
-            setToolbarItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), confirmationBarButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)], animated: animated)
-        }
+        let barButtonItem = (scanFields == nil) ? eventsBarButtonItem : dismissBarButtonItem
+        
+        setToolbarItems([UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), barButtonItem, UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)], animated: animated)
     }
     
-    func updateEnableConfirmationButton() {
-        if scanFieldsHasError
-        {
-            confirmationBarButtonItem.isEnabled = false
-        }
-        else
-        {
-            confirmationBarButtonItem.isEnabled = true
-        }
-    }
     // MARK: Actions
     
     func finish() {
@@ -237,7 +218,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func search() {
         
-        cancelUserScan()
+        dismissUserScan()
         
         let alertController = UIAlertController(title: "Search by Email", message: "Enter the hacker's email address.", preferredStyle: .alert)
         
@@ -285,21 +266,6 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         present(alertController, animated: true, completion: nil)
     }
     
-    func confirmUser() {
-        
-        APIManager.shared.performScan(userDataScanned: scanIdentifier!, scanEvent: currentScanEvent!, readOnlyPeek: false) { success, additionalData in
-            
-            DispatchQueue.main.async {
-                
-                guard success else {
-                    return
-                }
-                
-                self.cancelUserScan()
-            }
-        }
-    }
-    
     // MARK: Scanner view delegate
     
     func scannerView(scannerView: ScannerView, didScanIdentifier identifier: String) {
@@ -311,29 +277,27 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     func performScan(identifier: String) {
         
-        guard scanIdentifier == nil, let scanEvent = currentScanEvent else {
+        guard scanIdentifier != identifier, let scanEvent = currentScanEvent else {
             return
         }
         
         scanIdentifier = identifier
         
-        APIManager.shared.performScan(userDataScanned: identifier, scanEvent: scanEvent, readOnlyPeek: true) { success, additionalData in
+        APIManager.shared.performScan(userDataScanned: identifier, scanEvent: scanEvent, readOnlyPeek: false) { success, additionalData in
             
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.15) {
-                    self.scanFieldsHasError = !success
                     self.scanFields = additionalData
                 }
             }
         }
     }
     
-    func cancelUserScan() {
+    func dismissUserScan() {
         
         UIView.animate(withDuration: 0.15) {
             self.scanIdentifier = nil
             self.scanFields = nil
-            self.scanFieldsHasError = false
         }
     }
 }
