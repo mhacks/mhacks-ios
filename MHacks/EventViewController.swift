@@ -170,16 +170,6 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		return MKOverlayRenderer()
 	}
 	
-	func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-		let validLocations = self.event?.locations.flatMap({ $0.coordinate }) ?? []
-		
-		for coordinate in validLocations {
-			let annotation = MKPointAnnotation()
-			annotation.coordinate = coordinate
-			self.mapView.addAnnotation(annotation)
-		}
-	}
-	
 	func layoutMapOverlay(image: UIImage, northWestCoordinate: CLLocationCoordinate2D, southEastCoordinate: CLLocationCoordinate2D) {
 		
 		self.mapView.delegate = self
@@ -200,6 +190,14 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		
 		let mapCenter = self.event?.locations.flatMap({ $0.coordinate }).first ?? midpoint
 		let adjustedRegion = MKCoordinateRegion(center: mapCenter, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+		
+		let validLocations = self.event?.locations.flatMap({ $0.coordinate }) ?? []
+		
+		for coordinate in validLocations {
+			let annotation = MKPointAnnotation()
+			annotation.coordinate = coordinate
+			self.mapView.addAnnotation(annotation)
+		}
 		
 		let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(shiftToAngledView))
 		tapRecognizer.numberOfTapsRequired = 1
