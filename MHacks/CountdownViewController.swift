@@ -23,6 +23,9 @@ class CountdownViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		// Uncomment this for screenshots
+		//progressIndicator.progressColor = UIColor.clear
+		
 		countdownLabel.font = Countdown.font
 		APIManager.shared.updateCountdown()
 		
@@ -74,19 +77,23 @@ class CountdownViewController: UIViewController {
 	
 	// MARK: - UI Update
 	
-	func updateCountdownViews(_: Notification? = nil) {
+	func updateCountdownViews(_: Notification) {
 		
-		DispatchQueue.main.async(execute: {
-			
-			if let firstAppearanceDate = self.firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
-				self.progressIndicator.setProgress(APIManager.shared.countdown.progress(), animated: true)
-			}
-			
-			self.countdownLabel.text = APIManager.shared.countdown.timeRemainingDescription
-			
-			self.startLabel.text = APIManager.shared.countdown.startDateDescription
-			self.endLabel.text = APIManager.shared.countdown.endDateDescription
-		})
+		DispatchQueue.main.async {
+			self.updateCountdownViews()
+		}
+	}
+	
+	func updateCountdownViews() {
+		
+		if let firstAppearanceDate = firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
+			progressIndicator.setProgress(APIManager.shared.countdown.progress(), animated: true)
+		}
+		
+		countdownLabel.text = APIManager.shared.countdown.timeRemainingDescription
+		
+		startLabel.text = APIManager.shared.countdown.startDateDescription
+		endLabel.text = APIManager.shared.countdown.endDateDescription
 	}
 }
 
