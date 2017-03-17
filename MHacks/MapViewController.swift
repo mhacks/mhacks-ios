@@ -11,8 +11,8 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    
     @IBOutlet var mapView: MKMapView!
+    
     let locationService = CLLocationManager()
     var overlayImage: UIImage?
     
@@ -24,6 +24,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         // -- Quick Location Fix -- //
         locationService.delegate = self
+    }
+    
+    @IBAction func centerButtonTap(_ sender: Any) {
+        let currentLocation = locationService.location
+        let coordSpan = MKCoordinateSpan(latitudeDelta: 0.006, longitudeDelta: 0.006)
+        let region = MKCoordinateRegion(center: currentLocation!.coordinate, span: coordSpan)
+        
+        mapView.setRegion(region, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
