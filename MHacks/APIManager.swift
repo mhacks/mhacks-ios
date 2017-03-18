@@ -21,7 +21,7 @@ enum Response<T> {
 	case error(String)
 }
 
-private let archiveLocation = container.appendingPathComponent("archive.plist")
+private let archiveLocation = container.appendingPathComponent("archive_v" + "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? "")" + ".plist")
 
 final class APIManager
 {
