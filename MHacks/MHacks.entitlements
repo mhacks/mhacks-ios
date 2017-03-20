@@ -7,6 +7,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>webcredentials:mhacks.org</string>
+		<string>webcredentials:staging.mhacks.org</string>
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
