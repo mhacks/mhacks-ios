@@ -456,7 +456,9 @@ final class APIManager
 		}
 		task.resume()
 	}
-	
+
+
+	/// The 'updateUsing' method takes any `Serializable` conforming object
 	private func updateUsing<Object: Serializable>(route: String, notificationName: Notification.Name, callback: CoalescedCallbacks.Callback?, existingObject: Object) {
 		if let callback = callback {
 			existingObject.coalescer.registerCallback(callback)
@@ -466,7 +468,7 @@ final class APIManager
 		else {
 			return
 		}
-		
+		/// Calls 'taskWithRoute' to route to backend with the 'sinceDictionary' cache as a parameter with a callback that posts the notification with either the updated object or an error message
 		taskWithRoute(route, parameters: existingObject.sinceDictionary) { result in
 			defer {
 				existingObject.semaphoreGuard.signal()
@@ -475,6 +477,7 @@ final class APIManager
 			{
 			case .value(let json):
 				var updated = false
+				/// Defer causes the Notification to post after guard statement updates the 'existingObject' with the json from 'taskWithRoute'
 				defer {
 					existingObject.coalescer.fire(true)
 					if updated
@@ -482,6 +485,7 @@ final class APIManager
 						NotificationCenter.default.post(name: notificationName, object: self)
 					}
 				}
+				/// The 'updateWith' method is guaranteed to be on objects that conform to the protocol 'Serializable'. This method is defined on MHacksArray: given a JSON representation of a list of objects, it will update the current MHacksArray with the JSON response
 				guard existingObject.updateWith(json)
 				else {
 					return

@@ -27,6 +27,8 @@ class CountdownViewController: UIViewController {
 		//progressIndicator.progressColor = UIColor.clear
 		
 		countdownLabel.font = Countdown.font
+
+		/// Calls the instance method 'updateUsing' with: the backend route, the notification to call when finished, an optional callback, and the existing countdown object as parameters
 		APIManager.shared.updateCountdown()
 		
 	}
@@ -34,6 +36,7 @@ class CountdownViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		NotificationCenter.default.addObserver(self, selector: #selector(CountdownViewController.updateCountdownViews(_:)), name: APIManager.CountdownUpdatedNotification, object: nil)
+		
 		APIManager.shared.updateCountdown()
 		
 		if firstAppearanceDate == nil {
