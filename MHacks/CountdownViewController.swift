@@ -26,15 +26,14 @@ class CountdownViewController: UIViewController {
 		// Uncomment this for screenshots
 		//progressIndicator.progressColor = UIColor.clear
 		
-		countdownLabel.font = Countdown.font
-		APIManager.shared.updateCountdown()
-		
+		countdownLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 120.0, weight: UIFontWeightThin)
+		APIManager.shared.updateConfiguration()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		NotificationCenter.default.addObserver(self, selector: #selector(CountdownViewController.updateCountdownViews(_:)), name: APIManager.CountdownUpdatedNotification, object: nil)
-		APIManager.shared.updateCountdown()
+		NotificationCenter.default.addObserver(self, selector: #selector(CountdownViewController.updateCountdownViews(_:)), name: APIManager.ConfigurationUpdatedNotification, object: nil)
+		APIManager.shared.updateConfiguration()
 		
 		if firstAppearanceDate == nil {
 			firstAppearanceDate = Date()
@@ -87,13 +86,13 @@ class CountdownViewController: UIViewController {
 	func updateCountdownViews() {
 		
 		if let firstAppearanceDate = firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
-			progressIndicator.setProgress(APIManager.shared.countdown.progress(), animated: true)
+			progressIndicator.setProgress(APIManager.shared.configuration.progress(), animated: true)
 		}
 		
-		countdownLabel.text = APIManager.shared.countdown.timeRemainingDescription
+		//countdownLabel.text = APIManager.shared.configuration.timeRemainingDescription
 		
-		startLabel.text = APIManager.shared.countdown.startDateDescription
-		endLabel.text = APIManager.shared.countdown.endDateDescription
+		startLabel.text = "\(APIManager.shared.configuration.startDate)"
+		//endLabel.text = APIManager.shared.configuration.endDateDescription
 	}
 }
 

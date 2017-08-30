@@ -35,6 +35,11 @@
 	<string>13</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>When scanning tickets phones will turn into iBeacons to make tickets appear on the lockscreen of nearby devices.</string>
 	<key>NSCameraUsageDescription</key>

@@ -18,6 +18,7 @@ protocol CLKComplicationTemplateRingImage: class
     init()
 }
 
+@available(watchOSApplicationExtension 3.0, *)
 extension CLKComplicationTemplateExtraLargeRingImage: CLKComplicationTemplateRingImage {
     @nonobjc static let imageString = "Complication/Extra Large"
 }
@@ -35,7 +36,7 @@ extension CLKComplicationTemplateUtilitarianSmallRingImage: CLKComplicationTempl
 class ComplicationController: NSObject, CLKComplicationDataSource {
     
     func requestedUpdateDidBegin() {
-        APIManager.shared.updateCountdown { succeeded in
+        APIManager.shared.updateConfiguration() { succeeded in
             guard succeeded
             else { return }
             CLKComplicationServer.sharedInstance().activeComplications?.forEach {
@@ -51,11 +52,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     func getTimelineStartDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-        handler(APIManager.shared.countdown.startDate)
+        handler(APIManager.shared.configuration.startDate)
     }
     
     func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-        handler(APIManager.shared.countdown.endDate)
+//        handler(APIManager.shared.configuration.startDate)
     }
     
     func getPrivacyBehavior(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationPrivacyBehavior) -> Void) {
@@ -107,7 +108,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Helper
     func createTimeLineEntry(for template: CLKComplicationTemplateRingImage, for date: Date = Date()) -> CLKComplicationTimelineEntry {
         template.ringStyle = .closed
-        template.fillFraction = Float(APIManager.shared.countdown.progress(for: date))
+        template.fillFraction = 1.0//Float(APIManager.shared.configuration.progress(for: date))
         template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: type(of: template).imageString)!)
         template.tintColor = MHacksColor.blue
         
@@ -122,7 +123,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         case .utilitarianSmall:
             return CLKComplicationTemplateCircularSmallRingImage.self
         case .extraLarge:
-            return CLKComplicationTemplateExtraLargeRingImage.self
+            if #available(watchOSApplicationExtension 3.0, *) {
+                return CLKComplicationTemplateExtraLargeRingImage.self
+            } else {
+                return CLKComplicationTemplateCircularSmallRingImage.self
+            }
         default:
             return nil
         }

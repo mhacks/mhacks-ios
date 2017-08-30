@@ -26,6 +26,9 @@
 		46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */; };
 		46F3AEA11CD88EEC002495B2 /* ScheduleNowLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */; };
 		46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F716EB1DA23D6B008D473F /* FloorDescription.xib */; };
+		70065A551F54A3220058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
+		70065A561F54A5A70058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
+		70065A571F54A5A80058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
 		703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */; };
 		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
 		7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */; };
@@ -192,6 +195,7 @@
 		46F3AE9E1CD88E06002495B2 /* ScheduleNowLabel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleNowLabel.xib; sourceTree = "<group>"; };
 		46F3AEA01CD88EEC002495B2 /* ScheduleNowLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleNowLabel.swift; sourceTree = "<group>"; };
 		46F716EB1DA23D6B008D473F /* FloorDescription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FloorDescription.xib; sourceTree = "<group>"; };
+		70065A541F54A3220058592C /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndoorFloorCell.swift; sourceTree = "<group>"; };
 		704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementTableViewController.swift; sourceTree = "<group>"; };
 		7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglelineInputTableViewCell.swift; sourceTree = "<group>"; };
@@ -482,6 +486,7 @@
 		82E38A1F1D81343A007D36DF /* Public Models */ = {
 			isa = PBXGroup;
 			children = (
+				70065A541F54A3220058592C /* Configuration.swift */,
 				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 				82942B9A1C2A2B850084880C /* Location.swift */,
@@ -708,6 +713,7 @@
 				82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */,
 				82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */,
 				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
+				70065A561F54A5A70058592C /* Configuration.swift in Sources */,
 				820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */,
 				82287A731C66D89A001A0F38 /* Countdown.swift in Sources */,
 				820525211D9DADE900EF535C /* Floor.swift in Sources */,
@@ -736,6 +742,7 @@
 				8243F69E1DA365A900B9D929 /* CoalescedCallbacks.swift in Sources */,
 				8243F6861DA35EF400B9D929 /* InterfaceController.swift in Sources */,
 				8243F6AE1DA365B300B9D929 /* ScannedDataField.swift in Sources */,
+				70065A571F54A5A80058592C /* Configuration.swift in Sources */,
 				8243F6AC1DA365B300B9D929 /* Floor.swift in Sources */,
 				8243F6AA1DA365B300B9D929 /* Location.swift in Sources */,
 				8243F6AF1DA369A600B9D929 /* Extensions.swift in Sources */,
@@ -769,6 +776,7 @@
 				82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */,
 				82473FA61C1F7A170061FFFB /* AppDelegate.swift in Sources */,
+				70065A551F54A3220058592C /* Configuration.swift in Sources */,
 				82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */,
 				82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */,
 				82942BAD1C2A37670084880C /* Geometry.swift in Sources */,

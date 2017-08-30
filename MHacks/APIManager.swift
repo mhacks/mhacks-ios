@@ -26,7 +26,7 @@ private let archiveLocation = container.appendingPathComponent("archive_v" + "\(
 final class APIManager
 {
 	#if DEBUG
-		private static let baseURL = URL(string: "https://staging.mhacks.org")!
+		private static let baseURL = URL(string: "http://localhost:3000")!
 	#else
 		private static let baseURL = URL(string: "https://mhacks.org")!
 	#endif
@@ -249,15 +249,15 @@ final class APIManager
 		}
 	}
 	
+	// MARK: - Configuration
 	
-	// MARK: - Countdown
-	/// The readonly countdown object. This is a reference type
-	private(set) var countdown = Countdown()
+	/// The readonly configuration object. This is a reference type
+	private(set) var configuration = Configuration()
 	
-	/// Updates the countdown, with an optional callback
-	func updateCountdown(_ callback: CoalescedCallbacks.Callback? = nil)
+	/// Updates the configuration, with an optional callback
+	func updateConfiguration(_ callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateUsing(route: "/v1/countdown/", notificationName: APIManager.CountdownUpdatedNotification, callback: callback, existingObject: countdown)
+		updateUsing(route: "/v1/configuration/", notificationName: APIManager.ConfigurationUpdatedNotification, callback: callback, existingObject: configuration)
 	}
 	
 	// MARK: - Events
@@ -517,7 +517,7 @@ final class APIManager
 			if let obj = NSKeyedUnarchiver.unarchiveObject(with: data) as? APIManagerSerializer {
 				// Move everything over
 				self.authenticator = Authenticator(obj.authenticator as? SerializedRepresentation)
-				updateSerialized(self.countdown, using: obj.countdown, notificationName: APIManager.CountdownUpdatedNotification)
+				updateSerialized(self.configuration, using: obj.configuration, notificationName: APIManager.ConfigurationUpdatedNotification)
 				updateSerialized(self.announcements, using: obj.announcements, notificationName: APIManager.AnnouncementsUpdatedNotification)
 				updateSerialized(self.locations, using: obj.locations, notificationName: APIManager.LocationsUpdatedNotification)
 				updateSerialized(self.floors, using: obj.floors, notificationName: APIManager.FloorsUpdatedNotification)
@@ -553,7 +553,7 @@ extension APIManager
 {
 	static let LoginStateChangedNotification = Notification.Name("LoginStateChanged")
 	static let AnnouncementsUpdatedNotification = Notification.Name("AnnouncementsUpdated")
-	static let CountdownUpdatedNotification = Notification.Name("CountdownUpdated")
+	static let ConfigurationUpdatedNotification = Notification.Name("ConfigurationUpdated")
 	static let EventsUpdatedNotification = Notification.Name("EventsUpdated")
 	static let LocationsUpdatedNotification = Notification.Name("LocationsUpdated")
 	static let FloorsUpdatedNotification = Notification.Name("FloorsUpdated")
@@ -700,7 +700,7 @@ extension APIManager {
 
 final private class APIManagerSerializer: NSObject, NSCoding {
 	let authenticator: NSDictionary
-	let countdown: NSDictionary
+	let configuration: NSDictionary
 	let announcements: NSDictionary
 	let locations: NSDictionary
 	let events: NSDictionary
@@ -708,7 +708,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	let scanEvents: NSDictionary
 	
 	private static let authenticatorKey = "authenticator"
-	private static let countdownKey = "countdown"
+	private static let configurationKey = "configuration"
 	private static let announcementsKey = "announcements"
 	private static let locationsKey = "locations"
 	private static let eventsKey = "events"
@@ -716,11 +716,11 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	private static let scanEventsKey = "scan_events"
 	
 	init?(coder aDecoder: NSCoder) {
-		guard let countdown = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let floors = aDecoder.decodeObject(forKey: APIManagerSerializer.floorsKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
+		guard let configuration = aDecoder.decodeObject(forKey: APIManagerSerializer.configurationKey) as? NSDictionary, let announcements = aDecoder.decodeObject(forKey: APIManagerSerializer.announcementsKey) as? NSDictionary, let locations = aDecoder.decodeObject(forKey: APIManagerSerializer.locationsKey) as? NSDictionary, let events = aDecoder.decodeObject(forKey: APIManagerSerializer.eventsKey) as? NSDictionary, let floors = aDecoder.decodeObject(forKey: APIManagerSerializer.floorsKey) as? NSDictionary, let scanEvents = aDecoder.decodeObject(forKey: APIManagerSerializer.scanEventsKey) as? NSDictionary
 			else { return nil }
 		
 		self.authenticator = aDecoder.decodeObject(forKey: APIManagerSerializer.authenticatorKey) as? NSDictionary ?? NSDictionary()
-		self.countdown = countdown
+		self.configuration = configuration
 		self.announcements = announcements
 		self.locations = locations
 		self.events = events
@@ -730,7 +730,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	
 	init?(manager: APIManager) {
 		self.authenticator = manager.authenticator?.toSerializedRepresentation() ?? NSDictionary()
-		self.countdown = manager.countdown.toSerializedRepresentation()
+		self.configuration = manager.configuration.toSerializedRepresentation()
 		self.announcements = manager.announcements.toSerializedRepresentation()
 		self.locations = manager.locations.toSerializedRepresentation()
 		self.events = manager.events.toSerializedRepresentation()
@@ -740,7 +740,7 @@ final private class APIManagerSerializer: NSObject, NSCoding {
 	
 	func encode(with aCoder: NSCoder) {
 		aCoder.encode(authenticator, forKey: APIManagerSerializer.authenticatorKey)
-		aCoder.encode(countdown, forKey: APIManagerSerializer.countdownKey)
+		aCoder.encode(configuration, forKey: APIManagerSerializer.configurationKey)
 		aCoder.encode(announcements, forKey: APIManagerSerializer.announcementsKey)
 		aCoder.encode(locations, forKey: APIManagerSerializer.locationsKey)
 		aCoder.encode(events, forKey: APIManagerSerializer.eventsKey)
