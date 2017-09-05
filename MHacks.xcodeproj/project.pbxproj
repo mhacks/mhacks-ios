@@ -48,7 +48,6 @@
 		82287A611C66C570001A0F38 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
 		82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
 		82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
-		82287A731C66D89A001A0F38 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
 		82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */; };
 		822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
@@ -68,7 +67,6 @@
 		8243F69D1DA365A900B9D929 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
 		8243F69E1DA365A900B9D929 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		8243F69F1DA365A900B9D929 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
-		8243F6A81DA365B300B9D929 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
 		8243F6A91DA365B300B9D929 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
 		8243F6AA1DA365B300B9D929 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
 		8243F6AB1DA365B300B9D929 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
@@ -82,7 +80,6 @@
 		82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82473FAB1C1F7A170061FFFB /* Main.storyboard */; };
 		82473FAF1C1F7A170061FFFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82473FAE1C1F7A170061FFFB /* Assets.xcassets */; };
 		82473FBD1C1F7F6B0061FFFB /* CircularProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */; };
-		82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC21C1F83C80061FFFB /* Countdown.swift */; };
 		82473FC51C1F8AB30061FFFB /* AnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */; };
 		82473FC71C1F8B0F0061FFFB /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
 		82473FC91C1F8C5B0061FFFB /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
@@ -237,7 +234,6 @@
 		82473FB31C1F7A170061FFFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82473FBC1C1F7F6B0061FFFB /* CircularProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = CircularProgressIndicator.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FBF1C1F80EA0061FFFB /* Serializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Serializable.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		82473FC21C1F83C80061FFFB /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC41C1F8AB30061FFFB /* AnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementsViewController.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC61C1F8B0F0061FFFB /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
 		82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementCell.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -487,7 +483,6 @@
 			isa = PBXGroup;
 			children = (
 				70065A541F54A3220058592C /* Configuration.swift */,
-				82473FC21C1F83C80061FFFB /* Countdown.swift */,
 				82473FC61C1F8B0F0061FFFB /* Announcement.swift */,
 				82942B9A1C2A2B850084880C /* Location.swift */,
 				82942B9C1C2A2EA00084880C /* EventOrganizer.swift */,
@@ -715,7 +710,6 @@
 				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
 				70065A561F54A5A70058592C /* Configuration.swift in Sources */,
 				820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */,
-				82287A731C66D89A001A0F38 /* Countdown.swift in Sources */,
 				820525211D9DADE900EF535C /* Floor.swift in Sources */,
 				82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */,
 				82287A601C66C570001A0F38 /* Location.swift in Sources */,
@@ -746,7 +740,6 @@
 				8243F6AC1DA365B300B9D929 /* Floor.swift in Sources */,
 				8243F6AA1DA365B300B9D929 /* Location.swift in Sources */,
 				8243F6AF1DA369A600B9D929 /* Extensions.swift in Sources */,
-				8243F6A81DA365B300B9D929 /* Countdown.swift in Sources */,
 				8243F6AB1DA365B300B9D929 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -801,7 +794,6 @@
 				46B75ADD1DA253680024139A /* FloorLabelView.swift in Sources */,
 				82E188901D7E7D5500608D40 /* Serializable.swift in Sources */,
 				823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */,
-				82473FC31C1F83C80061FFFB /* Countdown.swift in Sources */,
 				70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */,
 				820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */,
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,

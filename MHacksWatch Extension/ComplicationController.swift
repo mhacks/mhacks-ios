@@ -56,7 +56,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-//        handler(APIManager.shared.configuration.startDate)
+        handler(APIManager.shared.configuration.endDate)
     }
     
     func getPrivacyBehavior(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationPrivacyBehavior) -> Void) {
@@ -108,7 +108,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     // MARK: - Helper
     func createTimeLineEntry(for template: CLKComplicationTemplateRingImage, for date: Date = Date()) -> CLKComplicationTimelineEntry {
         template.ringStyle = .closed
-        template.fillFraction = 1.0//Float(APIManager.shared.configuration.progress(for: date))
+        template.fillFraction = Float(APIManager.shared.configuration.progress(for: date))
         template.imageProvider = CLKImageProvider(onePieceImage: UIImage(named: type(of: template).imageString)!)
         template.tintColor = MHacksColor.blue
         

@@ -8,9 +8,11 @@
 
 import UIKit
 
-final class Configuration : Serializable {
+final class Configuration : Serializable, Equatable {
     
     // MARK : - Properties
+
+    /// Be sure to update the == function at the bottom of this file if add property here.
     private(set) var startDate: Date
     private(set) var endDate: Date
 
@@ -54,8 +56,8 @@ final class Configuration : Serializable {
     
     // MARK: Countdown Formatting
     
-    func progress() -> Double {
-        return 1.0 - self.timeRemaining() / self.duration
+    func progress(for date: Date = Date()) -> Double {
+        return 1.0 - self.timeRemaining(for: date) / self.duration
     }
     
     private func progressDate(for date: Date = Date()) -> Date {
@@ -133,4 +135,8 @@ final class Configuration : Serializable {
     private var roundedCurrentDate: Date {
         return self.startDate.addingTimeInterval(self.duration - self.roundedTimeRemaining)
     }
+}
+
+func ==(lhs: Configuration, rhs: Configuration) -> Bool {
+    return lhs.startDate == rhs.startDate && lhs.endDate == rhs.endDate
 }

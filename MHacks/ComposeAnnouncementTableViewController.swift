@@ -91,7 +91,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         
         /// Date Picker Cell
         let minDate = APIManager.shared.configuration.startDate.addingTimeInterval(-36000)
-        let maxDate = APIManager.shared.configuration.startDate.addingTimeInterval(36000)
+        let maxDate = APIManager.shared.configuration.endDate.addingTimeInterval(36000)
         
         dateCell.datePicker.minimumDate = minDate
         dateCell.datePicker.maximumDate = maxDate
