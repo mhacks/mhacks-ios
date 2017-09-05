@@ -55,8 +55,7 @@ final class Configuration : Serializable {
     // MARK: Countdown Formatting
     
     func progress() -> Double {
-        let duration = self.endDate.timeIntervalSince1970 - self.startDate.timeIntervalSince1970
-        return 1.0 - self.timeRemaining() / duration
+        return 1.0 - self.timeRemaining() / self.duration
     }
     
     private func progressDate(for date: Date = Date()) -> Date {
@@ -67,11 +66,15 @@ final class Configuration : Serializable {
         return self.endDate.timeIntervalSince(progressDate(for: date))
     }
     
+    private var duration: TimeInterval {
+        return self.endDate.timeIntervalSince1970 - self.startDate.timeIntervalSince1970
+    }
+    
     private var roundedTimeRemaining: TimeInterval {
         return round(self.timeRemaining())
     }
     
-    private var timeRemainingDescription: String {
+    var timeRemainingDescription: String {
         
         let total = Int(self.roundedTimeRemaining)
         
@@ -100,4 +103,34 @@ final class Configuration : Serializable {
         
         return formatter
     }()
+    
+    var startDateDescription: String {
+        let message: String = {
+            if self.roundedCurrentDate > self.startDate {
+                return NSLocalizedString("Hacking started\n%@.", comment: "Countdown hacking did start")
+            } else {
+                return NSLocalizedString("Hacking starts\n%@.", comment: "Countdown hacking will start")
+            }
+        }()
+        
+        let dateText = Configuration.dateFormatter.string(from: startDate)
+        
+        return String(format: message, dateText)
+    }
+    
+    var endDateDescription: String {
+        let dateText = Configuration.dateFormatter.string(from: self.endDate)
+        
+        if self.roundedCurrentDate < self.endDate {
+            let message = NSLocalizedString("Hacking finishes\n%@.", comment: "Countdown hacking will end")
+            return String(format: message, dateText)
+        } else {
+            let message = NSLocalizedString("Hacking finished\n%@.", comment: "Countdown hacking did end")
+            return String(format: message, dateText)
+        }
+    }
+    
+    private var roundedCurrentDate: Date {
+        return self.startDate.addingTimeInterval(self.duration - self.roundedTimeRemaining)
+    }
 }

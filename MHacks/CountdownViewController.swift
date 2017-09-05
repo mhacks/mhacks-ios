@@ -84,15 +84,14 @@ class CountdownViewController: UIViewController {
 	}
 	
 	func updateCountdownViews() {
-		
+
 		if let firstAppearanceDate = firstAppearanceDate , firstAppearanceDate.timeIntervalSinceNow < -0.5 {
 			progressIndicator.setProgress(APIManager.shared.configuration.progress(), animated: true)
 		}
 		
-		//countdownLabel.text = APIManager.shared.configuration.timeRemainingDescription
-		
-		startLabel.text = "\(APIManager.shared.configuration.startDate)"
-		//endLabel.text = APIManager.shared.configuration.endDateDescription
+		countdownLabel.text = APIManager.shared.configuration.timeRemainingDescription
+		startLabel.text = APIManager.shared.configuration.startDateDescription
+		endLabel.text = APIManager.shared.configuration.endDateDescription
 	}
 }
 

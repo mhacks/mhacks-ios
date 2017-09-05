@@ -26,7 +26,7 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 			return false
 		}
 		lastUpdated = updatedAt
-		
+        		
 		// We keep the changes to the time regardless, if newItems.count == 0
 		// we know nothing has changed, so we say nothing was updated
 		guard newItems.count > 0
