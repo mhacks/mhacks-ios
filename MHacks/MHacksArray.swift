@@ -21,7 +21,7 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 
 	func updateWith(_ serializedRepresentation: SerializedRepresentation) -> Bool
 	{
-		guard let newItems = serializedRepresentation[resultsKey] as? [[String: Any]], let updatedAt = serializedRepresentation[MHacksArray.lastUpdatedKey] as? Int
+		guard let newItems = serializedRepresentation[Element.resultsKey] as? [[String: Any]], let updatedAt = serializedRepresentation[MHacksArray.lastUpdatedKey] as? Int
 		else {
 			return false
 		}

@@ -15,6 +15,9 @@ import CoreLocation
 final class Location : SerializableElementWithIdentifier {
 	
 	let ID: String
+	static var resultsKey: String {
+		return "locations"
+	}
 	let name: String
 	let coordinate: CLLocationCoordinate2D?
 	private let floorID: String?

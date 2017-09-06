@@ -27,6 +27,7 @@ extension SerializableElement
 protocol SerializableElementWithIdentifier: SerializableElement, Comparable, Hashable
 {
 	var ID: String { get }
+	static var resultsKey: String { get }
 }
 extension SerializableElementWithIdentifier
 {
