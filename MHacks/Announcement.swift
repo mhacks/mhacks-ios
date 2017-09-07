@@ -95,18 +95,24 @@ struct Announcement: SerializableElementWithIdentifier {
 
 extension Announcement
 {
-	private static let infoKey = "info"
+	private static let infoKey = "body"
 	private static let titleKey = "title"
-	private static let dateKey = "broadcast_at"
+	private static let dateKey = "broadcastTime"
 	private static let categoryKey = "category"
-	private static let approvedKey = "approved"
+	private static let approvedKey = "isApproved"
 
 	init?(_ serializedRepresentation: SerializedRepresentation) {
-		guard let id = serializedRepresentation[Announcement.idKey] as? String, let title = serializedRepresentation[Announcement.titleKey] as? String, let message = serializedRepresentation[Announcement.infoKey] as? String, let date = serializedRepresentation[Announcement.dateKey] as? Double, let categoryRaw = serializedRepresentation[Announcement.categoryKey] as? Int, let approved = serializedRepresentation[Announcement.approvedKey] as? Bool
+		guard
+			let id = serializedRepresentation[Announcement.idKey] as? String,
+			let title = serializedRepresentation[Announcement.titleKey] as? String,
+			let message = serializedRepresentation[Announcement.infoKey] as? String,
+			let date = serializedRepresentation[Announcement.dateKey] as? Double,
+			let categoryString = serializedRepresentation[Announcement.categoryKey] as? String,
+			let approved = serializedRepresentation[Announcement.approvedKey] as? Bool
 			else {
 				return nil
 		}
-		self.init(ID: id, title: title, message: message, date: Date(timeIntervalSince1970: date), category: Category(rawValue: categoryRaw), approved: approved)
+		self.init(ID: id, title: title, message: message, date: Date(timeIntervalSince1970: date / 1000), category: Category(rawValue: getCategory(type: categoryString)), approved: approved)
 	}
 	func toSerializedRepresentation() -> NSDictionary {
 		return [Announcement.idKey: ID, Announcement.titleKey: title, Announcement.dateKey: date.timeIntervalSince1970, Announcement.infoKey: message, Announcement.categoryKey: category.rawValue, Announcement.approvedKey: approved]
@@ -116,5 +122,22 @@ extension Announcement
 
 func <(lhs: Announcement, rhs: Announcement) -> Bool {
 	return lhs.date > rhs.date
+}
+
+private func getCategory(type: String) -> Int {
+	switch type {
+	case "Emergency":
+		return 1
+	case "Logistics":
+		return 2
+	case "Food":
+		return 4
+	case "Events":
+		return 8
+	case "Sponsor":
+		return 16
+	default:
+		return 0
+	}
 }
 

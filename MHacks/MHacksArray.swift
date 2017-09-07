@@ -21,11 +21,11 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 
 	func updateWith(_ serializedRepresentation: SerializedRepresentation) -> Bool
 	{
-		guard let newItems = serializedRepresentation[Element.resultsKey] as? [[String: Any]], let updatedAt = serializedRepresentation[MHacksArray.lastUpdatedKey] as? Int
-		else {
+		guard let newItems = serializedRepresentation[Element.resultsKey] as? [[String: Any]]
+        else {
 			return false
 		}
-		lastUpdated = updatedAt
+//		lastUpdated = updatedAt
         		
 		// We keep the changes to the time regardless, if newItems.count == 0
 		// we know nothing has changed, so we say nothing was updated
