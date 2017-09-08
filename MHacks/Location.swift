@@ -20,22 +20,14 @@ final class Location : SerializableElementWithIdentifier {
 	}
 	let name: String
 	let coordinate: CLLocationCoordinate2D?
-	private let floorID: String?
-	var floor : Floor? {
-		guard let floorID = floorID
-			else { return nil }
-		return APIManager.shared.floors[floorID]
-	}
 	
-	init(ID: String, name: String, floorID: String?, coordinate: CLLocationCoordinate2D?) {
+	init(ID: String, name: String, coordinate: CLLocationCoordinate2D?) {
 		self.ID = ID
 		self.name = name
-		self.floorID = floorID
 		self.coordinate = coordinate
 	}
 	
 	private static let nameKey = "name"
-	private static let floorKey = "floor"
 	private static let latitudeKey = "latitude"
 	private static let longitudeKey = "longitude"
 	
@@ -45,7 +37,7 @@ final class Location : SerializableElementWithIdentifier {
 			return nil
 		}
 		
-		// Backend passes latitude and longitude back as strings (as of March 2017)
+		// Backend passes latitude and longitude back as strings (as of September 2017)
 		// so to use same serialization/deserialization method from cache as JSON response
 		// we cast to string before serialization and thus must change back to Double on deserialization
 		
@@ -57,15 +49,11 @@ final class Location : SerializableElementWithIdentifier {
 			coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
 		}
 		
-		self.init(ID: id, name: locationName, floorID: serializedRepresentation[Location.floorKey] as? String, coordinate: coordinate)
+		self.init(ID: id, name: locationName, coordinate: coordinate)
 	}
 	
 	func toSerializedRepresentation() -> NSDictionary {
 		var dict = [Location.idKey: ID, Location.nameKey: name]
-		
-		if let floorID = floorID {
-			dict[Location.floorKey] = floorID
-		}
 		
 		if let coordinate = self.coordinate {
 			dict[Location.latitudeKey] = "\(coordinate.latitude)"

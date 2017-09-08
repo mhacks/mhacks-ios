@@ -210,7 +210,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		cell.color = event.category.color
         cell.textLabel.text = event.name
-        cell.detailTextLabel.text = event.locationsDescription
+        cell.detailTextLabel.text = event.location?.name
         
         return cell
     }

@@ -12,8 +12,12 @@ import UIKit
 
 final class Event: SerializableElementWithIdentifier {
  
-	enum Category: Int, CustomStringConvertible {
-		case general = 0, logisitics, food, learn, social
+	enum Category: String, CustomStringConvertible {
+		case general = "General"
+		case logisitics = "Logistics"
+		case food = "Food"
+		case learn = "Learn"
+		case social = "Social"
 		
 		var color: UIColor {
 			switch self {
@@ -29,19 +33,9 @@ final class Event: SerializableElementWithIdentifier {
 				return MHacksColor.red
 			}
 		}
+		
 		var description : String {
-			switch self {
-			case .general:
-				return "General"
-			case .logisitics:
-				return "Logisitics"
-			case .food:
-				return "Food"
-			case .learn:
-				return "Learn"
-			case .social:
-				return "Social"
-			}
+			return self.rawValue
 		}
 	}
 	
@@ -51,22 +45,23 @@ final class Event: SerializableElementWithIdentifier {
 	}
     let name: String
 	let category: Category
-	fileprivate let locationIDs: [String]
+	fileprivate let locationID: String
     let startDate: Date
-	var endDate: Date {
-		return startDate.addingTimeInterval(duration)
-	}
-    let duration: Double
-    let information: String
+	let endDate: Date
+    let desc: String
 	
-	init(ID: String, name: String, category: Category, locationIDs: [String], startDate: Date, duration: Double, info: String) {
+	var duration: Double {
+		return 60
+	}
+	
+	init(ID: String, name: String, category: Category, locationID: String, startDate: Date, endDate: Date, desc: String) {
 		self.ID = ID
 		self.name = name
 		self.category = category
-		self.locationIDs = locationIDs
+		self.locationID = locationID
 		self.startDate = startDate
-		self.duration = duration
-		self.information = info
+		self.endDate = endDate
+		self.desc = desc
 	}
 
 	
@@ -74,40 +69,54 @@ final class Event: SerializableElementWithIdentifier {
         return startDate.timeIntervalSinceReferenceDate..<endDate.timeIntervalSinceReferenceDate
     }
 	
-	var locations: [Location] {
-		return locationIDs.flatMap { locationID in
-			APIManager.shared.locations[locationID]
-		}
+	var location: Location? {
+		return APIManager.shared.locations[locationID]
 	}
-    var locationsDescription: String {
-		switch locations.count {
-        case 1:
-            return locations[0].name
-        case 2:
-            return "\(locations[0].name) & \(locations[1].name)"
-        default:
-            return locations.reduce("") { $0 + ", " + $1.name }
-        }
-    }
 }
 
 extension Event {
 	private static let nameKey = "name"
-	private static let locationIDsKey = "locations"
-	private static let startDateKey = "start"
-	private static let durationKey = "duration"
-	private static let infoKey = "info"
+	private static let descKey = "desc"
+	private static let locationIDKey = "location"
+	private static let startDateKey = "startDate"
+	private static let endDateKey = "endDate"
 	private static let categoryKey = "category"
 	
 	convenience init?(_ serialized: SerializedRepresentation) {
-		guard let name = serialized[Event.nameKey] as? String, let categoryRaw = serialized[Event.categoryKey] as? Int, let locationIDs = serialized[Event.locationIDsKey] as? [String], let category = Category(rawValue: categoryRaw), let startDate = serialized[Event.startDateKey] as? Double, let duration = serialized[Event.durationKey] as? Double, let description = serialized[Event.infoKey] as? String, let ID = serialized[Event.idKey] as? String
+		guard
+			let name = serialized[Event.nameKey] as? String,
+			let categoryRaw = serialized[Event.categoryKey] as? String,
+			let locationID = serialized[Event.locationIDKey] as? String,
+			let category = Category(rawValue: categoryRaw),
+			let startDate = serialized[Event.startDateKey] as? Double,
+			let endDate = serialized[Event.endDateKey] as? Double,
+			let desc = serialized[Event.descKey] as? String,
+			let ID = serialized[Event.idKey] as? String
 		else {
 			return nil
 		}
-		self.init(ID: ID, name: name, category: category, locationIDs: locationIDs, startDate: Date(timeIntervalSince1970: startDate), duration: duration, info: description)
+		
+		self.init(
+			ID: ID,
+			name: name,
+			category: category,
+			locationID: locationID,
+			startDate: Date(timeIntervalSince1970: startDate / 1000),
+			endDate: Date(timeIntervalSince1970: endDate / 1000),
+			desc: desc
+		)
 	}
+	
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Event.idKey: ID, Event.nameKey: name, Event.locationIDsKey: locationIDs as NSArray, Event.startDateKey: startDate.timeIntervalSince1970, Event.durationKey: duration, Event.infoKey: information, Event.categoryKey: category.rawValue]
+		return [
+			Event.idKey: ID,
+			Event.nameKey: name,
+			Event.locationIDKey: locationID,
+			Event.startDateKey: startDate.timeIntervalSince1970,
+			Event.endDateKey: endDate,
+			Event.descKey: desc,
+			Event.categoryKey: category.rawValue
+		]
 	}
 }
 func < (lhs: Event, rhs: Event) -> Bool {

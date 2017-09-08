@@ -255,8 +255,7 @@ final class APIManager
 	private(set) var configuration = Configuration()
 	
 	/// Updates the configuration, with an optional callback
-	func updateConfiguration(_ callback: CoalescedCallbacks.Callback? = nil)
-	{
+	func updateConfiguration(_ callback: CoalescedCallbacks.Callback? = nil) {
 		updateUsing(route: "/v1/configuration/", notificationName: APIManager.ConfigurationUpdatedNotification, callback: callback, existingObject: configuration)
 	}
 	
@@ -276,7 +275,7 @@ final class APIManager
 				self.events.coalescer.fire(false)
 				return
 			}
-			self.updateUsing(route: "/v1/events/", notificationName: APIManager.EventsUpdatedNotification, callback: callback, existingObject: self.events)
+			self.updateUsing(route: "/v1/event/", notificationName: APIManager.EventsUpdatedNotification, callback: callback, existingObject: self.events)
 		}
 	}
 	
@@ -294,7 +293,7 @@ final class APIManager
 				return
 			}
 			
-			self.updateUsing(route: "/v1/locations/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: self.locations)
+			self.updateUsing(route: "/v1/location/", notificationName: APIManager.LocationsUpdatedNotification, callback: callback, existingObject: self.locations)
 		}
 	}
 	
@@ -302,7 +301,7 @@ final class APIManager
 	// MARK: - Floors
 	let floors = MHacksArray<Floor>()
 	func updateFloors(_ callback: CoalescedCallbacks.Callback? = nil) {
-		updateUsing(route: "/v1/floors/", notificationName: APIManager.FloorsUpdatedNotification, callback: callback, existingObject: floors)
+		updateUsing(route: "/v1/floor/", notificationName: APIManager.FloorsUpdatedNotification, callback: callback, existingObject: self.floors)
 	}
 	
 	// MARK: - PKPass

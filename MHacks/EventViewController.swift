@@ -85,7 +85,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(floorsUpdated), name: APIManager.FloorsUpdatedNotification, object: nil)
 		
-		APIManager.shared.updateFloors()
+		//APIManager.shared.updateFloors()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
@@ -108,11 +108,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 	
 	func updateViews() {
 		
-		if !isViewLoaded {
-			return
-		}
-		
-		guard let event = event else {
+		guard isViewLoaded, let event = event else {
 			return
 		}
 		
@@ -120,30 +116,22 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		subtitleLabel.text = event.category.description
 		subtitleLabel.textColor = event.category.color
 		colorView.fillColor = event.category.color
-		descriptionLabel.text = event.information
+		descriptionLabel.text = event.desc
 		dateLabel.text = dateIntervalFormatter.string(from: event.startDate, to: event.endDate)
 		
 		for subview in locationsView.arrangedSubviews {
 			subview.removeFromSuperview()
 		}
 		
-		for location in event.locations {
-			
+		if let location = event.location {
 			let locationLabel = DoubleLabel()
 			
-			if let floor = location.floor {
-				
-				locationLabel.titleLabel.text = floor.name
-				locationLabel.textLabel.text = location.name
-				
-			} else {
-				
-				locationLabel.titleLabel.text = location.name
-				locationLabel.textLabel.text = nil
-			}
+			locationLabel.titleLabel.text = location.name
+			locationLabel.textLabel.text = nil
 			
 			locationsView.addArrangedSubview(locationLabel)
 		}
+
 		
 		guard let floor = APIManager.shared.floors.first else { return }
 		
@@ -188,12 +176,10 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		
 		self.mapView.add(mapOverlay)
 		
-		let mapCenter = self.event?.locations.flatMap({ $0.coordinate }).first ?? midpoint
+		let mapCenter = self.event?.location?.coordinate ?? midpoint
 		let adjustedRegion = MKCoordinateRegion(center: mapCenter, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
 		
-		let validLocations = self.event?.locations.flatMap({ $0.coordinate }) ?? []
-		
-		for coordinate in validLocations {
+		if let coordinate = self.event?.location?.coordinate {
 			let annotation = MKPointAnnotation()
 			annotation.coordinate = coordinate
 			self.mapView.addAnnotation(annotation)
@@ -220,7 +206,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 	var isAngled = false
 	
 	func shiftToAngledView() {
-		if let eventLocation = self.event?.locations.flatMap({ $0.coordinate }).first {
+		if let eventLocation = self.event?.location?.coordinate {
 			let camera = isAngled ? MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 0, heading: 0) : MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 70, heading: 40)
     			self.mapView.setCamera(camera, animated: true)
     			isAngled = !isAngled
