@@ -570,7 +570,7 @@ extension APIManager {
 			completion(.value(true))
 			return
 		}
-		var parameters: [String: Any] = ["username": username, "password": password]
+		var parameters: [String: Any] = ["email": username, "password": password]
 		if let (apnsToken, preference) = getTokenAndPreference(newPreference: nil)
 		{
 			parameters["is_gcm"] = false
@@ -578,7 +578,7 @@ extension APIManager {
 			parameters[APIManager.APNSPreferenceKey] = "\(preference)"
 		}
 		
-		let request = createRequestForRoute("/v1/login/", parameters: parameters, usingHTTPMethod: .post)
+		let request = createRequestForRoute("/v1/auth/login/", parameters: parameters, usingHTTPMethod: .post)
 		showNetworkIndicator()
 		
 		let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -638,11 +638,16 @@ extension APIManager {
 		
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let usernameKey = "email"
-		private static let nameKey = "name"
+		private static let nameKey = "full_name"
 		private static let schoolKey = "school"
+		private static let groupsKey = "groups"
+		private static let groupNameKey = "name"
+		private static let adminValue = "admin"
+		private static let readerValue = "reader"
 		private static let canPostAnnouncementsKey = "can_post_announcements"
 		private static let canEditAnnouncementsKey = "can_edit_announcements"
 		private static let canPerformScanKey = "can_perform_scan"
+
 		
 		init(authToken: String, username: String, name: String, school: String?,
 		     canPostAnnouncements: Bool, canEditAnnouncements: Bool, canPerformScan: Bool) {
@@ -671,8 +676,12 @@ extension APIManager {
 			else {
 				return nil
 			}
+			let canPostAnnouncements: Bool = isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
+			let canEditAnnouncements: Bool = isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
+			let canPerformScanKey: Bool = isAdminOrReader(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
+
 			
-			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: serializedRepresentation[Authenticator.canPostAnnouncementsKey] as? Bool ?? false, canEditAnnouncements: serializedRepresentation[Authenticator.canEditAnnouncementsKey] as? Bool ?? false, canPerformScan: serializedRepresentation[Authenticator.canPerformScanKey] as? Bool ?? false)
+			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: canPostAnnouncements, canEditAnnouncements: canEditAnnouncements, canPerformScan: canPerformScanKey)
 		}
 		
 		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
@@ -694,6 +703,26 @@ extension APIManager {
 			_ = KeychainWrapper.shared.remove(key: username)
 		}
 	}
+
+
+}
+
+private func isAdmin(_ groups: NSArray) -> Bool {
+	for item in groups {
+		if ((item as! SerializedRepresentation)["name"] as! String == "admin") {
+			return true
+		}
+	}
+	return false
+}
+
+private func isAdminOrReader(_ groups: NSArray) -> Bool {
+	for item in groups {
+		if ((item as! SerializedRepresentation)["name"] as! String == "admin" || (item as! SerializedRepresentation)["name"] as! String == "reader") {
+			return true
+		}
+	}
+	return false
 }
 
 
