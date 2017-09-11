@@ -99,7 +99,7 @@ final class APIManager
 			return
 		}
 		
-		taskWithRoute("/v1/profile/") { response in
+		taskWithRoute("/v1/user/profile/") { response in
 			switch response
 			{
 			case .value(let newData):
@@ -314,7 +314,7 @@ final class APIManager
 			callback(.error("Cannot fetch pass while not logged in"))
 			return
 		}
-		taskWithRoute("/v1/apple_pass/") { response in
+		taskWithRoute("/v1/user/ticket/passbook") { response in
 			switch response
 			{
 			case .value(let json):
@@ -676,9 +676,9 @@ extension APIManager {
 			else {
 				return nil
 			}
-			let canPostAnnouncements: Bool = isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
-			let canEditAnnouncements: Bool = isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
-			let canPerformScanKey: Bool = isAdminOrReader(serializedRepresentation[Authenticator.groupsKey] as! NSArray)
+			let canPostAnnouncements: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canPostAnnouncementsKey] as! Bool
+			let canEditAnnouncements: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canEditAnnouncementsKey] as! Bool
+			let canPerformScanKey: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdminOrReader(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canPerformScanKey] as! Bool
 
 			
 			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: canPostAnnouncements, canEditAnnouncements: canEditAnnouncements, canPerformScan: canPerformScanKey)
