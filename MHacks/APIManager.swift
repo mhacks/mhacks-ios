@@ -136,7 +136,7 @@ final class APIManager
 	}
 	
 	// MARK: - APNS Token
-	fileprivate static let APNSTokenKey = "registration_id"
+	fileprivate static let APNSTokenKey = "push_id"
 	fileprivate static let APNSPreferenceKey = "name"
 	fileprivate func getTokenAndPreference(newPreference: Int?) -> (String, Int)?
 	{
@@ -172,10 +172,10 @@ final class APIManager
 			return
 		}
 		
-		taskWithRoute("/v1/push_notifications/apns/", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: "\(preference)"], usingHTTPMethod: .post) { response in
+		taskWithRoute("/v1/user/profile", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: "\(preference)"], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
-				guard let token = json["registration_id"] as? String, token == deviceID
+				guard let token = json["push_id"] as? String, token == deviceID
 				else {
 					completion?(false)
 					return
@@ -318,12 +318,13 @@ final class APIManager
 			switch response
 			{
 			case .value(let json):
-				guard let encodedPassInformation = json["apple_pass"] as? String, let passData = Data(base64Encoded: encodedPassInformation, options: .ignoreUnknownCharacters)
+				guard
+					let encodedPassInformation = json["apple_pass"] as? Data
 				else {
 					callback(.error("Invalid pass downloaded. Try again"))
 					return
 				}
-				callback(.value(passData))
+				callback(.value(encodedPassInformation))
 			case .error(let message):
 				callback(.error(message))
 			}
@@ -437,7 +438,24 @@ final class APIManager
 				completion(.value([:]))
 				return
 			}
-			guard let data = data, let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []), let json = jsonObject as? [String: Any]
+			guard
+				let httpResponse = response as? HTTPURLResponse,
+				let contentType = httpResponse.allHeaderFields["Content-Type"] as? String,
+				let data = data
+			else {
+					assertionFailure("The response should always have a content type.")
+					completion(.error("No Content-Type"))
+				return
+			}
+
+			if (contentType == "application/vnd.apple.pkpass") {
+				let pass: [String: Any] = ["apple_pass" : data]
+				completion(.value(pass))
+				return
+			}
+			guard
+				let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+				let json = jsonObject as? [String: Any]
 			else {
 				assertionFailure("Deserialization should never fail. We recover silently in production builds")
 				completion(.error("Deserialization failed"))
@@ -662,7 +680,7 @@ extension APIManager {
 		}
 		
 		func addAuthorizationHeader(_ request: inout URLRequest) {
-			request.addValue("Token \(authenticationToken)", forHTTPHeaderField: "Authorization")
+			request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")
 		}
 		
 		// MARK: Authenticator Archiving
