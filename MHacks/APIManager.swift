@@ -335,7 +335,7 @@ final class APIManager
 	let scanEvents = MHacksArray<ScanEvent>()
 	func updateScanEvents(_ callback: CoalescedCallbacks.Callback? = nil)
 	{
-		updateUsing(route: "/v1/scan_events/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: {
+		updateUsing(route: "/v1/scan/", notificationName: APIManager.ScanEventsUpdatedNotification, callback: {
 			self.invalidateExpiredScanEvents()
 			callback?($0)
 		}, existingObject: scanEvents)
@@ -362,13 +362,13 @@ final class APIManager
 	/// - parameter callback:        A callback after the server responds, the parameters are a boolean indicating success of the scan event as well as additionalData associated with the scan. This is scan event specific so you must parse it manually as you see fit. Note additionalData may still be nil even if succeeded is true if there is no additional data for that particular scan event
 	func performScan(userDataScanned: String, scanEvent: ScanEvent, readOnlyPeek: Bool, _ callback: @escaping (_ succeeded: Bool, _ additionalData: [ScannedDataField]) -> Void)
 	{
-		taskWithRoute("/v1/perform_scan/", parameters: ["user_id": userDataScanned, "scan_event": scanEvent.ID], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
+		taskWithRoute("/v1/scan/" + scanEvent.ID, parameters: ["id": userDataScanned], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
 			switch response
 			{
 			case .value(let json):
-				guard let succeeded = json["scanned"] as? Bool
+				guard let succeeded = json["status"] as? Bool
 				else { return callback(false, []) }
-				let serializedItems = json["data"] as? [SerializedRepresentation] ?? []
+				let serializedItems = json["scan"] as? [SerializedRepresentation] ?? []
 				let scannedDataFields = serializedItems.flatMap { ScannedDataField($0) }
 				callback(succeeded, scannedDataFields)
 			case .error(let errorMessage):

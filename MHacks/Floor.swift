@@ -13,9 +13,7 @@ import CoreLocation
 final class Floor: SerializableElementWithIdentifier
 {
     let ID: String
-    static var resultsKey: String {
-        return "floors"
-    }
+    static var resultsKey: String = "floors"
     var name: String
     var imageURL: String
     var index: Int

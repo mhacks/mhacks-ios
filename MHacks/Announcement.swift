@@ -58,9 +58,7 @@ struct Announcement: SerializableElementWithIdentifier {
 	}
 	
 	var ID: String
-	static var resultsKey: String {
-		return "announcements"
-	}
+	static let resultsKey: String = "announcements"
 	var title: String
 	var message: String
 	var date: Date

@@ -11,9 +11,7 @@ import Foundation
 struct ScanEvent: SerializableElementWithIdentifier
 {
     var ID: String
-    static var resultsKey: String {
-        return "scanEvent"
-    }
+    static var resultsKey: String = "scan"
 	var name: String
 	var expiryDate: Date
 }

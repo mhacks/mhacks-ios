@@ -40,9 +40,7 @@ final class Event: SerializableElementWithIdentifier {
 	}
 	
 	let ID: String
-	static var resultsKey: String {
-		return "events"
-	}
+	static var resultsKey: String = "events"
     let name: String
 	let category: Category
 	fileprivate let locationID: String
