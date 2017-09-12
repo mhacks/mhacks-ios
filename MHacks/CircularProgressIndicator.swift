@@ -128,8 +128,8 @@ class CircularProgressIndicator: UIView {
         
         let circleCenter = CGPoint(x: bounds.midX, y: bounds.midY)
         
-        let startAngle = CGFloat(0.0 - M_PI_2)
-        let endAngle = CGFloat(2.0 * M_PI - M_PI_2)
+        let startAngle = CGFloat(0.0 - .pi / 2)
+        let endAngle = CGFloat(2.0 * .pi - .pi / 2)
         
         let progressPath = UIBezierPath(arcCenter: circleCenter, radius: (bounds.width - lineWidth) / 2.0, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         
