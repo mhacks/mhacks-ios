@@ -175,7 +175,7 @@ final class APIManager
 		taskWithRoute("/v1/user/profile", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: "\(preference)"], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
-				guard let token = json["push_id"] as? String, token == deviceID
+				guard let token = json[APIManager.APNSTokenKey] as? String, token == deviceID
 				else {
 					completion?(false)
 					return
