@@ -185,7 +185,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.alpha = 1.0
             
             nameLabel.text = user.name
-            schoolLabel.text = user.school ?? "Unknown"
+            schoolLabel.text = user.university ?? "Unknown"
             
             let userIDData = user.userID.data(using: .isoLatin1)!
             

@@ -63,7 +63,7 @@ final class APIManager
 		
 		/// The school the user goes to, this is optional because the backend may not *always* send it over
 		/// recover gently when it is nil (although rare)
-		var school: String?
+		var university: String?
 		
 		var description: String { return name }
 		var debugDescription: String { return "UserInfo for \(name) with ID: \(userID)" }
@@ -130,7 +130,7 @@ final class APIManager
 	var userState: UserState {
 		guard let authenticator = authenticator
 		else { return .LoggedOut }
-		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.name, school: authenticator.school))
+		return .LoggedIn(UserInfo(userID: authenticator.username, email: authenticator.username, name: authenticator.name, university: authenticator.university))
 	}
 	/// A quick helper if you are only interested in the logged in/logged out state and not the associated data
 	var loggedIn: Bool {
@@ -649,7 +649,7 @@ extension APIManager {
 		
 		let username: String
 		let name: String
-		let school: String?
+		let university: String?
 		let canPostAnnouncements: Bool
 		let canEditAnnouncements: Bool
 		let canPerformScan: Bool
@@ -659,7 +659,7 @@ extension APIManager {
 		private static let authTokenKey = "MHacksAuthenticationToken"
 		private static let usernameKey = "email"
 		private static let nameKey = "full_name"
-		private static let schoolKey = "school"
+		private static let universityKey = "university"
 		private static let groupsKey = "groups"
 		private static let groupNameKey = "name"
 		private static let adminValue = "admin"
@@ -669,12 +669,12 @@ extension APIManager {
 		private static let canPerformScanKey = "can_perform_scan"
 
 		
-		init(authToken: String, username: String, name: String, school: String?,
+		init(authToken: String, username: String, name: String, university: String?,
 		     canPostAnnouncements: Bool, canEditAnnouncements: Bool, canPerformScan: Bool) {
 			self.authenticationToken = authToken
 			self.username = username
 			self.name = name
-			self.school = school
+			self.university = university
 			self.canPostAnnouncements = canPostAnnouncements
 			self.canEditAnnouncements = canEditAnnouncements
 			self.canPerformScan = canPerformScan
@@ -701,7 +701,7 @@ extension APIManager {
 			let canPerformScanKey: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdminOrReader(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canPerformScanKey] as! Bool
 
 			
-			self.init(authToken: authToken, username: username, name: name, school: serializedRepresentation[Authenticator.schoolKey] as? String, canPostAnnouncements: canPostAnnouncements, canEditAnnouncements: canEditAnnouncements, canPerformScan: canPerformScanKey)
+			self.init(authToken: authToken, username: username, name: name, university: serializedRepresentation[Authenticator.universityKey] as? String, canPostAnnouncements: canPostAnnouncements, canEditAnnouncements: canEditAnnouncements, canPerformScan: canPerformScanKey)
 		}
 		
 		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
@@ -713,9 +713,9 @@ extension APIManager {
 		func toSerializedRepresentation() -> NSDictionary {
 			_ = KeychainWrapper.shared.set(authenticationToken, forKey: username)
 			var dict: [String : Any] = [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.canPostAnnouncementsKey: canPostAnnouncements, Authenticator.canEditAnnouncementsKey: canEditAnnouncements, Authenticator.canPerformScanKey: canPerformScan]
-			if let school = school
+			if let university = university
 			{
-				dict[Authenticator.schoolKey] = school
+				dict[Authenticator.universityKey] = university
 			}
 			return dict as NSDictionary
 		}
