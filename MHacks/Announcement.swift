@@ -27,6 +27,24 @@ struct Announcement: SerializableElementWithIdentifier {
 			switch self.rawValue
 			{
 			case Category.emergency.rawValue:
+				return "emergency"
+			case Category.logistics.rawValue:
+				return "logistics"
+			case Category.food.rawValue:
+				return "food"
+			case Category.events.rawValue:
+				return "event"
+			case Category.sponsor.rawValue:
+				return "sponsored"
+			default:
+				return "None"
+			}
+		}
+
+		var descriptionDisplay: String {
+			switch self.rawValue
+			{
+			case Category.emergency.rawValue:
 				return "Emergency"
 			case Category.logistics.rawValue:
 				return "Logistics"
@@ -131,15 +149,15 @@ func <(lhs: Announcement, rhs: Announcement) -> Bool {
 
 private func getCategory(type: String) -> Int {
 	switch type {
-	case "Emergency":
+	case "emergency":
 		return 1
-	case "Logistics":
+	case "logistics":
 		return 2
-	case "Food":
+	case "food":
 		return 4
-	case "Events":
+	case "event":
 		return 8
-	case "Sponsor":
+	case "sponsored":
 		return 16
 	default:
 		return 0

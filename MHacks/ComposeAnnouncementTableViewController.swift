@@ -105,7 +105,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         categoryCells = categories.map {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell") as! CategoryPickerCell
-            cell.categoryLabel.text = $0.description
+            cell.categoryLabel.text = $0.descriptionDisplay
             cell.colorView.fillColor = $0.color
             if editingAnnouncement?.category.contains($0) ?? false {
                 currentCategory = $0

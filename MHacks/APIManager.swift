@@ -733,7 +733,6 @@ private func isAdmin(_ groups: NSArray) -> Bool {
 			return true
 		}
 	}
-	
 	return false
 }
 
@@ -743,7 +742,6 @@ private func isAdminOrReader(_ groups: NSArray) -> Bool {
 			return true
 		}
 	}
-	
 	return false
 }
 

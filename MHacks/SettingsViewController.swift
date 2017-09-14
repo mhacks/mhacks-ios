@@ -48,7 +48,7 @@ class SettingsViewController: UITableViewController {
 		}
 		let cell = tableView.dequeueReusableCell(withIdentifier: "notificationCell") as! CategoryCell
 		let category = Announcement.Category.all[(indexPath as NSIndexPath).row]
-		cell.categoryLabel.text = category.description
+		cell.categoryLabel.text = category.descriptionDisplay
 		cell.colorView.fillColor = category.color
 		
 		let switchView = cell.accessoryView as! UISwitch
