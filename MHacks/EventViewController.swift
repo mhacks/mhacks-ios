@@ -116,7 +116,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		subtitleLabel.text = event.category.description
 		subtitleLabel.textColor = event.category.color
 		colorView.fillColor = event.category.color
-		descriptionLabel.text = event.desc
+		descriptionLabel.text = event.description
 		dateLabel.text = dateIntervalFormatter.string(from: event.startDate, to: event.endDate)
 		
 		for subview in locationsView.arrangedSubviews {

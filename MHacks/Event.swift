@@ -46,20 +46,20 @@ final class Event: SerializableElementWithIdentifier {
 	fileprivate let locationID: String
     let startDate: Date
 	let endDate: Date
-    let desc: String
+    let description: String
 	
 	var duration: Double {
 		return 60
 	}
 	
-	init(ID: String, name: String, category: Category, locationID: String, startDate: Date, endDate: Date, desc: String) {
+	init(ID: String, name: String, category: Category, locationID: String, startDate: Date, endDate: Date, description: String) {
 		self.ID = ID
 		self.name = name
 		self.category = category
 		self.locationID = locationID
 		self.startDate = startDate
 		self.endDate = endDate
-		self.desc = desc
+		self.description = description
 	}
 
 	
@@ -74,7 +74,7 @@ final class Event: SerializableElementWithIdentifier {
 
 extension Event {
 	private static let nameKey = "name"
-	private static let descKey = "desc"
+	private static let descriptionKey = "desc"
 	private static let locationIDKey = "location"
 	private static let startDateKey = "startDate_ts"
 	private static let endDateKey = "endDate_ts"
@@ -88,7 +88,7 @@ extension Event {
 			let category = Category(rawValue: categoryRaw),
 			let startDate = serialized[Event.startDateKey] as? Double,
 			let endDate = serialized[Event.endDateKey] as? Double,
-			let desc = serialized[Event.descKey] as? String,
+			let description = serialized[Event.descriptionKey] as? String,
 			let ID = serialized[Event.idKey] as? String
 		else {
 			return nil
@@ -101,7 +101,7 @@ extension Event {
 			locationID: locationID,
 			startDate: Date(timeIntervalSince1970: startDate / 1000),
 			endDate: Date(timeIntervalSince1970: endDate / 1000),
-			desc: desc
+			description: description
 		)
 	}
 	
@@ -112,7 +112,7 @@ extension Event {
 			Event.locationIDKey: locationID,
 			Event.startDateKey: startDate.timeIntervalSince1970 * 1000,
 			Event.endDateKey: endDate.timeIntervalSince1970 * 1000,
-			Event.descKey: desc,
+			Event.descriptionKey: description,
 			Event.categoryKey: category.rawValue
 		]
 	}
