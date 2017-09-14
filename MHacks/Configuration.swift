@@ -20,8 +20,8 @@ final class Configuration : Serializable, Equatable {
     let coalescer = CoalescedCallbacks()
     private(set) var lastUpdated: Int?
     
-    private static let startDateKey = "start_date"
-    private static let endDateKey = "end_date"
+    private static let startDateKey = "start_date_ts"
+    private static let endDateKey = "end_date_ts"
 
     init(startDate: Date = Date(timeIntervalSince1970: 150603840), endDate: Date = Date(timeIntervalSince1970: 150621120)) {
         self.startDate = startDate

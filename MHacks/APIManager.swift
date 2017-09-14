@@ -362,13 +362,13 @@ final class APIManager
 	/// - parameter callback:        A callback after the server responds, the parameters are a boolean indicating success of the scan event as well as additionalData associated with the scan. This is scan event specific so you must parse it manually as you see fit. Note additionalData may still be nil even if succeeded is true if there is no additional data for that particular scan event
 	func performScan(userDataScanned: String, scanEvent: ScanEvent, readOnlyPeek: Bool, _ callback: @escaping (_ succeeded: Bool, _ additionalData: [ScannedDataField]) -> Void)
 	{
-		taskWithRoute("/v1/scan/" + scanEvent.ID, parameters: ["id": userDataScanned], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
+		taskWithRoute("/v1/user/ticket/verify/", parameters: ["email": userDataScanned], usingHTTPMethod: readOnlyPeek ? .get : .post) { response in
 			switch response
 			{
 			case .value(let json):
 				guard let succeeded = json["status"] as? Bool
 				else { return callback(false, []) }
-				let serializedItems = json["scan"] as? [SerializedRepresentation] ?? []
+				let serializedItems = json["feedback"] as? [SerializedRepresentation] ?? []
 				let scannedDataFields = serializedItems.flatMap { ScannedDataField($0) }
 				callback(succeeded, scannedDataFields)
 			case .error(let errorMessage):
@@ -727,7 +727,7 @@ extension APIManager {
 
 private func isAdmin(_ groups: NSArray) -> Bool {
 	for item in groups {
-		if ((item as! SerializedRepresentation)["name"] as! String == "admin") {
+		if item as? String == "admin" {
 			return true
 		}
 	}
@@ -736,7 +736,7 @@ private func isAdmin(_ groups: NSArray) -> Bool {
 
 private func isAdminOrReader(_ groups: NSArray) -> Bool {
 	for item in groups {
-		if ((item as! SerializedRepresentation)["name"] as! String == "admin" || (item as! SerializedRepresentation)["name"] as! String == "reader") {
+		if item as? String == "admin" || item as? String == "reader" {
 			return true
 		}
 	}
