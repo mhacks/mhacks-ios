@@ -104,8 +104,10 @@ final class APIManager
 		taskWithRoute("/v1/user/profile/") { response in
 			switch response
 			{
-			case .value(let newData):
-				guard let newAuthenticator = Authenticator(newData)
+			case .value(let response):
+				guard
+					let newData = response["user"] as? SerializedRepresentation,
+					let newAuthenticator = Authenticator(newData)
 				else {
 					completion?(false)
 					return
@@ -688,7 +690,9 @@ extension APIManager {
 		// MARK: Authenticator Archiving
 		
 		init?(_ serializedRepresentation: SerializedRepresentation) {
-			guard let username = serializedRepresentation[Authenticator.usernameKey] as? String, let name = serializedRepresentation[Authenticator.nameKey] as? String
+			guard
+				let username = serializedRepresentation[Authenticator.usernameKey] as? String,
+				let name = serializedRepresentation[Authenticator.nameKey] as? String
 			else {
 				return nil
 			}
