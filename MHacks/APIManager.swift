@@ -740,7 +740,7 @@ private func isAdmin(_ groups: NSArray) -> Bool {
 
 private func isAdminOrReader(_ groups: NSArray) -> Bool {
 	for item in groups {
-		if item as? String == "admin" || item as? String == "reader" {
+		if item as? String == "admin" || item as? String == "scanner" {
 			return true
 		}
 	}
