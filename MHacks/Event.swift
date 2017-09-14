@@ -76,8 +76,8 @@ extension Event {
 	private static let nameKey = "name"
 	private static let descKey = "desc"
 	private static let locationIDKey = "location"
-	private static let startDateKey = "startDate"
-	private static let endDateKey = "endDate"
+	private static let startDateKey = "startDate_ts"
+	private static let endDateKey = "endDate_ts"
 	private static let categoryKey = "category"
 	
 	convenience init?(_ serialized: SerializedRepresentation) {
@@ -110,8 +110,8 @@ extension Event {
 			Event.idKey: ID,
 			Event.nameKey: name,
 			Event.locationIDKey: locationID,
-			Event.startDateKey: startDate.timeIntervalSince1970,
-			Event.endDateKey: endDate,
+			Event.startDateKey: startDate.timeIntervalSince1970 * 1000,
+			Event.endDateKey: endDate.timeIntervalSince1970 * 1000,
 			Event.descKey: desc,
 			Event.categoryKey: category.rawValue
 		]

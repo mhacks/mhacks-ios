@@ -8,8 +8,6 @@
 
 import Foundation
 
-private let resultsKey = "results"
-
 final class MHacksArray<Element>: Serializable, RandomAccessCollection where Element: SerializableElementWithIdentifier, Element: Comparable
 {
 	private var items = [String: Element]()
@@ -25,8 +23,11 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
         else {
 			return false
 		}
-//		lastUpdated = updatedAt
-        		
+        
+        if let archivedLastUpdated = serializedRepresentation["date_updated"] as? Int {
+            lastUpdated = archivedLastUpdated
+        }
+        
 		// We keep the changes to the time regardless, if newItems.count == 0
 		// we know nothing has changed, so we say nothing was updated
 		guard newItems.count > 0
@@ -36,11 +37,18 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 		//	- To avoid the UI asking us for updates while we are busy updating the array, if they do it will most definitely crash
 		//  - It must be sync and not async because the APIManager expects true to be returned once everything is truly updated.
 		DispatchQueue.main.sync {
+            var maxLastUpdated = lastUpdated ?? 0
+            
 			newItems.forEach {
-				guard let id = $0[Element.self.idKey] as? String
-					else { return }
+				guard let id = $0[Element.self.idKey] as? String else { return }
 				self.items[id] = Element($0)
+                
+                if let elementLastUpdated = $0["updatedAt_ts"] as? Int {
+                    maxLastUpdated = Swift.max(maxLastUpdated, elementLastUpdated)
+                }
 			}
+            
+            self.lastUpdated = maxLastUpdated + 1
 			self.updateSortedKeys()
 		}
 		
@@ -74,7 +82,7 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 		guard let lastUpdated = lastUpdated
 			else { return NSDictionary() }
 		
-		return [MHacksArray.lastUpdatedKey: lastUpdated, resultsKey: items.map { $0.1.toSerializedRepresentation() } as NSArray]
+		return [MHacksArray.lastUpdatedKey: lastUpdated, Element.resultsKey: items.map { $0.1.toSerializedRepresentation() } as NSArray]
 	}
 	
 	

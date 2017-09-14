@@ -20,6 +20,8 @@ final class Configuration : Serializable, Equatable {
     let coalescer = CoalescedCallbacks()
     private(set) var lastUpdated: Int?
     
+    private static let resultsKey = "configuration"
+    private static let lastUpdatedKey = "updatedAt_ts"
     private static let startDateKey = "start_date_ts"
     private static let endDateKey = "end_date_ts"
 
@@ -34,7 +36,13 @@ final class Configuration : Serializable, Equatable {
     }
     
     func toSerializedRepresentation() -> NSDictionary {
-        return [Configuration.startDateKey: startDate.timeIntervalSince1970, Configuration.endDateKey: endDate.timeIntervalSince1970]
+        return [
+            Configuration.resultsKey: [
+                Configuration.startDateKey: startDate.timeIntervalSince1970 * 1000,
+                Configuration.endDateKey: endDate.timeIntervalSince1970 * 1000,
+                Configuration.lastUpdatedKey: lastUpdated ?? 0
+            ]
+        ]
     }
     
     func updateWith(_ serialized: SerializedRepresentation) -> Bool {
@@ -50,6 +58,10 @@ final class Configuration : Serializable, Equatable {
         
         self.startDate = Date(timeIntervalSince1970: startDate / 1000)
         self.endDate = Date(timeIntervalSince1970: endDate / 1000)
+        
+        if let updatedAtTimestamp = config[Configuration.lastUpdatedKey] as? Int {
+            self.lastUpdated = updatedAtTimestamp
+        }
         
         return true
     }

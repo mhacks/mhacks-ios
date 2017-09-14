@@ -611,7 +611,7 @@
 					};
 					82473FA11C1F7A170061FFFB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = N9FLZTVVNL;
+						DevelopmentTeam = 478C74MJ7T;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1083,7 +1083,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = N9FLZTVVNL;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1112,7 +1112,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = N9FLZTVVNL;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

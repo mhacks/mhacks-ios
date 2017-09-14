@@ -95,7 +95,7 @@ extension Announcement
 {
 	private static let infoKey = "body"
 	private static let titleKey = "title"
-	private static let dateKey = "broadcastTime"
+	private static let dateKey = "broadcastTime_ts"
 	private static let categoryKey = "category"
 	private static let approvedKey = "isApproved"
 
@@ -113,7 +113,14 @@ extension Announcement
 		self.init(ID: id, title: title, message: message, date: Date(timeIntervalSince1970: date / 1000), category: Category(rawValue: getCategory(type: categoryString)), approved: approved)
 	}
 	func toSerializedRepresentation() -> NSDictionary {
-		return [Announcement.idKey: ID, Announcement.titleKey: title, Announcement.dateKey: date.timeIntervalSince1970, Announcement.infoKey: message, Announcement.categoryKey: category.rawValue, Announcement.approvedKey: approved]
+		return [
+			Announcement.idKey: ID,
+			Announcement.titleKey: title,
+			Announcement.dateKey: date.timeIntervalSince1970 * 1000,
+			Announcement.infoKey: message,
+			Announcement.categoryKey: category.description,
+			Announcement.approvedKey: approved
+		]
 	}
 }
 

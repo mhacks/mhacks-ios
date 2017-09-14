@@ -26,6 +26,8 @@ private let archiveLocation = container.appendingPathComponent("archive_v" + "\(
 final class APIManager
 {
 	#if DEBUG
+		// Toggle either localhost server or staging server while in debug mode.
+		//private static let baseURL = URL(string: "https://staging.mhacks.org")!
 		private static let baseURL = URL(string: "http://localhost:3000")!
 	#else
 		private static let baseURL = URL(string: "https://mhacks.org")!
@@ -631,6 +633,7 @@ extension APIManager {
 		}
 		task.resume()
 	}
+	
 	func logout() {
 		authenticator?.destroyToken()
 		authenticator = nil
@@ -731,6 +734,7 @@ private func isAdmin(_ groups: NSArray) -> Bool {
 			return true
 		}
 	}
+	
 	return false
 }
 
@@ -740,6 +744,7 @@ private func isAdminOrReader(_ groups: NSArray) -> Bool {
 			return true
 		}
 	}
+	
 	return false
 }
 
