@@ -41,7 +41,11 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
             
 			newItems.forEach {
 				guard let id = $0[Element.self.idKey] as? String else { return }
-				self.items[id] = Element($0)
+                if $0["deleted"] as? Bool == true {
+                    self.items[id] = nil
+                } else {
+                    self.items[id] = Element($0)
+                }
                 
                 if let elementLastUpdated = $0["updatedAt_ts"] as? Int {
                     maxLastUpdated = Swift.max(maxLastUpdated, elementLastUpdated)

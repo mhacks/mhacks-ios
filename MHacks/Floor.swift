@@ -102,7 +102,7 @@ final class Floor: SerializableElementWithIdentifier
 extension Floor
 {
     private static let nameKey = "name"
-    private static let imageURLKey = "image"
+    private static let imageURLKey = "floor_image"
     private static let indexKey = "level"
     private static let offsetFractionKey = "offset_fraction"
     private static let aspectRatioKey = "aspect_ratio"

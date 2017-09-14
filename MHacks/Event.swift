@@ -14,22 +14,22 @@ final class Event: SerializableElementWithIdentifier {
  
 	enum Category: String, CustomStringConvertible {
 		case general = "General"
-		case logisitics = "Logistics"
 		case food = "Food"
-		case learn = "Learn"
-		case social = "Social"
+		case techTalk = "Tech Talk"
+		case sponsor = "Sponsor Event"
+		case other = "Other"
 		
 		var color: UIColor {
 			switch self {
 			case .general:
 				return MHacksColor.blue
-			case .logisitics:
-				return MHacksColor.orange
 			case .food:
+				return MHacksColor.orange
+			case .techTalk:
 				return MHacksColor.yellow
-			case .learn:
+			case .sponsor:
 				return MHacksColor.purple
-			case .social:
+			case .other:
 				return MHacksColor.red
 			}
 		}
