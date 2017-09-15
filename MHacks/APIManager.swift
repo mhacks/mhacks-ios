@@ -187,11 +187,15 @@ final class APIManager
 					completion?(false)
 					return
 				}
+				/*
 				guard let preferenceArray = data[APIManager.APNSPreferenceKey] as? [String]
 				else {
 					completion?(false)
 					return
 				}
+				*/
+				
+				let preferenceArray = ["emergency", "logistics", "event", "sponsored", "chat"]
 				
 				let preferenceValue = preferenceArray.reduce(0, { (result, preference) -> Int in
 					return result + Announcement.getCategoryValue(type: preference)
@@ -660,9 +664,19 @@ extension APIManager {
 		let username: String
 		let name: String
 		let university: String?
-		let canPostAnnouncements: Bool
-		let canEditAnnouncements: Bool
-		let canPerformScan: Bool
+		let groups: [String]
+		
+		var canPostAnnouncements: Bool {
+			return self.groups.contains(Authenticator.adminValue)
+		}
+		
+		var canEditAnnouncements: Bool {
+			return self.groups.contains(Authenticator.adminValue)
+		}
+		
+		var canPerformScan: Bool {
+			return self.groups.contains(Authenticator.adminValue) || self.groups.contains(Authenticator.scannerValue)
+		}
 		
 		private let authenticationToken: String
 		
@@ -672,22 +686,18 @@ extension APIManager {
 		private static let universityKey = "university"
 		private static let groupsKey = "groups"
 		private static let groupNameKey = "name"
+		
 		private static let adminValue = "admin"
-		private static let readerValue = "reader"
-		private static let canPostAnnouncementsKey = "can_post_announcements"
-		private static let canEditAnnouncementsKey = "can_edit_announcements"
-		private static let canPerformScanKey = "can_perform_scan"
+		private static let scannerValue = "reader"
 
 		
-		init(authToken: String, username: String, name: String, university: String?,
-		     canPostAnnouncements: Bool, canEditAnnouncements: Bool, canPerformScan: Bool) {
+		init(authToken: String, username: String, name: String, university: String?, groups: [String]) {
 			self.authenticationToken = authToken
 			self.username = username
 			self.name = name
 			self.university = university
-			self.canPostAnnouncements = canPostAnnouncements
-			self.canEditAnnouncements = canEditAnnouncements
-			self.canPerformScan = canPerformScan
+			self.groups = groups
+
 			NotificationCenter.default.post(name: APIManager.UserProfileUpdatedNotification, object: self)
 		}
 		
@@ -700,20 +710,20 @@ extension APIManager {
 		init?(_ serializedRepresentation: SerializedRepresentation) {
 			guard
 				let username = serializedRepresentation[Authenticator.usernameKey] as? String,
-				let name = serializedRepresentation[Authenticator.nameKey] as? String
+				let name = serializedRepresentation[Authenticator.nameKey] as? String,
+				let authToken = KeychainWrapper.shared.string(forKey: username),
+				let groups = serializedRepresentation[Authenticator.groupsKey] as? [String]
 			else {
 				return nil
 			}
-			guard let authToken = KeychainWrapper.shared.string(forKey: username)
-			else {
-				return nil
-			}
-			let canPostAnnouncements: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canPostAnnouncementsKey] as! Bool
-			let canEditAnnouncements: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdmin(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canEditAnnouncementsKey] as! Bool
-			let canPerformScanKey: Bool = (serializedRepresentation[Authenticator.groupsKey] != nil) ? isAdminOrReader(serializedRepresentation[Authenticator.groupsKey] as! NSArray) : serializedRepresentation[Authenticator.canPerformScanKey] as! Bool
-
 			
-			self.init(authToken: authToken, username: username, name: name, university: serializedRepresentation[Authenticator.universityKey] as? String, canPostAnnouncements: canPostAnnouncements, canEditAnnouncements: canEditAnnouncements, canPerformScan: canPerformScanKey)
+			self.init(
+				authToken: authToken,
+				username: username,
+				name: name,
+				university: serializedRepresentation[Authenticator.universityKey] as? String,
+				groups: groups
+			)
 		}
 		
 		init?(_ serializedRepresentation: SerializedRepresentation, authenticationToken: String) {
@@ -724,13 +734,17 @@ extension APIManager {
 		
 		func toSerializedRepresentation() -> NSDictionary {
 			_ = KeychainWrapper.shared.set(authenticationToken, forKey: username)
-			var dict: [String : Any] = [Authenticator.usernameKey: username, Authenticator.nameKey: name, Authenticator.canPostAnnouncementsKey: canPostAnnouncements, Authenticator.canEditAnnouncementsKey: canEditAnnouncements, Authenticator.canPerformScanKey: canPerformScan]
-			if let university = university
-			{
+			var dict: [String : Any] = [
+				Authenticator.usernameKey: username,
+				Authenticator.nameKey: name,
+				Authenticator.groupsKey: groups
+			]
+			if let university = university {
 				dict[Authenticator.universityKey] = university
 			}
 			return dict as NSDictionary
 		}
+		
 		func destroyToken() {
 			_ = KeychainWrapper.shared.remove(key: username)
 		}
@@ -738,25 +752,6 @@ extension APIManager {
 
 
 }
-
-private func isAdmin(_ groups: NSArray) -> Bool {
-	for item in groups {
-		if item as? String == "admin" {
-			return true
-		}
-	}
-	return false
-}
-
-private func isAdminOrReader(_ groups: NSArray) -> Bool {
-	for item in groups {
-		if item as? String == "admin" || item as? String == "scanner" {
-			return true
-		}
-	}
-	return false
-}
-
 
 final private class APIManagerSerializer: NSObject, NSCoding {
 	let authenticator: NSDictionary

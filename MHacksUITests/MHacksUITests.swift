@@ -31,7 +31,6 @@ class MHacksUITests: XCTestCase {
     func takeScreenshots() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        //let app = XCUIApplication()
         XCUIDevice.shared().orientation = .portrait
         
         let tabBarsQuery = XCUIApplication().tabBars
@@ -41,13 +40,9 @@ class MHacksUITests: XCTestCase {
         
         // Map
         tabBarsQuery.buttons.element(boundBy: 1).tap()
-        //app.otherElements["eventlocation"].tap()
-        // Here, we'll take the second screenshot
-        // After pressing the "eventlocation" annotation on the map.
         
         // Countdown
         tabBarsQuery.buttons.element(boundBy: 2).tap()
-        // Here, we'll take the third screenshot
     }
     
     func screenshot() {
