@@ -8,8 +8,23 @@
 
 import UIKit
 
-class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, UICollectionViewDataSource {
-	
+class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, UICollectionViewDataSource, UIViewControllerPreviewingDelegate {
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+		if let indexPath = collectionView.indexPathForItem(at: location), let cellAttributes = collectionView.layoutAttributesForItem(at: indexPath) {
+			previewingContext.sourceRect = cellAttributes.frame
+			let eventViewController = storyboard!.instantiateViewController(withIdentifier: "EventViewController") as! EventViewController
+			eventViewController.event = eventsOrganizer.eventAtIndex((indexPath as NSIndexPath).row, inDay: (indexPath as NSIndexPath).section)
+			return eventViewController
+		}
+		return nil
+	}
+
+	@available(iOS 9.0, *)
+	func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+		show(viewControllerToCommit, sender: nil)
+	}
+
     // MARK: View
     
     @IBOutlet fileprivate var collectionView: UICollectionView!
@@ -25,6 +40,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
         let layout = collectionView.collectionViewLayout as! CalendarLayout
         layout.rowInsets = UIEdgeInsets(top: 0.0, left: 62.0, bottom: 0.0, right: 0.0)
+		
     }
 	
 	var didAddNotification = false
@@ -211,6 +227,8 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		cell.color = event.category.color
         cell.textLabel.text = event.name
         cell.detailTextLabel.text = event.location?.name
+
+		registerForPreviewing(with: self, sourceView: cell)
         
         return cell
     }
