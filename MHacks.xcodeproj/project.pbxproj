@@ -33,6 +33,7 @@
 		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
 		7049916B1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */; };
 		7049916D1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */; };
+		709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AEA371F6B19F000E7089C /* MHacksUITests.swift */; };
 		70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */; };
 		820525201D9DADDD00EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
 		820525211D9DADE900EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
@@ -113,6 +114,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		709AEA3A1F6B19F000E7089C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82473FA11C1F7A170061FFFB;
+			remoteInfo = MHacks;
+		};
 		822896981D9E4B420081A613 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
@@ -197,6 +205,9 @@
 		704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeAnnouncementTableViewController.swift; sourceTree = "<group>"; };
 		7049916A1D9A067700C3E1AC /* SinglelineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglelineInputTableViewCell.swift; sourceTree = "<group>"; };
 		7049916C1D9A133A00C3E1AC /* MultilineInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultilineInputTableViewCell.swift; sourceTree = "<group>"; };
+		709AEA351F6B19F000E7089C /* MHacksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MHacksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		709AEA371F6B19F000E7089C /* MHacksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHacksUITests.swift; sourceTree = "<group>"; };
+		709AEA391F6B19F000E7089C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		8205251F1D9DADDD00EF535C /* Floor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Floor.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -262,6 +273,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		709AEA321F6B19F000E7089C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82287A411C66C3D8001A0F38 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -288,6 +306,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		709AEA361F6B19F000E7089C /* MHacksUITests */ = {
+			isa = PBXGroup;
+			children = (
+				709AEA371F6B19F000E7089C /* MHacksUITests.swift */,
+				709AEA391F6B19F000E7089C /* Info.plist */,
+			);
+			path = MHacksUITests;
+			sourceTree = "<group>";
+		};
 		820C5BF51C29326900CD9F09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +376,7 @@
 				82287A471C66C3D8001A0F38 /* MHacksToday */,
 				8243F6731DA35EF400B9D929 /* MHacksWatch */,
 				8243F6821DA35EF400B9D929 /* MHacksWatch Extension */,
+				709AEA361F6B19F000E7089C /* MHacksUITests */,
 				820C5BF51C29326900CD9F09 /* Frameworks */,
 				82473FA31C1F7A170061FFFB /* Products */,
 			);
@@ -363,6 +391,7 @@
 				82287A441C66C3D8001A0F38 /* MHacks.appex */,
 				8243F6721DA35EF400B9D929 /* MHacks.app */,
 				8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */,
+				709AEA351F6B19F000E7089C /* MHacksUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -497,6 +526,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		709AEA341F6B19F000E7089C /* MHacksUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 709AEA3C1F6B19F000E7089C /* Build configuration list for PBXNativeTarget "MHacksUITests" */;
+			buildPhases = (
+				709AEA311F6B19F000E7089C /* Sources */,
+				709AEA321F6B19F000E7089C /* Frameworks */,
+				709AEA331F6B19F000E7089C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				709AEA3B1F6B19F000E7089C /* PBXTargetDependency */,
+			);
+			name = MHacksUITests;
+			productName = MHacksUITests;
+			productReference = 709AEA351F6B19F000E7089C /* MHacksUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		82287A431C66C3D8001A0F38 /* MHacksToday */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */;
@@ -575,10 +622,16 @@
 		82473F9A1C1F7A170061FFFB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0810;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
+					709AEA341F6B19F000E7089C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 478C74MJ7T;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 82473FA11C1F7A170061FFFB;
+					};
 					82287A431C66C3D8001A0F38 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 478C74MJ7T;
@@ -650,11 +703,19 @@
 				82287A431C66C3D8001A0F38 /* MHacksToday */,
 				8243F6711DA35EF400B9D929 /* MHacksWatch */,
 				8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */,
+				709AEA341F6B19F000E7089C /* MHacksUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		709AEA331F6B19F000E7089C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82287A421C66C3D8001A0F38 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -698,6 +759,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		709AEA311F6B19F000E7089C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82287A401C66C3D8001A0F38 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -808,6 +877,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		709AEA3B1F6B19F000E7089C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82473FA11C1F7A170061FFFB /* MHacks */;
+			targetProxy = 709AEA3A1F6B19F000E7089C /* PBXContainerItemProxy */;
+		};
 		822896991D9E4B420081A613 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
@@ -853,6 +927,41 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		709AEA3D1F6B19F000E7089C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				INFOPLIST_FILE = MHacksUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connorkrupp.MHacksUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = MHacks;
+			};
+			name = Debug;
+		};
+		709AEA3E1F6B19F000E7089C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEVELOPMENT_TEAM = 478C74MJ7T;
+				INFOPLIST_FILE = MHacksUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connorkrupp.MHacksUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = MHacks;
+			};
+			name = Release;
+		};
 		82287A511C66C3D8001A0F38 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1133,6 +1242,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		709AEA3C1F6B19F000E7089C /* Build configuration list for PBXNativeTarget "MHacksUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709AEA3D1F6B19F000E7089C /* Debug */,
+				709AEA3E1F6B19F000E7089C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

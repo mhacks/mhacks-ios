@@ -128,8 +128,16 @@ extension Announcement
 			else {
 				return nil
 		}
-		self.init(ID: id, title: title, message: message, date: Date(timeIntervalSince1970: date / 1000), category: Category(rawValue: getCategory(type: categoryString)), approved: approved)
+		self.init(
+			ID: id,
+			title: title,
+			message: message,
+			date: Date(timeIntervalSince1970: date / 1000),
+			category: Category(rawValue: Announcement.getCategoryValue(type: categoryString)),
+			approved: approved
+		)
 	}
+	
 	func toSerializedRepresentation() -> NSDictionary {
 		return [
 			Announcement.idKey: ID,
@@ -140,27 +148,48 @@ extension Announcement
 			Announcement.approvedKey: approved
 		]
 	}
+	
+	static func getPreferenceList(preferenceValue: Int) -> String {
+		var preferences = [String]()
+		var bit = 1
+		
+		while (bit < 64) {
+			if preferenceValue & bit == bit {
+				let category = Category(rawValue: bit)
+				if category.description != "None" {
+					preferences.append(category.description)
+				}
+			}
+			bit <<= 1
+		}
+		
+		return preferences.joined(separator: ",")
+	}
+	
+	static func getPreferenceValue(preferences: [String]) -> Int {
+		return preferences.reduce(0, {$0 + Announcement.getCategoryValue(type: $1)})
+	}
+	
+	static func getCategoryValue(type: String) -> Int {
+		switch type {
+		case "emergency":
+			return 1
+		case "logistics":
+			return 2
+		case "food":
+			return 4
+		case "event":
+			return 8
+		case "sponsored":
+			return 16
+		default:
+			return 0
+		}
+	}
 }
 
 
 func <(lhs: Announcement, rhs: Announcement) -> Bool {
 	return lhs.date > rhs.date
-}
-
-private func getCategory(type: String) -> Int {
-	switch type {
-	case "emergency":
-		return 1
-	case "logistics":
-		return 2
-	case "food":
-		return 4
-	case "event":
-		return 8
-	case "sponsored":
-		return 16
-	default:
-		return 0
-	}
 }
 

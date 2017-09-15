@@ -139,7 +139,7 @@ final class APIManager
 	
 	// MARK: - APNS Token
 	fileprivate static let APNSTokenKey = "push_id"
-	fileprivate static let APNSPreferenceKey = "name"
+	fileprivate static let APNSPreferenceKey = "push_categories"
 	fileprivate func getTokenAndPreference(newPreference: Int?) -> (String, Int)?
 	{
 		guard let deviceID = defaults.string(forKey: remoteNotificationTokenKey)
@@ -174,20 +174,30 @@ final class APIManager
 			return
 		}
 		
-		taskWithRoute("/v1/user/profile", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: "\(preference)"], usingHTTPMethod: .post) { response in
+		let preferenceList = Announcement.getPreferenceList(preferenceValue: preference)
+		
+		taskWithRoute("/v1/device", parameters: [APIManager.APNSTokenKey: deviceID, APIManager.APNSPreferenceKey: preferenceList], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
-				guard let token = json[APIManager.APNSTokenKey] as? String, token == deviceID
+				guard
+					let data = json["device"] as? SerializedRepresentation,
+					let token = data[APIManager.APNSTokenKey] as? String,
+					token == deviceID
 				else {
 					completion?(false)
 					return
 				}
-				guard let preferenceString = json[APIManager.APNSPreferenceKey] as? String, let preference = Int(preferenceString)
+				guard let preferenceArray = data[APIManager.APNSPreferenceKey] as? [String]
 				else {
 					completion?(false)
 					return
 				}
-				defaults.set(preference, forKey: remoteNotificationPreferencesKey)
+				
+				let preferenceValue = preferenceArray.reduce(0, { (result, preference) -> Int in
+					return result + Announcement.getCategoryValue(type: preference)
+				})
+				
+				defaults.set(preferenceValue, forKey: remoteNotificationPreferencesKey)
 				completion?(true)
 			case .error(let errorMessage):
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: errorMessage)
