@@ -66,6 +66,10 @@ struct MHacksColor
 	{
 		return UIColor(red: 93.0 / 255.0, green: 62.0 / 255.0, blue: 110.0 / 255.0, alpha: 1.0)
 	}
+	static var pink: UIColor
+	{
+		return UIColor(red: 210.0 / 255.0, green: 27.0 / 255.0, blue: 91.0 / 255.0, alpha: 1.0)
+	}
 	static var plain: UIColor
 	{
 		#if os(watchOS)
