@@ -26,7 +26,7 @@ class CountdownViewController: UIViewController {
 		// Uncomment this for screenshots
 		//progressIndicator.progressColor = UIColor.clear
 		
-		countdownLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 120.0, weight: UIFontWeightThin)
+		countdownLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 120.0, weight: UIFont.Weight.thin)
 		APIManager.shared.updateConfiguration()
 	}
 
@@ -60,12 +60,12 @@ class CountdownViewController: UIViewController {
 		
 		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(CountdownViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
-		RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
+		RunLoop.main.add(timer, forMode: RunLoop.Mode.default)
 		
 		self.timer = timer
 	}
 	
-	func timerFire(_ timer: Timer) {
+	@objc func timerFire(_ timer: Timer) {
 		updateCountdownViews()
 	}
 	
@@ -76,7 +76,7 @@ class CountdownViewController: UIViewController {
 	
 	// MARK: - UI Update
 	
-	func updateCountdownViews(_: Notification) {
+	@objc func updateCountdownViews(_: Notification) {
 		
 		DispatchQueue.main.async {
 			self.updateCountdownViews()

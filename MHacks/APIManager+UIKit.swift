@@ -27,15 +27,17 @@ extension APIManager {
 		fetchPKPassAsData { response in
 			switch response {
 			case .value(let data):
-				var error: NSError?
-				let pass = PKPass(data: data, error: &error)
-				guard error == nil
-				else {
-					NotificationCenter.default.post(name: APIManager.FailureNotification, object: error!.localizedDescription)
+				do {
+					let pass = try PKPass(data: data)
+					callback(pass)
+				} catch let error as PKPassKitError {
+					NotificationCenter.default.post(name: APIManager.FailureNotification, object: error.localizedDescription)
 					callback(nil)
-					return
+				} catch {
+					#if DEBUG
+						print("PassKit failed: \(error)")
+					#endif
 				}
-				callback(pass)
 			case .error(let message):
 				NotificationCenter.default.post(name: APIManager.FailureNotification, object: message)
 				callback(nil)

@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	var userViewController: UserViewController!
 	
 	// MARK: Application life cycle
-	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
+	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
 		
 		window!.tintColor = MHacksColor.pink
 		
@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		return true
 	}
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		
 		application.registerForRemoteNotifications()
 		let settings = UIUserNotificationSettings(types: [.sound, .alert], categories: nil)
@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.error(_:)), name: APIManager.FailureNotification, object: nil)
 		
-		switch launchOptions?[UIApplicationLaunchOptionsKey.localNotification] {
+		switch launchOptions?[UIApplication.LaunchOptionsKey.localNotification] {
 			
 		case let notification as UILocalNotification:
 			if let eventID = notification.userInfo?["id"] as? String {
@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		APIManager.shared.archive()
 	}
 
-	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+	func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 		guard url.absoluteString.hasPrefix("mhacks://")
 		else {
 			return false
@@ -187,7 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		self.label?.text = text ?? "Unknown Error"
 	}
 	
-	func error(_ notification: Notification) {
+	@objc func error(_ notification: Notification) {
 		DispatchQueue.main.async(execute: {
 			guard self.statusWindow == nil && self.label == nil
 			else
@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 			}
 			
 			self.statusWindow = UIWindow(frame: UIApplication.shared.statusBarFrame)
-			self.statusWindow?.windowLevel = UIWindowLevelStatusBar + 1 // Display over status bar
+			self.statusWindow?.windowLevel = UIWindow.Level.statusBar + 1 // Display over status bar
 			
 			guard let errorMessage = (notification.object as? String)?.sentenceCapitalizedString, errorMessage != self.lastErrorMessage
 			else {

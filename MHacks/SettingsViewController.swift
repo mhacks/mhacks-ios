@@ -13,7 +13,7 @@ class SettingsViewController: UITableViewController {
 	var currentPreference = Announcement.Category(rawValue: 0)
 	
     override func viewDidLoad () {
-		self.tableView.rowHeight = UITableViewAutomaticDimension
+		self.tableView.rowHeight = UITableView.automaticDimension
 		self.tableView.estimatedRowHeight = 100.0
 		
 		guard let preference = defaults.object(forKey: remoteNotificationPreferencesKey) as? NSNumber
@@ -53,7 +53,7 @@ class SettingsViewController: UITableViewController {
 		
 		let switchView = cell.accessoryView as! UISwitch
 		switchView.setOn(currentPreference.contains(category), animated: false)
-		switchView.addTarget(self, action: #selector(self.switchToggled(sender:)), for: UIControlEvents.valueChanged)
+		switchView.addTarget(self, action: #selector(self.switchToggled(sender:)), for: UIControl.Event.valueChanged)
 		switchView.tag = indexPath.row
 		if category.contains(Announcement.Category.emergency) {
 			// Disable Emergency CategoryCell UISwitch
@@ -63,7 +63,7 @@ class SettingsViewController: UITableViewController {
 		return cell
 	}
 	
-	func switchToggled(sender: UISwitch) {
+	@objc func switchToggled(sender: UISwitch) {
 		let category = Announcement.Category.all[sender.tag]
 		
 		if sender.isOn {

@@ -59,7 +59,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 			titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
 			textLabel.font = UIFont.preferredFont(forTextStyle: .body)
 			
-			titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow + 1, for: .horizontal)
+			titleLabel.setContentHuggingPriority(UILayoutPriority.defaultLow + 1, for: .horizontal)
 			
 			textLabel.textColor = UIColor(white: 0.5, alpha: 1.0)
 		}
@@ -96,7 +96,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 	
 	// MARK: Notifications
 	
-	func floorsUpdated(_ notification: Notification) {
+	@objc func floorsUpdated(_ notification: Notification) {
 		
 		DispatchQueue.main.async {
 			self.updateViews()
@@ -163,8 +163,8 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		self.mapView.delegate = self
 		self.overlayImage = image
 		
-		let nwMapPoint = MKMapPointForCoordinate(northWestCoordinate)
-		let seMapPoint = MKMapPointForCoordinate(southEastCoordinate)
+		let nwMapPoint = MKMapPoint.init(northWestCoordinate)
+		let seMapPoint = MKMapPoint.init(southEastCoordinate)
 		
 		let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: seMapPoint.y - nwMapPoint.y)
 		let mapOverlayRect = MKMapRect(origin: nwMapPoint, size: mapOverlayRectSize)
@@ -174,7 +174,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 		
 		let mapOverlay = MapOverlay(coord: midpoint, mapRect: mapOverlayRect)
 		
-		self.mapView.add(mapOverlay)
+		self.mapView.addOverlay(mapOverlay)
 		
 		let mapCenter = self.event?.location?.coordinate ?? midpoint
 		let adjustedRegion = MKCoordinateRegion(center: mapCenter, span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
@@ -205,7 +205,7 @@ class EventViewController: UIViewController, MKMapViewDelegate {
 	
 	var isAngled = false
 	
-	func shiftToAngledView() {
+	@objc func shiftToAngledView() {
 		if let eventLocation = self.event?.location?.coordinate {
 			let camera = isAngled ? MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 0, heading: 0) : MKMapCamera(lookingAtCenter: eventLocation, fromDistance: 200, pitch: 70, heading: 40)
     			self.mapView.setCamera(camera, animated: true)

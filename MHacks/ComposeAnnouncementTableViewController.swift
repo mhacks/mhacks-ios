@@ -18,7 +18,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     var categoryCells = [CategoryPickerCell]()
     let sponsorCell = UITableViewCell()
     
-    let categories = Announcement.Category.all.flatMap {
+    let categories = Announcement.Category.all.compactMap {
         return $0.contains(Announcement.Category.sponsor) ? nil : $0
     }
     
@@ -123,7 +123,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
         sponsorCell.accessoryView = toggle
         sponsorCell.selectionStyle = .none
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 120
         tableView.keyboardDismissMode = .interactive
         tableView.reloadData()

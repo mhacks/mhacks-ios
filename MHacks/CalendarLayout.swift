@@ -129,7 +129,7 @@ class CalendarLayout: UICollectionViewLayout {
                 
                 let rect = CGRect(x: 0.0, y: startOffset, width: self.contentSize.width, height: endOffset - startOffset)
                 
-                let rowRect = UIEdgeInsetsInsetRect(rect, self.rowInsets)
+                let rowRect = rect.inset(by: self.rowInsets)
                 
                 let numberOfColumns = self.delegate!.collectionView(self.collectionView!, layout: self, numberOfColumnsForItemAtIndexPath: indexPath)
                 let column = self.delegate!.collectionView(self.collectionView!, layout: self, columnForItemAtIndexPath: indexPath)
@@ -138,7 +138,7 @@ class CalendarLayout: UICollectionViewLayout {
                 
                 let columnRect = CGRect(x: rowRect.minX + CGFloat(column) * columnWidth, y: rowRect.minY, width: columnWidth, height: rowRect.height)
                 
-                let cellRect = UIEdgeInsetsInsetRect(columnRect, self.cellInsets)
+                let cellRect = columnRect.inset(by: self.cellInsets)
                 
                 layoutAttributes.frame = cellRect.integratedRectInTraitCollection(self.collectionView!.traitCollection)
                 layoutAttributes.zIndex = indexPath.item

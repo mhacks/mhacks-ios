@@ -10,7 +10,7 @@ import UIKit
 
 class TextFieldCell: UITableViewCell {
 	
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		
 		labelWidthConstraint = label.widthAnchor.constraint(equalToConstant: 88.0)
 		

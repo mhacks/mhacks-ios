@@ -64,7 +64,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 				self.collectionView.deselectItem(at: indexPath, animated: animated)
 			}, completion: { context in
 				if context.isCancelled {
-					self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+					self.collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition())
 				}
 			})
 		}
@@ -111,7 +111,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		}
 	}
 	
-	func eventsUpdated(_ notification: Notification) {
+	@objc func eventsUpdated(_ notification: Notification) {
 		
 		DispatchQueue.main.async {
 			self.eventsOrganizer = EventOrganizer(events: APIManager.shared.events)
@@ -128,12 +128,12 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		let timer = Timer(fireAt: nextSecond, interval: 1.0, target: self, selector: #selector(ScheduleCalendarViewController.timerFire(_:)), userInfo: nil, repeats: true)
 		
-		RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
+		RunLoop.main.add(timer, forMode: RunLoop.Mode.default)
 		
 		self.timer = timer
 	}
 	
-	func timerFire(_ timer: Timer) {
+	@objc func timerFire(_ timer: Timer) {
 		
 		updateNowIndicator()
 	}
@@ -198,7 +198,7 @@ class ScheduleCalendarViewController: UIViewController, CalendarLayoutDelegate, 
 		
 		let midY = collectionView.layoutAttributesForSupplementaryElement(ofKind: CalendarLayout.SupplementaryViewKind.NowIndicator.rawValue, at: IndexPath(item: 0, section: 0))!.frame.midY
 		
-		let visibleHeight = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).height
+		let visibleHeight = collectionView.bounds.inset(by: collectionView.contentInset).height
 		
 		let y = midY - (visibleHeight / 2.0)
 		
