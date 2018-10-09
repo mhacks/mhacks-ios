@@ -28,7 +28,7 @@ final class MapCell: UICollectionViewCell, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        let validLocations = self.locations?.flatMap({ $0.coordinate }) ?? []
+        let validLocations = self.locations?.compactMap({ $0.coordinate }) ?? []
         
         for coordinate in validLocations {
             let annotation = MKPointAnnotation()
@@ -43,8 +43,8 @@ final class MapCell: UICollectionViewCell, MKMapViewDelegate {
         self.overlayImage = image
         self.locations = locations
         
-        let nwMapPoint = MKMapPointForCoordinate(northWestCoordinate)
-        let seMapPoint = MKMapPointForCoordinate(southEastCoordinate)
+        let nwMapPoint = MKMapPoint.init(northWestCoordinate)
+        let seMapPoint = MKMapPoint.init(southEastCoordinate)
         
         let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: seMapPoint.y - nwMapPoint.y)
         let mapOverlayRect = MKMapRect(origin: nwMapPoint, size: mapOverlayRectSize)
@@ -54,7 +54,7 @@ final class MapCell: UICollectionViewCell, MKMapViewDelegate {
         
         let mapOverlay = MapOverlay(coord: midpoint, mapRect: mapOverlayRect)
         
-        self.mapView.add(mapOverlay)
+        self.mapView.addOverlay(mapOverlay)
         
         let adjustedRegion = MKCoordinateRegion(center: midpoint, span: MKCoordinateSpan(latitudeDelta: 0.003, longitudeDelta: 0.003))
         

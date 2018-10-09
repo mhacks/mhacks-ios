@@ -212,11 +212,11 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
     // MARK: Actions
     
-    func finish() {
+    @objc func finish() {
         delegate?.scannerViewControllerDidFinish(scannerViewController: self)
     }
     
-    func search() {
+    @objc func search() {
         
         dismissUserScan()
         
@@ -240,7 +240,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         present(alertController, animated: true)
     }
     
-    func scanEventsUpdated() {
+    @objc func scanEventsUpdated() {
         
         DispatchQueue.main.async {
             
@@ -250,7 +250,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         }
     }
     
-    func selectScanEvent() {
+    @objc func selectScanEvent() {
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -293,7 +293,7 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         }
     }
     
-    func dismissUserScan() {
+    @objc func dismissUserScan() {
         
         UIView.animate(withDuration: 0.15) {
             self.scanIdentifier = nil

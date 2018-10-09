@@ -28,7 +28,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 	let passwordCell = TextFieldCell(style: .default, reuseIdentifier: nil)
 	
 	let signInBarButtonItem = UIBarButtonItem(title: "Sign In", style: .plain, target: nil, action: nil)
-	let signingInBarButtonItem = UIBarButtonItem(customView: UIActivityIndicatorView(activityIndicatorStyle: .gray))
+	let signingInBarButtonItem = UIBarButtonItem(customView: UIActivityIndicatorView(style: .gray))
 	
 	// MARK: View life cycle
 	
@@ -151,7 +151,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 	
 	// MARK: Actions
 	
-	func login(_ sender: UIBarButtonItem? = nil) {
+	@objc func login(_ sender: UIBarButtonItem? = nil) {
 		
 		state = .signingIn
 		
@@ -190,7 +190,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 		}
 	}
 	
-    func cancel() {
+    @objc func cancel() {
 		view.endEditing(true)
 		delegate?.loginViewControllerDidCancel(loginViewController: self)
     }

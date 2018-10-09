@@ -155,7 +155,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
     
     // MARK: Notifications
     
-    func floorsUpdated(_ : Notification) {
+    @objc func floorsUpdated(_ : Notification) {
         
         DispatchQueue.main.async {
             

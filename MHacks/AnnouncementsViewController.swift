@@ -26,9 +26,9 @@ class AnnouncementsViewController: UITableViewController {
         super.viewDidLoad()
 		
         refreshControl = UIRefreshControl()
-		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), for: UIControlEvents.valueChanged)
+		refreshControl!.addTarget(self, action: #selector(AnnouncementsViewController.refresh(_:)), for: UIControl.Event.valueChanged)
 		
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
 		tableView.estimatedRowHeight = 100.0
     }
     
@@ -74,14 +74,14 @@ class AnnouncementsViewController: UITableViewController {
 	
 	// MARK: - Actions/Notifications
 	
-	func refresh(_ sender: UIRefreshControl) {
+	@objc func refresh(_ sender: UIRefreshControl) {
 		
 		fetch {
 			sender.endRefreshing()
 		}
 	}
 	
-	func announcementsUpdated(_ notification: Notification? = nil) {
+	@objc func announcementsUpdated(_ notification: Notification? = nil) {
 		DispatchQueue.main.async(execute: {
 			CATransaction.begin()
 			self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -89,7 +89,7 @@ class AnnouncementsViewController: UITableViewController {
 		})
 	}
 	
-	func compose(_ sender: UIBarButtonItem) {
+	@objc func compose(_ sender: UIBarButtonItem) {
 		guard APIManager.shared.canPostAnnouncements
 		else {
 			navigationItem.rightBarButtonItem = nil

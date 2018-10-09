@@ -68,7 +68,7 @@ final class FloorLayout: UICollectionViewLayout {
             return
         }
         
-        contentSize = UIEdgeInsetsInsetRect(collectionView.bounds, collectionView.contentInset).size
+        contentSize = collectionView.bounds.inset(by: collectionView.contentInset).size
         
         let numberOfFloors = collectionView.numberOfItems(inSection: 0)
         

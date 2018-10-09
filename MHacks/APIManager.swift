@@ -358,7 +358,7 @@ final class APIManager
 	
 	private func invalidateExpiredScanEvents()
 	{
-		let deletedUpdates: [SerializedRepresentation] = scanEvents.flatMap {
+		let deletedUpdates: [SerializedRepresentation] = scanEvents.compactMap {
 			guard $0.expiryDate < Date()
 			else { return nil }
 			return [ScanEvent.idKey: $0.ID, "deleted": true]
@@ -384,7 +384,7 @@ final class APIManager
 				guard let succeeded = json["status"] as? Bool
 				else { return callback(false, []) }
 				let serializedItems = json["feedback"] as? [SerializedRepresentation] ?? []
-				let scannedDataFields = serializedItems.flatMap { ScannedDataField($0) }
+				let scannedDataFields = serializedItems.compactMap { ScannedDataField($0) }
 				callback(succeeded, scannedDataFields)
 			case .error(let errorMessage):
 				callback(false, [])
@@ -753,7 +753,7 @@ extension APIManager {
 
 }
 
-final private class APIManagerSerializer: NSObject, NSCoding {
+@objc(_TtC6MHacksP33_BBC5506CFC4F9ABF8B1820093ADFC44320APIManagerSerializer)final private class APIManagerSerializer: NSObject, NSCoding {
 	let authenticator: NSDictionary
 	let configuration: NSDictionary
 	let announcements: NSDictionary

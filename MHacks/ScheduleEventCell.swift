@@ -23,7 +23,7 @@ class ScheduleEventCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        layoutMargins = UIEdgeInsetsMake(2.0, 2.0, 2.0, 2.0)
+        layoutMargins = UIEdgeInsets.init(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
     }
     
     // MARK: Properties

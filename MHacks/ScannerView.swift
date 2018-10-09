@@ -34,21 +34,21 @@ final class ScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
     
     let captureSession = AVCaptureSession()
     
-    let supportedBarCodes = [AVMetadataObjectTypeQRCode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeAztecCode]
+    let supportedBarCodes = [AVMetadataObject.ObjectType.qr, AVMetadataObject.ObjectType.pdf417, AVMetadataObject.ObjectType.aztec]
     
     // MARK: Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        videoPreviewLayer.videoGravity = AVLayerVideoGravity(rawValue: convertFromAVLayerVideoGravity(AVLayerVideoGravity.resizeAspectFill))
         
         do {
             
-            let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+            let captureDevice = AVCaptureDevice.default(for: AVMediaType(rawValue: convertFromAVMediaType(AVMediaType.video)))
             
             // Get an instance of the AVCaptureDeviceInput class using the previous device object.
-            let input = try AVCaptureDeviceInput(device: captureDevice)
+            let input = try AVCaptureDeviceInput(device: captureDevice!)
             
             // Initialize the captureSession object.
             // Set the input device on the capture session.
@@ -80,10 +80,25 @@ final class ScannerView: UIView, AVCaptureMetadataOutputObjectsDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
         if let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject, supportedBarCodes.contains(metadataObject.type) {
-            delegate?.scannerView(scannerView: self, didScanIdentifier: metadataObject.stringValue)
+            delegate?.scannerView(scannerView: self, didScanIdentifier: metadataObject.stringValue!)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVMetadataObjectObjectType(_ input: AVMetadataObject.ObjectType) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVLayerVideoGravity(_ input: AVLayerVideoGravity) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVMediaType(_ input: AVMediaType) -> String {
+	return input.rawValue
 }

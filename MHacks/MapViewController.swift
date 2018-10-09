@@ -63,7 +63,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return MKOverlayRenderer()
     }
     
-    func floorsUpdated(_ : Notification) {
+    @objc func floorsUpdated(_ : Notification) {
         
         DispatchQueue.main.async {
             self.setupMapOverlay()
@@ -85,8 +85,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.overlayImage = image
         
         //-- OVERLAY CODE --//
-        let nwMapPoint = MKMapPointForCoordinate(northWestCoordinate)
-        let seMapPoint = MKMapPointForCoordinate(southEastCoordinate)
+        let nwMapPoint = MKMapPoint.init(northWestCoordinate)
+        let seMapPoint = MKMapPoint.init(southEastCoordinate)
         
         let mapOverlayRectSize = MKMapSize(width: seMapPoint.x - nwMapPoint.x, height: seMapPoint.y - nwMapPoint.y)
         let mapOverlayRect = MKMapRect(origin: nwMapPoint, size: mapOverlayRectSize)
@@ -96,7 +96,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let mapOverlay = MapOverlay(coord: midpoint, mapRect: mapOverlayRect)
         
-        self.mapView.add(mapOverlay)
+        self.mapView.addOverlay(mapOverlay)
         
         // -- North Campus Lat/Long (Set Frame) -- //
         let adjustedRegion = MKCoordinateRegion(center: midpoint, span: MKCoordinateSpan(latitudeDelta: 0.004, longitudeDelta: 0.004))

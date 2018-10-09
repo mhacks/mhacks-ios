@@ -25,7 +25,7 @@ class DatePickerCell: UITableViewCell {
 		return dateFormatter
 	}()
 
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		
 		datePicker.addTarget(self, action: #selector(DatePickerCell.dateChanged(_:)), for: .valueChanged)
@@ -52,7 +52,7 @@ class DatePickerCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func dateChanged(_ sender: UIDatePicker) {
+	@objc func dateChanged(_ sender: UIDatePicker) {
 		dateLabel.text = dateFormatter.string(from: datePicker.date)
 	}
 }

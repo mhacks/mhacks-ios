@@ -31,7 +31,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     let scannableCodeView = UIImageView()
     
-    let addPassButton = PKAddPassButton(style: .black)
+    let addPassButton = PKAddPassButton(addPassButtonStyle: .black)
     
     let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
     let scanBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Scan", comment: "Scan button title"), style: .plain, target: nil, action: nil)
@@ -222,7 +222,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     // MARK: Actions
     
-    func signIn() {
+    @objc func signIn() {
         
         let loginViewController = LoginViewController()
         loginViewController.delegate = self
@@ -232,11 +232,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         present(loginNavigationController, animated: true, completion: nil)
     }
     
-    func signOut() {
+    @objc func signOut() {
         APIManager.shared.logout()
     }
     
-    func scan() {
+    @objc func scan() {
         
         let scannerViewController = ScannerViewController(nibName: nil, bundle: nil)
         scannerViewController.delegate = self
@@ -247,7 +247,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         present(scannerNavigationController, animated: true, completion: nil)
     }
     
-    func signInDidChange() {
+    @objc func signInDidChange() {
         
         DispatchQueue.main.async {
             
@@ -257,7 +257,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         }
     }
 	
-	func addPass(_ sender: PKAddPassButton) {
+	@objc func addPass(_ sender: PKAddPassButton) {
         
         view.isUserInteractionEnabled = false
         
@@ -271,8 +271,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
 			}
             
 			let passesViewController = PKAddPassesViewController(pass: pass)
-			passesViewController.delegate = self
-			self.present(passesViewController, animated: true, completion: nil)
+            passesViewController!.delegate = self
+            self.present(passesViewController!, animated: true, completion: nil)
 		}
 	}
 	

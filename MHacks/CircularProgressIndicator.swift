@@ -30,7 +30,7 @@ class CircularProgressIndicator: UIView {
         trackLayer.fillColor = nil
         
         progressLayer.fillColor = nil
-        progressLayer.lineCap = kCALineCapRound
+        progressLayer.lineCap = CAShapeLayerLineCap.round
         
         layer.addSublayer(trackLayer)
         layer.addSublayer(progressLayer)
@@ -81,7 +81,7 @@ class CircularProgressIndicator: UIView {
 			animation.fromValue = oldProgress
 			animation.toValue = min(max(0.000001, progress), 1.0)
 			animation.duration = 1.0
-			animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
+			animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
 			
 			progressLayer.add(animation, forKey: "strokeEnd")
 		}
