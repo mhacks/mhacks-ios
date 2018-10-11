@@ -11,7 +11,7 @@ import Foundation
 extension Range {
     
     func containingInterval(_ other: Range) -> Range {
-		return Swift.min(lowerBound, other.lowerBound)..<Swift.max(upperBound, other.upperBound)
+        return min(lowerBound, other.lowerBound)..<max(upperBound, other.upperBound)
     }
     
     mutating func formContainingInterval(_ other: Range) {

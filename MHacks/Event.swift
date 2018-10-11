@@ -18,17 +18,6 @@ final class Event: SerializableElementWithIdentifier {
 		case techTalk = "Tech Talk"
 		case sponsor = "Sponsor Event"
 		case other = "Other"
-
-		init?(rawValue: String) {
-			switch rawValue {
-			case "general": self = .general
-			case "food": self = .food
-			case "tech talk": self = .techTalk
-			case "sponsor event": self = .sponsor
-			case "other": self = .other
-			default: self = .general
-			}
-		}
 		
 		var color: UIColor {
 			switch self {
@@ -94,8 +83,8 @@ extension Event {
 	convenience init?(_ serialized: SerializedRepresentation) {
 		guard
 			let name = serialized[Event.nameKey] as? String,
-			let locationID = serialized[Event.locationIDKey] as? String,
 			let categoryRaw = serialized[Event.categoryKey] as? String,
+			let locationID = serialized[Event.locationIDKey] as? String,
 			let category = Category(rawValue: categoryRaw),
 			let startDate = serialized[Event.startDateKey] as? Double,
 			let endDate = serialized[Event.endDateKey] as? Double,

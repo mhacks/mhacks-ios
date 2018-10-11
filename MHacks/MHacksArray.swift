@@ -12,7 +12,7 @@ final class MHacksArray<Element>: Serializable, RandomAccessCollection where Ele
 {
 	private var items = [String: Element]()
 	private var sortedKeys = [String]()
-    private(set) var lastUpdated: Int? = 0
+	private(set) var lastUpdated: Int?
 	
 	let semaphoreGuard = DispatchSemaphore(value: 1)
 	let coalescer = CoalescedCallbacks()
