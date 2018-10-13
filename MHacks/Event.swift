@@ -18,6 +18,17 @@ final class Event: SerializableElementWithIdentifier {
 		case techTalk = "Tech Talk"
 		case sponsor = "Sponsor Event"
 		case other = "Other"
+
+		init?(rawValue: String) {
+			switch rawValue {
+			case "general": self = .general
+			case "food": self = .food
+			case "tech talk": self = .techTalk
+			case "sponsor event": self = .sponsor
+			case "other": self = .other
+			default: self = .general
+			}
+		}
 		
 		var color: UIColor {
 			switch self {

@@ -25,8 +25,8 @@ class TextFieldCell: UITableViewCell {
 		NSLayoutConstraint.activate([
 			stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
 			stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15.0),
-			stackView.topAnchor.constraint(equalTo: topAnchor),
-			stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+			stackView.topAnchor.constraint(equalTo: topAnchor, constant: 15.0),
+			stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15.0),
 			labelWidthConstraint
 			])
 	}
