@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class MHacksArray<Element>: Serializable, RandomAccessCollection where Element: SerializableElementWithIdentifier, Element: Comparable
+final class MHacksArray<Element>: Serializable, RandomAccessCollection where Element: SerializableElementWithIdentifier
 {
 	private var items = [String: Element]()
 	private var sortedKeys = [String]()

@@ -16,10 +16,14 @@ import PassKit
 extension APIManager {
 	// MARK: - Helpers
 	func showNetworkIndicator() {
-		UIApplication.shared.isNetworkActivityIndicatorVisible = true
+		DispatchQueue.main.async {
+			UIApplication.shared.isNetworkActivityIndicatorVisible = true
+		}
 	}
 	func hideNetworkIndicator() {
-		UIApplication.shared.isNetworkActivityIndicatorVisible = false
+		DispatchQueue.main.async {
+			UIApplication.shared.isNetworkActivityIndicatorVisible = false
+		}
 	}
 }
 extension APIManager {

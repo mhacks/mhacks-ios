@@ -223,7 +223,7 @@ final class LoginViewController: UIViewController, UITableViewDataSource, UITabl
 	
 	// MARK: Text field delegate
 	
-	func textFieldEditingChanged() {
+	@objc func textFieldEditingChanged() {
 		
 		updateSignInBarButtonEnabled()
 	}
