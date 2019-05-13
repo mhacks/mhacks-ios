@@ -11,7 +11,7 @@ import Foundation
 extension Range {
     
     func containingInterval(_ other: Range) -> Range {
-        return min(lowerBound, other.lowerBound)..<max(upperBound, other.upperBound)
+        return Swift.min(lowerBound, other.lowerBound)..<Swift.max(upperBound, other.upperBound)
     }
     
     mutating func formContainingInterval(_ other: Range) {
@@ -342,7 +342,7 @@ final class EventOrganizer {
 	
 	func dayAndPartialHourForDate(_ date: Date) -> (day: Int, partialHour: Double)? {
 		
-		let possibleDay = days.index {
+		let possibleDay = days.firstIndex {
 			return $0.timeInterval.contains(date.timeIntervalSinceReferenceDate)
 		}
 		

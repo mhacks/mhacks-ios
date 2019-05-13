@@ -25,7 +25,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
     var currentCategory: Announcement.Category? {
         didSet {
             if let oldCategory = oldValue {
-                let oldIndexPath = IndexPath(row: categories.index(of: oldCategory)!, section: Section.category.rawValue)
+                let oldIndexPath = IndexPath(row: categories.firstIndex(of: oldCategory)!, section: Section.category.rawValue)
                 tableView.cellForRow(at: oldIndexPath)?.accessoryType = .none
             }
             
@@ -35,7 +35,7 @@ class ComposeAnnouncementTableViewController: UITableViewController, UITextField
             }
             
             if let newCategory = currentCategory {
-                let newIndexPath = IndexPath(row: categories.index(of: newCategory)!, section: Section.category.rawValue)
+                let newIndexPath = IndexPath(row: categories.firstIndex(of: newCategory)!, section: Section.category.rawValue)
                 tableView.cellForRow(at: newIndexPath)?.accessoryType = .checkmark
             }
         }
