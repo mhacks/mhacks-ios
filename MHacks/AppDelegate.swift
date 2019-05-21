@@ -30,18 +30,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		
 		window!.tintColor = MHacksColor.pink
 		
-		tabBarController = window!.rootViewController as! UITabBarController
+		tabBarController = window!.rootViewController as? UITabBarController
 		tabBarController.delegate = self
 		
-		scheduleNavigationController = tabBarController.viewControllers![0] as! UINavigationController
-		scheduleViewController = scheduleNavigationController.viewControllers[0] as! ScheduleCalendarViewController
+		scheduleNavigationController = tabBarController.viewControllers![0] as? UINavigationController
+		scheduleViewController = scheduleNavigationController.viewControllers[0] as? ScheduleCalendarViewController
 		
-		countdownViewController = tabBarController.viewControllers![2] as! CountdownViewController
+		countdownViewController = tabBarController.viewControllers![2] as? CountdownViewController
 		
-		announcementsNavigationController = tabBarController.viewControllers![3] as! UINavigationController
+		announcementsNavigationController = tabBarController.viewControllers![3] as? UINavigationController
 		
-		userNavigationController = tabBarController.viewControllers![4] as! UINavigationController
-		userViewController = userNavigationController.viewControllers[0] as! UserViewController
+		userNavigationController = tabBarController.viewControllers![4] as? UINavigationController
+		userViewController = userNavigationController.viewControllers[0] as? UserViewController
 		
 		userNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
 		userNavigationController.navigationBar.shadowImage = UIImage()

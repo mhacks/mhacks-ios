@@ -120,7 +120,7 @@ class BuildingMapsViewController: UIViewController, UICollectionViewDataSource, 
             if floor.name.isEmpty {
                 labelView.label.text = nil
             } else {
-                labelView.label.text = String(floor.name.characters[floor.name.startIndex])
+                labelView.label.text = String(floor.name[floor.name.startIndex])
             }
             
             view = labelView

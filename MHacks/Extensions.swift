@@ -21,7 +21,8 @@ extension String {
 			{
 				return
 			}
-			formatted += sentence.replacingCharacters(in: self.startIndex..<self.characters.index(self.startIndex, offsetBy: 1), with: sentence.substring(to: sentence.characters.index(after: sentence.startIndex)).capitalized)
+			formatted += sentence.replacingCharacters(in: self.startIndex..<self.index(self.startIndex, offsetBy: 1), with: sentence[..<sentence.index(after: sentence.startIndex)].capitalized)
+			
 		})
 		// Add trailing full stop.
 		if (formatted[formatted.index(before: formatted.endIndex)] != ".")

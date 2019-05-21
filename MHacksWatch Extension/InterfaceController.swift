@@ -38,7 +38,7 @@ class InterfaceController: WKInterfaceController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func updateTableView(_ : Notification) {
+    @objc func updateTableView(_ : Notification) {
         DispatchQueue.main.async {
             self.tableView.setNumberOfRows(APIManager.shared.announcements.count, withRowType: "announcementCell")
             for (i, announcement) in APIManager.shared.announcements.enumerated()

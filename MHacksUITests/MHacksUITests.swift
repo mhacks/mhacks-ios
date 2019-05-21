@@ -31,7 +31,7 @@ class MHacksUITests: XCTestCase {
     func takeScreenshots() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        XCUIDevice.shared().orientation = .portrait
+        XCUIDevice.shared.orientation = .portrait
         
         let tabBarsQuery = XCUIApplication().tabBars
 
