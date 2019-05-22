@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -209,43 +209,41 @@
             </objects>
             <point key="canvasLocation" x="382" y="88"/>
         </scene>
-        <!--Intramural Sports Building-->
-        <scene sceneID="1z9-MJ-sXD">
+        <!--SiMHacks-->
+        <scene sceneID="iqZ-Xu-KmQ">
             <objects>
-                <viewController id="9sT-vU-We0" customClass="MapViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="6eO-el-uEV" customClass="SiMHacksViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TrW-qa-le6"/>
-                        <viewControllerLayoutGuide type="bottom" id="dDM-Nn-5EG"/>
+                        <viewControllerLayoutGuide type="top" id="GXY-mD-msv"/>
+                        <viewControllerLayoutGuide type="bottom" id="RgF-MD-EhQ"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Dal-eo-GUe">
+                    <view key="view" contentMode="scaleToFill" id="W82-XN-hZz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-3A-hlk">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="bR9-3A-hlk" firstAttribute="top" secondItem="TrW-qa-le6" secondAttribute="bottom" id="Ya2-uc-cuV"/>
-                            <constraint firstItem="bR9-3A-hlk" firstAttribute="trailingMargin" secondItem="Dal-eo-GUe" secondAttribute="trailing" id="a7X-nz-ZIw"/>
-                            <constraint firstItem="dDM-Nn-5EG" firstAttribute="top" secondItem="bR9-3A-hlk" secondAttribute="bottom" id="arS-RK-ZQm"/>
-                            <constraint firstItem="bR9-3A-hlk" firstAttribute="leading" secondItem="Dal-eo-GUe" secondAttribute="leading" id="bx0-Hr-aCm"/>
-                        </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="qJq-ul-qwk" appends="YES" id="vc9-ri-lA3"/>
-                        </connections>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Intramural Sports Building" id="TTN-L0-KLy" userLabel="North Campus"/>
-                    <connections>
-                        <outlet property="mapView" destination="bR9-3A-hlk" id="58l-LW-uc3"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="SiMHacks" id="rRX-gN-pNd"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fRP-ID-GK7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer enabled="NO" id="qJq-ul-qwk"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z5b-28-PKd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1165.5999999999999" y="-707.49625187406298"/>
+            <point key="canvasLocation" x="1233" y="-669"/>
+        </scene>
+        <!--SiMHacks-->
+        <scene sceneID="NRg-Ve-kDe">
+            <objects>
+                <navigationController id="zyx-wS-tT2" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="SiMHacks" image="News Selected" id="tgQ-a5-3lp" userLabel="SiMHacks"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BjB-7P-0k5">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6eO-el-uEV" kind="relationship" relationship="rootViewController" id="5D9-j8-nFy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A10-b6-PGr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="382" y="-668"/>
         </scene>
         <!--News-->
         <scene sceneID="Efb-xw-Rfz">
@@ -562,9 +560,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="mKN-3u-sIs" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="JLn-Td-eGM" kind="relationship" relationship="viewControllers" id="thD-Sj-yZp"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="ODI-Mf-0FL" kind="relationship" relationship="viewControllers" id="eu7-wM-XnY"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="zyx-wS-tT2" kind="relationship" relationship="viewControllers" id="mUI-Ob-apP"/>
                         <segue destination="xLk-s8-jXP" kind="relationship" relationship="viewControllers" id="OPd-34-QGQ"/>
                     </connections>
                 </tabBarController>
@@ -735,25 +733,6 @@
             </objects>
             <point key="canvasLocation" x="382" y="1836"/>
         </scene>
-        <!--Maps-->
-        <scene sceneID="nWc-Sj-H99">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JLn-Td-eGM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Maps" image="Maps" selectedImage="Maps Selected" id="qVz-Yj-7lH"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4dV-a1-pO6">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="9sT-vU-We0" kind="relationship" relationship="rootViewController" id="lz8-Lf-ZAR"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NSe-yg-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="382" y="-707"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="b2q-9n-fWq">
             <objects>
@@ -776,8 +755,6 @@
     <resources>
         <image name="Countdown" width="25" height="25"/>
         <image name="Countdown Selected" width="25" height="25"/>
-        <image name="Maps" width="25" height="25"/>
-        <image name="Maps Selected" width="25" height="25"/>
         <image name="News" width="25" height="25"/>
         <image name="News Selected" width="25" height="25"/>
         <image name="Schedule" width="25" height="25"/>

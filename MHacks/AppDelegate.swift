@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var announcementsNavigationController: UINavigationController!
 	
+	var simhacksNavigationController: UINavigationController!
+	var simhacksViewController: SiMHacksViewController!
+	
 	var userNavigationController: UINavigationController!
 	var userViewController: UserViewController!
 	
@@ -36,10 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		scheduleNavigationController = tabBarController.viewControllers![0] as? UINavigationController
 		scheduleViewController = scheduleNavigationController.viewControllers[0] as? ScheduleCalendarViewController
 		
+		announcementsNavigationController = tabBarController.viewControllers![1] as? UINavigationController
+		
 		countdownViewController = tabBarController.viewControllers![2] as? CountdownViewController
 		
-		announcementsNavigationController = tabBarController.viewControllers![3] as? UINavigationController
-		
+		simhacksNavigationController = tabBarController.viewControllers![3] as? UINavigationController
+		simhacksViewController = simhacksNavigationController.viewControllers[0] as? SiMHacksViewController
+
 		userNavigationController = tabBarController.viewControllers![4] as? UINavigationController
 		userViewController = userNavigationController.viewControllers[0] as? UserViewController
 		
