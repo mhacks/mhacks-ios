@@ -117,8 +117,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         simhacksButton.setTitle("SiMHacks", for: .normal)
         simhacksButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
-        simhacksButton.backgroundColor = UIColor.blue
+        simhacksButton.backgroundColor = MHacksColor.pink
         simhacksButton.layer.cornerRadius = 10
+        simhacksButton.addTarget(self, action: #selector(simhacksPressed), for: .touchUpInside)
         
         ticketBackgroundView.addSubview(ticketItemsView)
         
@@ -285,6 +286,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             self.present(passesViewController!, animated: true, completion: nil)
 		}
 	}
+    
+    @objc func simhacksPressed() {
+        let simhacksNav = UINavigationController(rootViewController: SiMHacksViewController())
+        self.present(simhacksNav, animated: true, completion: nil)
+    }
 	
     // MARK: Login view controller delegate
     
