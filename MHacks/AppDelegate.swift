@@ -42,11 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		announcementsNavigationController = tabBarController.viewControllers![1] as? UINavigationController
 		
 		countdownViewController = tabBarController.viewControllers![2] as? CountdownViewController
-		
-		simhacksNavigationController = tabBarController.viewControllers![3] as? UINavigationController
-		simhacksViewController = simhacksNavigationController.viewControllers[0] as? SiMHacksViewController
 
-		userNavigationController = tabBarController.viewControllers![4] as? UINavigationController
+		userNavigationController = tabBarController.viewControllers![3] as? UINavigationController
 		userViewController = userNavigationController.viewControllers[0] as? UserViewController
 		
 		userNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)
