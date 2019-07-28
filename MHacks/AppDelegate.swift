@@ -22,9 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	
 	var announcementsNavigationController: UINavigationController!
 	
-	var simhacksNavigationController: UINavigationController!
-	var simhacksViewController: SiMHacksViewController!
-	
 	var userNavigationController: UINavigationController!
 	var userViewController: UserViewController!
 	
