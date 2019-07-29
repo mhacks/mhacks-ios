@@ -36,6 +36,8 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     let signOutBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sign Out", comment: "Sign out button title"), style: .plain, target: nil, action: nil)
     let scanBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Scan", comment: "Scan button title"), style: .plain, target: nil, action: nil)
     
+    let simhacksButton = UIButton()
+    
     // MARK: View life cycle
     
     override func viewDidLoad() {
@@ -110,8 +112,14 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         ticketItemsView.translatesAutoresizingMaskIntoConstraints = false
         ticketItemsView.axis = .vertical
         ticketItemsView.alignment = .center
-        ticketItemsView.spacing = 40.0
+        ticketItemsView.spacing = 5.0
         ticketItemsView.distribution = .equalSpacing
+        
+        simhacksButton.setTitle("SiMHacks", for: .normal)
+        simhacksButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
+        simhacksButton.backgroundColor = MHacksColor.pink
+        simhacksButton.layer.cornerRadius = 10
+        simhacksButton.addTarget(self, action: #selector(simhacksPressed), for: .touchUpInside)
         
         ticketBackgroundView.addSubview(ticketItemsView)
         
@@ -121,6 +129,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         ticketView.addArrangedSubview(ticketBackgroundView)
         ticketView.addArrangedSubview(addPassButton)
+        ticketView.addArrangedSubview(simhacksButton)
 		
 		addPassButton.addTarget(self, action: #selector(addPass(_:)), for: .touchUpInside)
 		
@@ -143,8 +152,10 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             ticketView.leadingAnchor.constraint(equalTo: contentLayoutGuide.leadingAnchor),
             ticketView.trailingAnchor.constraint(equalTo: contentLayoutGuide.trailingAnchor),
             ticketView.topAnchor.constraint(equalTo: contentLayoutGuide.topAnchor),
-            ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor),
+            ticketView.bottomAnchor.constraint(equalTo: contentLayoutGuide.bottomAnchor, constant: -15.0),
             fieldsView.widthAnchor.constraint(equalTo: ticketItemsView.widthAnchor),
+            simhacksButton.widthAnchor.constraint(equalTo: ticketItemsView.widthAnchor),
+            simhacksButton.heightAnchor.constraint(equalToConstant: 45),
             ticketItemsView.leadingAnchor.constraint(equalTo: ticketBackgroundView.leadingAnchor, constant: 15.0),
             ticketItemsView.trailingAnchor.constraint(equalTo: ticketBackgroundView.trailingAnchor, constant: -15.0),
             ticketItemsView.topAnchor.constraint(equalTo: ticketBackgroundView.topAnchor, constant: 15.0),
@@ -275,6 +286,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             self.present(passesViewController!, animated: true, completion: nil)
 		}
 	}
+    
+    @objc func simhacksPressed() {
+        let simhacksNav = UINavigationController(rootViewController: SiMHacksViewController())
+        self.present(simhacksNav, animated: true, completion: nil)
+    }
 	
     // MARK: Login view controller delegate
     
