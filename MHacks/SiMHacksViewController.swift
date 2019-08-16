@@ -31,6 +31,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         board.textColor = UIColor.black
         board.font = UIFont(name: "Helvetica", size: 32)
         board.center.x = self.view.center.x
+        board.translatesAutoresizingMaskIntoConstraints = false
         return board
     }()
 
@@ -38,6 +39,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         let player = UILabel()
         player.text = "Player"
         player.font = UIFont(name: "Helvetica", size: 24)
+        player.translatesAutoresizingMaskIntoConstraints = false
         return player
     }()
     
@@ -45,20 +47,28 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         let score = UILabel()
         score.text = "Score"
         score.font = UIFont(name: "Helvetica", size: 24)
+        score.translatesAutoresizingMaskIntoConstraints = false
         return score
     }()
     
     lazy var playerScoreStackView: UIStackView = {
         let psSV = UIStackView(arrangedSubviews: [playerTitle, scoreTitle])
         psSV.axis = .horizontal
+        psSV.translatesAutoresizingMaskIntoConstraints = false
         return psSV
     }()
     
-    lazy var leaderboard = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2))
+    lazy var leaderboard : UIView = {
+        let board = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2))
+        board.backgroundColor = UIColor.blue
+        board.translatesAutoresizingMaskIntoConstraints = false
+        return board
+    }()
     
     lazy var boardStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [leaderboardTitle, playerScoreStackView, leaderboard])
         sv.axis = .vertical
+        sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
@@ -84,16 +94,14 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
     }
     
     func setupSubviews() {
-//        view.addSubview(leaderboardTitle)
-//
-//        leaderboard.bounds = leaderboard.frame.inset(by: UIEdgeInsets(top: 150, left: 20, bottom: 20, right: 20))
-////        leaderboard.layoutMargins = UIEdgeInsets(top: 50, left: 20, bottom: 20, right: 20)
-//        leaderboard.backgroundColor = UIColor.blue
-//        view.addSubview(leaderboard)
-        
-        // Add constraints
-        
+        // Add board subview
         view.addSubview(boardStackView)
+        
+        // Constrain board subview
+        boardStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        boardStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        boardStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        boardStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     }
     
     @objc func closeSim() {
