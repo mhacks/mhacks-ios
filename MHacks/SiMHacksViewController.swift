@@ -20,56 +20,48 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: member variables
+    var currentQuests: [Quest] = []
+    
     // MARK: Subviews
     
     // Leaderboard stuff
-    lazy var leaderboardTitle: UILabel = {
-        let board = UILabel(frame: CGRect(x: 0, y: 30, width: view.frame.width, height: 32))
+    let leaderboardTitle: UILabel = {
+        let board = UILabel()
         board.text = "Leaderboard"
-        board.numberOfLines = 0
-        board.textAlignment = .center
-        board.textColor = UIColor.black
+//        board.numberOfLines = 0
+        board.textAlignment = .left
+//        board.textColor = UIColor.black
         board.font = UIFont(name: "Helvetica", size: 32)
-        board.center.x = self.view.center.x
-        board.translatesAutoresizingMaskIntoConstraints = false
         return board
     }()
-
-    let playerTitle: UILabel = {
-        let player = UILabel()
-        player.text = "Player"
-        player.font = UIFont(name: "Helvetica", size: 24)
-        player.translatesAutoresizingMaskIntoConstraints = false
-        return player
-    }()
     
-    let scoreTitle: UILabel = {
-        let score = UILabel()
-        score.text = "Score"
-        score.font = UIFont(name: "Helvetica", size: 24)
-        score.translatesAutoresizingMaskIntoConstraints = false
-        return score
-    }()
-    
-    lazy var playerScoreStackView: UIStackView = {
-        let psSV = UIStackView(arrangedSubviews: [playerTitle, scoreTitle])
-        psSV.axis = .horizontal
-        psSV.translatesAutoresizingMaskIntoConstraints = false
-        return psSV
-    }()
-    
-    lazy var leaderboard : UIView = {
+    lazy var leaderboard : UIView = { // TODO: change to a table view?
         let board = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2))
         board.backgroundColor = UIColor.blue
-        board.translatesAutoresizingMaskIntoConstraints = false
         return board
     }()
     
     lazy var boardStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [leaderboardTitle, playerScoreStackView, leaderboard])
+        let sv = UIStackView(arrangedSubviews: [leaderboardTitle, leaderboard])
         sv.axis = .vertical
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.spacing = 25
         return sv
+    }()
+    
+    let questTitle: UILabel = {
+        let qTitle = UILabel()
+        qTitle.text = "Quests"
+        qTitle.font = UIFont(name: "Helvetica", size: 32)
+        return qTitle
+    }()
+    
+    lazy var questStackView: UIStackView = {
+        let qSV = UIStackView(arrangedSubviews: [questTitle])
+        qSV.axis = .vertical
+        qSV.translatesAutoresizingMaskIntoConstraints = false
+        return qSV
     }()
     
     // TODO: figure out quest tiles
@@ -97,11 +89,20 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         // Add board subview
         view.addSubview(boardStackView)
         
-        // Constrain board subview
+        // Constrain board stack view
         boardStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
-        boardStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        boardStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        boardStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        boardStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        boardStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        boardStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        
+        // Add quest subviews
+        view.addSubview(questStackView)
+        
+        // Constrain quest stack view
+        questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 50).isActive = true
+        questStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        questStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        
     }
     
     @objc func closeSim() {
