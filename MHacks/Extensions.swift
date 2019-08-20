@@ -79,5 +79,9 @@ struct MHacksColor
 		return UIColor.gray
 		#endif
 	}
+	static var backgroundDarkBlue: UIColor
+	{
+		return UIColor(red: 3 / 255.0, green: 3 / 255.0, blue: 75 / 255.0, alpha: 1.0)
+	}
 }
 

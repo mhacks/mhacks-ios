@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MHacks.xcodeproj">
+      location = "group:../../Desktop/ARCADECLASSIC.TTF">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

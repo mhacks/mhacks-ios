@@ -29,10 +29,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
     let leaderboardTitle: UILabel = {
         let board = UILabel()
         board.text = "Leaderboard"
-//        board.numberOfLines = 0
         board.textAlignment = .left
-//        board.textColor = UIColor.black
-        board.font = UIFont(name: "Helvetica", size: 32)
+        board.font = UIFont(name: "Helvetica", size: 32) // TODO: change to Arcade Classic
         return board
     }()
     
@@ -46,25 +44,30 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         let sv = UIStackView(arrangedSubviews: [leaderboardTitle, leaderboard])
         sv.axis = .vertical
         sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.spacing = 25
+        sv.spacing = 15
         return sv
     }()
     
     let questTitle: UILabel = {
         let qTitle = UILabel()
         qTitle.text = "Quests"
-        qTitle.font = UIFont(name: "Helvetica", size: 32)
+        qTitle.font = UIFont(name: "Helvetica", size: 32) // TODO: change to Arcade Classic
         return qTitle
     }()
     
-    lazy var questStackView: UIStackView = {
-        let qSV = UIStackView(arrangedSubviews: [questTitle])
+    // Displaying one quest for testing
+//    let quest: QuestCell = {
+//        let q = QuestCell(title: "Find someone whose favorite video game genre is First Person Shooter.", points: 200)
+//        return q
+//    }()
+    
+    lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
+        let qSV = UIStackView(arrangedSubviews: [questTitle, quest])
         qSV.axis = .vertical
         qSV.translatesAutoresizingMaskIntoConstraints = false
+        qSV.spacing = 15
         return qSV
     }()
-    
-    // TODO: figure out quest tiles
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,9 +102,10 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         view.addSubview(questStackView)
         
         // Constrain quest stack view
-        questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 50).isActive = true
+        questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 40).isActive = true
         questStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         questStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        questStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75).isActive = true
         
     }
     

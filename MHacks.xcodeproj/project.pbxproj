@@ -11,6 +11,9 @@
 		278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* MapOverlay.swift */; };
 		278CEAB81E75CEAC00F95833 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */; };
 		2796A9731E73798C00B5141E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapViewController.swift */; };
+		3614342B2309F05900281150 /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3614342A2309F05900281150 /* Quest.swift */; };
+		36434544230B3DB50013476D /* QuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36434543230B3DB50013476D /* QuestCell.swift */; };
+		3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
 		463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463A90721D9769B600C0F6FE /* ScannerView.swift */; };
@@ -186,6 +189,10 @@
 		278CEAB51E75CCF400F95833 /* MapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
 		278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
 		2796A9721E73798C00B5141E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		3614342A2309F05900281150 /* Quest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
+		36434543230B3DB50013476D /* QuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCell.swift; sourceTree = "<group>"; };
+		36434548230B4D100013476D /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AndaleMono.ttf; sourceTree = "<group>"; };
+		3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		463A90721D9769B600C0F6FE /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -308,6 +315,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36434547230B4D0C0013476D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */,
+				36434548230B4D100013476D /* AndaleMono.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		709AEA361F6B19F000E7089C /* MHacksUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +431,7 @@
 		82473FB91C1F7F1F0061FFFB /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				36434547230B4D0C0013476D /* Fonts */,
 				82473FAB1C1F7A170061FFFB /* Main.storyboard */,
 				82473FAE1C1F7A170061FFFB /* Assets.xcassets */,
 				82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */,
@@ -485,6 +502,7 @@
 				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
 				278CEAB51E75CCF400F95833 /* MapOverlay.swift */,
 				278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */,
+				36434543230B3DB50013476D /* QuestCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -522,6 +540,7 @@
 				8205251F1D9DADDD00EF535C /* Floor.swift */,
 				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
 				8240DE631D9C72EA000DD78C /* ScannedDataField.swift */,
+				3614342A2309F05900281150 /* Quest.swift */,
 			);
 			name = "Public Models";
 			sourceTree = "<group>";
@@ -754,6 +773,7 @@
 				46B75ADB1DA253510024139A /* FloorLabel.xib in Resources */,
 				46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */,
 				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
+				3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */,
 				46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */,
 				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
 				82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */,
@@ -822,6 +842,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3614342B2309F05900281150 /* Quest.swift in Sources */,
 				278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */,
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */,
@@ -874,6 +895,7 @@
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
 				465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */,
 				82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */,
+				36434544230B3DB50013476D /* QuestCell.swift in Sources */,
 				46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */,
 				463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */,
 				46EA62F31D927421003AE1D5 /* ScannerViewController.swift in Sources */,

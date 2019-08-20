@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import UIKit
+
+struct Quest {
+    
+    let title: String
+    let points: Int
+    
+}
