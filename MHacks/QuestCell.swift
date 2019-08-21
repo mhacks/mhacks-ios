@@ -20,6 +20,7 @@ class QuestCell: UICollectionViewCell {
         title.textAlignment = .center
         title.numberOfLines = 3
         title.translatesAutoresizingMaskIntoConstraints = false
+        title.textColor = UIColor.white
         return title
     }()
     
@@ -28,6 +29,7 @@ class QuestCell: UICollectionViewCell {
         points.font = UIFont(name: "AndaleMono", size: 24)
         points.textAlignment = .center
         points.translatesAutoresizingMaskIntoConstraints = false
+        points.textColor = UIColor.white
         return points
     }()
 

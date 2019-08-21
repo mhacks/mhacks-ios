@@ -80,8 +80,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         collectionView.delegate = self
         collectionView.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
         collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor.yellow
         collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = UIColor.white
         
         // Set up navigation stuff
         setupNavigation()
@@ -91,7 +91,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func setupNavigation() {
-        navigationItem.title = "SiMHacks"
+        navigationItem.title = "SiMHacks" // TODO: change nav title and button font?
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeSim))
         let scanButton = UIBarButtonItem(title: "Scan", style: .plain, target: self, action: #selector(scan))
         navigationItem.leftBarButtonItem = closeButton
@@ -148,6 +148,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         let data = currentQuests[indexPath.item]
         cell.questTitle.text = data.title
         cell.pointLabel.text = "\(data.points) points"
+        cell.contentView.layer.cornerRadius = 10 // rounded corners
         return cell
     }
     
@@ -156,7 +157,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .zero // TODO: change if inset wanted
+        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
