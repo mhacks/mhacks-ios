@@ -14,6 +14,7 @@
 		3614342B2309F05900281150 /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3614342A2309F05900281150 /* Quest.swift */; };
 		36434544230B3DB50013476D /* QuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36434543230B3DB50013476D /* QuestCell.swift */; };
 		3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */; };
+		36D9D4D8230D10060053E19C /* andalemo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36D9D4D7230D10060053E19C /* andalemo.ttf */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
 		463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463A90721D9769B600C0F6FE /* ScannerView.swift */; };
@@ -191,8 +192,8 @@
 		2796A9721E73798C00B5141E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3614342A2309F05900281150 /* Quest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
 		36434543230B3DB50013476D /* QuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCell.swift; sourceTree = "<group>"; };
-		36434548230B4D100013476D /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AndaleMono.ttf; sourceTree = "<group>"; };
 		3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
+		36D9D4D7230D10060053E19C /* andalemo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = andalemo.ttf; path = "../../Desktop/andale-mono/andalemo.ttf"; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		463A90721D9769B600C0F6FE /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -318,8 +319,8 @@
 		36434547230B4D0C0013476D /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				36D9D4D7230D10060053E19C /* andalemo.ttf */,
 				3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */,
-				36434548230B4D100013476D /* AndaleMono.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -776,6 +777,7 @@
 				3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */,
 				46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */,
 				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
+				36D9D4D8230D10060053E19C /* andalemo.ttf in Resources */,
 				82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */,
 				46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */,
 			);

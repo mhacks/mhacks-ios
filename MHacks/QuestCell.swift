@@ -16,7 +16,7 @@ class QuestCell: UICollectionViewCell {
     
     let questTitle: UILabel = {
         let title = UILabel()
-        title.font = UIFont(name: "Helvetica", size: 30) // TODO: change to Andale Mono
+        title.font = UIFont(name: "AndaleMono", size: 30)
         title.textAlignment = .center
         title.numberOfLines = 3
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +25,7 @@ class QuestCell: UICollectionViewCell {
     
     let pointLabel: UILabel = {
         let points = UILabel()
-        points.font = UIFont(name: "Helvetica", size: 24) // TODO: change to Andale Mono
+        points.font = UIFont(name: "AndaleMono", size: 24)
         points.textAlignment = .center
         points.translatesAutoresizingMaskIntoConstraints = false
         return points

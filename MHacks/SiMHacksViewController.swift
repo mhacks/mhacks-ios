@@ -24,7 +24,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     var currentQuests: [Quest] = [Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100), Quest(title: "Test2", points: 100), Quest(title: "Test3", points: 100)]
     
     let collectionView: UICollectionView = {
-        let coll = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let horizontalLayout = UICollectionViewFlowLayout()
+        horizontalLayout.scrollDirection = .horizontal
+        let coll = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
         coll.translatesAutoresizingMaskIntoConstraints = false
         return coll
     }()
@@ -36,7 +38,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         let board = UILabel()
         board.text = "Leaderboard"
         board.textAlignment = .left
-        board.font = UIFont(name: "Helvetica", size: 32) // TODO: change to Arcade Classic
+        board.font = UIFont(name: "ArcadeClassic", size: 38)
         return board
     }()
     
@@ -57,15 +59,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     let questTitle: UILabel = {
         let qTitle = UILabel()
         qTitle.text = "Quests"
-        qTitle.font = UIFont(name: "Helvetica", size: 32) // TODO: change to Arcade Classic
+        qTitle.font = UIFont(name: "ArcadeClassic", size: 38)
         return qTitle
     }()
-    
-    // Displaying one quest for testing
-//    let quest: QuestCell = {
-//        let q = QuestCell(title: "Find someone whose favorite video game genre is First Person Shooter.", points: 200)
-//        return q
-//    }()
     
     lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
         let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView])
@@ -80,11 +76,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         view.backgroundColor = UIColor.white
         
         // Collection view setup
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        self.collectionView.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.backgroundColor = UIColor.yellow
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = UIColor.yellow
+        collectionView.isPagingEnabled = true
         
         // Set up navigation stuff
         setupNavigation()
@@ -167,7 +164,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 50 // TODO: change?
+        return 0 // TODO: change?
     }
     
     
