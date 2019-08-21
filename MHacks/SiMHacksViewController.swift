@@ -9,7 +9,7 @@
 import UIKit
 
 
-class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
+class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
@@ -21,7 +21,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
     }
     
     // MARK: member variables
-    var currentQuests: [Quest] = []
+    var currentQuests: [Quest] = [Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100), Quest(title: "Test2", points: 100), Quest(title: "Test3", points: 100)]
+    
+    let collectionView: UICollectionView = {
+        let coll = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        coll.translatesAutoresizingMaskIntoConstraints = false
+        return coll
+    }()
     
     // MARK: Subviews
     
@@ -62,7 +68,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
 //    }()
     
     lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
-        let qSV = UIStackView(arrangedSubviews: [questTitle, quest])
+        let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView])
         qSV.axis = .vertical
         qSV.translatesAutoresizingMaskIntoConstraints = false
         qSV.spacing = 15
@@ -72,6 +78,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        
+        // Collection view setup
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.backgroundColor = UIColor.yellow
         
         // Set up navigation stuff
         setupNavigation()
@@ -123,9 +136,39 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate {
         present(scannerNavigationController, animated: true, completion: nil)
     }
     
-    
     // MARK: Scanner view controller delegate
     func scannerViewControllerDidFinish(scannerViewController: ScannerViewController) {
         dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: Collection view protocols
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentQuests.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestCell.identifier, for: indexPath) as! QuestCell
+        let data = currentQuests[indexPath.item]
+        cell.questTitle.text = data.title
+        cell.pointLabel.text = "\(data.points) points"
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .zero // TODO: change if inset wanted
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 50 // TODO: change?
+    }
+    
+    
 }
