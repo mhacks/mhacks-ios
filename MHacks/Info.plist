@@ -4,7 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>andalemo.ttf</string>
+		<string>andalemo.TTF</string>
 		<string>ARCADECLASSIC.TTF</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
