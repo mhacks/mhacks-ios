@@ -9,7 +9,7 @@
 import UIKit
 
 
-class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
@@ -21,15 +21,10 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     // MARK: member variables
-    var currentQuests: [Quest] = [Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100), Quest(title: "Test2", points: 100), Quest(title: "Test3", points: 100)]
     
-    let collectionView: UICollectionView = {
-        let horizontalLayout = UICollectionViewFlowLayout()
-        horizontalLayout.scrollDirection = .horizontal
-        let coll = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
-        coll.translatesAutoresizingMaskIntoConstraints = false
-        return coll
-    }()
+    var currentQuests: [Quest] = []
+    
+    var peopleOnBoard: [LeaderboardPosition] = []
     
     // MARK: Subviews
     
@@ -42,9 +37,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return board
     }()
     
-    lazy var leaderboard : UIView = { // TODO: change to a table view?
-        let board = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height / 2))
-        board.backgroundColor = UIColor.blue
+    lazy var leaderboard : UITableView = {
+        let board = UITableView(frame: .zero, style: .plain)
+        board.register(LeaderboardCell.self, forCellReuseIdentifier: LeaderboardCell.identifier)
         return board
     }()
     
@@ -63,6 +58,16 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return qTitle
     }()
     
+    let collectionView: UICollectionView = {
+        let horizontalLayout = UICollectionViewFlowLayout()
+        horizontalLayout.scrollDirection = .horizontal
+        let coll = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
+        coll.isPagingEnabled = true
+        coll.backgroundColor = UIColor.white
+        coll.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
+        return coll
+    }()
+    
     lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
         let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView])
         qSV.axis = .vertical
@@ -75,19 +80,39 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
-        // Collection view setup
+        // Collection view datasource & delegate
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
-        collectionView.alwaysBounceVertical = true
-        collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = UIColor.white
+        
+        // Table view datasource & delegation
+        leaderboard.dataSource = self
+        leaderboard.delegate = self
         
         // Set up navigation stuff
         setupNavigation()
         
         // Set up subviews
         setupSubviews()
+        
+        // Fill leaderboard and quests
+        getLeaderboard()
+        getQuests()
+    }
+    
+    func getLeaderboard() {
+        // TODO: fill data from an API request
+        // If you are outside of top 5, create a LeaderboardPosition with position -1. When dequeing, check if position is -1, if so, hide position and points and make name = "...", add your info after that
+        for i in 1...5 {
+            print("i = \(i)")
+            peopleOnBoard.append(LeaderboardPosition(position: i, name: "cdids", score: 300))
+        }
+    }
+    
+    func getQuests() {
+        // TODO: fill data from an API request
+        for _ in 1...3 {
+            currentQuests.append(Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100))
+        }
     }
     
     func setupNavigation() {
@@ -134,11 +159,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     // MARK: Scanner view controller delegate
+    
     func scannerViewControllerDidFinish(scannerViewController: ScannerViewController) {
         dismiss(animated: true, completion: nil)
     }
     
     // MARK: Collection view protocols
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentQuests.count
     }
@@ -165,7 +192,23 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0 // TODO: change?
+        return 0
+    }
+    
+    // MARK: table view stuff
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return peopleOnBoard.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: LeaderboardCell.identifier, for: indexPath) as! LeaderboardCell
+        print(indexPath.item)
+        let data = peopleOnBoard[indexPath.item]
+        cell.positionLabel.text = "\(data.position)"
+        cell.nameLabel.text = data.name
+        cell.scoreLabel.text = "\(data.score)"
+        return cell
     }
     
     

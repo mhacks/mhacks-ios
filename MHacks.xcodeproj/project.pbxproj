@@ -14,6 +14,8 @@
 		3614342B2309F05900281150 /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3614342A2309F05900281150 /* Quest.swift */; };
 		36434544230B3DB50013476D /* QuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36434543230B3DB50013476D /* QuestCell.swift */; };
 		3666D823230F2AD800B0ED2D /* andalemo.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3666D822230F2AD800B0ED2D /* andalemo.TTF */; };
+		3666D825230F512A00B0ED2D /* LeaderboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666D824230F512A00B0ED2D /* LeaderboardCell.swift */; };
+		3666D827230F522000B0ED2D /* LeaderboardPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666D826230F522000B0ED2D /* LeaderboardPosition.swift */; };
 		3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
@@ -193,6 +195,8 @@
 		3614342A2309F05900281150 /* Quest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
 		36434543230B3DB50013476D /* QuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCell.swift; sourceTree = "<group>"; };
 		3666D822230F2AD800B0ED2D /* andalemo.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = andalemo.TTF; sourceTree = "<group>"; };
+		3666D824230F512A00B0ED2D /* LeaderboardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardCell.swift; sourceTree = "<group>"; };
+		3666D826230F522000B0ED2D /* LeaderboardPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardPosition.swift; sourceTree = "<group>"; };
 		3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -504,6 +508,7 @@
 				278CEAB51E75CCF400F95833 /* MapOverlay.swift */,
 				278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */,
 				36434543230B3DB50013476D /* QuestCell.swift */,
+				3666D824230F512A00B0ED2D /* LeaderboardCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -542,6 +547,7 @@
 				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
 				8240DE631D9C72EA000DD78C /* ScannedDataField.swift */,
 				3614342A2309F05900281150 /* Quest.swift */,
+				3666D826230F522000B0ED2D /* LeaderboardPosition.swift */,
 			);
 			name = "Public Models";
 			sourceTree = "<group>";
@@ -846,6 +852,7 @@
 			files = (
 				3614342B2309F05900281150 /* Quest.swift in Sources */,
 				278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */,
+				3666D827230F522000B0ED2D /* LeaderboardPosition.swift in Sources */,
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */,
 				463165381D86023D00371D56 /* UserViewController.swift in Sources */,
@@ -877,6 +884,7 @@
 				8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */,
 				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
 				82942B9F1C2A2EAE0084880C /* Event.swift in Sources */,
+				3666D825230F512A00B0ED2D /* LeaderboardCell.swift in Sources */,
 				82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */,
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				46451B751DA24B6F0025478A /* FloorDescriptionView.swift in Sources */,

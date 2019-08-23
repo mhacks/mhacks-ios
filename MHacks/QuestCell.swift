@@ -14,6 +14,8 @@ class QuestCell: UICollectionViewCell {
     
     static let identifier = "quest"
     
+    // MARK: subviews
+    
     let questTitle: UILabel = {
         let title = UILabel()
         title.font = UIFont(name: "AndaleMono", size: 30)
@@ -36,14 +38,12 @@ class QuestCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // TODO: add subviews, style, anchor, etc
-        
-        // Add stack view
+        // Add views
         contentView.addSubview(questTitle)
         contentView.addSubview(pointLabel)
         contentView.backgroundColor = UIColor.blue
         
-        // Anchor stack view
+        // Anchor views
         questTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         questTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         questTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
