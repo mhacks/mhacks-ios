@@ -18,7 +18,7 @@ class LeaderboardCell: UITableViewCell {
     
     let positionLabel: UILabel = {
         let pos = UILabel()
-        pos.font = UIFont(name: "AndaleMono", size: 17)
+        pos.font = UIFont(name: "AndaleMono", size: 20)
         pos.textAlignment = .center
         pos.translatesAutoresizingMaskIntoConstraints = false
         return pos
@@ -26,7 +26,7 @@ class LeaderboardCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let name = UILabel()
-        name.font = UIFont(name: "AndaleMono", size: 17)
+        name.font = UIFont(name: "AndaleMono", size: 20)
         name.textAlignment = .center
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
