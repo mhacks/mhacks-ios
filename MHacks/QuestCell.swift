@@ -41,7 +41,7 @@ class QuestCell: UICollectionViewCell {
         // Add views
         contentView.addSubview(questTitle)
         contentView.addSubview(pointLabel)
-        contentView.backgroundColor = UIColor.blue
+        contentView.backgroundColor = MHacksColor.lighterBlue
         
         // Anchor views
         questTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true

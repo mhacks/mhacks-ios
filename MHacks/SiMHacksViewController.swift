@@ -34,7 +34,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     private let leaderboardTitle: UILabel = {
         let board = UILabel()
         board.text = "Leaderboard"
-        board.textAlignment = .left
+        board.textColor = UIColor.white
         board.font = UIFont(name: "ArcadeClassic", size: 38)
         return board
     }()
@@ -42,6 +42,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     private lazy var leaderboard : UITableView = {
         let board = UITableView(frame: .zero, style: .plain)
         board.register(LeaderboardCell.self, forCellReuseIdentifier: LeaderboardCell.identifier)
+        board.backgroundColor = MHacksColor.lighterBlue
+        board.layer.cornerRadius = 10
         return board
     }()
     
@@ -56,6 +58,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     private let questTitle: UILabel = {
         let qTitle = UILabel()
         qTitle.text = "Quests"
+        qTitle.textColor = UIColor.white
         qTitle.font = UIFont(name: "ArcadeClassic", size: 38)
         return qTitle
     }()
@@ -65,7 +68,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         horizontalLayout.scrollDirection = .horizontal
         let coll = UICollectionView(frame: .zero, collectionViewLayout: horizontalLayout)
         coll.isPagingEnabled = true
-        coll.backgroundColor = UIColor.white
+        coll.backgroundColor = MHacksColor.backgroundDarkBlue
         coll.register(QuestCell.self, forCellWithReuseIdentifier: QuestCell.identifier)
         return coll
     }()
@@ -80,7 +83,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = MHacksColor.backgroundDarkBlue
         
         // Set up collectionview
         setupCollectionview()
@@ -119,7 +122,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Configure Refresh Control
         refreshControl.addTarget(self, action: #selector(refreshLeaderboard(_:)), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!])
+        refreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!, NSAttributedString.Key.foregroundColor : UIColor.white])
+        refreshControl.tintColor = UIColor.white
     }
     
     @objc func refreshLeaderboard(_ sender: Any) {
@@ -145,8 +149,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     func setupNavigation() {
         navigationItem.title = "SiMHacks" // TODO: change nav title and button font?
+        navigationController?.navigationBar.barTintColor = MHacksColor.backgroundDarkBlue
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "ArcadeClassic", size: 25)!]
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeSim))
+        closeButton.tintColor = UIColor.white
         let scanButton = UIBarButtonItem(title: "Scan", style: .plain, target: self, action: #selector(scan))
+        scanButton.tintColor = UIColor.white
+        // TODO: status bar is barely visible with dark background, fix
         navigationItem.leftBarButtonItem = closeButton
         navigationItem.rightBarButtonItem = scanButton
     }

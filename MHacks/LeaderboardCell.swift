@@ -20,6 +20,7 @@ class LeaderboardCell: UITableViewCell {
         let pos = UILabel()
         pos.font = UIFont(name: "AndaleMono", size: 20)
         pos.textAlignment = .center
+        pos.textColor = UIColor.white
         pos.translatesAutoresizingMaskIntoConstraints = false
         return pos
     }()
@@ -28,6 +29,7 @@ class LeaderboardCell: UITableViewCell {
         let name = UILabel()
         name.font = UIFont(name: "AndaleMono", size: 20)
         name.textAlignment = .center
+        name.textColor = UIColor.white
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
@@ -36,12 +38,14 @@ class LeaderboardCell: UITableViewCell {
         let score = UILabel()
         score.font = UIFont(name: "AndaleMono", size: 17)
         score.textAlignment = .center
+        score.textColor = UIColor.white
         score.translatesAutoresizingMaskIntoConstraints = false
         return score
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = MHacksColor.lighterBlue
         
         // TODO: add subviews and their anchors
         
