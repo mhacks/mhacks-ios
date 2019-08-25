@@ -30,6 +30,17 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     // MARK: Subviews
     
+    private lazy var scanButton: UIButton = {
+        let scan = UIButton()
+        scan.setTitle("Scan", for: .normal)
+        scan.backgroundColor = UIColor.yellow
+        scan.setTitleColor(UIColor.black, for: .normal)
+        scan.setTitleColor(UIColor.white, for: .highlighted)
+        scan.translatesAutoresizingMaskIntoConstraints = false
+        scan.layer.cornerRadius = 10
+        return scan
+    }()
+    
     // Leaderboard stuff
     private let leaderboardTitle: UILabel = {
         let board = UILabel()
@@ -55,11 +66,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return sv
     }()
     
+    // Quest stuff
     private let questTitle: UILabel = {
         let qTitle = UILabel()
         qTitle.text = "Quests"
         qTitle.textColor = UIColor.white
         qTitle.font = UIFont(name: "ArcadeClassic", size: 38)
+        qTitle.minimumScaleFactor = 0.5
         return qTitle
     }()
     
@@ -74,7 +87,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }()
     
     private lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
-        let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView])
+        let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView, scanButton])
         qSV.axis = .vertical
         qSV.translatesAutoresizingMaskIntoConstraints = false
         qSV.spacing = 15
@@ -148,16 +161,28 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func setupNavigation() {
-        navigationItem.title = "SiMHacks" // TODO: change nav title and button font?
+        navigationItem.title = "SiMHacks"
         navigationController?.navigationBar.barTintColor = MHacksColor.backgroundDarkBlue
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "ArcadeClassic", size: 25)!]
+        
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeSim))
         closeButton.tintColor = UIColor.white
-        let scanButton = UIBarButtonItem(title: "Scan", style: .plain, target: self, action: #selector(scan))
-        scanButton.tintColor = UIColor.white
+        
+        let infoButton = UIButton(type: .infoLight)
+        infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
+        infoButton.tintColor = UIColor.white
+        
+        let infoBarButton = UIBarButtonItem(customView: infoButton)
+        
         // TODO: status bar is barely visible with dark background, fix
+        
         navigationItem.leftBarButtonItem = closeButton
-        navigationItem.rightBarButtonItem = scanButton
+        navigationItem.rightBarButtonItem = infoBarButton
+    }
+    
+    @objc func infoButtonPressed() {
+        print("Info pressed")
+//        navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
     }
     
     func setupSubviews() {
@@ -165,8 +190,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         view.addSubview(boardStackView)
         
         // Constrain board stack view
-        boardStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
-        boardStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        boardStackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5, constant: -40).isActive = true
+        boardStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 15).isActive = true
         boardStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         boardStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
@@ -174,11 +199,22 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         view.addSubview(questStackView)
         
         // Constrain quest stack view
-        questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 40).isActive = true
+        questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 15).isActive = true
         questStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         questStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        questStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75).isActive = true
+        questStackView.bottomAnchor.constraint(equalTo: scanButton.topAnchor, constant: -50).isActive = true
+        questStackView.heightAnchor.constraint(equalTo: boardStackView.heightAnchor, constant: -90).isActive = true
         
+        // Add scan button
+        view.addSubview(scanButton)
+
+        // Constrain scan button
+        scanButton.topAnchor.constraint(equalTo: questStackView.bottomAnchor, constant: 30).isActive = true
+        scanButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        scanButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        
+        scanButton.addTarget(self, action: #selector(scan), for: .touchUpInside)
     }
     
     @objc func closeSim() {

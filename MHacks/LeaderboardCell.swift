@@ -18,7 +18,17 @@ class LeaderboardCell: UITableViewCell {
     
     let positionLabel: UILabel = {
         let pos = UILabel()
-        pos.font = UIFont(name: "AndaleMono", size: 20)
+        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+            fatalError("No AndaleMono available")
+        }
+        if #available(iOS 11.0, *) {
+            pos.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+        } else {
+            pos.font = UIFont(name: "AndaleMono", size: 20)
+        }
+        if #available(iOS 10.0, *) {
+            pos.adjustsFontForContentSizeCategory = true
+        } else {}
         pos.textAlignment = .center
         pos.textColor = UIColor.white
         pos.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +37,17 @@ class LeaderboardCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let name = UILabel()
-        name.font = UIFont(name: "AndaleMono", size: 20)
+        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+            fatalError("No AndaleMono available")
+        }
+        if #available(iOS 11.0, *) {
+            name.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+        } else {
+            name.font = UIFont(name: "AndaleMono", size: 20)
+        }
+        if #available(iOS 10.0, *) {
+            name.adjustsFontForContentSizeCategory = true
+        } else {}
         name.textAlignment = .center
         name.textColor = UIColor.white
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +56,17 @@ class LeaderboardCell: UITableViewCell {
     
     let scoreLabel: UILabel = {
         let score = UILabel()
-        score.font = UIFont(name: "AndaleMono", size: 17)
+        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+            fatalError("No AndaleMono available")
+        }
+        if #available(iOS 11.0, *) {
+            score.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+        } else {
+            score.font = UIFont(name: "AndaleMono", size: 20)
+        }
+        if #available(iOS 10.0, *) {
+            score.adjustsFontForContentSizeCategory = true
+        } else {}
         score.textAlignment = .center
         score.textColor = UIColor.white
         score.translatesAutoresizingMaskIntoConstraints = false

@@ -18,7 +18,18 @@ class QuestCell: UICollectionViewCell {
     
     let questTitle: UILabel = {
         let title = UILabel()
-        title.font = UIFont(name: "AndaleMono", size: 30)
+//        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+//            fatalError("No AndaleMono available")
+//        }
+//        if #available(iOS 11.0, *) {
+//            title.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+//        } else {
+//            title.font = UIFont(name: "AndaleMono", size: 24)
+//        }
+//        if #available(iOS 10.0, *) {
+//            title.adjustsFontForContentSizeCategory = true
+//        } else {}
+        title.font = UIFont(name: "AndaleMono", size: 28)
         title.textAlignment = .center
         title.numberOfLines = 3
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +39,17 @@ class QuestCell: UICollectionViewCell {
     
     let pointLabel: UILabel = {
         let points = UILabel()
+//        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+//            fatalError("No AndaleMono available")
+//        }
+//        if #available(iOS 11.0, *) {
+//            points.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+//        } else {
+//            points.font = UIFont(name: "AndaleMono", size: 24)
+//        }
+//        if #available(iOS 10.0, *) {
+//            points.adjustsFontForContentSizeCategory = true
+//        } else {}
         points.font = UIFont(name: "AndaleMono", size: 24)
         points.textAlignment = .center
         points.translatesAutoresizingMaskIntoConstraints = false
