@@ -274,7 +274,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
 		APIManager.shared.fetchPass { pass in
             
-            self.view.isUserInteractionEnabled = true
+            DispatchQueue.main.async {
+                self.view.isUserInteractionEnabled = true
+            }
             
 			guard let pass = pass else {
 				// Request failed
