@@ -33,7 +33,7 @@ class QuestCell: UICollectionViewCell {
         title.textAlignment = .center
         title.numberOfLines = 3
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.textColor = UIColor.white
+        title.textColor = UIColor.white // TODO: change to background blue
         return title
     }()
     
@@ -53,7 +53,7 @@ class QuestCell: UICollectionViewCell {
         points.font = UIFont(name: "AndaleMono", size: 24)
         points.textAlignment = .center
         points.translatesAutoresizingMaskIntoConstraints = false
-        points.textColor = UIColor.white
+        points.textColor = UIColor.white // TODO: change to background blue
         return points
     }()
 
@@ -63,7 +63,7 @@ class QuestCell: UICollectionViewCell {
         // Add views
         contentView.addSubview(questTitle)
         contentView.addSubview(pointLabel)
-        contentView.backgroundColor = MHacksColor.lighterBlue
+        contentView.backgroundColor = MHacksColor.lighterBlue // TODO: change to white
         
         // Anchor views
         questTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true

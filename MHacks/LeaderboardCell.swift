@@ -30,7 +30,7 @@ class LeaderboardCell: UITableViewCell {
             pos.adjustsFontForContentSizeCategory = true
         } else {}
         pos.textAlignment = .center
-        pos.textColor = UIColor.white
+        pos.textColor = UIColor.white // TODO: change to background blue
         pos.translatesAutoresizingMaskIntoConstraints = false
         return pos
     }()
@@ -49,7 +49,7 @@ class LeaderboardCell: UITableViewCell {
             name.adjustsFontForContentSizeCategory = true
         } else {}
         name.textAlignment = .center
-        name.textColor = UIColor.white
+        name.textColor = UIColor.white // TODO: change to background blue
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
@@ -68,14 +68,14 @@ class LeaderboardCell: UITableViewCell {
             score.adjustsFontForContentSizeCategory = true
         } else {}
         score.textAlignment = .center
-        score.textColor = UIColor.white
+        score.textColor = UIColor.white // TODO: change to background blue
         score.translatesAutoresizingMaskIntoConstraints = false
         return score
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = MHacksColor.lighterBlue
+        contentView.backgroundColor = MHacksColor.lighterBlue // TODO: change to white
         
         // TODO: add subviews and their anchors
         

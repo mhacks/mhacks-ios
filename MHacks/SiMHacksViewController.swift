@@ -181,8 +181,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     @objc func infoButtonPressed() {
-        print("Info pressed")
-//        navigationController?.pushViewController(<#T##viewController: UIViewController##UIViewController#>, animated: <#T##Bool#>)
+        navigationController?.pushViewController(SiMHacksInfoController(), animated: true)
     }
     
     func setupSubviews() {
