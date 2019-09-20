@@ -118,7 +118,11 @@
         <scene sceneID="nh3-Os-ZSe">
             <objects>
                 <navigationController id="fLM-Yk-nsI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="Maps Selected" id="XRp-MK-Wmq"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="Maps" id="XRp-MK-Wmq">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="Maps Selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SZd-bG-pdm">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -770,6 +774,7 @@
     <resources>
         <image name="Countdown" width="25" height="25"/>
         <image name="Countdown Selected" width="25" height="25"/>
+        <image name="Maps" width="25" height="25"/>
         <image name="Maps Selected" width="25" height="25"/>
         <image name="News" width="25" height="25"/>
         <image name="News Selected" width="25" height="25"/>
