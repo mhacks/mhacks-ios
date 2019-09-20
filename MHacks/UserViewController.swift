@@ -82,11 +82,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         nameTitleLabel.text = "HACKER"
         nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        nameTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
+        nameTitleLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         
         schoolTitleLabel.text = "SCHOOL"
         schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        schoolTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
+        schoolTitleLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textColor = UIColor.white
@@ -117,7 +117,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         simhacksButton.setTitle("SiMHacks", for: .normal)
         simhacksButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
-        simhacksButton.backgroundColor = MHacksColor.pink
+        simhacksButton.backgroundColor = MHacksColor.backgroundDarkBlue
         simhacksButton.layer.cornerRadius = 10
         simhacksButton.addTarget(self, action: #selector(simhacksPressed), for: .touchUpInside)
         

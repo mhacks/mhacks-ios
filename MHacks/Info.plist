@@ -2,15 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>andalemo.TTF</string>
-		<string>ARCADECLASSIC.TTF</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>MHacks 11</string>
+	<string>MHacks 12</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -48,6 +43,11 @@
 	<string>Privileged users can use the camera to scan tickets.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be shown on the map.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>andalemo.TTF</string>
+		<string>ARCADECLASSIC.TTF</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
