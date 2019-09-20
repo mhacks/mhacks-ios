@@ -114,6 +114,57 @@
             </objects>
             <point key="canvasLocation" x="1167" y="-1556"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="nh3-Os-ZSe">
+            <objects>
+                <navigationController id="fLM-Yk-nsI" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" image="Maps" id="XRp-MK-Wmq"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SZd-bG-pdm">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="CHa-xl-bKH" kind="relationship" relationship="rootViewController" id="I61-xi-yLo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nss-wM-WEq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="382" y="-704"/>
+        </scene>
+        <!--Intramural Sports Building-->
+        <scene sceneID="mey-b1-fG6">
+            <objects>
+                <viewController id="CHa-xl-bKH" customClass="MapViewController" customModule="MHacks" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AfW-in-5Xr"/>
+                        <viewControllerLayoutGuide type="bottom" id="EP1-Bt-dbf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D26-W4-Fla">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SuO-Ob-cK0">
+                                <rect key="frame" x="0.0" y="64" width="375" height="546"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EP1-Bt-dbf" firstAttribute="top" secondItem="SuO-Ob-cK0" secondAttribute="bottom" constant="8" id="01h-Gh-XW7"/>
+                            <constraint firstAttribute="trailing" secondItem="SuO-Ob-cK0" secondAttribute="trailing" id="S4v-q5-ubQ"/>
+                            <constraint firstItem="SuO-Ob-cK0" firstAttribute="top" secondItem="AfW-in-5Xr" secondAttribute="bottom" id="WN0-Vq-cz5"/>
+                            <constraint firstItem="SuO-Ob-cK0" firstAttribute="leading" secondItem="D26-W4-Fla" secondAttribute="leading" id="zws-WD-ZGv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Intramural Sports Building" id="Cow-7V-HyA"/>
+                    <connections>
+                        <outlet property="mapView" destination="SuO-Ob-cK0" id="hWW-0l-dKl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rt5-mZ-0v2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer enabled="NO" id="1tT-Em-89M"/>
+            </objects>
+            <point key="canvasLocation" x="1208.8" y="-705.69715142428788"/>
+        </scene>
         <!--Countdown-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
@@ -524,8 +575,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="mKN-3u-sIs" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="ODI-Mf-0FL" kind="relationship" relationship="viewControllers" id="eu7-wM-XnY"/>
+                        <segue destination="fLM-Yk-nsI" kind="relationship" relationship="viewControllers" id="Wwy-UZ-WOd"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="ODI-Mf-0FL" kind="relationship" relationship="viewControllers" id="eu7-wM-XnY"/>
                         <segue destination="xLk-s8-jXP" kind="relationship" relationship="viewControllers" id="OPd-34-QGQ"/>
                     </connections>
                 </tabBarController>
@@ -718,6 +770,7 @@
     <resources>
         <image name="Countdown" width="25" height="25"/>
         <image name="Countdown Selected" width="25" height="25"/>
+        <image name="Maps" width="25" height="25"/>
         <image name="News" width="25" height="25"/>
         <image name="News Selected" width="25" height="25"/>
         <image name="Schedule" width="25" height="25"/>
