@@ -117,7 +117,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         simhacksButton.setTitle("SiMHacks", for: .normal)
         simhacksButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
-        simhacksButton.backgroundColor = MHacksColor.backgroundDarkBlue
+        simhacksButton.backgroundColor = MHacksColor.lighterBlue
         simhacksButton.layer.cornerRadius = 10
         simhacksButton.addTarget(self, action: #selector(simhacksPressed), for: .touchUpInside)
         
