@@ -31,7 +31,7 @@ class QuestCell: UICollectionViewCell {
 //        } else {}
         title.font = UIFont(name: "AndaleMono", size: 28)
         title.textAlignment = .center
-        title.numberOfLines = 3
+        title.numberOfLines = 0
         title.translatesAutoresizingMaskIntoConstraints = false
         title.textColor = UIColor.white // TODO: change to background blue
         return title
