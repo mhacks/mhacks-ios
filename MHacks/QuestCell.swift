@@ -52,6 +52,7 @@ class QuestCell: UICollectionViewCell {
 //        } else {}
         points.font = UIFont(name: "AndaleMono", size: 24)
         points.textAlignment = .center
+        points.numberOfLines = 0
         points.translatesAutoresizingMaskIntoConstraints = false
         points.textColor = UIColor.white // TODO: change to background blue
         return points

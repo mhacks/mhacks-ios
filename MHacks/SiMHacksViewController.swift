@@ -201,17 +201,16 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         questStackView.topAnchor.constraint(equalTo: boardStackView.bottomAnchor, constant: 15).isActive = true
         questStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         questStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        questStackView.bottomAnchor.constraint(equalTo: scanButton.topAnchor, constant: -50).isActive = true
-        questStackView.heightAnchor.constraint(equalTo: boardStackView.heightAnchor, constant: -90).isActive = true
+        questStackView.heightAnchor.constraint(equalTo: boardStackView.heightAnchor, multiplier: 0.85).isActive = true
         
         // Add scan button
         view.addSubview(scanButton)
 
         // Constrain scan button
-        scanButton.topAnchor.constraint(equalTo: questStackView.bottomAnchor, constant: 30).isActive = true
+        scanButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.08).isActive = true
         scanButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         scanButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         
         scanButton.addTarget(self, action: #selector(scan), for: .touchUpInside)
     }
@@ -246,7 +245,20 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestCell.identifier, for: indexPath) as! QuestCell
         let data = currentQuests[indexPath.item]
         cell.questTitle.text = data.title
+        
+        // Constraints for questTitle
+        cell.questTitle.adjustsFontSizeToFitWidth = true
+        cell.questTitle.heightAnchor.constraint(equalTo: cell.contentView.heightAnchor, multiplier: 1/2).isActive = true
+        cell.questTitle.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 15).isActive = true
+        cell.questTitle.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: 20).isActive = true
+        cell.questTitle.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 20).isActive = true
+        
         cell.pointLabel.text = "\(data.points) points"
+        
+        // Constraints for pointLabel
+        cell.pointLabel.adjustsFontSizeToFitWidth = true
+        cell.pointLabel.topAnchor.constraint(equalTo: cell.questTitle.bottomAnchor, constant: 10).isActive = true
+        cell.pointLabel.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
         cell.contentView.layer.cornerRadius = 10 // rounded corners
         return cell
     }
