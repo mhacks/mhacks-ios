@@ -37,7 +37,7 @@ class NotificationController: WKUserNotificationInterfaceController {
     }
     
     
-    override func didReceiveRemoteNotification(_ remoteNotification: [AnyHashable : Any], withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void) {
+    func didReceiveRemoteNotification(_ remoteNotification: [AnyHashable : Any], withCompletion completionHandler: @escaping (WKUserNotificationInterfaceType) -> Swift.Void) {
         
         guard let aps = remoteNotification["aps"] as? [String: Any], let alert = aps["alert"] as? [String: Any], let title = remoteNotification["title"] as? String, let body = alert["body"] as? String
         else {
