@@ -35,7 +35,6 @@
 		46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F716EB1DA23D6B008D473F /* FloorDescription.xib */; };
 		4C1D8696216F1CD000719B38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8243F6771DA35EF400B9D929 /* Assets.xcassets */; };
 		70065A551F54A3220058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
-		70065A561F54A5A70058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
 		70065A571F54A5A80058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
 		703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */; };
 		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
@@ -44,21 +43,8 @@
 		709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AEA371F6B19F000E7089C /* MHacksUITests.swift */; };
 		70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */; };
 		820525201D9DADDD00EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
-		820525211D9DADE900EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
-		820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
-		820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
-		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
-		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
-		82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82287A591C66C419001A0F38 /* MainInterface.storyboard */; };
-		82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
-		82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
-		82287A601C66C570001A0F38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
-		82287A611C66C570001A0F38 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
-		82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
-		82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */; };
-		822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
 		8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
@@ -94,7 +80,6 @@
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
-		825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
 		828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D498C1C65F3FD0090313C /* CategoryCell.swift */; };
@@ -110,11 +95,8 @@
 		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
 		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
-		82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
-		82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
 		82E188901D7E7D5500608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
 		82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
-		82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EFDE8A1C32ED060074AB99 /* EventViewController.swift */; };
 		9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */; };
 		DB88569D2294EBF50069F6FC /* SiMHacksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88569C2294EBF50069F6FC /* SiMHacksViewController.swift */; };
@@ -128,13 +110,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82473FA11C1F7A170061FFFB;
 			remoteInfo = MHacks;
-		};
-		822896981D9E4B420081A613 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82287A431C66C3D8001A0F38;
-			remoteInfo = MHacksToday;
 		};
 		8243F6801DA35EF400B9D929 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -159,7 +134,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +200,6 @@
 		70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		8205251F1D9DADDD00EF535C /* Floor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Floor.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		82287A441C66C3D8001A0F38 /* MHacks.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MHacks.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82287A451C66C3D8001A0F38 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		82287A551C66C3EC001A0F38 /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		82287A571C66C3FF001A0F38 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -293,14 +266,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82287A411C66C3D8001A0F38 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				82473FA21C1F7A170061FFFB /* MHacks.app */,
-				82287A441C66C3D8001A0F38 /* MHacks.appex */,
 				8243F6721DA35EF400B9D929 /* MHacks.app */,
 				8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */,
 				709AEA351F6B19F000E7089C /* MHacksUITests.xctest */,
@@ -576,23 +540,6 @@
 			productReference = 709AEA351F6B19F000E7089C /* MHacksUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		82287A431C66C3D8001A0F38 /* MHacksToday */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */;
-			buildPhases = (
-				82287A401C66C3D8001A0F38 /* Sources */,
-				82287A411C66C3D8001A0F38 /* Frameworks */,
-				82287A421C66C3D8001A0F38 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MHacksToday;
-			productName = MHacksToday;
-			productReference = 82287A441C66C3D8001A0F38 /* MHacks.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		8243F6711DA35EF400B9D929 /* MHacksWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8243F6991DA35EF400B9D929 /* Build configuration list for PBXNativeTarget "MHacksWatch" */;
@@ -640,7 +587,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				822896991D9E4B420081A613 /* PBXTargetDependency */,
 				8243F6911DA35EF400B9D929 /* PBXTargetDependency */,
 			);
 			name = MHacks;
@@ -664,16 +610,6 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 82473FA11C1F7A170061FFFB;
-					};
-					82287A431C66C3D8001A0F38 = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 478C74MJ7T;
-						LastSwiftMigration = 1020;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
 					};
 					8243F6711DA35EF400B9D929 = {
 						CreatedOnToolsVersion = 8.1;
@@ -734,7 +670,6 @@
 			projectRoot = "";
 			targets = (
 				82473FA11C1F7A170061FFFB /* MHacks */,
-				82287A431C66C3D8001A0F38 /* MHacksToday */,
 				8243F6711DA35EF400B9D929 /* MHacksWatch */,
 				8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */,
 				709AEA341F6B19F000E7089C /* MHacksUITests */,
@@ -747,14 +682,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82287A421C66C3D8001A0F38 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,28 +727,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82287A401C66C3D8001A0F38 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */,
-				82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */,
-				82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */,
-				82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */,
-				82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */,
-				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
-				70065A561F54A5A70058592C /* Configuration.swift in Sources */,
-				820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */,
-				820525211D9DADE900EF535C /* Floor.swift in Sources */,
-				82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */,
-				82287A601C66C570001A0F38 /* Location.swift in Sources */,
-				82287A611C66C570001A0F38 /* Event.swift in Sources */,
-				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
-				820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */,
-				82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,11 +829,6 @@
 			target = 82473FA11C1F7A170061FFFB /* MHacks */;
 			targetProxy = 709AEA3A1F6B19F000E7089C /* PBXContainerItemProxy */;
 		};
-		822896991D9E4B420081A613 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
-			targetProxy = 822896981D9E4B420081A613 /* PBXContainerItemProxy */;
-		};
 		8243F6811DA35EF400B9D929 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */;
@@ -1001,44 +901,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = MHacks;
-			};
-			name = Release;
-		};
-		82287A511C66C3D8001A0F38 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MHacksToday/MHacksToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
-				PRODUCT_NAME = MHacks;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		82287A521C66C3D8001A0F38 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MHacksToday/MHacksToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
-				PRODUCT_NAME = MHacks;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1309,15 +1171,6 @@
 			buildConfigurations = (
 				709AEA3D1F6B19F000E7089C /* Debug */,
 				709AEA3E1F6B19F000E7089C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82287A511C66C3D8001A0F38 /* Debug */,
-				82287A521C66C3D8001A0F38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
