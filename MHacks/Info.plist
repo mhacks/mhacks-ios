@@ -37,7 +37,7 @@
 	<string>17</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSBluetoothPeripheralUsageDescription</key>
+	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>When scanning tickets phones will turn into iBeacons to make tickets appear on the lockscreen of nearby devices.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Privileged users can use the camera to scan tickets.</string>
