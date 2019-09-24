@@ -200,6 +200,15 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                 doubleLabel.titleLabel.textColor = field.color
                 doubleLabel.textLabel.textColor = field.color
             }
+            
+            // SiMHacks check
+            if currentScanEvent?.name == "SiMHacks" {
+                guard let scanEmail = scanIdentifier else {
+                    // TODO: display error, scan failed
+                    return
+                }
+                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: "FIXME")
+            }
         }
     }
     

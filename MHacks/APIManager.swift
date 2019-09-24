@@ -393,6 +393,46 @@ final class APIManager
 		}
 	}
 	
+	// MARK: SiMHacks
+	
+	/// Get the current logged in user's GameState object
+	///
+	func getGameState() -> [String:Any]? {
+		var gameState: [String: Any]?
+		taskWithRoute("/v1/game/") { response in
+			switch response {
+			case .value(let json):
+				print(json)
+				gameState = json
+			case .error(let errorMessage):
+				print(errorMessage)
+			}
+		}
+		
+		return gameState
+	}
+	
+	/// Scan a fellow hacker's qr code for SiMHacks
+	///
+	/// - parameter scaneeEmail: The identifier of the user that was scanned
+	/// - parameter uniqueQuestType: Unique name of the quest type
+	///
+	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) {
+		// NOTE: won't work until pr is approved for /v1/game/scan endpoint
+		// NOTE: pass parameters as request body
+		taskWithRoute("/v1/game/scan") { response in
+			switch response {
+			case .value(let json):
+				print(json)
+				print("eh")
+			case .error(let errorMessage):
+				// TODO: come up with better way to display error to user
+				print(errorMessage)
+				print("not very yeet of you swift")
+			}
+		}
+	}
+	
 	// MARK: - Helpers
 	
 	fileprivate func createRequestForRoute(_ route: String, parameters: [String: Any] = [String: Any](), usingHTTPMethod method: HTTPMethod = .get) -> URLRequest
