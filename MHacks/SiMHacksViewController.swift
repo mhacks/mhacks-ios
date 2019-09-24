@@ -229,13 +229,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         present(scannerNavigationController, animated: true, completion: nil)
     }
     
-    // MARK: Scanner view controller delegate
+    // MARK: ScannerViewControllerDelegate
     
     func scannerViewControllerDidFinish(scannerViewController: ScannerViewController) {
         dismiss(animated: true, completion: nil)
     }
     
-    // MARK: Collection view protocols
+    // MARK: CollectionView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentQuests.count
@@ -279,7 +279,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return 0
     }
     
-    // MARK: table view stuff
+    // MARK: TableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return peopleOnBoard.count
