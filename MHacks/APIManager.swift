@@ -417,20 +417,21 @@ final class APIManager
 	/// - parameter scaneeEmail: The identifier of the user that was scanned
 	/// - parameter uniqueQuestType: Unique name of the quest type
 	///
-	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) {
-		// NOTE: won't work until pr is approved for /v1/game/scan endpoint
-		// NOTE: pass parameters as request body
-		taskWithRoute("/v1/game/scan") { response in
+	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) -> String? {
+		var errorResponse: String?
+		taskWithRoute("/v1/game/scan", parameters: ["email":email, "quest": quest], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
+				// TODO: alert success message
 				print(json)
-				print("eh")
 			case .error(let errorMessage):
-				// TODO: come up with better way to display error to user
+				// TODO: alert error message
 				print(errorMessage)
-				print("not very yeet of you swift")
+				errorResponse = errorMessage
 			}
 		}
+		
+		return errorResponse
 	}
 	
 	// MARK: - Helpers
