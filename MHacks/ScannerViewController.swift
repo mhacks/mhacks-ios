@@ -17,6 +17,23 @@ protocol ScannerViewControllerDelegate: class {
 
 final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
+    // MARK: Init for SiMHacks
+    var questType: String?
+    
+    init(questType: String?) {
+        super.init(nibName: nil, bundle: nil)
+        
+        guard let quest = questType else {
+            return
+        }
+        
+        self.questType = quest
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     // MARK: Model
     
     var currentScanEvent = APIManager.shared.scanEvents.first {
@@ -204,10 +221,39 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
             // SiMHacks check
             if currentScanEvent?.name == "SiMHacks" {
                 guard let scanEmail = scanIdentifier else {
-                    // TODO: display error, scan failed
                     return
                 }
-                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: "FIXME")
+                
+                guard let type = self.questType else {
+                    return
+                }
+                
+                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type)
+                
+//                guard let errorResult = APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) else {
+//                    return
+//                }
+//
+//                switch errorResult {
+//                case APIManager.ScanError.unknown:
+//                    throw APIManager.ScanError.unknown
+//                case APIManager.ScanError.alreadyScanned:
+//                    throw APIManager.ScanError.alreadyScanned
+//                case APIManager.ScanError.selfScan:
+//                    throw APIManager.ScanError.selfScan
+//                }
+//
+//
+//                if let error = APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) {
+//                    alertTitle = "Error in scanning"
+//                    alertMessage = error
+//                } else {
+//                    alertTitle = "Scan successful!"
+//                    alertMessage = "The \(type) quest has been completed."
+//                    return
+//                }
+                
+                
             }
         }
     }

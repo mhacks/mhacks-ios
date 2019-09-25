@@ -395,6 +395,12 @@ final class APIManager
 	
 	// MARK: SiMHacks
 	
+//	enum ScanError: Error {
+//		case unknown
+//		case alreadyScanned
+//		case selfScan
+//	}
+	
 	/// Get the current logged in user's GameState object
 	///
 	func getGameState() -> [String:Any]? {
@@ -417,21 +423,16 @@ final class APIManager
 	/// - parameter scaneeEmail: The identifier of the user that was scanned
 	/// - parameter uniqueQuestType: Unique name of the quest type
 	///
-	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) -> String? {
-		var errorResponse: String?
+	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) {
 		taskWithRoute("/v1/game/scan", parameters: ["email":email, "quest": quest], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
 				// TODO: alert success message
 				print(json)
 			case .error(let errorMessage):
-				// TODO: alert error message
 				print(errorMessage)
-				errorResponse = errorMessage
 			}
 		}
-		
-		return errorResponse
 	}
 	
 	// MARK: - Helpers
@@ -523,6 +524,7 @@ final class APIManager
 			guard statusCode == 200 || statusCode == 201
 			else {
 				let errorMessage = json["detail"] as? String ?? "Unknown error"
+				print("CODE=\(statusCode ?? -1)")
 				completion(.error(errorMessage))
 				return
 			}

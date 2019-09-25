@@ -155,6 +155,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     func getQuests() {
         // TODO: fill data from an API request
+        print(APIManager.shared.getGameState() ?? "error")
         for _ in 1...3 {
             currentQuests.append(Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100))
         }
@@ -220,7 +221,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     @objc func scan() {
-        let scannerViewController = ScannerViewController(nibName: nil, bundle: nil)
+        let scannerViewController = ScannerViewController(questType: "studio") // TODO: pass in quest type for scan
         scannerViewController.delegate = self
         
         let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)

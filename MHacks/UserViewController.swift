@@ -249,7 +249,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     @objc func scan() {
         
-        let scannerViewController = ScannerViewController(nibName: nil, bundle: nil)
+        let scannerViewController = ScannerViewController(questType: nil)
         scannerViewController.delegate = self
         
         let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
