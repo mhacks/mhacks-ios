@@ -22,6 +22,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     // MARK: member variables
     
+    private var gameState: [String:Any]?
+    
     private var currentQuests: [Quest] = []
     
     private var peopleOnBoard: [LeaderboardPosition] = []
@@ -155,10 +157,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     func getQuests() {
         // TODO: fill data from an API request
-        print(APIManager.shared.getGameState() ?? "error")
-        for _ in 1...3 {
-            currentQuests.append(Quest(title: "Find a hacker whose favorite ice cream flavor is Vanilla", points: 100))
+        
+        APIManager.shared.getGameState { newState in
+            self.gameState = newState?["state"] as? [String : Any]
+            print(self.gameState?["quests"] ?? "NAH")
         }
+        
     }
     
     func setupNavigation() {

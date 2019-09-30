@@ -395,27 +395,20 @@ final class APIManager
 	
 	// MARK: SiMHacks
 	
-//	enum ScanError: Error {
-//		case unknown
-//		case alreadyScanned
-//		case selfScan
-//	}
-	
 	/// Get the current logged in user's GameState object
+	/// - parameter callback: After response comes back, callback will store the gamestate in the SiMHacksViewController
 	///
-	func getGameState() -> [String:Any]? {
-		var gameState: [String: Any]?
+	func getGameState(callback: @escaping (_ gameState: [String:Any]?) -> Void) {
 		taskWithRoute("/v1/game/") { response in
 			switch response {
 			case .value(let json):
-				print(json)
-				gameState = json
+				print("--- SUCCESS ---")
+				callback(json)
 			case .error(let errorMessage):
 				print(errorMessage)
+				callback(nil)
 			}
 		}
-		
-		return gameState
 	}
 	
 	/// Scan a fellow hacker's qr code for SiMHacks
