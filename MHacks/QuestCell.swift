@@ -22,7 +22,7 @@ class QuestCell: UICollectionViewCell {
         title.textAlignment = .center
         title.numberOfLines = 0
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.textColor = UIColor.white // TODO: change to background blue
+        title.textColor = MHacksColor.backgroundDarkBlue
         return title
     }()
     
@@ -32,7 +32,7 @@ class QuestCell: UICollectionViewCell {
         points.textAlignment = .center
         points.numberOfLines = 0
         points.translatesAutoresizingMaskIntoConstraints = false
-        points.textColor = UIColor.white // TODO: change to background blue
+        points.textColor = MHacksColor.backgroundDarkBlue
         return points
     }()
 
@@ -42,7 +42,7 @@ class QuestCell: UICollectionViewCell {
         // Add views
         contentView.addSubview(questTitle)
         contentView.addSubview(pointLabel)
-        contentView.backgroundColor = MHacksColor.lighterBlue // TODO: change to white
+        contentView.backgroundColor = UIColor.white
         
         // Anchor views
         questTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true

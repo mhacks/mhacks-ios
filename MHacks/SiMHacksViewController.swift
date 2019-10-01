@@ -20,9 +20,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: member variables
+    // MARK: Member variables
     
-    private var gameState: [String:Any]?
+    private var gameState: [String: Any] = [:]
     
     private var currentQuests: [Quest] = []
     
@@ -31,17 +31,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     private let refreshControl = UIRefreshControl()
     
     // MARK: Subviews
-    
-    private lazy var scanButton: UIButton = {
-        let scan = UIButton()
-        scan.setTitle("Scan", for: .normal)
-        scan.backgroundColor = UIColor.yellow
-        scan.setTitleColor(UIColor.black, for: .normal)
-        scan.setTitleColor(UIColor.white, for: .highlighted)
-        scan.translatesAutoresizingMaskIntoConstraints = false
-        scan.layer.cornerRadius = 10
-        return scan
-    }()
     
     // Leaderboard stuff
     private let leaderboardTitle: UILabel = {
@@ -55,7 +44,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     private lazy var leaderboard : UITableView = {
         let board = UITableView(frame: .zero, style: .plain)
         board.register(LeaderboardCell.self, forCellReuseIdentifier: LeaderboardCell.identifier)
-        board.backgroundColor = MHacksColor.lighterBlue
+        board.backgroundColor = UIColor.white
         board.layer.cornerRadius = 10
         return board
     }()
@@ -88,13 +77,35 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return coll
     }()
     
-    private lazy var questStackView: UIStackView = { // FIXME: quests are very small on SE
+    private lazy var scanButton: UIButton = {
+        let scan = UIButton()
+        scan.setTitle("Scan", for: .normal)
+        scan.backgroundColor = UIColor.init(white: 1, alpha: 0.9)
+        scan.setTitleColor(UIColor.black, for: .normal)
+        scan.setTitleColor(UIColor.white, for: .highlighted)
+        scan.translatesAutoresizingMaskIntoConstraints = false
+        scan.layer.cornerRadius = 10
+        return scan
+    }()
+    
+    private lazy var questStackView: UIStackView = {
         let qSV = UIStackView(arrangedSubviews: [questTitle, collectionView, scanButton])
         qSV.axis = .vertical
         qSV.translatesAutoresizingMaskIntoConstraints = false
         qSV.spacing = 15
         return qSV
     }()
+    
+    
+    // TODO
+//    private lazy var noQuestsLabel: UILabel = {
+//        let noQuests = UILabel()
+//        noQuests.text = "No quests available."
+//        noQuests.font = UIFont(name: "AndaleMono", size: 24)
+//        noQuests.textColor = UIColor.white
+//        noQuests.isHidden = true
+//        return noQuests
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,8 +148,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Configure Refresh Control
         refreshControl.addTarget(self, action: #selector(refreshLeaderboard(_:)), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!, NSAttributedString.Key.foregroundColor : UIColor.white])
-        refreshControl.tintColor = UIColor.white
+        refreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!, NSAttributedString.Key.foregroundColor : MHacksColor.backgroundDarkBlue])
+        refreshControl.tintColor = MHacksColor.backgroundDarkBlue
     }
     
     @objc func refreshLeaderboard(_ sender: Any) {
@@ -156,13 +167,54 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func getQuests() {
-        // TODO: fill data from an API request
+        // Dictionary for translating categories from response into text
+        let questionDict = ["icecream": "Find someone whose favorite ice cream flavor is {}.",
+                            "dinosaur": "Find someone whose favorite dinosaur is {}.",
+                            "fuel": "Find someone whose gaming fuel of choice is {}.",
+                            "console": "Find someone whose favorite game console is {}.",
+                            "studio": "Find someone who thinks {} makes the best game.",
+                            "pokemon": "Find someone whose favorite Pokémon is {}.",
+                            "marvel": "Find someone whose favorite Marvel superhero is {}.",
+                            "genre": "Find someone whose favorite video game genre is {}.",
+                            "retro": "Find someone whose favorite retro video game is {}.",
+                            "smash": "Find someone who mains {}."]
         
+        // Get data from API
         APIManager.shared.getGameState { newState in
-            self.gameState = newState?["state"] as? [String : Any]
-            print(self.gameState?["quests"] ?? "NAH")
+            
+            guard let gState = newState?["state"] else {
+                print("ERROR: could not parse state.")
+                return
+            }
+            
+            self.gameState = gState as! [String : Any]
+            
+            guard let quests = self.gameState["quests"] as? NSArray else {
+                print("ERROR: could not parse quests from state.")
+                return
+            }
+            
+            for quest in quests {
+                guard let q = quest as? [String: Any] else {
+                    print("ERROR: could not parse individual quest into dictionary.")
+                    return
+                }
+                let questionKeyword = q["question"] as! String
+                var fullQuestion = questionDict[questionKeyword] ?? "Invalid quest."
+                let answer = q["answer"] as! String
+                let numPoints = q["points"] as? Int ?? -1
+                
+                // Find and replace the {} with the real question content
+                fullQuestion = fullQuestion.replacingOccurrences(of: "{}", with: answer)
+                
+                self.currentQuests.append(Quest(title: fullQuestion, points: numPoints))
+            }
+            
+            // Refresh the collectionview to display the quests
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
-        
     }
     
     func setupNavigation() {
@@ -208,6 +260,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         questStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         questStackView.heightAnchor.constraint(equalTo: boardStackView.heightAnchor, multiplier: 0.85).isActive = true
         
+//        // TODO: Add noQuestsLabel on top of collectionview
+//        collectionView.addSubview(noQuestsLabel)
+//        noQuestsLabel.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+//        noQuestsLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+//        noQuestsLabel.widthAnchor.constraint(equalTo: collectionView.widthAnchor).isActive = true
+//        noQuestsLabel.heightAnchor.constraint(equalTo: collectionView.heightAnchor).isActive = true
+        
         // Add scan button
         view.addSubview(scanButton)
 
@@ -243,10 +302,15 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     // MARK: CollectionView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if currentQuests.count == 0 {
+//            print("YEET")
+//            self.noQuestsLabel.isHidden = false
+//        }
         return currentQuests.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("cell for item at")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestCell.identifier, for: indexPath) as! QuestCell
         let data = currentQuests[indexPath.item]
         cell.questTitle.text = data.title
@@ -269,6 +333,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("size for item at")
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
