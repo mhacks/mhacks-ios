@@ -221,7 +221,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         navigationItem.title = "SiMHacks"
         navigationController?.navigationBar.barTintColor = MHacksColor.backgroundDarkBlue
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont(name: "ArcadeClassic", size: 25)!]
-        
+        navigationController?.navigationBar.barStyle = .black
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeSim))
         closeButton.tintColor = UIColor.white
         

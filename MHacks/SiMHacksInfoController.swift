@@ -39,7 +39,6 @@ class SiMHacksInfoController: UIViewController {
     
     func setupViews() {
         // TODO: change navigation button tint to white
-        
         // Add subviews
         view.addSubview(infoLabel)
         
