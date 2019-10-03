@@ -403,8 +403,28 @@ final class APIManager
 			switch response {
 			case .value(let json):
 				print("--- SUCCESS ---")
+				print(json)
 				callback(json)
 			case .error(let errorMessage):
+				print(errorMessage)
+				callback(nil)
+			}
+		}
+	}
+	
+	/// Get the leaderboard and current logged-in user's rank and score
+	/// - parameter callback: After response comes back, callback will store the leaderboard in the SiMHacksViewController
+	///
+	func getLeaderboard(callback: @escaping (_ newLeaderBoard: [String:Any]?) -> Void) {
+		// TODO: Add parameter - limit 5 entries, else default is 10
+		taskWithRoute("/v1/game/leaderboard/") { response in
+			switch response {
+			case .value(let json):
+				print("--- SUCCESS ---")
+				print(json)
+				callback(json)
+			case .error(let errorMessage):
+				print("--- FAILURE ---")
 				print(errorMessage)
 				callback(nil)
 			}
@@ -427,6 +447,7 @@ final class APIManager
 			}
 		}
 	}
+	
 	
 	// MARK: - Helpers
 	
@@ -506,6 +527,7 @@ final class APIManager
 				return
 			}
 			guard
+				
 				let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
 				let json = jsonObject as? [String: Any]
 			else {
