@@ -196,7 +196,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             guard let gState = newState?["state"] else {
                 print("ERROR: could not parse state.")
-                // TODO: display alert
+                self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
             }
             
@@ -204,14 +204,14 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             guard let quests = self.gameState["quests"] as? NSArray else {
                 print("ERROR: could not parse quests from state.")
-                // TODO: display alert
+                self.makeAlertController(title: "ERROR: could not parse quests from state.", message: "Could not parse quests from state.")
                 return
             }
             
             for quest in quests {
                 guard let q = quest as? [String: Any] else {
                     print("ERROR: could not parse individual quest into dictionary.")
-                    // TODO: display alert
+                    self.makeAlertController(title: "ERROR: could not parse individual quest into dictionary.", message: "Could not convert quest into dictionary.")
                     return
                 }
                 let questionKeyword = q["question"] as! String
@@ -303,7 +303,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     @objc func scan() {
         // Check for no quest selected
         if self.selectedQuest == "" {
-            makeAlertController(title: "Error: No quest selected", message: "Please select a single quest to scan for.")
+            makeAlertController(title: "ERROR: No quest selected", message: "Please select a single quest to scan for.")
         } else {
             let scannerViewController = ScannerViewController(questType: self.selectedQuest)
             scannerViewController.delegate = self
