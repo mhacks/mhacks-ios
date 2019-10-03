@@ -30,6 +30,10 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     private let refreshControl = UIRefreshControl()
     
+    private var selectedQuest: String = ""
+    
+    private var questNames: [String] = []
+    
     // MARK: Subviews
     
     // Leaderboard stuff
@@ -128,10 +132,18 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         getQuests()
     }
     
+    func makeAlertController(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func setupCollectionview() {
         // Collection view datasource & delegate
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.allowsMultipleSelection = false
     }
     
     func setupLeaderboard() {
@@ -184,6 +196,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             guard let gState = newState?["state"] else {
                 print("ERROR: could not parse state.")
+                // TODO: display alert
                 return
             }
             
@@ -191,12 +204,14 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             guard let quests = self.gameState["quests"] as? NSArray else {
                 print("ERROR: could not parse quests from state.")
+                // TODO: display alert
                 return
             }
             
             for quest in quests {
                 guard let q = quest as? [String: Any] else {
                     print("ERROR: could not parse individual quest into dictionary.")
+                    // TODO: display alert
                     return
                 }
                 let questionKeyword = q["question"] as! String
@@ -208,6 +223,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 fullQuestion = fullQuestion.replacingOccurrences(of: "{}", with: answer)
                 
                 self.currentQuests.append(Quest(title: fullQuestion, points: numPoints))
+                
+                self.questNames.append(questionKeyword)
             }
             
             // Refresh the collectionview to display the quests
@@ -284,13 +301,18 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     @objc func scan() {
-        let scannerViewController = ScannerViewController(questType: "studio") // TODO: pass in quest type for scan
-        scannerViewController.delegate = self
-        
-        let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
-        scannerNavigationController.isToolbarHidden = false
-        
-        present(scannerNavigationController, animated: true, completion: nil)
+        // Check for no quest selected
+        if self.selectedQuest == "" {
+            makeAlertController(title: "Error: No quest selected", message: "Please select a single quest to scan for.")
+        } else {
+            let scannerViewController = ScannerViewController(questType: self.selectedQuest)
+            scannerViewController.delegate = self
+            
+            let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
+            scannerNavigationController.isToolbarHidden = false
+            
+            present(scannerNavigationController, animated: true, completion: nil)
+        }
     }
     
     // MARK: ScannerViewControllerDelegate
@@ -310,7 +332,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("cell for item at")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QuestCell.identifier, for: indexPath) as! QuestCell
         let data = currentQuests[indexPath.item]
         cell.questTitle.text = data.title
@@ -333,7 +354,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("size for item at")
         return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
@@ -347,6 +367,19 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        let item = collectionView.cellForItem(at: indexPath)
+        if item?.isSelected ?? false {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            self.selectedQuest = ""
+        } else {
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+            self.selectedQuest = questNames[indexPath.row]
+        }
+
+        return false
     }
     
     // MARK: TableView

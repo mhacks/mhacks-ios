@@ -14,6 +14,20 @@ class QuestCell: UICollectionViewCell {
     
     static let identifier = "quest"
     
+    override var isSelected: Bool {
+        didSet {
+            if self.isSelected {
+                contentView.backgroundColor = MHacksColor.lighterBlue
+                questTitle.textColor = UIColor.white
+                pointLabel.textColor = UIColor.white
+            } else {
+                contentView.backgroundColor = UIColor.white
+                questTitle.textColor = MHacksColor.backgroundDarkBlue
+                pointLabel.textColor = MHacksColor.backgroundDarkBlue
+            }
+        }
+    }
+    
     // MARK: subviews
     
     let questTitle: UILabel = {
