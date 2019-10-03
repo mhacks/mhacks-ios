@@ -165,28 +165,24 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     @objc func refreshLeaderboard(_ sender: Any) {
-        // TODO: fetch leaderboard from API
         leaderboard.reloadData()
         self.refreshControl.endRefreshing()
     }
     
     func getLeaderboard() {
-        // TODO: fill data from an API request, need position, name, score
-        // If you are outside of top 5, create a LeaderboardPosition with position -1. When dequeing, check if position is -1, if so, hide position and points and make name = "...", add your info after that
-        //for i in 1...5 {
-        //    peopleOnBoard.append(LeaderboardPosition(position: i, name: "cdids", score: 300))
-        //}
         APIManager.shared.getLeaderboard { newLeaderBoard in
             // TODO: find out the json keys for leaderboard
             
             guard let leaderboard = newLeaderBoard?["leaderboard"] as? NSArray else {
                 print("ERROR: could not parse leaderboard.")
+                self.makeAlertController(title: "ERROR: could not parse leaderboard.", message: "Could not parse leaderboard from state.")
                 return
             }
             var rank = 1;
             for entry in leaderboard as NSArray {
                 guard let e = entry as? [String: Any] else {
                     print("ERROR: could not parse individual entry into dictionary.")
+                    self.makeAlertController(title: "ERROR: could not parse individual entry.", message: "Could not parse individual entry into dictionary.")
                     return
                 }
                 let entry_points = e["points"] as! Int
