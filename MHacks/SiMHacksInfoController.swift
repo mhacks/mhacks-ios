@@ -33,13 +33,12 @@ class SiMHacksInfoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = MHacksColor.backgroundDarkBlue
-        
+        navigationController?.navigationBar.tintColor = UIColor.white
         setupViews()
     }
     
     func setupViews() {
         // TODO: change navigation button tint to white
-        
         // Add subviews
         view.addSubview(infoLabel)
         
