@@ -49,6 +49,27 @@ class QuestCell: UICollectionViewCell {
         points.textColor = MHacksColor.backgroundDarkBlue
         return points
     }()
+    
+    let forwardButton: UIButton = {
+        let forward = UIButton()
+        forward.setTitle(">", for:.normal)
+        forward.titleLabel?.font =  UIFont(name: "AndaleMono", size: 24)
+        forward.backgroundColor = MHacksColor.backgroundDarkBlue
+        forward.translatesAutoresizingMaskIntoConstraints = false
+        forward.layer.cornerRadius = 5
+        return forward
+    }()
+    
+    let backwardsButton: UIButton = {
+        let backwards = UIButton()
+        backwards.setTitle("<", for:.normal)
+        backwards.titleLabel?.font =  UIFont(name: "AndaleMono", size: 24)
+        backwards.backgroundColor = MHacksColor.backgroundDarkBlue
+        backwards.translatesAutoresizingMaskIntoConstraints = false
+        backwards.layer.cornerRadius = 5
+        return backwards
+    }()
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,6 +77,8 @@ class QuestCell: UICollectionViewCell {
         // Add views
         contentView.addSubview(questTitle)
         contentView.addSubview(pointLabel)
+        contentView.addSubview(forwardButton)
+        contentView.addSubview(backwardsButton)
         contentView.backgroundColor = UIColor.white
         
         // Anchor views
@@ -65,6 +88,13 @@ class QuestCell: UICollectionViewCell {
         
         pointLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         pointLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        forwardButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-20).isActive = true
+
+        forwardButton.trailingAnchor.constraint(equalTo:contentView.trailingAnchor, constant:-10).isActive = true
+
+        backwardsButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-20).isActive = true
+
+        backwardsButton.leadingAnchor.constraint(equalTo:contentView.leadingAnchor, constant:10).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
