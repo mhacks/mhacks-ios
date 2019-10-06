@@ -57,6 +57,10 @@ class QuestCell: UICollectionViewCell {
         forward.backgroundColor = MHacksColor.backgroundDarkBlue
         forward.translatesAutoresizingMaskIntoConstraints = false
         forward.layer.cornerRadius = 5
+        
+        forward.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0.01, bottom: 0.01, right: 0)
+
+
         return forward
     }()
     
@@ -67,6 +71,9 @@ class QuestCell: UICollectionViewCell {
         backwards.backgroundColor = MHacksColor.backgroundDarkBlue
         backwards.translatesAutoresizingMaskIntoConstraints = false
         backwards.layer.cornerRadius = 5
+        
+        backwards.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0.01, bottom: 0.01, right: 0)
+        
         return backwards
     }()
 
@@ -88,13 +95,19 @@ class QuestCell: UICollectionViewCell {
         
         pointLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         pointLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        forwardButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-20).isActive = true
+        forwardButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-15).isActive = true
 
         forwardButton.trailingAnchor.constraint(equalTo:contentView.trailingAnchor, constant:-10).isActive = true
+        
+        forwardButton.heightAnchor.constraint(equalTo:contentView.heightAnchor, multiplier:0.2).isActive=true
+        forwardButton.widthAnchor.constraint(equalTo:contentView.widthAnchor, multiplier:0.12).isActive=true
 
-        backwardsButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-20).isActive = true
+        backwardsButton.bottomAnchor.constraint(equalTo:contentView.bottomAnchor, constant:-15).isActive = true
 
         backwardsButton.leadingAnchor.constraint(equalTo:contentView.leadingAnchor, constant:10).isActive = true
+        
+        backwardsButton.heightAnchor.constraint(equalTo:contentView.heightAnchor, multiplier:0.2).isActive=true
+        backwardsButton.widthAnchor.constraint(equalTo:contentView.widthAnchor, multiplier:0.12).isActive=true
     }
     
     required init?(coder aDecoder: NSCoder) {

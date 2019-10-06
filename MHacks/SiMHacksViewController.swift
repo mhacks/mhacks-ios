@@ -425,6 +425,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        //return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         return .zero
     }
     
@@ -433,6 +434,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        //return 20
         return 0
     }
     
