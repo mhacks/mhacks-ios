@@ -376,7 +376,48 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         cell.pointLabel.topAnchor.constraint(equalTo: cell.questTitle.bottomAnchor, constant: 10).isActive = true
         cell.pointLabel.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor).isActive = true
         cell.contentView.layer.cornerRadius = 10 // rounded corners
+        
+        cell.forwardButton.isEnabled = true
+        cell.forwardButton.addTarget(self, action:#selector(forwardAction), for:.touchUpInside)
+        cell.forwardButton.addTarget(self, action:#selector(pressed), for:.touchDown)
+        cell.backwardsButton.isEnabled = true
+        cell.backwardsButton.addTarget(self, action:#selector(backwardsAction), for:.touchUpInside)
+        cell.backwardsButton.addTarget(self, action:#selector(pressed), for:.touchDown)
+               
+       if(indexPath.item == 0)
+       {
+           cell.backwardsButton.isHidden = true
+       }
+       else if(indexPath.item == 2)
+       {
+           cell.forwardButton.isHidden = true
+       }
+                     
         return cell
+    }
+    
+    @objc func pressed(sender: UIButton)
+    {
+        sender.backgroundColor = MHacksColor.purple
+    }
+    
+    @objc func forwardAction(sender: UIButton!)
+    {
+        let current = collectionView.indexPathsForVisibleItems
+        var scrollto = current[0]
+        scrollto.item += 1
+        //print("current \(current)")
+        collectionView.scrollToItem(at: scrollto, at:[], animated: true)
+        sender.backgroundColor = MHacksColor.backgroundDarkBlue
+    }
+    @objc func backwardsAction(sender: UIButton!)
+    {
+        sender.backgroundColor = MHacksColor.backgroundDarkBlue
+        let current = collectionView.indexPathsForVisibleItems
+        var scrollto = current[0]
+        scrollto.item -= 1
+        collectionView.scrollToItem(at: scrollto, at:[], animated: true)
+        sender.backgroundColor = MHacksColor.backgroundDarkBlue
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
