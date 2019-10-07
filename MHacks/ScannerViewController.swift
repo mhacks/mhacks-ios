@@ -98,6 +98,13 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         let textLabel = UILabel()
     }
     
+    func makeAlertController(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: View life cycle
     
     override func viewDidLoad() {
@@ -228,32 +235,19 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                     return
                 }
                 
-                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type)
-                
-//                guard let errorResult = APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) else {
-//                    return
-//                }
-//
-//                switch errorResult {
-//                case APIManager.ScanError.unknown:
-//                    throw APIManager.ScanError.unknown
-//                case APIManager.ScanError.alreadyScanned:
-//                    throw APIManager.ScanError.alreadyScanned
-//                case APIManager.ScanError.selfScan:
-//                    throw APIManager.ScanError.selfScan
-//                }
-//
-//
-//                if let error = APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) {
-//                    alertTitle = "Error in scanning"
-//                    alertMessage = error
-//                } else {
-//                    alertTitle = "Scan successful!"
-//                    alertMessage = "The \(type) quest has been completed."
-//                    return
-//                }
-                
-                
+                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) { (response) in
+                    if let errorMessage = response?["errorMessage"] as? String {
+                        DispatchQueue.main.async {
+                            self.makeAlertController(title: "Scanning Error", message: errorMessage)
+                        }
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.makeAlertController(title: "Nice!", message: "Quest completed")
+                    }
+                    
+                }
             }
         }
     }

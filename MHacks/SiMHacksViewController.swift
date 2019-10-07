@@ -166,6 +166,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     @objc func refreshLeaderboard(_ sender: Any) {
         leaderboard.reloadData()
+        getLeaderboard()
         self.refreshControl.endRefreshing()
     }
     
@@ -338,6 +339,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             scannerNavigationController.isToolbarHidden = false
             
             present(scannerNavigationController, animated: true, completion: nil)
+            
+            self.getQuests()
+            self.getLeaderboard()
         }
     }
     

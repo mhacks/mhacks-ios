@@ -436,14 +436,16 @@ final class APIManager
 	/// - parameter scaneeEmail: The identifier of the user that was scanned
 	/// - parameter uniqueQuestType: Unique name of the quest type
 	///
-	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String) {
+	func scanFellowHacker(scaneeEmail email: String, uniqueQuestType quest: String, callback: @escaping (_ scanResponse: [String: Any]?) -> Void) {
 		taskWithRoute("/v1/game/scan", parameters: ["email":email, "quest": quest], usingHTTPMethod: .post) { response in
 			switch response {
 			case .value(let json):
 				// TODO: alert success message
 				print(json)
+				callback(json)
 			case .error(let errorMessage):
 				print(errorMessage)
+				callback(["errorMessage": errorMessage])
 			}
 		}
 	}
@@ -538,6 +540,13 @@ final class APIManager
 			
 			guard statusCode == 200 || statusCode == 201
 			else {
+				// If status is false, return the error message
+				if let status = json["status"] as? Bool, let message = json["message"] as? String {
+					if status == false {
+						completion(.error(message))
+						return
+					}
+				}
 				let errorMessage = json["detail"] as? String ?? "Unknown error"
 				print("CODE=\(statusCode ?? -1)")
 				completion(.error(errorMessage))
