@@ -29,7 +29,7 @@ class LeaderboardCell: UITableViewCell {
         if #available(iOS 10.0, *) {
             pos.adjustsFontForContentSizeCategory = true
         } else {}
-        pos.textAlignment = .center
+        pos.textAlignment = .left
         pos.textColor = MHacksColor.backgroundDarkBlue
         pos.translatesAutoresizingMaskIntoConstraints = false
         return pos
@@ -48,7 +48,9 @@ class LeaderboardCell: UITableViewCell {
         if #available(iOS 10.0, *) {
             name.adjustsFontForContentSizeCategory = true
         } else {}
-        name.textAlignment = .center
+        name.textAlignment = .left
+        name.numberOfLines = 0
+        name.adjustsFontSizeToFitWidth = true
         name.textColor = MHacksColor.backgroundDarkBlue
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
@@ -83,10 +85,14 @@ class LeaderboardCell: UITableViewCell {
         contentView.addSubview(scoreLabel)
         
         // Anchor views
+        positionLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2).isActive = true
+        nameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.6).isActive = true
+        scoreLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1).isActive = true
         positionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         positionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         nameLabel.leadingAnchor.constraint(equalTo: positionLabel.trailingAnchor, constant: 30).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: scoreLabel.leadingAnchor, constant:-10).isActive = true
         scoreLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
         scoreLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
