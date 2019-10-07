@@ -45,6 +45,16 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         return board
     }()
     
+    private let leaderboardUser: UILabel = {
+        let rankscore = UILabel()
+        rankscore.text = "Your rank: 0 | Your points: 0"
+        rankscore.textColor = UIColor.white
+        rankscore.numberOfLines = 0
+        rankscore.translatesAutoresizingMaskIntoConstraints = false
+        rankscore.font = UIFont(name: "ArcadeClassic", size: 19)
+        return rankscore
+    }()
+    
     private lazy var leaderboard : UITableView = {
         let board = UITableView(frame: .zero, style: .plain)
         board.register(LeaderboardCell.self, forCellReuseIdentifier: LeaderboardCell.identifier)
@@ -54,10 +64,10 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     }()
     
     private lazy var boardStackView: UIStackView = {
-        let sv = UIStackView(arrangedSubviews: [leaderboardTitle, leaderboard])
+        let sv = UIStackView(arrangedSubviews: [leaderboardTitle, leaderboardUser, leaderboard])
         sv.axis = .vertical
         sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.spacing = 15
+        sv.spacing = 5
         return sv
     }()
     
@@ -127,9 +137,11 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         // Set up subviews
         setupSubviews()
         
-        // Fill leaderboard and quests
-        getLeaderboard()
+        // Fill leaderboard, quests, user's own rank and score
+        // Repeated API call to gameState necessary to differentiate quest view from leaderboard view
         getQuests()
+        getUserRankScore()
+        getLeaderboard()
     }
     
     func makeAlertController(title: String, message: String) {
@@ -167,7 +179,32 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     @objc func refreshLeaderboard(_ sender: Any) {
         leaderboard.reloadData()
         getLeaderboard()
+        getUserRankScore()
         self.refreshControl.endRefreshing()
+    }
+    
+    func getUserRankScore() {
+        // TODO: Get user's rank from gameState when available
+        APIManager.shared.getGameState { newState in
+            
+            guard let gState = newState?["state"] else {
+                print("ERROR: could not parse state.")
+                self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
+                return
+            }
+            
+            self.gameState = gState as! [String : Any]
+            guard let user_points = self.gameState["points"] as? Int else {
+                print("ERROR: could not parse user points from state.")
+                self.makeAlertController(title: "ERROR: could not parse user points from state.", message: "Could not parse user points from state.")
+                return
+            }
+            
+            // Refresh the UILabel to display the user's rank and score
+            DispatchQueue.main.async {
+                self.leaderboardUser.text = "Your rank: 0 | Your points: " + String(user_points)
+            }
+        }
     }
     
     func getLeaderboard() {
