@@ -180,6 +180,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 return
             }
             var rank = 1;
+            var new_board : [LeaderboardPosition] = []
             for entry in leaderboard as NSArray {
                 guard let e = entry as? [String: Any] else {
                     print("ERROR: could not parse individual entry into dictionary.")
@@ -192,9 +193,11 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 print(entry_points)
                 print(entry_user_name)
                 let entry_rank = rank
-                self.peopleOnBoard.append(LeaderboardPosition(position: entry_rank, name: entry_user_name, score: entry_points))
+                
+                new_board.append(LeaderboardPosition(position: entry_rank, name: entry_user_name, score: entry_points))
                 rank += 1;
             }
+            self.peopleOnBoard = new_board
         
             print(self.peopleOnBoard)
             // Refresh the leaderboard
