@@ -289,9 +289,33 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
 		}
 	}
     
+    func makeAlertController(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func simhacksPressed() {
         let simhacksNav = UINavigationController(rootViewController: SiMHacksViewController())
-        self.present(simhacksNav, animated: true, completion: nil)
+        
+        let date = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let hackingStarts = dateFormatter.date(from: "2019/10/11 23:00")
+
+        #if DEBUG
+            self.present(simhacksNav, animated: true, completion: nil)
+        #else
+            // Check to see if SiMHacks can be released yet
+            if date >= hackingStarts! {
+                print("Can start playing!")
+                self.present(simhacksNav, animated: true, completion: nil)
+            } else {
+                self.makeAlertController(title: "Can't access yet", message: "SiMHacks will open at 7pm EST, October 11th.")
+            }
+        #endif
     }
 	
     // MARK: Login view controller delegate
