@@ -305,6 +305,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         let hackingStarts = dateFormatter.date(from: "2019/10/11 23:00")
 
+        // TODO: change this to call /v1/configuration endpoint, waiting on Carson
         #if DEBUG
             self.present(simhacksNav, animated: true, completion: nil)
         #else
