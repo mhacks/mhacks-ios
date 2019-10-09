@@ -82,11 +82,11 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         nameTitleLabel.text = "HACKER"
         nameTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        nameTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
+        nameTitleLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         
         schoolTitleLabel.text = "SCHOOL"
         schoolTitleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
-        schoolTitleLabel.textColor = UIColor(white: 0.0, alpha: 0.6)
+        schoolTitleLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         
         nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         nameLabel.textColor = UIColor.white
@@ -117,7 +117,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
         simhacksButton.setTitle("SiMHacks", for: .normal)
         simhacksButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title2)
-        simhacksButton.backgroundColor = MHacksColor.pink
+        simhacksButton.backgroundColor = MHacksColor.lighterBlue
         simhacksButton.layer.cornerRadius = 10
         simhacksButton.addTarget(self, action: #selector(simhacksPressed), for: .touchUpInside)
         
@@ -249,7 +249,7 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
     
     @objc func scan() {
         
-        let scannerViewController = ScannerViewController(nibName: nil, bundle: nil)
+        let scannerViewController = ScannerViewController(questType: nil)
         scannerViewController.delegate = self
         
         let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
@@ -274,7 +274,9 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
         
 		APIManager.shared.fetchPass { pass in
             
-            self.view.isUserInteractionEnabled = true
+            DispatchQueue.main.async {
+                self.view.isUserInteractionEnabled = true
+            }
             
 			guard let pass = pass else {
 				// Request failed
@@ -287,9 +289,34 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
 		}
 	}
     
+    func makeAlertController(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func simhacksPressed() {
         let simhacksNav = UINavigationController(rootViewController: SiMHacksViewController())
-        self.present(simhacksNav, animated: true, completion: nil)
+        
+        let date = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let hackingStarts = dateFormatter.date(from: "2019/10/11 23:00")
+
+        // TODO: change this to call /v1/configuration endpoint, waiting on Carson
+        #if DEBUG
+            self.present(simhacksNav, animated: true, completion: nil)
+        #else
+            // Check to see if SiMHacks can be released yet
+            if date >= hackingStarts! {
+                print("Can start playing!")
+                self.present(simhacksNav, animated: true, completion: nil)
+            } else {
+                self.makeAlertController(title: "Can't access yet", message: "SiMHacks will open at 7pm EST, October 11th.")
+            }
+        #endif
     }
 	
     // MARK: Login view controller delegate

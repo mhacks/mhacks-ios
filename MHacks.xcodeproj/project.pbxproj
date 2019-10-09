@@ -11,6 +11,13 @@
 		278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB51E75CCF400F95833 /* MapOverlay.swift */; };
 		278CEAB81E75CEAC00F95833 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */; };
 		2796A9731E73798C00B5141E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2796A9721E73798C00B5141E /* MapViewController.swift */; };
+		3614342B2309F05900281150 /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3614342A2309F05900281150 /* Quest.swift */; };
+		36434544230B3DB50013476D /* QuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36434543230B3DB50013476D /* QuestCell.swift */; };
+		3666D823230F2AD800B0ED2D /* andalemo.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3666D822230F2AD800B0ED2D /* andalemo.TTF */; };
+		3666D825230F512A00B0ED2D /* LeaderboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666D824230F512A00B0ED2D /* LeaderboardCell.swift */; };
+		3666D827230F522000B0ED2D /* LeaderboardPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666D826230F522000B0ED2D /* LeaderboardPosition.swift */; };
+		3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */; };
+		369868842330080B001FFB11 /* SiMHacksInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369868832330080B001FFB11 /* SiMHacksInfoController.swift */; };
 		460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */; };
 		463165381D86023D00371D56 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463165371D86023D00371D56 /* UserViewController.swift */; };
 		463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463A90721D9769B600C0F6FE /* ScannerView.swift */; };
@@ -28,7 +35,6 @@
 		46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F716EB1DA23D6B008D473F /* FloorDescription.xib */; };
 		4C1D8696216F1CD000719B38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8243F6771DA35EF400B9D929 /* Assets.xcassets */; };
 		70065A551F54A3220058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
-		70065A561F54A5A70058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
 		70065A571F54A5A80058592C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70065A541F54A3220058592C /* Configuration.swift */; };
 		703700ED1E7B192B0054DB5C /* IndoorFloorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703700EC1E7B192B0054DB5C /* IndoorFloorCell.swift */; };
 		704991691D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */; };
@@ -37,21 +43,8 @@
 		709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709AEA371F6B19F000E7089C /* MHacksUITests.swift */; };
 		70A87C591D9B023900920E48 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */; };
 		820525201D9DADDD00EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
-		820525211D9DADE900EF535C /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205251F1D9DADDD00EF535C /* Floor.swift */; };
-		820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
-		820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		820B8E661C2472EC007A2E88 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
-		82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287A451C66C3D8001A0F38 /* NotificationCenter.framework */; };
-		82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A551C66C3EC001A0F38 /* TodayViewController.swift */; };
-		82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82287A591C66C419001A0F38 /* MainInterface.storyboard */; };
-		82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820B8E651C2472EC007A2E88 /* Extensions.swift */; };
-		82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC61C1F8B0F0061FFFB /* Announcement.swift */; };
-		82287A601C66C570001A0F38 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9A1C2A2B850084880C /* Location.swift */; };
-		82287A611C66C570001A0F38 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942B9E1C2A2EAE0084880C /* Event.swift */; };
-		82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FC81C1F8C5B0061FFFB /* AnnouncementCell.swift */; };
-		82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		82287A751C66D8F7001A0F38 /* APIManager+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82287A6C1C66D575001A0F38 /* APIManager+UIKit.swift */; };
-		822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 82287A441C66C3D8001A0F38 /* MHacks.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		823994DD1D9273AC00A8D90C /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823994DC1D9273AC00A8D90C /* KeychainWrapper.swift */; };
 		823E4D331C615EE400F37D0B /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823E4D321C615EE400F37D0B /* TextViewCell.swift */; };
 		8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8240DE631D9C72EA000DD78C /* ScannedDataField.swift */; };
@@ -87,7 +80,6 @@
 		82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCA1C1F8E6B0061FFFB /* MultilineLabel.swift */; };
 		82473FCD1C1F91D70061FFFB /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FCC1C1F91D70061FFFB /* APIManager.swift */; };
 		825FC34B1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
-		825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */; };
 		8286A0201C6072CF00B6EFEE /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A01F1C6072CF00B6EFEE /* TextFieldCell.swift */; };
 		8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286A0211C6074D100B6EFEE /* DatePickerCell.swift */; };
 		828D498D1C65F3FD0090313C /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D498C1C65F3FD0090313C /* CategoryCell.swift */; };
@@ -103,11 +95,8 @@
 		82942BAD1C2A37670084880C /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82942BAC1C2A37670084880C /* Geometry.swift */; };
 		82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */; };
 		82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82942BAF1C2A38E30084880C /* ScheduleHourSeparator.xib */; };
-		82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82905E7E1D7CAB0E00744820 /* MHacksArray.swift */; };
-		82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
 		82E188901D7E7D5500608D40 /* Serializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82473FBF1C1F80EA0061FFFB /* Serializable.swift */; };
 		82E2F3E71CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
-		82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E2F3E61CD9590300A8F165 /* CoalescedCallbacks.swift */; };
 		82EFDE8B1C32ED060074AB99 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EFDE8A1C32ED060074AB99 /* EventViewController.swift */; };
 		9D4D0CCC1C65AE5D003DAAF3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D0CCB1C65AE5D003DAAF3 /* SettingsViewController.swift */; };
 		DB88569D2294EBF50069F6FC /* SiMHacksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88569C2294EBF50069F6FC /* SiMHacksViewController.swift */; };
@@ -121,13 +110,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82473FA11C1F7A170061FFFB;
 			remoteInfo = MHacks;
-		};
-		822896981D9E4B420081A613 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82473F9A1C1F7A170061FFFB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82287A431C66C3D8001A0F38;
-			remoteInfo = MHacksToday;
 		};
 		8243F6801DA35EF400B9D929 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -152,7 +134,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				822896971D9E4B380081A613 /* MHacks.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +167,13 @@
 		278CEAB51E75CCF400F95833 /* MapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
 		278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
 		2796A9721E73798C00B5141E /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		3614342A2309F05900281150 /* Quest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
+		36434543230B3DB50013476D /* QuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestCell.swift; sourceTree = "<group>"; };
+		3666D822230F2AD800B0ED2D /* andalemo.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = andalemo.TTF; sourceTree = "<group>"; };
+		3666D824230F512A00B0ED2D /* LeaderboardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardCell.swift; sourceTree = "<group>"; };
+		3666D826230F522000B0ED2D /* LeaderboardPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardPosition.swift; sourceTree = "<group>"; };
+		3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ARCADECLASSIC.TTF; sourceTree = "<group>"; };
+		369868832330080B001FFB11 /* SiMHacksInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiMHacksInfoController.swift; sourceTree = "<group>"; };
 		460D41DA1D8B8B0A00C28048 /* GradientTintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientTintView.swift; sourceTree = "<group>"; };
 		463165371D86023D00371D56 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		463A90721D9769B600C0F6FE /* ScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
@@ -212,7 +200,6 @@
 		70A87C581D9B023900920E48 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		8205251F1D9DADDD00EF535C /* Floor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Floor.swift; sourceTree = "<group>"; };
 		820B8E651C2472EC007A2E88 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
-		82287A441C66C3D8001A0F38 /* MHacks.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MHacks.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		82287A451C66C3D8001A0F38 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		82287A551C66C3EC001A0F38 /* TodayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		82287A571C66C3FF001A0F38 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -282,14 +269,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82287A411C66C3D8001A0F38 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A461C66C3D8001A0F38 /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8243F67B1DA35EF400B9D929 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -308,6 +287,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36434547230B4D0C0013476D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3666D822230F2AD800B0ED2D /* andalemo.TTF */,
+				3687D97E230CB1300067D75B /* ARCADECLASSIC.TTF */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		709AEA361F6B19F000E7089C /* MHacksUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -390,7 +378,6 @@
 			isa = PBXGroup;
 			children = (
 				82473FA21C1F7A170061FFFB /* MHacks.app */,
-				82287A441C66C3D8001A0F38 /* MHacks.appex */,
 				8243F6721DA35EF400B9D929 /* MHacks.app */,
 				8243F67E1DA35EF400B9D929 /* MHacksWatch Extension.appex */,
 				709AEA351F6B19F000E7089C /* MHacksUITests.xctest */,
@@ -415,6 +402,7 @@
 		82473FB91C1F7F1F0061FFFB /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				36434547230B4D0C0013476D /* Fonts */,
 				82473FAB1C1F7A170061FFFB /* Main.storyboard */,
 				82473FAE1C1F7A170061FFFB /* Assets.xcassets */,
 				82942BAE1C2A38E30084880C /* ScheduleDayHeader.xib */,
@@ -451,6 +439,7 @@
 				704991681D9A062600C3E1AC /* ComposeAnnouncementTableViewController.swift */,
 				2796A9721E73798C00B5141E /* MapViewController.swift */,
 				DB88569C2294EBF50069F6FC /* SiMHacksViewController.swift */,
+				369868832330080B001FFB11 /* SiMHacksInfoController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -485,6 +474,8 @@
 				46B75ADC1DA253680024139A /* FloorLabelView.swift */,
 				278CEAB51E75CCF400F95833 /* MapOverlay.swift */,
 				278CEAB71E75CEAC00F95833 /* ImageOverlayRenderer.swift */,
+				36434543230B3DB50013476D /* QuestCell.swift */,
+				3666D824230F512A00B0ED2D /* LeaderboardCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -522,6 +513,8 @@
 				8205251F1D9DADDD00EF535C /* Floor.swift */,
 				825FC34A1D90F1B400DDB9A5 /* ScanEvent.swift */,
 				8240DE631D9C72EA000DD78C /* ScannedDataField.swift */,
+				3614342A2309F05900281150 /* Quest.swift */,
+				3666D826230F522000B0ED2D /* LeaderboardPosition.swift */,
 			);
 			name = "Public Models";
 			sourceTree = "<group>";
@@ -546,23 +539,6 @@
 			productName = MHacksUITests;
 			productReference = 709AEA351F6B19F000E7089C /* MHacksUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		82287A431C66C3D8001A0F38 /* MHacksToday */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */;
-			buildPhases = (
-				82287A401C66C3D8001A0F38 /* Sources */,
-				82287A411C66C3D8001A0F38 /* Frameworks */,
-				82287A421C66C3D8001A0F38 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MHacksToday;
-			productName = MHacksToday;
-			productReference = 82287A441C66C3D8001A0F38 /* MHacks.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		8243F6711DA35EF400B9D929 /* MHacksWatch */ = {
 			isa = PBXNativeTarget;
@@ -611,7 +587,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				822896991D9E4B420081A613 /* PBXTargetDependency */,
 				8243F6911DA35EF400B9D929 /* PBXTargetDependency */,
 			);
 			name = MHacks;
@@ -626,7 +601,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = MHacks;
 				TargetAttributes = {
 					709AEA341F6B19F000E7089C = {
@@ -635,16 +610,6 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 82473FA11C1F7A170061FFFB;
-					};
-					82287A431C66C3D8001A0F38 = {
-						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 478C74MJ7T;
-						LastSwiftMigration = 1020;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
 					};
 					8243F6711DA35EF400B9D929 = {
 						CreatedOnToolsVersion = 8.1;
@@ -705,7 +670,6 @@
 			projectRoot = "";
 			targets = (
 				82473FA11C1F7A170061FFFB /* MHacks */,
-				82287A431C66C3D8001A0F38 /* MHacksToday */,
 				8243F6711DA35EF400B9D929 /* MHacksWatch */,
 				8243F67D1DA35EF400B9D929 /* MHacksWatch Extension */,
 				709AEA341F6B19F000E7089C /* MHacksUITests */,
@@ -718,14 +682,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82287A421C66C3D8001A0F38 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A5B1C66C419001A0F38 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,10 +710,12 @@
 				46B75ADB1DA253510024139A /* FloorLabel.xib in Resources */,
 				46F3AE9B1CD86EDA002495B2 /* ScheduleNowIndicator.xib in Resources */,
 				82942BB11C2A38E30084880C /* ScheduleHourSeparator.xib in Resources */,
+				3687D97F230CB1310067D75B /* ARCADECLASSIC.TTF in Resources */,
 				46F716EC1DA23D6B008D473F /* FloorDescription.xib in Resources */,
 				82942BB01C2A38E30084880C /* ScheduleDayHeader.xib in Resources */,
 				82473FAD1C1F7A170061FFFB /* Main.storyboard in Resources */,
 				46F3AE9F1CD88E06002495B2 /* ScheduleNowLabel.xib in Resources */,
+				3666D823230F2AD800B0ED2D /* andalemo.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,28 +727,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				709AEA381F6B19F000E7089C /* MHacksUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82287A401C66C3D8001A0F38 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82287A561C66C3EC001A0F38 /* TodayViewController.swift in Sources */,
-				82287A6F1C66D806001A0F38 /* APIManager.swift in Sources */,
-				82287A5C1C66C570001A0F38 /* Extensions.swift in Sources */,
-				82E1888F1D7E7D5400608D40 /* Serializable.swift in Sources */,
-				82E1888C1D7E4E8800608D40 /* MHacksArray.swift in Sources */,
-				82E2F3E81CD9590300A8F165 /* CoalescedCallbacks.swift in Sources */,
-				70065A561F54A5A70058592C /* Configuration.swift in Sources */,
-				820525231D9DAEC900EF535C /* KeychainWrapper.swift in Sources */,
-				820525211D9DADE900EF535C /* Floor.swift in Sources */,
-				82287A5F1C66C570001A0F38 /* Announcement.swift in Sources */,
-				82287A601C66C570001A0F38 /* Location.swift in Sources */,
-				82287A611C66C570001A0F38 /* Event.swift in Sources */,
-				825FC34C1D90F1B400DDB9A5 /* ScanEvent.swift in Sources */,
-				820525221D9DADE900EF535C /* ScannedDataField.swift in Sources */,
-				82287A631C66C59A001A0F38 /* AnnouncementCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,7 +758,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3614342B2309F05900281150 /* Quest.swift in Sources */,
 				278CEAB61E75CCF400F95833 /* MapOverlay.swift in Sources */,
+				369868842330080B001FFB11 /* SiMHacksInfoController.swift in Sources */,
+				3666D827230F522000B0ED2D /* LeaderboardPosition.swift in Sources */,
 				82942BA71C2A36F70084880C /* ScheduleDayHeader.swift in Sources */,
 				460D41DB1D8B8B0A00C28048 /* GradientTintView.swift in Sources */,
 				463165381D86023D00371D56 /* UserViewController.swift in Sources */,
@@ -854,6 +793,7 @@
 				8240DE641D9C72EA000DD78C /* ScannedDataField.swift in Sources */,
 				82942B9D1C2A2EA00084880C /* EventOrganizer.swift in Sources */,
 				82942B9F1C2A2EAE0084880C /* Event.swift in Sources */,
+				3666D825230F512A00B0ED2D /* LeaderboardCell.swift in Sources */,
 				82942BAB1C2A37000084880C /* ScheduleEventCell.swift in Sources */,
 				82473FCB1C1F8E6B0061FFFB /* MultilineLabel.swift in Sources */,
 				46451B751DA24B6F0025478A /* FloorDescriptionView.swift in Sources */,
@@ -874,6 +814,7 @@
 				8286A0221C6074D100B6EFEE /* DatePickerCell.swift in Sources */,
 				465EB4C81DA0670300713EF4 /* FloorLayout.swift in Sources */,
 				82905E7F1D7CAB0E00744820 /* MHacksArray.swift in Sources */,
+				36434544230B3DB50013476D /* QuestCell.swift in Sources */,
 				46F3AE9D1CD86EF5002495B2 /* ScheduleNowIndicator.swift in Sources */,
 				463A90731D9769B600C0F6FE /* ScannerView.swift in Sources */,
 				46EA62F31D927421003AE1D5 /* ScannerViewController.swift in Sources */,
@@ -887,11 +828,6 @@
 			isa = PBXTargetDependency;
 			target = 82473FA11C1F7A170061FFFB /* MHacks */;
 			targetProxy = 709AEA3A1F6B19F000E7089C /* PBXContainerItemProxy */;
-		};
-		822896991D9E4B420081A613 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82287A431C66C3D8001A0F38 /* MHacksToday */;
-			targetProxy = 822896981D9E4B420081A613 /* PBXContainerItemProxy */;
 		};
 		8243F6811DA35EF400B9D929 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -968,44 +904,6 @@
 			};
 			name = Release;
 		};
-		82287A511C66C3D8001A0F38 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MHacksToday/MHacksToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
-				PRODUCT_NAME = MHacks;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		82287A521C66C3D8001A0F38 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = MHacksToday/MHacksToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = MHacksToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.MHacksToday;
-				PRODUCT_NAME = MHacks;
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		8243F6931DA35EF400B9D929 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1017,9 +915,11 @@
 				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				IBSC_MODULE = MHacksWatch_Extension;
 				INFOPLIST_FILE = MHacksWatch/Info.plist;
+				MARKETING_VERSION = 12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
 				PRODUCT_NAME = MHacks;
 				SDKROOT = watchos;
@@ -1042,9 +942,11 @@
 				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				IBSC_MODULE = MHacksWatch_Extension;
 				INFOPLIST_FILE = MHacksWatch/Info.plist;
+				MARKETING_VERSION = 12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
 				PRODUCT_NAME = MHacks;
 				SDKROOT = watchos;
@@ -1063,9 +965,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1085,9 +989,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1216,6 +1122,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1224,6 +1131,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 12.2;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -1246,6 +1154,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1254,6 +1163,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 12.2;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -1273,15 +1183,6 @@
 			buildConfigurations = (
 				709AEA3D1F6B19F000E7089C /* Debug */,
 				709AEA3E1F6B19F000E7089C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		82287A531C66C3D8001A0F38 /* Build configuration list for PBXNativeTarget "MHacksToday" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82287A511C66C3D8001A0F38 /* Debug */,
-				82287A521C66C3D8001A0F38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
