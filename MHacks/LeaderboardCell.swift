@@ -14,70 +14,42 @@ class LeaderboardCell: UITableViewCell {
     
     static let identifier = "leaderboard"
     
+    // MARK: member functions
+    
+    func produceGenericLabel() -> UILabel {
+        let gen = UILabel()
+        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
+            fatalError("No AndaleMono available")
+        }
+        if #available(iOS 11.0, *) {
+            gen.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
+        } else {
+            gen.font = UIFont(name: "AndaleMono", size: 20)
+        }
+        if #available(iOS 10.0, *) {
+            gen.adjustsFontForContentSizeCategory = true
+        } else {}
+        gen.textAlignment = .left
+        gen.textColor = MHacksColor.backgroundDarkBlue
+        gen.translatesAutoresizingMaskIntoConstraints = false
+        return gen
+    }
+    
     // MARK: subviews
     
-    let positionLabel: UILabel = {
-        let pos = UILabel()
-        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
-            fatalError("No AndaleMono available")
-        }
-        if #available(iOS 11.0, *) {
-            pos.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
-        } else {
-            pos.font = UIFont(name: "AndaleMono", size: 20)
-        }
-        if #available(iOS 10.0, *) {
-            pos.adjustsFontForContentSizeCategory = true
-        } else {}
-        pos.textAlignment = .left
-        pos.textColor = MHacksColor.backgroundDarkBlue
-        pos.translatesAutoresizingMaskIntoConstraints = false
-        return pos
-    }()
+    lazy var positionLabel = produceGenericLabel()
     
-    let nameLabel: UILabel = {
-        let name = UILabel()
-        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
-            fatalError("No AndaleMono available")
-        }
-        if #available(iOS 11.0, *) {
-            name.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
-        } else {
-            name.font = UIFont(name: "AndaleMono", size: 20)
-        }
-        if #available(iOS 10.0, *) {
-            name.adjustsFontForContentSizeCategory = true
-        } else {}
-        name.textAlignment = .left
-        name.numberOfLines = 0
-        name.adjustsFontSizeToFitWidth = true
-        name.textColor = MHacksColor.backgroundDarkBlue
-        name.translatesAutoresizingMaskIntoConstraints = false
-        return name
-    }()
+    lazy var nameLabel = produceGenericLabel()
     
-    let scoreLabel: UILabel = {
-        let score = UILabel()
-        guard let andaleFont = UIFont(name: "AndaleMono", size: UIFont.labelFontSize) else {
-            fatalError("No AndaleMono available")
-        }
-        if #available(iOS 11.0, *) {
-            score.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: andaleFont)
-        } else {
-            score.font = UIFont(name: "AndaleMono", size: 20)
-        }
-        if #available(iOS 10.0, *) {
-            score.adjustsFontForContentSizeCategory = true
-        } else {}
-        score.textAlignment = .center
-        score.textColor = MHacksColor.backgroundDarkBlue
-        score.translatesAutoresizingMaskIntoConstraints = false
-        return score
-    }()
+    lazy var scoreLabel = produceGenericLabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = UIColor.white
+        
+        // Add properties to name label
+        nameLabel.numberOfLines = 0
+        nameLabel.adjustsFontSizeToFitWidth = true
         
         // Add views
         contentView.addSubview(positionLabel)

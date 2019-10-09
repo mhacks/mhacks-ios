@@ -402,7 +402,6 @@ final class APIManager
 		taskWithRoute("/v1/game/") { response in
 			switch response {
 			case .value(let json):
-				print("--- SUCCESS ---")
 				print(json)
 				callback(json)
 			case .error(let errorMessage):
@@ -420,11 +419,9 @@ final class APIManager
 		taskWithRoute("/v1/game/leaderboard/") { response in
 			switch response {
 			case .value(let json):
-				print("--- SUCCESS ---")
 				print(json)
 				callback(json)
 			case .error(let errorMessage):
-				print("--- FAILURE ---")
 				print(errorMessage)
 				callback(nil)
 			}
@@ -548,7 +545,6 @@ final class APIManager
 					}
 				}
 				let errorMessage = json["detail"] as? String ?? "Unknown error"
-				print("CODE=\(statusCode ?? -1)")
 				completion(.error(errorMessage))
 				return
 			}

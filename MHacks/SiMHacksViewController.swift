@@ -188,14 +188,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         APIManager.shared.getGameState { newState in
             
             guard let gState = newState?["state"] else {
-                print("ERROR: could not parse state.")
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
             }
             
             self.gameState = gState as! [String : Any]
             guard let user_points = self.gameState["points"] as? Int else {
-                print("ERROR: could not parse user points from state.")
                 self.makeAlertController(title: "ERROR: could not parse user points from state.", message: "Could not parse user points from state.")
                 return
             }
@@ -212,7 +210,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             // TODO: find out the json keys for leaderboard
             
             guard let leaderboard = newLeaderBoard?["leaderboard"] as? NSArray else {
-                print("ERROR: could not parse leaderboard.")
                 self.makeAlertController(title: "ERROR: could not parse leaderboard.", message: "Could not parse leaderboard from state.")
                 return
             }
@@ -220,7 +217,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             var new_board : [LeaderboardPosition] = []
             for entry in leaderboard as NSArray {
                 guard let e = entry as? [String: Any] else {
-                    print("ERROR: could not parse individual entry into dictionary.")
                     self.makeAlertController(title: "ERROR: could not parse individual entry.", message: "Could not parse individual entry into dictionary.")
                     return
                 }
@@ -262,7 +258,6 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         APIManager.shared.getGameState { newState in
             
             guard let gState = newState?["state"] else {
-                print("ERROR: could not parse state.")
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
             }
@@ -270,14 +265,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             self.gameState = gState as! [String : Any]
             
             guard let quests = self.gameState["quests"] as? NSArray else {
-                print("ERROR: could not parse quests from state.")
                 self.makeAlertController(title: "ERROR: could not parse quests from state.", message: "Could not parse quests from state.")
                 return
             }
             
             for quest in quests {
                 guard let q = quest as? [String: Any] else {
-                    print("ERROR: could not parse individual quest into dictionary.")
                     self.makeAlertController(title: "ERROR: could not parse individual quest into dictionary.", message: "Could not convert quest into dictionary.")
                     return
                 }
