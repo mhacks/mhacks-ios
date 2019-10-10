@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>11.1</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -34,15 +34,22 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSBluetoothPeripheralUsageDescription</key>
+	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>When scanning tickets phones will turn into iBeacons to make tickets appear on the lockscreen of nearby devices.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This application needs to access bluetooth for the purposes of scanning QR codes.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Privileged users can use the camera to scan tickets.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be shown on the map.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>andalemo.TTF</string>
+		<string>ARCADECLASSIC.TTF</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -79,6 +86,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

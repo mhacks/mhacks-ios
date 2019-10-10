@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 	// MARK: Application life cycle
 	func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
 		
-		window!.tintColor = MHacksColor.pink
+		window!.tintColor = MHacksColor.backgroundDarkBlue
 		
 		tabBarController = window!.rootViewController as? UITabBarController
 		tabBarController.delegate = self
@@ -36,11 +36,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 		scheduleNavigationController = tabBarController.viewControllers![0] as? UINavigationController
 		scheduleViewController = scheduleNavigationController.viewControllers[0] as? ScheduleCalendarViewController
 		
-		announcementsNavigationController = tabBarController.viewControllers![1] as? UINavigationController
-		
 		countdownViewController = tabBarController.viewControllers![2] as? CountdownViewController
+		
+		announcementsNavigationController = tabBarController.viewControllers![3] as? UINavigationController
 
-		userNavigationController = tabBarController.viewControllers![3] as? UINavigationController
+		userNavigationController = tabBarController.viewControllers![4] as? UINavigationController
 		userViewController = userNavigationController.viewControllers[0] as? UserViewController
 		
 		userNavigationController.navigationBar.setBackgroundImage(UIImage(), for: .default)

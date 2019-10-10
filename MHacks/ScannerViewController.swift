@@ -17,6 +17,23 @@ protocol ScannerViewControllerDelegate: class {
 
 final class ScannerViewController: UIViewController, ScannerViewDelegate {
     
+    // MARK: Init for SiMHacks
+    var questType: String?
+    
+    init(questType: String?) {
+        super.init(nibName: nil, bundle: nil)
+        
+        guard let quest = questType else {
+            return
+        }
+        
+        self.questType = quest
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     // MARK: Model
     
     var currentScanEvent = APIManager.shared.scanEvents.first {
@@ -79,6 +96,13 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
         
         let titleLabel = UILabel()
         let textLabel = UILabel()
+    }
+    
+    func makeAlertController(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: View life cycle
@@ -199,6 +223,31 @@ final class ScannerViewController: UIViewController, ScannerViewDelegate {
                 
                 doubleLabel.titleLabel.textColor = field.color
                 doubleLabel.textLabel.textColor = field.color
+            }
+            
+            // SiMHacks check
+            if currentScanEvent?.name == "SiMHacks" {
+                guard let scanEmail = scanIdentifier else {
+                    return
+                }
+                
+                guard let type = self.questType else {
+                    return
+                }
+                
+                APIManager.shared.scanFellowHacker(scaneeEmail: scanEmail, uniqueQuestType: type) { (response) in
+                    if let errorMessage = response?["errorMessage"] as? String {
+                        DispatchQueue.main.async {
+                            self.makeAlertController(title: "Scanning Error", message: errorMessage)
+                        }
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.makeAlertController(title: "Nice!", message: "Quest completed")
+                    }
+                    
+                }
             }
         }
     }
