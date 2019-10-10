@@ -47,7 +47,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     private let leaderboardUser: UILabel = {
         let rankscore = UILabel()
-        rankscore.text = "Your rank: 0 | Your points: 0"
+        rankscore.text = "Your points: 0"
         rankscore.textColor = UIColor.white
         rankscore.numberOfLines = 0
         rankscore.translatesAutoresizingMaskIntoConstraints = false
@@ -202,7 +202,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             // Refresh the UILabel to display the user's rank and score
             DispatchQueue.main.async {
-                self.leaderboardUser.text = "Your rank: 0 | Your points: " + String(user_points)
+                self.leaderboardUser.text = "Your points: " + String(user_points)
             }
         }
     }
