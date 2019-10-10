@@ -45,6 +45,8 @@
 	<string>Privileged users can use the camera to scan tickets.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be shown on the map.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location will be shown on the map.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>andalemo.TTF</string>
