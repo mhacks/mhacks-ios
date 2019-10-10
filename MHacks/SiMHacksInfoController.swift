@@ -22,7 +22,7 @@ class SiMHacksInfoController: UIViewController {
         let info = UITextView()
         info.textColor = UIColor.white
         info.backgroundColor = MHacksColor.backgroundDarkBlue
-        info.text = "SiMHacks = Sims + MHacks. A brand new way for hackers to interact and engage with each other!\n\n You will be given 5 quests at a time and once you complete a quest, you will be given a randomly generated new one.\n\n To complete a quest, you will need to find a fellow hacker who fulfills the description of the quest and scan their QR code. You also cannot scan the same hacker twice.\n\n You will have the option to refresh all quests every 3 hours in case you get stuck. \n\n Best of luck on your journey and most of all, have fun!"
+        info.text = "SiMHacks = Sims + MHacks. A brand new way for hackers to interact and engage with each other! The hacker with the top score at the end will receive a prize that will surely make them get their game on ;)\n\n You will be given 3 quests at a time and once you complete a quest, you will be given a randomly generated new one.\n\n To complete a quest, you will need to find a fellow hacker who's corresponding SiMHacks response fulfills the description of the quest and scan their QR code, located on their ticket. You also cannot scan the same hacker twice.\n\n Best of luck on your journey and most of all, have fun!"
         info.translatesAutoresizingMaskIntoConstraints = false
         info.textAlignment = .center
         info.font = UIFont(name: "AndaleMono", size: 25)

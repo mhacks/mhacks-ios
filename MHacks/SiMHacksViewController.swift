@@ -28,7 +28,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     private var peopleOnBoard: [LeaderboardPosition] = []
     
-    private let refreshControl = UIRefreshControl()
+    private let leaderboardRefreshControl = UIRefreshControl()
     
     private var selectedQuest: String = ""
     
@@ -165,29 +165,27 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Add Refresh Control to Table View
         if #available(iOS 10.0, *) {
-            leaderboard.refreshControl = refreshControl
+            leaderboard.refreshControl = leaderboardRefreshControl
         } else {
-            leaderboard.addSubview(refreshControl)
+            leaderboard.addSubview(leaderboardRefreshControl)
         }
         
         // Configure Refresh Control
-        refreshControl.addTarget(self, action: #selector(refreshLeaderboard(_:)), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!, NSAttributedString.Key.foregroundColor : MHacksColor.backgroundDarkBlue])
-        refreshControl.tintColor = MHacksColor.backgroundDarkBlue
+        leaderboardRefreshControl.addTarget(self, action: #selector(refreshLeaderboard(_:)), for: .valueChanged)
+        leaderboardRefreshControl.attributedTitle = NSAttributedString(string: "Updating leaderboard ...", attributes: [NSAttributedString.Key.font : UIFont(name: "AndaleMono", size: 12)!, NSAttributedString.Key.foregroundColor : MHacksColor.backgroundDarkBlue])
+        leaderboardRefreshControl.tintColor = MHacksColor.backgroundDarkBlue
     }
     
     @objc func refreshLeaderboard(_ sender: Any) {
         leaderboard.reloadData()
         getLeaderboard()
         getUserRankScore()
-        self.refreshControl.endRefreshing()
+        self.leaderboardRefreshControl.endRefreshing()
     }
     
     func getUserRankScore() {
         // TODO: Get user's rank from gameState when available
         APIManager.shared.getGameState { newState in
-            
-            print(newState ?? "nothin")
             
             guard let gState = newState?["state"] else {
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
@@ -225,8 +223,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 let entry_points = e["points"] as! Int
                 let entry_user = e["user"] as! [String: Any]
                 let entry_user_name = entry_user["full_name"] as! String
-                print(entry_points)
-                print(entry_user_name)
+//                print(entry_points)
+//                print(entry_user_name)
                 let entry_rank = rank
                 
                 new_board.append(LeaderboardPosition(position: entry_rank, name: entry_user_name, score: entry_points))
@@ -234,7 +232,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             }
             self.peopleOnBoard = new_board
         
-            print(self.peopleOnBoard)
+//            print(self.peopleOnBoard)
             // Refresh the leaderboard
             DispatchQueue.main.async {
                 self.leaderboard.reloadData()
@@ -258,7 +256,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Get data from API
         APIManager.shared.getGameState { newState in
-            print("gamestate=\(newState)");
+            print("gamestate=\(newState ?? [:])")
             guard let gState = newState?["state"] else {
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
@@ -270,6 +268,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 self.makeAlertController(title: "ERROR: could not parse quests from state.", message: "Could not parse quests from state.")
                 return
             }
+            
+            var newQuests: [Quest] = []
             
             for quest in quests {
                 guard let q = quest as? [String: Any] else {
@@ -284,10 +284,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
                 // Find and replace the {} with the real question content
                 fullQuestion = fullQuestion.replacingOccurrences(of: "{}", with: answer)
                 
-                self.currentQuests.append(Quest(title: fullQuestion, points: numPoints))
+                newQuests.append(Quest(title: fullQuestion, points: numPoints))
                 
                 self.questNames.append(questionKeyword)
             }
+            
+            self.currentQuests = newQuests
             
             // Refresh the collectionview to display the quests
             DispatchQueue.main.async {
@@ -373,12 +375,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
             scannerNavigationController.isToolbarHidden = false
             
-            present(scannerNavigationController, animated: true) {
-                self.currentQuests = []
-                self.getQuests()
-                print("quests=\(self.currentQuests)")
-                self.getLeaderboard()
-            }
+            present(scannerNavigationController, animated: true, completion: nil)
         }
     }
     
@@ -386,6 +383,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     
     func scannerViewControllerDidFinish(scannerViewController: ScannerViewController) {
         dismiss(animated: true, completion: nil)
+        self.getUserRankScore()
+        self.getLeaderboard()
+        self.getQuests()
     }
     
     // MARK: CollectionView
@@ -486,7 +486,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             self.selectedQuest = ""
         } else {
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
-            self.selectedQuest = questNames[indexPath.row]
+            self.selectedQuest = self.questNames[indexPath.row]
         }
 
         return false

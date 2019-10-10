@@ -285,7 +285,10 @@ final class UserViewController: UIViewController, LoginViewControllerDelegate, P
             
 			let passesViewController = PKAddPassesViewController(pass: pass)
             passesViewController!.delegate = self
-            self.present(passesViewController!, animated: true, completion: nil)
+            
+            DispatchQueue.main.async {
+                self.present(passesViewController!, animated: true, completion: nil)
+            }
 		}
 	}
     
