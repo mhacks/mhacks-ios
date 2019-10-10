@@ -373,11 +373,16 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             let scannerNavigationController = UINavigationController(rootViewController: scannerViewController)
             scannerNavigationController.isToolbarHidden = false
             
-            present(scannerNavigationController, animated: true, completion: nil)
+            present(scannerNavigationController, animated: true) {
+                print("YOOOOOOO")
+                self.currentQuests = []
+                self.getQuests()
+                self.getLeaderboard()
+            }
             
-            self.currentQuests = []
-            self.getQuests()
-            self.getLeaderboard()
+//            present(scannerNavigationController, animated: true, completion: )
+            
+            
         }
     }
     
