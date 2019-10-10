@@ -374,15 +374,11 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             scannerNavigationController.isToolbarHidden = false
             
             present(scannerNavigationController, animated: true) {
-                print("YOOOOOOO")
                 self.currentQuests = []
                 self.getQuests()
+                self.collectionView.reloadData()
                 self.getLeaderboard()
             }
-            
-//            present(scannerNavigationController, animated: true, completion: )
-            
-            
         }
     }
     
