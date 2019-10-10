@@ -187,6 +187,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         // TODO: Get user's rank from gameState when available
         APIManager.shared.getGameState { newState in
             
+            print(newState ?? "nothin")
+            
             guard let gState = newState?["state"] else {
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
@@ -373,7 +375,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             present(scannerNavigationController, animated: true, completion: nil)
             
-            self.getQuests()
+            self.collectionView.reloadData()
             self.getLeaderboard()
         }
     }
