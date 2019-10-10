@@ -375,7 +375,8 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             
             present(scannerNavigationController, animated: true, completion: nil)
             
-            self.collectionView.reloadData()
+            self.currentQuests = []
+            self.getQuests()
             self.getLeaderboard()
         }
     }
