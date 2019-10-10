@@ -258,7 +258,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Get data from API
         APIManager.shared.getGameState { newState in
-            
+            print("gamestate=\(newState)");
             guard let gState = newState?["state"] else {
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
@@ -376,7 +376,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
             present(scannerNavigationController, animated: true) {
                 self.currentQuests = []
                 self.getQuests()
-                self.collectionView.reloadData()
+                print("quests=\(self.currentQuests)")
                 self.getLeaderboard()
             }
         }
@@ -504,6 +504,7 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         cell.positionLabel.text = "\(data.position)"
         cell.nameLabel.text = data.name
         cell.scoreLabel.text = "\(data.score)"
+        cell.selectionStyle = .none
         return cell
     }
     
