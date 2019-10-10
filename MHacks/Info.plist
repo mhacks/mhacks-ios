@@ -43,9 +43,9 @@
 	<string>This application needs to access bluetooth for the purposes of scanning QR codes.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Privileged users can use the camera to scan tickets.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location will be shown on the map.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location will be shown on the map.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location will be shown on the map.</string>
 	<key>UIAppFonts</key>
 	<array>
