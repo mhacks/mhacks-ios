@@ -915,11 +915,11 @@
 				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				IBSC_MODULE = MHacksWatch_Extension;
 				INFOPLIST_FILE = MHacksWatch/Info.plist;
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
 				PRODUCT_NAME = MHacks;
 				SDKROOT = watchos;
@@ -942,11 +942,11 @@
 				CODE_SIGN_ENTITLEMENTS = MHacksWatch/MHacksWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				IBSC_MODULE = MHacksWatch_Extension;
 				INFOPLIST_FILE = MHacksWatch/Info.plist;
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp;
 				PRODUCT_NAME = MHacks;
 				SDKROOT = watchos;
@@ -965,11 +965,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -989,11 +989,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_ENTITLEMENTS = "MHacksWatch Extension/MHacksWatch Extension.entitlements";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				INFOPLIST_FILE = "MHacksWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -1122,7 +1122,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1131,7 +1131,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
@@ -1154,7 +1154,7 @@
 				CODE_SIGN_ENTITLEMENTS = MHacks/MHacks.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_TEAM = 478C74MJ7T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1163,7 +1163,7 @@
 				INFOPLIST_FILE = MHacks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 12.4;
+				MARKETING_VERSION = 12.4.1;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MPowered.MHacks;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
