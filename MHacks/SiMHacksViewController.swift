@@ -148,7 +148,9 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(alertAction)
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func setupCollectionview() {
@@ -208,8 +210,12 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
     func getLeaderboard() {
         APIManager.shared.getLeaderboard { newLeaderBoard in
             // TODO: find out the json keys for leaderboard
+            guard let leaderboardAndResponse = newLeaderBoard else {
+                self.makeAlertController(title: "ERROR: could not find game state.", message: "You must complete the SiMHacks questionnaire in order to play the game.")
+                return
+            }
             
-            guard let leaderboard = newLeaderBoard?["leaderboard"] as? NSArray else {
+            guard let leaderboard = leaderboardAndResponse["leaderboard"] as? NSArray else {
                 self.makeAlertController(title: "ERROR: could not parse leaderboard.", message: "Could not parse leaderboard from state.")
                 return
             }
@@ -256,8 +262,13 @@ class SiMHacksViewController: UIViewController, ScannerViewControllerDelegate, U
         
         // Get data from API
         APIManager.shared.getGameState { newState in
-            print("gamestate=\(newState ?? [:])")
-            guard let gState = newState?["state"] else {
+            
+            guard let stateAndResponse = newState else {
+                self.makeAlertController(title: "ERROR: could not find game state.", message: "You must complete the SiMHacks questionnaire in order to play the game.")
+                return
+            }
+
+            guard let gState = stateAndResponse["state"] else {
                 self.makeAlertController(title: "ERROR: could not parse state.", message: "Could not parse state from the server response.")
                 return
             }
